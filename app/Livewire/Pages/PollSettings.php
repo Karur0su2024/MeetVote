@@ -8,6 +8,6 @@ class PollSettings extends Component
 {
     public function render()
     {
-        return view('livewire.pages.poll-settings');
+        return view('livewire.pages.poll-settings')->layout('layouts.app', ['padding' => '5']);
     }
 }

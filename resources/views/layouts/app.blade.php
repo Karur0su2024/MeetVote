@@ -19,10 +19,13 @@
 </head>
 
 <body>
+    <livewire:layout.navigation />>
 
     <main>
         {{ $slot }}
     </main>
+
+    <x-layout.footer />
     
     @livewireScripts
 </body>
