@@ -4,7 +4,7 @@ style="background-image: url('{{ asset('images/background.jpg') }}'); background
     <div class="row h-100 align-items-end">
         <!-- New Poll Button -->
         <div class="col-md-3 text-center mb-4 mb-md-0">
-            <a href="" class="btn btn-primary btn-lg px-4 py-3">{{ __('Create new poll') }}</a>
+            <a href="{{ route('polls.new.settings') }}" class="btn btn-primary btn-lg px-4 py-3">{{ __('Create new poll') }}</a>
         </div>
         <!-- Introduction Text and Image -->
         <div class="col-md-9">
