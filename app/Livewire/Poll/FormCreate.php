@@ -14,6 +14,9 @@ class FormCreate extends Component
     public $user_email;
     public $title;
     public $description;
+    public $dates = [];
+
+
     public $settings = [
         'comments' => true,
         'anonymous' => false,
@@ -39,10 +42,41 @@ class FormCreate extends Component
     {
         // Pokud je uživatel přihlášený, načtou se jeho údaje
         if (Auth::check()) {
-            $this->name = Auth::user()->name;
-            $this->email = Auth::user()->email;
+            $this->user_name = Auth::user()->name;
+            $this->user_email = Auth::user()->email;
         }
     }
+
+
+
+    // Metoda pro přidání nového data
+    public function addDate($date)
+    {
+        // Přidání nového data
+        $this->dates[$date] = [
+            'date' => '',
+            'options' => [
+                ['type' => 'time', 'start' => '11:00', 'end' => '12:00']
+            ]
+        ];
+    }
+
+    public function removeDate($date)
+    {
+        unset($this->dates[$date]);
+    }
+
+    // Metoda pro přidání nové časové možnosti
+    public function addDateOption($dateIndex, $type)
+    {
+        dd($dateIndex);
+        if($type == 'time')
+            $this->dates[$date]['options'][] = ['type' => 'time', 'start' => '11:00', 'end' => '12:00'];
+        else
+            $this->dates[$date]['options'][] = ['type' => 'text', 'text' => ''];
+    }
+
+
 
 
 
