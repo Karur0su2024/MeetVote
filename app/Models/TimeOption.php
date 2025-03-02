@@ -8,7 +8,7 @@ class TimeOption extends Model
 {
 
     //Později přidat celodenní možnost
-    protected $fillable = ['poll_id', 'date', 'start', 'option_text', 'minutes'];
+    protected $fillable = ['poll_id', 'date', 'start', 'text', 'minutes'];
 
     public function poll() {
         return $this->belongsTo(Poll::class);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PollQuestion extends Model
 {
-    protected $fillable = ['poll_id', 'question_text'];
+    protected $fillable = ['poll_id', 'text'];
 
     public function poll() {
         return $this->belongsTo(Poll::class);

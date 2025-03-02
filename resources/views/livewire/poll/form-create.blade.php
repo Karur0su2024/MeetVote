@@ -19,10 +19,10 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-    
+
 
                     <x-input id="user_name" model="user_name" type="text" label="Your name" />
-    
+
                     <x-input id="user_email" model="user_email" type="email" label="Your email" />
                 </div>
 
@@ -68,6 +68,13 @@
             <div class="card mb-5 p-3">
 
                 <h2 class="mb-3">Additional questions</h2>
+
+                @foreach ($questions as $questionIndex => $question)
+                    <x-poll.form.question-card :questionIndex="$questionIndex" :question="$question" />
+                @endforeach
+
+
+                <button type="button" wire:click="addQuestion" class="btn btn-primary">Add question</button>
 
             </div>
 

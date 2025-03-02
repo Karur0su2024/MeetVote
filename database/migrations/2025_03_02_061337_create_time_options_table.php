@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
             $table->date('date');
-            $table->string('option_text')->nullable();
+            $table->string('text')->nullable();
             $table->time('start')->nullable();
             $table->integer('minutes')->nullable();
             //Později přidat atribut pro celodenní událost

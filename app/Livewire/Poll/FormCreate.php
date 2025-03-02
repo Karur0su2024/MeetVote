@@ -18,6 +18,7 @@ class FormCreate extends Component
     public $title = "abc";
     public $description;
     public $dates = [];
+    public $questions = [];
 
 
     public $settings = [
@@ -36,11 +37,16 @@ class FormCreate extends Component
         'settings.anonymous' => 'boolean', // Anonymní hlasování
         'settings.hide_results' => 'boolean', // Skrytí výsledků
         'dates' => 'required|array|min:1', // Data
+        'dates.*.date' => 'required|date', // Datum
         'dates.*.options' => 'required|array|min:1', // Možnosti data
         'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti
         'dates.*.options.*.start' => 'required_if:dates.*.options.*.type,time|date_format:H:i', // Začátek času
         'dates.*.options.*.end' => 'required_if:dates.*.options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec času, nefunguje jak má
         'dates.*.options.*.text' => 'required_if:dates.*.options.*.type,text', // Text možnosti
+        'questions' => 'required|array', // Otázky
+        'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
+        'questions.*.options' => 'required|array|min:2', // Možnosti otázky
+        'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti
     ];
 
 
@@ -68,7 +74,7 @@ class FormCreate extends Component
 
         // Přidání nového data
         $this->dates[$date] = [
-            'date' => '',
+            'date' => $date,
             'options' => [
                 ['type' => 'time', 'start' => '11:00', 'end' => '12:00']
             ]
@@ -78,6 +84,7 @@ class FormCreate extends Component
         ksort($this->dates);
     }
 
+    // Metoda pro odstranění data
     public function removeDate($date)
     {
         // Pokud je pouze jedno datum, nelze ho odstranit
@@ -102,6 +109,7 @@ class FormCreate extends Component
             $this->dates[$date]['options'][] = ['type' => 'text', 'text' => ''];
     }
 
+    // Metoda pro odstranění časových možnosti
     public function removeDateOption($dateIndex, $optionIndex)
     {
         // Pokud je pouze jedna možnost, nelze ji odstranit
@@ -115,6 +123,40 @@ class FormCreate extends Component
     }
 
 
+    // Metoda pro přidání otázky
+    public function addQuestion()
+    {
+        $this->questions[] = [
+            'text' => '',
+            'options' => [
+                [
+                    'text' => '',
+                ],
+                [
+                    'text' => '',
+                ],
+            ]
+        ];
+    }
+
+    // Metoda pro odstranění otázky
+    public function removeQuestion($index)
+    {
+        unset($this->questions[$index]);
+    }
+
+    // Metoda pro přidání možnosti k otázce
+    public function addQuestionOption($questionIndex)
+    {
+        $this->questions[$questionIndex]['options'][] = ['text' => ''];
+    }
+
+    // Metoda pro odstranění možnosti k otázce
+    public function removeQuestionOption($questionIndex, $optionIndex)
+    {
+        if(count($this->questions[$questionIndex]['options']) >= 2) return;
+        unset($this->questions[$questionIndex]['options'][$optionIndex]);
+    }
 
 
 
@@ -161,8 +203,42 @@ class FormCreate extends Component
             'status' => 'active',
         ]);
 
-        dd($poll);
+        // Přidání časových možností
+        foreach ($validatedData['dates'] as $date) {
+            foreach ($date['options'] as $option) {
+                if ($option['type'] == 'time') {
+                    // Přidání časové možnosti
+                    $poll->timeOptions()->create([
+                        'date' => $date['date'],
+                        'start' => $option['start'],
+                        'minutes' => (strtotime($option['end']) - strtotime($option['start'])) / 60,
+                    ]);
+                } else {
+                    // Přidání textové možnosti
+                    $poll->timeOptions()->create([
+                        'date' => $date['date'],
+                        'text' => $option['text'],
+                    ]);
+                }
+            }
+        }
 
+
+        // Přidání otázek
+        foreach ($validatedData['questions'] as $question) {
+            $newQuestion = $poll->questions()->create([
+                'text' => $question['text'],
+            ]);
+
+            // Přidání možností k otázce
+            foreach ($question['options'] as $option) {
+                $newQuestion->options()->create([
+                    'text' => $option['text'],
+                ]);
+            }
+        }
+
+        $this->poll = $poll;
         return true;
     }
 
