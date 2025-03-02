@@ -1,12 +1,13 @@
 <x-layouts.app>
 
     <!-- Název stránky -->
-    <x-slot:title>Create a new Poll</x-slot>
+    <x-slot:title>{{ $poll->title }}</x-slot>
 
     <div class="container text-center">
 
+        <!-- Panel s nastavením ankety -->
         <div class="card mb-5">
-
+            <a href="#" class="btn btn-secondary">Edit</a>
             {{ $poll->title }}
         </div>
 
@@ -16,12 +17,7 @@
         </div>
 
         <!-- Hlasovací formulář -->
-        <div class="card mb-5">
-            <div class="card-header">
-                <h2>Voting</h2>
-            </div>
-            Title
-        </div>
+        <livewire:poll.voting :poll="$poll" />
         
         @if ($poll->comments)
             <div class="card mb-5">
