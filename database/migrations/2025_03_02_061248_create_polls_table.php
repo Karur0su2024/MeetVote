@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->boolean('allow_anonymous_votes')->default(false);
-            $table->boolean('allow_comments')->default(true);
+            $table->boolean('anonymous_votes')->default(false);
+            $table->boolean('comments')->default(true);
             $table->boolean('invite_only')->default(false);
             $table->boolean('hide_results')->default(false);
             $table->string('status', 45);

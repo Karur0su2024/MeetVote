@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Poll extends Model
 {
-    protected $fillable = ['user_id', 'title', 'description', 'allow_anonymous_votes', 'allow_comments', 'invite_only', 'hide_results', 'status', 'deadline'];
+    protected $fillable = ['user_id', 'author_name', 'author_email', 'title', 'description', 'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status', 'deadline'];
 
     public function user() {
         return $this->belongsTo(User::class);
