@@ -4,22 +4,30 @@
 
         <div class="text-start">
             <!-- Obecné informace ankety -->
-            <div class="card mb-5 p-3">
-
-                <h2 class="mb-3">General information</h2>
-                <x-input id="title" model="title" type="text" label="Poll Title" />
-
-                <div class="mb-3">
-                    <label class="form-label">Poll Description</label>
-                    <textarea wire:model="description" class="form-control"></textarea>
-                    @error('description')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h2 class="mb-3">General information</h2>
                 </div>
 
-                <x-input id="user_name" model="user_name" type="text" label="Your name" />
+                <div class="card-body p-3">
+                    <x-input id="title" model="title" type="text" label="Poll Title" />
 
-                <x-input id="user_email" model="user_email" type="email" label="Your email" />
+                    <div class="mb-3">
+                        <label class="form-label">Poll Description</label>
+                        <textarea wire:model="description" class="form-control"></textarea>
+                        @error('description')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+    
+
+                    <x-input id="user_name" model="user_name" type="text" label="Your name" />
+    
+                    <x-input id="user_email" model="user_email" type="email" label="Your email" />
+                </div>
+
+
+
 
 
             </div>
@@ -38,11 +46,10 @@
                         <div class="col-6">
 
                             <!-- Přidat kalendář -->
-                            Kalendář
-                            <button type="button" wire:click="addDate('1-1-2020')">Přidat datum</button>
+                            <div id='calendar' wire:ignore></div>
                         </div>
                         <div class="col-6">
-                            <h3>Vybraná data</h3>
+                            <h3 class="mb-4">Vybraná data</h3>
 
                             @foreach ($dates as $dateIndex => $date)
                                 <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />

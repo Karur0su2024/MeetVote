@@ -4,15 +4,18 @@ namespace App\Livewire\Poll;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
+use Illuminate\Validation\Rule;
+use App\Models\Poll;
 
 class FormCreate extends Component
 {
 
     // Definice proměnných
     public $poll;
-    public $user_name;
-    public $user_email;
-    public $title;
+    public $user_name = "test";
+    public $user_email = "kareltynek2000@gmail.com";
+    public $title = "abc";
     public $description;
     public $dates = [];
 
@@ -23,17 +26,22 @@ class FormCreate extends Component
         'hide_results' => false,
     ];
 
-    // Definice validací
+    // Definice základních pravidel
     protected $rules = [
-        'title' => 'required|string|min:3|max:255',
-        'description' => 'nullable|max:1000',
-        'user_name' => 'required|string|min:3|max:255',
-        'user_email' => 'required|email',
-        'settings.comments' => 'boolean',
-        'settings.anonymous' => 'boolean',
-        'settings.hide_results' => 'boolean',
+        'title' => 'required|string|min:3|max:255', // Název ankety
+        'description' => 'nullable|max:1000', // Popis ankety
+        'user_name' => 'required|string|min:3|max:255', // Jméno uživatele
+        'user_email' => 'required|email', // Email uživatele
+        'settings.comments' => 'boolean', // Komentáře
+        'settings.anonymous' => 'boolean', // Anonymní hlasování
+        'settings.hide_results' => 'boolean', // Skrytí výsledků
+        'dates' => 'required|array|min:1', // Data
+        'dates.*.options' => 'required|array|min:1', // Možnosti data
+        'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti
+        'dates.*.options.*.start' => 'required_if:dates.*.options.*.type,time|date_format:H:i', // Začátek času
+        'dates.*.options.*.end' => 'required_if:dates.*.options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec času, nefunguje jak má
+        'dates.*.options.*.text' => 'required_if:dates.*.options.*.type,text', // Text možnosti
     ];
-
 
 
 
@@ -45,13 +53,19 @@ class FormCreate extends Component
             $this->user_name = Auth::user()->name;
             $this->user_email = Auth::user()->email;
         }
+
+        // Přidání prvního data
+        $this->addDate(date('Y-m-d'));
     }
 
 
 
     // Metoda pro přidání nového data
+    #[On('addDate')]
     public function addDate($date)
     {
+        if (!isset($date)) return;
+
         // Přidání nového data
         $this->dates[$date] = [
             'date' => '',
@@ -59,21 +73,45 @@ class FormCreate extends Component
                 ['type' => 'time', 'start' => '11:00', 'end' => '12:00']
             ]
         ];
+
+        // Seřazení dat podle klíče
+        ksort($this->dates);
     }
 
     public function removeDate($date)
     {
+        // Pokud je pouze jedno datum, nelze ho odstranit
+        if (count($this->dates) == 1) return;
+
+        // Odstranění data
         unset($this->dates[$date]);
+
+        // Seřazení dat podle klíče
+        ksort($this->dates);
     }
 
     // Metoda pro přidání nové časové možnosti
-    public function addDateOption($dateIndex, $type)
+    public function addDateOption($date, $type)
     {
-        dd($dateIndex);
-        if($type == 'time')
+        //dd($dateIndex);
+        if ($type == 'time')
+            // Přidání nové časové možnosti
             $this->dates[$date]['options'][] = ['type' => 'time', 'start' => '11:00', 'end' => '12:00'];
         else
+            // Přidání nové textové možnosti
             $this->dates[$date]['options'][] = ['type' => 'text', 'text' => ''];
+    }
+
+    public function removeDateOption($dateIndex, $optionIndex)
+    {
+        // Pokud je pouze jedna možnost, nelze ji odstranit
+        if (count($this->dates[$dateIndex]['options']) == 1) return;
+
+        // Odstranění možnosti
+        unset($this->dates[$dateIndex]['options'][$optionIndex]);
+
+        // Seřazení možností podle klíče
+        ksort($this->dates[$dateIndex]['options']);
     }
 
 
@@ -83,22 +121,20 @@ class FormCreate extends Component
     // Metoda pro odeslání formuláře
     public function submit()
     {
-        //dd("test");
 
-        dd($this->validate());
+        //dd($this->validate());
 
 
         // Validace
         $validatedData = $this->validate();
 
 
+        //dd($validatedData);
 
-
-        /*if($this->save($validatedData)){
+        if($this->save($validatedData)){
             // Přesměrování
             return redirect()->route('polls.show', ['poll' => $this->poll]);
-        }*/
-
+        }
     }
 
 
@@ -108,8 +144,25 @@ class FormCreate extends Component
 
 
     // Metoda pro uložení dat
-    private function save($validatedData) : bool
+    private function save($validatedData): bool
     {
+
+        // Vytvoření nové ankety
+        $poll = Poll::create([
+            'title' => $validatedData['title'],
+            'author_name' => $validatedData['user_name'],
+            'author_email' => $validatedData['user_email'],
+            'description' => $validatedData['description'],
+            'user_name' => $validatedData['user_name'],
+            'user_email' => $validatedData['user_email'],
+            'comments' => $validatedData['settings']['comments'],
+            'anonymous_votes' => $validatedData['settings']['anonymous'],
+            'hide_results' => $validatedData['settings']['hide_results'],
+            'status' => 'active',
+        ]);
+
+        dd($poll);
+
         return true;
     }
 

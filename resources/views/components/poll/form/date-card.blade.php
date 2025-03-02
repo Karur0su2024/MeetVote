@@ -9,7 +9,7 @@
     <div class="card-header d-flex justify-content-between align-items-center">
         <!-- Zobrazení data -->
         <strong>{{ $dateIndex }}</strong>
-        <button type="button" wire:click="removeDate('{{ is_array($date) ? $date['date'] ?? '' : $date }}')"
+        <button type="button" wire:click="removeDate('{{ $dateIndex }}')"
             class="btn btn-sm btn-danger">X</button>
     </div>
 
@@ -19,20 +19,19 @@
             @if ($option['type'] == 'text')
 
                 <!-- Zobrazení textové možnosti -->
-                <x-poll.form.time-option-text :index="'{{ $dateIndex }}'" :timeIndex="$optionIndex" />
+                <x-poll.form.time-option-text :dateIndex="$dateIndex" :timeIndex="$optionIndex" />
             @else
                 <!-- Zobrazení časového intervalu -->
-                <x-poll.form.time-option-range :index="'{{ $dateIndex }}'" :timeIndex="$optionIndex" />
+                <x-poll.form.time-option-range :dateIndex="$dateIndex" :timeIndex="$optionIndex" />
             @endif
         @endforeach
 
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
         <div class="d-flex align-items-center gap-2 mt-3">
-            {{ $dateIndex }}
-            <button type="button" wire:click="addDateOption({{ $dateIndex }}, 'time')" class="btn btn-primary">
+            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'time')" class="btn btn-primary">
                 Přidat časovou možnost
             </button>
-            <button type="button" wire:click="addDateOption({{ $dateIndex }}, 'text')" class="btn btn-secondary">
+            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'text')" class="btn btn-secondary">
                 Přidat textovou možnost
             </button>
         </div>
