@@ -1,6 +1,6 @@
 @props([
     'dateIndex', // Index aktuálního data
-    'timeIndex', // Index časové možnosti v rámci data
+    'timeIndex', // Index časové možnosti
 ])
 
 <div>

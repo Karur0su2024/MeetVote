@@ -13,8 +13,8 @@ class FormCreate extends Component
 
     // Definice proměnných
     public $poll;
-    public $user_name = "test";
-    public $user_email = "kareltynek2000@gmail.com";
+    public $user_name;
+    public $user_email;
     public $title = "abc";
     public $description;
     public $dates = [];
@@ -163,15 +163,8 @@ class FormCreate extends Component
     // Metoda pro odeslání formuláře
     public function submit()
     {
-
-        //dd($this->validate());
-
-
         // Validace
         $validatedData = $this->validate();
-
-
-        //dd($validatedData);
 
         if($this->save($validatedData)){
             // Přesměrování

@@ -3,10 +3,8 @@
 namespace App\Livewire\Poll;
 
 use Livewire\Component;
-use App\Models\Poll;
-use App\Models\TimeOption;
 use App\Models\Vote;
-use App\Models\VoteTimeOption;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
 
 class Voting extends Component
@@ -23,6 +21,7 @@ class Voting extends Component
         'userName' => 'required|string|min:3|max:255',
         'userEmail' => 'required|email',
         'timeOptions.*.chosen_preference' => 'required|integer|min:-1|max:2',
+        'questions.*.options.*.chosen_preference' => 'required|integer|min:-1|max:2',
     ];
 
     // Metoda pro načtení dat
@@ -84,6 +83,7 @@ class Voting extends Component
 
 
     // Metoda pro načtení hlasu
+    #[On('loadVote')]
     public function loadVote($vote)
     {
         // Načteme hlas
@@ -118,34 +118,17 @@ class Voting extends Component
     //Metoda pro uložení hlasu
     public function saveVote()
     {
+        // Validace formuláře
         $this->validate();
+        
+
         // Zjištění zda uživatel vybral alespoň jednu možnost
-        $hasValidVote = false;
-
-
-        // Kontrola všech možností, zda mají vybranou nějakou preferenci
-        foreach ($this->timeOptions as $timeOption) {
-            if ($timeOption['chosen_preference'] != 0) {
-                $hasValidVote = true;
-                break;
-            }
-        }
-
-        //Tady ještě zjisti, zda uživatel vybral alespoň jednu možnost z otázek
-        foreach ($this->questions as $question) {
-            foreach ($question['options'] as $option) {
-                if ($option['chosen_preference'] != 0) {
-                    $hasValidVote = true;
-                    break;
-                }
-            }
-        }
-
-        // Pokud uživatel nevybral žádnou možnost, přidáme chybu
-        if (!$hasValidVote) {
+        if (!$this->checkIfPreferencesWasChoosen())
+        {
             $this->addError('noOptionChosen', 'You have to choose at least one option.');
             return;
         }
+
 
         if ($this->existingVote) {
             // Aktualizace stávajícího hlasu
@@ -154,7 +137,6 @@ class Voting extends Component
             // Smazání stávajících preferencí
             $this->existingVote->voteTimeOptions()->delete();
             $this->existingVote = null;
-
         } else {
             // Vytvoření nového hlasu
             $vote = Vote::create([
@@ -166,6 +148,41 @@ class Voting extends Component
         }
 
 
+        // Uložení jednotlivých možností do databáze
+        $this->saveOptionsToDatabase($vote);
+
+        //sem dát odeslání e-mailů
+
+        $this->resetForm();
+    }
+
+
+    private function checkIfPreferencesWasChoosen(): bool
+    {
+        // Kontrola všech časových možností, zda mají vybranou nějakou preferenci
+        foreach ($this->timeOptions as $timeOption) {
+            if ($timeOption['chosen_preference'] != 0) {
+                return true;
+                break;
+            }
+        }
+
+        // Kontrola všech možností otázek, zda mají vybranou nějakou preferenci
+        foreach ($this->questions as $question) {
+            foreach ($question['options'] as $option) {
+                if ($option['chosen_preference'] != 0) {
+                    return true;
+                    break;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    private function saveOptionsToDatabase($vote = null)
+    {
         // Uložení časových odpovědí do hlasu
         foreach ($this->timeOptions as $timeOption) {
             if ($timeOption['chosen_preference'] != 0) {
@@ -188,14 +205,14 @@ class Voting extends Component
                 }
             }
         }
-
-        //sem dát odeslání e-mailů
-
-        // Uložení otázek do hlasu
-
-        $this->resetForm();
     }
 
+
+    // Metoda pro odeslání emailů
+    private function sendEmails($vote)
+    {
+        // zatím neimplementováno
+    }
 
 
     // Metoda pro renderování komponenty

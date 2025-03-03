@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-6">
 
-                            <!-- Přidat kalendář -->
+                            <!-- Kalendář -->
                             <div id='calendar' wire:ignore></div>
                         </div>
                         <div class="col-6">
@@ -95,8 +95,6 @@
 
             </div>
         </div>
-
-
 
         <button type="submit" class="btn btn-primary w-75">Submit</button>
 

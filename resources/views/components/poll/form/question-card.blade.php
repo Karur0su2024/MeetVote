@@ -1,6 +1,6 @@
 @props([
-    'questionIndex', // Index otázky v poli questions
-    'question', // Data otázky (text a možnosti)
+    'questionIndex', // Index otázky
+    'question', // Data otázky
 ])
 
 <div class="card mb-3">

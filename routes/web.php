@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -26,11 +27,12 @@ Route::get('polls/{poll}/edit', [PollController::class, 'edit'])
     ->name('polls.edit');
 
 // dashboard
-Route::get('user/dashboard', function () {
-    return view('pages.user.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [UserController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
-// user settings
-Route::get('user/settings', function () {
-    return view('pages.user.settings');
-})->middleware(['auth', 'verified'])->name('settings');
+// settings
+Route::get('settings', [UserController::class, 'settings'])
+    ->middleware(['auth', 'verified'])
+    ->name('settings');
+
