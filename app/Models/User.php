@@ -46,14 +46,17 @@ class User extends Authenticatable
         ];
     }
 
+    // Vztah k anketám (1:N)
     public function polls() {
         return $this->hasMany(Poll::class);
     }
 
+    // Vztah k hlasováním (1:N)
     public function comments() {
         return $this->hasMany(Comment::class);
     }
 
+    // Vztah k hlasováním (1:N)
     public function votes() {
         return $this->hasMany(Vote::class);
     }

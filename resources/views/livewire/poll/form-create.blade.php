@@ -20,15 +20,18 @@
                         @enderror
                     </div>
 
+                    <hr>
 
-                    <x-input id="user_name" model="user_name" type="text" label="Your name" />
+                    {{-- Informace o autorovi --}}
+                    <div>
+                        <x-input id="user_name" model="user_name" type="text" label="Your name" />
 
-                    <x-input id="user_email" model="user_email" type="email" label="Your email" />
+                        <x-input id="user_email" model="user_email" type="email" label="Your email" />
+
+
+                    </div>
+
                 </div>
-
-
-
-
 
             </div>
 
@@ -41,7 +44,7 @@
 
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-3">
                     <div class="row">
                         <div class="col-6">
 
@@ -49,7 +52,7 @@
                             <div id='calendar' wire:ignore></div>
                         </div>
                         <div class="col-6">
-                            <h3 class="mb-4">Vybraná data</h3>
+                            <h3 class="mb-4">Chosen dates</h3>
 
                             @foreach ($dates as $dateIndex => $date)
                                 <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />
@@ -65,34 +68,51 @@
             </div>
 
             <!-- Výběr doplňujících otázek -->
-            <div class="card mb-5 p-3">
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h2>Additional questions</h2>
+                </div>
+                <div class="card-body p-3">
+                    @if (count($questions) == 0)
+                        <div class="alert alert-secondary" role="alert">
+                            No questions added
+                        </div>
+                    @else
+                        @foreach ($questions as $questionIndex => $question)
+                            <x-poll.form.question-card :questionIndex="$questionIndex" :question="$question" />
+                        @endforeach
 
-                <h2 class="mb-3">Additional questions</h2>
+                    @endif
 
-                @foreach ($questions as $questionIndex => $question)
-                    <x-poll.form.question-card :questionIndex="$questionIndex" :question="$question" />
-                @endforeach
+                    <button type="button" type="button w-25" wire:click="addQuestion" class="btn btn-primary">Add
+                        question</button>
+                </div>
 
 
-                <button type="button" wire:click="addQuestion" class="btn btn-primary">Add question</button>
+
 
             </div>
 
             <!-- Nastavení ankety -->
-            <div class="card mb-5 p-3">
-                <h2 class="mb-3">Poll settings</h2>
+            <div class="card mb-5">
+                <div class="card-header">
+                    <h2>Poll settings</h2>
+                </div>
+                <div class="card-body p-3">
 
-                <!-- Komentáře -->
-                <x-poll.form.checkbox id="comments" model="settings.comments" label="Comments" />
+                    <!-- Komentáře -->
+                    <x-poll.form.checkbox id="comments" model="settings.comments" label="Comments" />
 
-                <!-- Tajné hlasování -->
-                <x-poll.form.checkbox id="anonymous" model="settings.anonymous" label="Anonymous voting" />
+                    <!-- Tajné hlasování -->
+                    <x-poll.form.checkbox id="anonymous" model="settings.anonymous" label="Anonymous voting" />
 
-                <!-- Skryté výsledky -->
-                <x-poll.form.checkbox id="hide_results" model="settings.hide_results" label="Hide results" />
+                    <!-- Skryté výsledky -->
+                    <x-poll.form.checkbox id="hide_results" model="settings.hide_results" label="Hide results" />
 
-                <!-- Heslo -->
-                <x-input id="password" model="settings.password" type="password" label="Password" />
+                    <!-- Heslo -->
+                    <x-input id="password" model="settings.password" type="password" label="Password" />
+                </div>
+
 
             </div>
         </div>

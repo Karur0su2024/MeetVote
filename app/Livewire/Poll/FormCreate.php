@@ -19,6 +19,7 @@ class FormCreate extends Component
     public $description;
     public $dates = [];
     public $questions = [];
+    public $postAsGuest = false;
 
 
     public $settings = [
@@ -231,7 +232,7 @@ class FormCreate extends Component
         return true;
 
         } catch (\Exception $e) {
-            
+
             // Pokud se něco nepovede, vrátí se zpět
             DB::rollBack();
             return false;
@@ -280,11 +281,13 @@ class FormCreate extends Component
     private function saveQuestions($poll, $questions)
     {
 
+        // Přidání otázek
         foreach ($questions as $question) {
             $newQuestion = $poll->questions()->create([
                 'text' => $question['text'],
             ]);
 
+            // Přidání možností k otázce
             foreach ($question['options'] as $option) {
                 $newQuestion->options()->create([
                     'text' => $option['text'],

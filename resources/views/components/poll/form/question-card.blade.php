@@ -4,12 +4,15 @@
 ])
 
 <div class="card mb-3">
-    {{-- Hlavička otázky --}}
+    <!-- Hlavička otázky -->
     <div class="card-header d-flex justify-content-between align-items-center gap-2">
+
+
         {{-- Input pole pro text otázky --}}
         <input type="text" id="question_{{ $questionIndex }}"
             wire:model="questions.{{ $questionIndex }}.text" class="form-control"
             placeholder="Otázka {{ $questionIndex + 1 }}">
+        
         
         {{-- Tlačítko pro odstranění otázky --}}
         <button type="button" wire:click="removeQuestion('{{ $questionIndex }}')" class="btn btn-danger">

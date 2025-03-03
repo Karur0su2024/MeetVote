@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('comments')->default(true);
             $table->boolean('invite_only')->default(false);
             $table->boolean('hide_results')->default(false);
+            $table->string('password')->nullable();
             $table->string('status', 45);
             $table->timestamp('deadline')->nullable();
             //Později přidat pro časovou zónu
