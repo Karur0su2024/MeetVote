@@ -32,7 +32,12 @@
                                                 $option['text'] }}</p>
                                         </div>
                                         <div>
-                                            Votes
+                                            @foreach ($option['votes'] as $voteName => $vote)
+                                                <p class="mb-0">{{ $voteName }} - {{ $vote }}</p>
+                                                
+                                            @endforeach
+
+
                                         </div>
 
                                         <!-- Výběr preference časové možnosti -->
@@ -89,7 +94,12 @@
                                             <p class="mb-0 fw-bold">{{ $option['text'] }}</p>
                                         </div>
                                         <div>
-                                            Votes
+                                            @foreach ($option['votes'] as $voteName => $vote)
+                                                <p class="mb-0">{{ $voteName }} - {{ $vote }}</p>
+                                                
+                                            @endforeach
+
+
                                         </div>
 
                                         <!-- Výběr preference časové možnosti -->

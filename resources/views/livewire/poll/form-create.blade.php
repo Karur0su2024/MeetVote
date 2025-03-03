@@ -20,6 +20,8 @@
                         @enderror
                     </div>
 
+                    <x-input id="deadline" model="deadline" type="date" label="Deadline" />
+
                     <hr>
 
                     {{-- Informace o autorovi --}}
@@ -84,7 +86,7 @@
 
                     @endif
 
-                    <button type="button" type="button w-25" wire:click="addQuestion" class="btn btn-primary">Add
+                    <button type="button" type="button w-25" wire:click="addQuestion" class="btn btn-outline-secondary">Add
                         question</button>
                 </div>
 
@@ -108,6 +110,8 @@
 
                     <!-- Skryté výsledky -->
                     <x-poll.form.checkbox id="hide_results" model="settings.hide_results" label="Hide results" />
+
+                    <x-poll.form.checkbox id="invite_only" model="settings.invite_only" label="Invite only" />
 
                     <!-- Heslo -->
                     <x-input id="password" model="settings.password" type="password" label="Password" />

@@ -22,9 +22,34 @@
 
         </div>
 
-        <div class="card mb-5">
+        <div class="card p-4 shadow-sm text-start mb-5">
+            <h2>{{ $poll->title }}</h2>
+            <div class="d-flex align-items-center text-muted mb-2">
+                {{-- Doplnit logo autora --}}
+                <span>{{ $poll->author_name }}</span>
+            </div>
 
-            {{ $poll->title }}
+            <p class="mb-3">
+                {{ $poll->description ?? 'No description' }}
+            </p>
+
+
+            {{-- Badges ankety --}}
+            <div class="d-flex gap-2">
+                @if ($poll->anonymous_votes)
+                    <span class="badge bg-secondary">Anonymous votes</span>
+                @endif
+                @if ($poll->password)
+                    <span class="badge bg-secondary">Password set</span>
+                @endif
+                @if ($poll->invite_only)
+                    <span class="badge bg-secondary">Invite only</span>
+                @endif
+                @if ($poll->deadline)
+                    <span class="badge bg-secondary">Ends in {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
+                @endif
+
+            </div>
         </div>
 
         <!-- Hlasovací formulář -->

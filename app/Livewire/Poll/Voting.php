@@ -51,6 +51,33 @@ class Voting extends Component
 
         // Načteme možnosti času
         foreach ($this->poll->timeOptions as $timeOption) {
+            $votes = [
+                'yes' => 0,
+                'maybe' => 0,
+                'no' => 0,
+                'total' => 0,
+            ];
+
+            foreach($timeOption->votes as $vote) {
+                switch ($vote->preference) {
+                    case 2:
+                        $votes['yes']++;
+                        $votes['total'] = $votes['total'] + 2;
+                        break;
+                    case 1:
+                        $votes['maybe']++;
+                        $votes['total'] = $votes['total'] + 1;
+                        break;
+                    case -1:
+                        $votes['no']++;
+                        $votes['total'] = $votes['total'] - 1;
+                        break;
+                }
+                
+            }
+
+
+
             $this->timeOptions[$timeOption->id] = [
                 'id' => $timeOption->id,
                 'date' => $timeOption->date,
@@ -58,7 +85,7 @@ class Voting extends Component
                 'text' => $timeOption->text,
                 'minutes' => $timeOption->minutes,
                 'chosen_preference' => 0,
-                'votes' => [], // sem přidat výsledky hlasování
+                'votes' => $votes,
             ];
         }
 
@@ -71,11 +98,19 @@ class Voting extends Component
             ];
 
             foreach ($question->options as $option) {
+                $votes = [
+                    'yes' => 0,
+                ];
+
+                foreach($option->votes as $vote) {
+                    $votes['yes']++;
+                }
+
                 $this->questions[$question->id]['options'][$option->id] = [
                     'id' => $option->id,
                     'text' => $option->text,
                     'chosen_preference' => 0,
-                    'votes' => [], // sem přidat výsledky hlasování
+                    'votes' => $votes, 
                 ];
             }
         }

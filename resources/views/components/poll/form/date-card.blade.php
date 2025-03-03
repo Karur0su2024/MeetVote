@@ -3,12 +3,12 @@
     'date', // Data obsahující možnosti (textové nebo časové)
 ])
 
-<div class="card">
+<div class="card mb-3">
 
 
     <div class="card-header d-flex justify-content-between align-items-center">
         <!-- Zobrazení data -->
-        <strong>{{ $dateIndex }}</strong>
+        <strong>{{ Carbon\Carbon::parse($dateIndex)->format('F d, Y') }} </strong>
         <button type="button" wire:click="removeDate('{{ $dateIndex }}')"
             class="btn btn-sm btn-danger">X</button>
     </div>
@@ -28,11 +28,11 @@
 
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
         <div class="d-flex align-items-center gap-2 mt-3">
-            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'time')" class="btn btn-primary">
-                Přidat časovou možnost
+            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'time')" class="btn btn-outline-secondary">
+                Add time option
             </button>
-            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'text')" class="btn btn-secondary">
-                Přidat textovou možnost
+            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'text')" class="btn btn-outline-secondary">
+                Add text option
             </button>
         </div>
     </div>

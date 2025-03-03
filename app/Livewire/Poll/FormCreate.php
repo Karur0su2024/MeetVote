@@ -17,6 +17,7 @@ class FormCreate extends Component
     public $user_email;
     public $title = "abc";
     public $description;
+    public $deadline;
     public $dates = [];
     public $questions = [];
     public $postAsGuest = false;
@@ -27,6 +28,7 @@ class FormCreate extends Component
         'anonymous' => false,
         'hide_results' => false,
         'password' => null,
+        'invite_only' => false,
     ];
 
     // Definice základních pravidel
@@ -35,10 +37,12 @@ class FormCreate extends Component
         'description' => 'nullable|max:1000', // Popis ankety
         'user_name' => 'required|string|min:3|max:255', // Jméno uživatele
         'user_email' => 'required|email', // Email uživatele
+        'deadline' => 'nullable|date', // Deadline
+        'settings.invite_only' => 'boolean', // Pouze na pozvánku
         'settings.comments' => 'boolean', // Komentáře
         'settings.anonymous' => 'boolean', // Anonymní hlasování
         'settings.hide_results' => 'boolean', // Skrytí výsledků
-        'settings.password' => 'nullable|string|min:3|max:255', // Heslo
+        'settings.password' => 'nullable|string|min:3', // Heslo
         'dates' => 'required|array|min:1', // Data
         'dates.*.date' => 'required|date', // Datum
         'dates.*.options' => 'required|array|min:1', // Možnosti data
@@ -154,7 +158,7 @@ class FormCreate extends Component
     public function removeQuestion($index)
     {
         // Pokud otázka neexistuje, nelze ji odstranit
-        if(!isset($this->questions[$index])) return;
+        if (!isset($this->questions[$index])) return;
 
         // Odstranění otázky
         unset($this->questions[$index]);
@@ -184,8 +188,11 @@ class FormCreate extends Component
     // Metoda pro odeslání formuláře
     public function submit()
     {
+        //dd($this->validate());
+
         // Validace
         $validatedData = $this->validate();
+
 
         if ($this->save($validatedData)) {
             // Přesměrování
@@ -208,37 +215,37 @@ class FormCreate extends Component
 
         try {
 
-                    // Vytvoření nové ankety
-        $poll = Poll::create([
-            'title' => $validatedData['title'],
-            'author_name' => $validatedData['user_name'],
-            'author_email' => $validatedData['user_email'],
-            'user_id' => Auth::id(),
-            'description' => $validatedData['description'],
-            'comments' => $validatedData['settings']['comments'],
-            'anonymous_votes' => $validatedData['settings']['anonymous'],
-            'hide_results' => $validatedData['settings']['hide_results'],
-            'password' => $validatedData['settings']['password'], 
-            'status' => 'active',
-        ]);
+            // Vytvoření nové ankety
+            $poll = Poll::create([
+                'title' => $validatedData['title'],
+                'author_name' => $validatedData['user_name'],
+                'author_email' => $validatedData['user_email'],
+                'user_id' => Auth::id(),
+                'deadline' => $validatedData['deadline'],
+                'description' => $validatedData['description'],
+                'comments' => $validatedData['settings']['comments'],
+                'anonymous_votes' => $validatedData['settings']['anonymous'],
+                'hide_results' => $validatedData['settings']['hide_results'],
+                'invite_only' => $validatedData['settings']['invite_only'],
+                //'password' => $validatedData['settings']['password'],
+                'status' => 'active',
+            ]);
 
-        // Uložení časových možností a otázek
-        $this->saveEachOption($poll, $validatedData);
+            // Uložení časových možností a otázek
+            $this->saveEachOption($poll, $validatedData);
 
-        // Uložení dat
-        DB::commit();
+            // Uložení dat
+            DB::commit();
 
-        $this->poll = $poll;
-        return true;
-
+            $this->poll = $poll;
+            return true;
         } catch (\Exception $e) {
 
+            dd($e);
             // Pokud se něco nepovede, vrátí se zpět
             DB::rollBack();
             return false;
         }
-
-
     }
 
 
