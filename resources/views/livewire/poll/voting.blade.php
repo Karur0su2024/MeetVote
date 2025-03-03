@@ -23,9 +23,12 @@
                                 class="form-select">
                                 <option value="0" {{ $option['chosen_preference'] === 0 ? 'selected' : '' }}>No vote
                                 </option>
-                                <option value="2" {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>Yes</option>
-                                <option value="1" {{ $option['chosen_preference'] === 1 ? 'selected' : '' }}>Maybe</option>
-                                <option value="-1" {{ $option['chosen_preference'] === -1 ? 'selected' : '' }}>No</option>
+                                <option value="2" {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>Yes
+                                </option>
+                                <option value="1" {{ $option['chosen_preference'] === 1 ? 'selected' : '' }}>Maybe
+                                </option>
+                                <option value="-1" {{ $option['chosen_preference'] === -1 ? 'selected' : '' }}>No
+                                </option>
                             </select>
                         </td>
                     </tr>
@@ -34,6 +37,50 @@
 
             </tbody>
         </table>
+
+
+        <h2>Questions</h2>
+        @if (count($questions) == 0)
+            <p>No questions</p>
+            
+        @else
+        @foreach ($questions as $question)
+        <h2>
+            {{ $question['text'] }}
+        </h2>
+
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Option</th>
+                    <th>Preference</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($question['options'] as $option)
+                    <tr>
+                        <td>{{ $option['text'] }}</td>
+                        <td>
+                            <select
+                                wire:change="changeQuestionOptionPreference({{ $question['id'] }}, {{ $option['id'] }}, $event.target.value,)"
+                                class="form-select">
+                                <option value="0" {{ $option['chosen_preference'] === 0 ? 'selected' : '' }}>No vote
+                                </option>
+                                <option value="2" {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>Yes
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endforeach
+        @endif
+
+
+
 
         <div class="form-group">
             <label for="name">Name</label>
