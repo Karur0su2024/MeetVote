@@ -43,7 +43,7 @@ class FormCreate extends Component
         'dates.*.options.*.start' => 'required_if:dates.*.options.*.type,time|date_format:H:i', // Začátek času
         'dates.*.options.*.end' => 'required_if:dates.*.options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec času, nefunguje jak má
         'dates.*.options.*.text' => 'required_if:dates.*.options.*.type,text', // Text možnosti
-        'questions' => 'required|array', // Otázky
+        'questions' => 'nullable|array', // Otázky
         'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti
@@ -194,6 +194,7 @@ class FormCreate extends Component
             'title' => $validatedData['title'],
             'author_name' => $validatedData['user_name'],
             'author_email' => $validatedData['user_email'],
+            'user_id' => Auth::id(),
             'description' => $validatedData['description'],
             'user_name' => $validatedData['user_name'],
             'user_email' => $validatedData['user_email'],
