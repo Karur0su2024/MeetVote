@@ -5,8 +5,8 @@ namespace App\Livewire\Poll;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
-use Illuminate\Validation\Rule;
 use App\Models\Poll;
+use Illuminate\Support\Facades\DB;
 
 class FormCreate extends Component
 {
@@ -72,7 +72,11 @@ class FormCreate extends Component
     #[On('addDate')]
     public function addDate($date)
     {
+        // Kontrola, zda je datum vyplněné
         if (!isset($date)) return;
+
+        // Kontrola, zda datum již neexistuje
+        if (isset($this->dates[$date])) return;
 
         // Přidání nového data
         $this->dates[$date] = [
@@ -114,6 +118,9 @@ class FormCreate extends Component
     // Metoda pro odstranění časových možnosti
     public function removeDateOption($dateIndex, $optionIndex)
     {
+        // Pokud možnost neexistuje, nelze ji odstranit
+        if (!isset($this->dates[$dateIndex]['options'][$optionIndex])) return;
+
         // Pokud je pouze jedna možnost, nelze ji odstranit
         if (count($this->dates[$dateIndex]['options']) == 1) return;
 
@@ -128,6 +135,7 @@ class FormCreate extends Component
     // Metoda pro přidání otázky
     public function addQuestion()
     {
+        // Přidání nové otázky s dvěma možnostmi
         $this->questions[] = [
             'text' => '',
             'options' => [
@@ -144,19 +152,29 @@ class FormCreate extends Component
     // Metoda pro odstranění otázky
     public function removeQuestion($index)
     {
+        // Pokud otázka neexistuje, nelze ji odstranit
+        if(!isset($this->questions[$index])) return;
+
+        // Odstranění otázky
         unset($this->questions[$index]);
     }
 
     // Metoda pro přidání možnosti k otázce
     public function addQuestionOption($questionIndex)
     {
+        // Přidání nové možnosti
         $this->questions[$questionIndex]['options'][] = ['text' => ''];
     }
 
     // Metoda pro odstranění možnosti k otázce
     public function removeQuestionOption($questionIndex, $optionIndex)
     {
-        if (count($this->questions[$questionIndex]['options']) >= 2) return;
+        // Pokud je má otázka pouze dvě možnosti, nelze je samostatně odstranit
+        if (count($this->questions[$questionIndex]['options']) <= 2) return;
+
+        // Pokud možnost neexistuje, nelze ji odstranit
+        if (!isset($this->questions[$questionIndex]['options'][$optionIndex])) return;
+
         unset($this->questions[$questionIndex]['options'][$optionIndex]);
     }
 
@@ -184,15 +202,18 @@ class FormCreate extends Component
     private function save($validatedData): bool
     {
 
-        // Vytvoření nové ankety
+        // Započetí transakce, pokud se něco nepovede, vrátí se zpět
+        DB::beginTransaction();
+
+        try {
+
+                    // Vytvoření nové ankety
         $poll = Poll::create([
             'title' => $validatedData['title'],
             'author_name' => $validatedData['user_name'],
             'author_email' => $validatedData['user_email'],
             'user_id' => Auth::id(),
             'description' => $validatedData['description'],
-            'user_name' => $validatedData['user_name'],
-            'user_email' => $validatedData['user_email'],
             'comments' => $validatedData['settings']['comments'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
             'hide_results' => $validatedData['settings']['hide_results'],
@@ -200,11 +221,23 @@ class FormCreate extends Component
             'status' => 'active',
         ]);
 
-
+        // Uložení časových možností a otázek
         $this->saveEachOption($poll, $validatedData);
+
+        // Uložení dat
+        DB::commit();
 
         $this->poll = $poll;
         return true;
+
+        } catch (\Exception $e) {
+            
+            // Pokud se něco nepovede, vrátí se zpět
+            DB::rollBack();
+            return false;
+        }
+
+
     }
 
 

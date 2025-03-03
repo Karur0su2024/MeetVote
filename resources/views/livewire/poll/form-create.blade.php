@@ -82,7 +82,7 @@
             <div class="card mb-5 p-3">
                 <h2 class="mb-3">Poll settings</h2>
 
-                <!-- Heslo -->
+                <!-- Komentáře -->
                 <x-poll.form.checkbox id="comments" model="settings.comments" label="Comments" />
 
                 <!-- Tajné hlasování -->
@@ -91,7 +91,8 @@
                 <!-- Skryté výsledky -->
                 <x-poll.form.checkbox id="hide_results" model="settings.hide_results" label="Hide results" />
 
-
+                <!-- Heslo -->
+                <x-input id="password" model="settings.password" type="password" label="Password" />
 
             </div>
         </div>
