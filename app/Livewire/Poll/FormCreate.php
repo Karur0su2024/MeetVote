@@ -25,6 +25,7 @@ class FormCreate extends Component
         'comments' => true,
         'anonymous' => false,
         'hide_results' => false,
+        'password' => null,
     ];
 
     // Definice základních pravidel
@@ -36,6 +37,7 @@ class FormCreate extends Component
         'settings.comments' => 'boolean', // Komentáře
         'settings.anonymous' => 'boolean', // Anonymní hlasování
         'settings.hide_results' => 'boolean', // Skrytí výsledků
+        'settings.password' => 'nullable|string|min:3|max:255', // Heslo
         'dates' => 'required|array|min:1', // Data
         'dates.*.date' => 'required|date', // Datum
         'dates.*.options' => 'required|array|min:1', // Možnosti data
@@ -154,7 +156,7 @@ class FormCreate extends Component
     // Metoda pro odstranění možnosti k otázce
     public function removeQuestionOption($questionIndex, $optionIndex)
     {
-        if(count($this->questions[$questionIndex]['options']) >= 2) return;
+        if (count($this->questions[$questionIndex]['options']) >= 2) return;
         unset($this->questions[$questionIndex]['options'][$optionIndex]);
     }
 
@@ -166,7 +168,7 @@ class FormCreate extends Component
         // Validace
         $validatedData = $this->validate();
 
-        if($this->save($validatedData)){
+        if ($this->save($validatedData)) {
             // Přesměrování
             return redirect()->route('polls.show', ['poll' => $this->poll]);
         }
@@ -194,46 +196,68 @@ class FormCreate extends Component
             'comments' => $validatedData['settings']['comments'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
             'hide_results' => $validatedData['settings']['hide_results'],
+            'password' => $validatedData['settings']['password'], 
             'status' => 'active',
         ]);
 
-        // Přidání časových možností
-        foreach ($validatedData['dates'] as $date) {
+
+        $this->saveEachOption($poll, $validatedData);
+
+        $this->poll = $poll;
+        return true;
+    }
+
+
+    private function saveEachOption($poll, $validatedData)
+    {
+        $this->saveTimeOptions($poll, $validatedData['dates']);
+        $this->saveQuestions($poll, $validatedData['questions']);
+    }
+
+
+    // Metoda pro uložení časových možností
+    private function saveTimeOptions($poll, $dates)
+    {
+        $timeOptions = [];
+
+        foreach ($dates as $date) {
             foreach ($date['options'] as $option) {
                 if ($option['type'] == 'time') {
                     // Přidání časové možnosti
-                    $poll->timeOptions()->create([
+                    $timeOptions[] = [
                         'date' => $date['date'],
                         'start' => $option['start'],
                         'minutes' => (strtotime($option['end']) - strtotime($option['start'])) / 60,
-                    ]);
+                    ];
                 } else {
                     // Přidání textové možnosti
-                    $poll->timeOptions()->create([
+                    $timeOptions[] = [
                         'date' => $date['date'],
                         'text' => $option['text'],
-                    ]);
+                    ];
                 }
             }
         }
 
+        return $poll->timeOptions()->createMany($timeOptions);
+    }
 
-        // Přidání otázek
-        foreach ($validatedData['questions'] as $question) {
+
+    // Metoda pro uložení otázek
+    private function saveQuestions($poll, $questions)
+    {
+
+        foreach ($questions as $question) {
             $newQuestion = $poll->questions()->create([
                 'text' => $question['text'],
             ]);
 
-            // Přidání možností k otázce
             foreach ($question['options'] as $option) {
                 $newQuestion->options()->create([
                     'text' => $option['text'],
                 ]);
             }
         }
-
-        $this->poll = $poll;
-        return true;
     }
 
     // Metoda pro renderování komponenty

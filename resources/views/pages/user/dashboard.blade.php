@@ -12,6 +12,7 @@
                 <div class="card-header">
                     <h2>{{ $poll->title }}</h2>
                     <a href="{{ route('polls.show', $poll) }}" class="btn btn-primary">Show</a>
+                    <a href="{{ route('polls.edit', $poll) }}" class="btn btn-secondary">Edit</a>
                 </div>
             </div>    
 
