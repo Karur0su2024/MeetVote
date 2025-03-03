@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body p-3">
-                    <x-input id="title" model="title" type="text" label="Poll Title" />
+                    <x-input id="title" model="title" type="text" label="Poll Title" mandatory="true"  />
 
                     <div class="mb-3">
                         <label class="form-label">Poll Description</label>
@@ -26,7 +26,7 @@
                     <div>
                         <x-input id="user_name" model="user_name" type="text" label="Your name" />
 
-                        <x-input id="user_email" model="user_email" type="email" label="Your email" />
+                        <x-input id="user_email" model="user_email" type="email" label="Your email" mandatory="true" />
 
 
                     </div>
@@ -46,12 +46,12 @@
 
                 <div class="card-body p-3">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12 mb-4">
 
                             <!-- Kalendář -->
                             <div id='calendar' wire:ignore></div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-lg-6 col-md-12 mb-4">
                             <h3 class="mb-4">Chosen dates</h3>
 
                             @foreach ($dates as $dateIndex => $date)

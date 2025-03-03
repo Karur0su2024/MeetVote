@@ -30,7 +30,7 @@
         <!-- Hlasovací formulář -->
         <livewire:poll.voting :poll="$poll" />
 
-        @if ($poll->comments)
+        @if (!$poll->comments)
             <div class="card mb-5">
                 Comments
             </div>

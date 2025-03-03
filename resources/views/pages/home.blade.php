@@ -3,6 +3,6 @@
     <!-- Název stránky -->
     <x-slot:title>Homepage</x-slot>
 
-    Test
+    <h1>MeetVote</h1>
 
 </x-layouts.app>
