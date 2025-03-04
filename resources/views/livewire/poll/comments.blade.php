@@ -1,6 +1,6 @@
 <div class="card text-start mb-3">
     <div class="card-header py-3">
-        <h2>Comments</h2>
+        <h2>Comments <span class="badge bg-secondary">{{ count($comments) }}</span></h2>
     </div>
     <div class="card-body p-0">
         <div class="list-group">
@@ -12,20 +12,8 @@
         <div class="p-3">
             <h3>Add new comments</h3>
             <form wire:submit.prevent='addComment'>
-                <div class="mb-3">
-                    <label for="content">Your name</label>
-                    <input type="text" id="content" class="form-control" wire:model="username">
-                    @error('username')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="content">Content</label>
-                    <textarea id="content" class="form-control" wire:model="content"></textarea>
-                    @error('content')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+                <x-input id="username" model="username" type="text" label="Your name" />
+                <x-textbox id="content" model="content" label="Your message" mandatory="true"/>
                 <button type="submit" class="btn btn-primary">Add comment</button>
             </form>
         </h2>

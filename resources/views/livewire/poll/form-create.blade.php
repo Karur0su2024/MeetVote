@@ -19,8 +19,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    <x-input id="deadline" model="deadline" type="date" label="Deadline" />
+                    <x-textbox id="description" model="description" label="Description"/>
 
                     <hr>
 

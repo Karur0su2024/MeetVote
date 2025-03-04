@@ -15,6 +15,7 @@ class Voting extends Component
     public $timeOptions = [];
     public $questions = [];
     public $existingVote;
+    public $preferences = [];
 
     // Definice validací
     protected $rules = [
@@ -29,9 +30,47 @@ class Voting extends Component
     {
         $this->poll = $poll;
 
+        $this->preferences = [
+            '2' => [
+                'value' => 2,
+                'text' => 'yes',
+            ],
+            '1' => [
+                'value' => 1,
+                'text' => 'maybe',
+            ],
+            '-1' => [
+                'value' => -1,
+                'text' => 'no',
+            ],
+            '0' => [
+                'value' => 0,
+                'text' => 'none',
+            ],
+        ];
+
         $this->resetForm();
     }
 
+
+    public function changePreference($optionIndex)
+    {
+        switch($this->timeOptions[$optionIndex]['chosen_preference']) {
+            case 0:
+                $this->timeOptions[$optionIndex]['chosen_preference'] = 2;
+                break;
+            case 2:
+                $this->timeOptions[$optionIndex]['chosen_preference'] = 1;
+                break;
+            case 1:
+                $this->timeOptions[$optionIndex]['chosen_preference'] = -1;
+                break;
+            case -1:
+                $this->timeOptions[$optionIndex]['chosen_preference'] = 0;
+                break;
+        }
+
+    }
 
     // Metoda pro resetování formuláře
     private function resetForm()

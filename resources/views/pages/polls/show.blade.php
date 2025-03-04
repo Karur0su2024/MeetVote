@@ -15,14 +15,13 @@
                         Options
                     </button>
                     <ul class="dropdown-menu">
-                        {{ $poll->public_id }}
                         <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
                         <li><a class="dropdown-item" href="#">Share poll</a></li>
                         <li><a class="dropdown-item" href="#">Close poll</a></li>
                         <li><a class="dropdown-item" href="#">Invitations</a></li>
                         <li><a class="dropdown-item" href="#">Delete poll</a></li>
 
-                        
+
                     </ul>
                 </div>
             </div>
@@ -56,7 +55,8 @@
                     <span class="badge bg-secondary">Invite only</span>
                 @endif
                 @if ($poll->deadline)
-                    <span class="badge bg-secondary">Ends in {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
+                    <span class="badge bg-secondary">Ends in
+                        {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
                 @endif
 
             </div>
