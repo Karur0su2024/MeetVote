@@ -11,7 +11,7 @@
         {{-- Input pole pro text otázky --}}
         <input type="text" id="question_{{ $questionIndex }}"
             wire:model="questions.{{ $questionIndex }}.text" class="form-control"
-            placeholder="Otázka {{ $questionIndex + 1 }}">
+            placeholder="Question {{ $questionIndex + 1 }}">
         
         
         {{-- Tlačítko pro odstranění otázky --}}
@@ -25,7 +25,7 @@
         @foreach ($question['options'] as $optionIndex => $option)
             <div class="d-flex align-items-center gap-2 mb-2">
                 {{-- Input pole pro text možnosti --}}
-                <input type="text" wire:model="questions.{{ $questionIndex }}.options.{{ $optionIndex }}.text"
+                <input type="text" wire:model="questions.{{ $questionIndex }}.options.{{ $optionIndex }}.text" placeholder="Option {{ $optionIndex + 1 }}"
                     class="form-control">
 
                 {{-- Tlačítko pro odstranění možnosti --}}

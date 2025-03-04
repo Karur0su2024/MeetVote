@@ -7,13 +7,14 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Models\Poll;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\DB;
 
 class FormCreate extends Component
 {
 
     public $poll;
-    
+
     // Název ankety
     #[Validate('required', 'string', 'min:3', 'max:255')]
     public $title = "abc";
@@ -21,7 +22,7 @@ class FormCreate extends Component
     // Popis ankety
     #[Validate('nullable', 'max:1000')]
     public $description;
-    
+
     // Jméno uživatele
     #[Validate('required', 'string', 'min:3', 'max:255')]
     public $userName;
@@ -54,21 +55,21 @@ class FormCreate extends Component
     // Časové možnosti
     #[Validate([
         'dates' => 'required|array|min:1', // Data
-        'dates.date' => 'required|date', // Datum
-        'dates.options' => 'required|array|min:1', // Časové možnosti podle data
-        'dates.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
-        'dates.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:options.*.start', // Konec časové možnosti
-        'dates.options.*.text' => 'required_if:options.*.type,text', // Textová možnost
+        'dates.*.date' => 'required|date', // Datum
+        'dates.*.options' => 'required|array|min:1', // Časové možnosti podle data
+        'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
+        'dates.*.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
+        'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:options.*.start', // Konec časové možnosti
+        'dates.*.options.*.text' => 'required_if:options.*.type,text|string', // Textová možnost
     ])]
     public $dates = [];
 
     // Otázky
     #[Validate([
-        'questions' => 'required|array|min:1', // Otázky
+        /*'questions' => 'nullable|array|min:1', // Otázky
         'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
-        'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti
+        'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
     ])]
     public $questions = [];
 
@@ -127,7 +128,7 @@ class FormCreate extends Component
     public function addDateOption($date, $type)
     {
         // Kontrola, zda datum existuje
-        if(!isset($this->dates[$date])) return;
+        if (!isset($this->dates[$date])) return;
 
         //dd($dateIndex);
         if ($type == 'time')
@@ -206,11 +207,18 @@ class FormCreate extends Component
     // Metoda pro odeslání formuláře
     public function submit()
     {
-        //dd($this->validate());
-
         // Validace
-        dd($this->validate());
+        //dd($this->validate());
         $validatedData = $this->validate();
+
+        //dd($validatedData);
+        dd($this->checkDuplicate($validatedData));
+
+        // Kontrola duplicit
+        if(!$this->checkDuplicate($validatedData)){
+            //dd($validator->getMessageBag());
+            return;
+        }
 
 
         if ($this->save($validatedData)) {
@@ -220,9 +228,43 @@ class FormCreate extends Component
     }
 
 
+    // Metoda pro kontrolu duplicit jednotlivých možností
+    public function checkDuplicate($validatedData) : bool
+    {
+        // kontrola duplicitních termínů
+        foreach ($validatedData['dates'] as $date) {
+            $optionContent = [];
 
+            foreach($date['options'] as $option){
+                if($option['type'] == 'time'){
+                    $optionContent[] = $option['start'] . '-' . $option['end'];
+                }
+                else {
+                    $optionContent[] = $option['text'] . '-text';
+                }
+            }
 
+            if (count($optionContent) !== count(array_unique($optionContent))) {
+                return false;
+            }
+        }
 
+        // Kontrola duplicitních otázek
+        $questions = array_column($validatedData['questions'], 'text');
+        if (count($questions) !== count(array_unique($questions))) {
+            return false;
+        }
+
+        // Kontrola možností
+        foreach ($validatedData['questions'] as $question) {
+            $options = array_column($question['options'], 'text');
+            if (count($options) !== count(array_unique($options))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
     // Metoda pro uložení dat
