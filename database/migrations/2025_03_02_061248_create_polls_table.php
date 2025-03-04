@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('admin_key')->unique();
             $table->string('author_name')->nullable();
             $table->string('author_email')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
             $table->boolean('anonymous_votes')->default(false);
