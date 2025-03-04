@@ -9,11 +9,14 @@ use Livewire\Attributes\On;
 use App\Models\Poll;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\DB;
+use App\Livewire\Forms\Poll\CreateForm;
+use Carbon\Carbon;
 
 class FormCreate extends Component
 {
 
     public $poll;
+    public CreateForm $createForm;
 
     // Název ankety
     #[Validate('required', 'string', 'min:3', 'max:255')]
@@ -54,7 +57,7 @@ class FormCreate extends Component
 
     // Časové možnosti
     #[Validate([
-        'dates' => 'required|array|min:1', // Data
+        'dates' => 'required|array|min:1', // Pole různých dnů
         'dates.*.date' => 'required|date', // Datum
         'dates.*.options' => 'required|array|min:1', // Časové možnosti podle data
         'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
@@ -66,7 +69,7 @@ class FormCreate extends Component
 
     // Otázky
     #[Validate([
-        /*'questions' => 'nullable|array|min:1', // Otázky
+        'questions' => 'nullable|array', // Pole otázek
         'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
@@ -87,8 +90,6 @@ class FormCreate extends Component
         $this->addDate(date('Y-m-d'));
     }
 
-
-
     // Metoda pro přidání nového data
     #[On('addDate')]
     public function addDate($date)
@@ -102,10 +103,10 @@ class FormCreate extends Component
         // Přidání nového data
         $this->dates[$date] = [
             'date' => $date,
-            'options' => [
-                ['type' => 'time', 'start' => '11:00', 'end' => '12:00']
-            ]
+            'options' => [],
         ];
+
+        $this->addDateOption($date, 'time');
 
         // Seřazení dat podle klíče
         ksort($this->dates);
@@ -131,12 +132,43 @@ class FormCreate extends Component
         if (!isset($this->dates[$date])) return;
 
         //dd($dateIndex);
-        if ($type == 'time')
-            // Přidání nové časové možnosti
-            $this->dates[$date]['options'][] = ['type' => 'time', 'start' => '11:00', 'end' => '12:00'];
-        else
-            // Přidání nové textové možnosti
+        if ($type == 'time'){
+            $this->addNewTimeOption($date);
+
+        }
+        else {
             $this->dates[$date]['options'][] = ['type' => 'text', 'text' => ''];
+        }
+        
+    }
+
+    private function addNewTimeOption($date){
+        $start = Carbon::now()->format('H:i');
+
+
+        // Získání posledního konce
+        foreach($this->dates[$date]['options'] as $option){
+            if($option['type'] == 'time'){
+                $lastEnd = Carbon::parse($option['end'])->format('H:i');
+            }
+        }
+
+
+        // Počet možností
+        $optionCount = count($this->dates[$date]['options']);
+
+        // Pokud je více možností, začátek se nastaví na konec poslední časové (ne textové) možnosti
+        // V případě, že neexistuje časová možnost, nastaví se na aktuální čas
+        if($optionCount > 0){
+            $start = isset($lastEnd) ? Carbon::parse($lastEnd)->format('H:i') : Carbon::now()->format('H:i');
+        }
+
+        // Nastavení konce hodinu po začátku
+        $end = Carbon::parse($start)->addHour()->format('H:i');
+
+        // přidání nové časové možnosti do pole
+        $this->dates[$date]['options'][] = ['type' => 'time', 'start' => $start, 'end' => $end];
+
     }
 
     // Metoda pro odstranění časových možnosti
@@ -151,8 +183,9 @@ class FormCreate extends Component
         // Odstranění možnosti
         unset($this->dates[$dateIndex]['options'][$optionIndex]);
 
-        // Seřazení možností podle klíče
-        ksort($this->dates[$dateIndex]['options']);
+        // Přeindexování možností
+        $this->dates[$dateIndex]['options'] = array_values($this->dates[$dateIndex]['options']);
+
     }
 
 
@@ -208,15 +241,15 @@ class FormCreate extends Component
     public function submit()
     {
         // Validace
-        //dd($this->validate());
         $validatedData = $this->validate();
 
         //dd($validatedData);
+
         dd($this->checkDuplicate($validatedData));
 
         // Kontrola duplicit
         if(!$this->checkDuplicate($validatedData)){
-            //dd($validator->getMessageBag());
+            
             return;
         }
 
@@ -229,7 +262,7 @@ class FormCreate extends Component
 
 
     // Metoda pro kontrolu duplicit jednotlivých možností
-    public function checkDuplicate($validatedData) : bool
+    private function checkDuplicate($validatedData) : bool
     {
         // kontrola duplicitních termínů
         foreach ($validatedData['dates'] as $date) {
@@ -237,27 +270,30 @@ class FormCreate extends Component
 
             foreach($date['options'] as $option){
                 if($option['type'] == 'time'){
-                    $optionContent[] = $option['start'] . '-' . $option['end'];
+                    $optionContent[] = strtolower($option['start'] . '-' . $option['end']);
                 }
                 else {
-                    $optionContent[] = $option['text'] . '-text';
+                    $optionContent[] = strtolower($option['text'] . '-text');
                 }
             }
 
+            // Porovnání všech termínů a unikátních termínů
             if (count($optionContent) !== count(array_unique($optionContent))) {
                 return false;
             }
         }
 
         // Kontrola duplicitních otázek
-        $questions = array_column($validatedData['questions'], 'text');
+        $questions = array_map('mb_strtolower', array_column($validatedData['questions'], 'text'));
+    
+        // Porovnání všech textů otázek a unikátních textů otázek
         if (count($questions) !== count(array_unique($questions))) {
             return false;
         }
 
         // Kontrola možností
         foreach ($validatedData['questions'] as $question) {
-            $options = array_column($question['options'], 'text');
+            $options = array_map('mb_strtolower', array_column($question['options'], 'text'));
             if (count($options) !== count(array_unique($options))) {
                 return false;
             }
@@ -310,7 +346,7 @@ class FormCreate extends Component
         }
     }
 
-
+    // Metoda pro uložení časových možností a možností otázek
     private function saveEachOption($poll, $validatedData)
     {
         $this->saveTimeOptions($poll, $validatedData['dates']);
