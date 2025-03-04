@@ -10,12 +10,14 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        $polls = Auth::user()->polls;
+        $userPolls = Auth::user()->polls;
+        $attendeePolls = Auth::user()->attendeePolls;
+        $polls = $userPolls->merge($attendeePolls);
         return view('pages.user.dashboard', ['polls' => $polls]);
     }
 
     public function settings()
     {
-        return view('pages.settings');
+        return view('pages.user.settings');
     }
 }

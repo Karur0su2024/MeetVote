@@ -7,16 +7,13 @@ use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Models\Poll;
-use GuzzleHttp\Psr7\Message;
 use Illuminate\Support\Facades\DB;
-use App\Livewire\Forms\Poll\CreateForm;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class FormCreate extends Component
 {
 
-    public $poll;
-    public CreateForm $createForm;
 
     // Název ankety
     #[Validate('required', 'string', 'min:3', 'max:255')]
@@ -44,7 +41,7 @@ class FormCreate extends Component
         'settings.comments' => 'boolean', // Komentáře
         'settings.anonymous' => 'boolean', // Anonymní hlasování
         'settings.hide_results' => 'boolean', // Skrytí výsledků
-        'settings.password' => 'nullable|string|min:3', // Heslo
+        'settings.password' => 'nullable|string', // Heslo
         'settings.invite_only' => 'boolean', // Pouze na pozvánku
     ])]
     public $settings = [
@@ -142,9 +139,9 @@ class FormCreate extends Component
         
     }
 
+    // Metoda pro přidání nové časové možnosti
     private function addNewTimeOption($date){
         $start = Carbon::now()->format('H:i');
-
 
         // Získání posledního konce
         foreach($this->dates[$date]['options'] as $option){
@@ -152,7 +149,6 @@ class FormCreate extends Component
                 $lastEnd = Carbon::parse($option['end'])->format('H:i');
             }
         }
-
 
         // Počet možností
         $optionCount = count($this->dates[$date]['options']);
@@ -243,9 +239,6 @@ class FormCreate extends Component
         // Validace
         $validatedData = $this->validate();
 
-        //dd($validatedData);
-
-        dd($this->checkDuplicate($validatedData));
 
         // Kontrola duplicit
         if(!$this->checkDuplicate($validatedData)){
@@ -253,10 +246,11 @@ class FormCreate extends Component
             return;
         }
 
+        $poll = $this->save($validatedData);
 
-        if ($this->save($validatedData)) {
+        if ($poll) {
             // Přesměrování
-            return redirect()->route('polls.show', ['poll' => $this->poll]);
+            return redirect()->route('polls.show', $poll);
         }
     }
 
@@ -304,9 +298,8 @@ class FormCreate extends Component
 
 
     // Metoda pro uložení dat
-    private function save($validatedData): bool
+    private function save($validatedData): ?Poll
     {
-
 
         // Započetí transakce, pokud se něco nepovede, vrátí se zpět
         DB::beginTransaction();
@@ -316,6 +309,8 @@ class FormCreate extends Component
             // Vytvoření nové ankety
             $poll = Poll::create([
                 'title' => $validatedData['title'],
+                'public_id' => Str::random(40),
+                'admin_key' => Str::random(40),
                 'author_name' => $validatedData['userName'],
                 'author_email' => $validatedData['userEmail'],
                 'user_id' => Auth::id(),
@@ -335,14 +330,13 @@ class FormCreate extends Component
             // Uložení dat
             DB::commit();
 
-            $this->poll = $poll;
-            return true;
+            return $poll;
         } catch (\Exception $e) {
 
             //dd($e);
             // Pokud se něco nepovede, vrátí se zpět
             DB::rollBack();
-            return false;
+            return null;
         }
     }
 

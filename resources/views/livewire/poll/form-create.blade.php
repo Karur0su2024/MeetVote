@@ -4,7 +4,7 @@
 
         <div class="text-start">
             <!-- Obecné informace ankety -->
-            <div class="card mb-5">
+            <div class="card mb-5 shadow-sm">
                 <div class="card-header">
                     <h2 class="mb-3">General information</h2>
                 </div>
@@ -38,7 +38,7 @@
             </div>
 
             <!-- Výběr časových termínů -->
-            <div class="card mb-5">
+            <div class="card mb-5 shadow-sm">
 
                 <div class="card-header">
 
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Výběr doplňujících otázek -->
-            <div class="card mb-5">
+            <div class="card mb-5 shadow-sm">
                 <div class="card-header">
                     <h2>Additional questions</h2>
                 </div>
@@ -96,7 +96,7 @@
             </div>
 
             <!-- Nastavení ankety -->
-            <div class="card mb-5">
+            <div class="card mb-5 shadow-sm">
                 <div class="card-header">
                     <h2>Poll settings</h2>
                 </div>
@@ -121,7 +121,7 @@
             </div>
         </div>
 
-        
+
 
         <button type="submit" class="btn btn-primary w-75">Submit</button>
 

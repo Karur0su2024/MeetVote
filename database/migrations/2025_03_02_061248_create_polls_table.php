@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
+            $table->string('public_id')->unique();
+            $table->string('admin_key')->unique();
             $table->string('author_name')->nullable();
             $table->string('author_email')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');

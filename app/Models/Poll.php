@@ -10,7 +10,7 @@ class Poll extends Model
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description', 
         'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status', 
-        'deadline', 'password'];
+        'deadline', 'password', 'public_id', 'admin_key'];
 
     // Vztah k uživateli (M:1)
     public function user() {
@@ -40,5 +40,10 @@ class Poll extends Model
     // Vztah k pozvánkám (1:N)
     public function invitations() {
         return $this->hasMany(Invitation::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'public_id';
     }
 }

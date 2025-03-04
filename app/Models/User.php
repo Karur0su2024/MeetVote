@@ -60,4 +60,8 @@ class User extends Authenticatable
     public function votes() {
         return $this->hasMany(Vote::class);
     }
+
+    public function attendeePolls(){
+        return $this->belongsToMany(Poll::class, 'votes');
+    }
 }

@@ -25,55 +25,44 @@
                                             <div>
                                                 <p class="mb-0 fw-bold">
                                                     {{ Carbon\Carbon::parse($option['date'])->isoFormat('dddd') }},
-    
-                                                    {{ Carbon\Carbon::parse($option['date'])->format('F d, Y') }} </p>
+                                                    {{ Carbon\Carbon::parse($option['date'])->format('F d, Y') }}
+                                                </p>
                                                 <p class="mb-0 fw-bold">
-                                                    <!-- Zobrazení času -->
-                                                    {{ date('H:i', strtotime($option['start'])) ?? '' }} -
-                                                    {{ $option['start'] ? date('H:i', strtotime($option['start']) + $option['minutes'] * 60) : $option['text'] }}
+                                                    @if (!empty($option['start']))
+                                                        {{ Carbon\Carbon::parse($option['start'])->format('H:i') }} -
+                                                        {{ Carbon\Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i') }}
+                                                    @else
+                                                        {{ $option['text'] }}
+                                                    @endif
                                                 </p>
                                             </div>
+                
+                                            {{-- Zobrazení hlasů --}}
                                             <div>
                                                 @foreach ($option['votes'] as $voteName => $vote)
                                                     <p class="mb-0">{{ $voteName }} - {{ $vote }}</p>
                                                 @endforeach
-    
-    
                                             </div>
-    
-                                            <!-- Výběr preference časové možnosti -->
+                
+                                            {{-- Výběr preference časové možnosti --}}
                                             <div>
-                                                <select
-                                                    wire:change="changeTimeOptionPreference({{ $option['id'] }}, $event.target.value)"
+                                                <select wire:change="changeTimeOptionPreference({{ $option['id'] }}, $event.target.value)"
                                                     class="form-select">
-                                                    <option value="0"
-                                                        {{ $option['chosen_preference'] === 0 ? 'selected' : '' }}>No
-                                                        vote
-                                                    </option>
-                                                    <option value="2"
-                                                        {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>
-                                                        Yes
-                                                    </option>
-                                                    <option value="1"
-                                                        {{ $option['chosen_preference'] === 1 ? 'selected' : '' }}>
-                                                        Maybe
-                                                    </option>
-                                                    <option value="-1"
-                                                        {{ $option['chosen_preference'] === -1 ? 'selected' : '' }}>
-                                                        No
-                                                    </option>
+                                                    <option value="0" {{ $option['chosen_preference'] === 0 ? 'selected' : '' }}>No vote</option>
+                                                    <option value="2" {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>Yes</option>
+                                                    <option value="1" {{ $option['chosen_preference'] === 1 ? 'selected' : '' }}>Maybe</option>
+                                                    <option value="-1" {{ $option['chosen_preference'] === -1 ? 'selected' : '' }}>No</option>
                                                 </select>
                                             </div>
-    
+                
                                         </div>
-    
                                     </div>
+                                </div>
                             @endforeach
-    
                         </div>
-    
                     </div>
                 </div>
+                
     
                 @if (count($questions) == 0)
                     <p>No questions</p>
