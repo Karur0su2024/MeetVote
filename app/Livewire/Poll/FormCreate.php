@@ -3,6 +3,7 @@
 namespace App\Livewire\Poll;
 
 use Livewire\Component;
+use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Models\Poll;
@@ -11,18 +12,37 @@ use Illuminate\Support\Facades\DB;
 class FormCreate extends Component
 {
 
-    // Definice proměnných
     public $poll;
-    public $user_name;
-    public $user_email;
+    
+    // Název ankety
+    #[Validate('required', 'string', 'min:3', 'max:255')]
     public $title = "abc";
+
+    // Popis ankety
+    #[Validate('nullable', 'max:1000')]
     public $description;
-    public $deadline;
-    public $dates = [];
-    public $questions = [];
-    public $postAsGuest = false;
+    
+    // Jméno uživatele
+    #[Validate('required', 'string', 'min:3', 'max:255')]
+    public $userName;
 
+    // E-mail uživatele
+    #[Validate('required', 'email')]
+    public $userEmail;
 
+    // Deadline ankety, po kterém nebude možné hlasovat
+    #[Validate('nullable', 'date')]
+    public $deadline = null;
+
+    // Nastavení ankety
+    #[Validate([
+        'settings' => 'array', // Komentáře
+        'settings.comments' => 'boolean', // Komentáře
+        'settings.anonymous' => 'boolean', // Anonymní hlasování
+        'settings.hide_results' => 'boolean', // Skrytí výsledků
+        'settings.password' => 'nullable|string|min:3', // Heslo
+        'settings.invite_only' => 'boolean', // Pouze na pozvánku
+    ])]
     public $settings = [
         'comments' => true,
         'anonymous' => false,
@@ -31,31 +51,26 @@ class FormCreate extends Component
         'invite_only' => false,
     ];
 
-    // Definice základních pravidel
-    protected $rules = [
-        'title' => 'required|string|min:3|max:255', // Název ankety
-        'description' => 'nullable|max:1000', // Popis ankety
-        'user_name' => 'required|string|min:3|max:255', // Jméno uživatele
-        'user_email' => 'required|email', // Email uživatele
-        'deadline' => 'nullable|date', // Deadline
-        'settings.invite_only' => 'boolean', // Pouze na pozvánku
-        'settings.comments' => 'boolean', // Komentáře
-        'settings.anonymous' => 'boolean', // Anonymní hlasování
-        'settings.hide_results' => 'boolean', // Skrytí výsledků
-        'settings.password' => 'nullable|string|min:3', // Heslo
+    // Časové možnosti
+    #[Validate([
         'dates' => 'required|array|min:1', // Data
-        'dates.*.date' => 'required|date', // Datum
-        'dates.*.options' => 'required|array|min:1', // Možnosti data
-        'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti
-        'dates.*.options.*.start' => 'required_if:dates.*.options.*.type,time|date_format:H:i', // Začátek času
-        'dates.*.options.*.end' => 'required_if:dates.*.options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec času, nefunguje jak má
-        'dates.*.options.*.text' => 'required_if:dates.*.options.*.type,text', // Text možnosti
-        'questions' => 'nullable|array', // Otázky
+        'dates.date' => 'required|date', // Datum
+        'dates.options' => 'required|array|min:1', // Časové možnosti podle data
+        'dates.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
+        'dates.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
+        'dates.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:options.*.start', // Konec časové možnosti
+        'dates.options.*.text' => 'required_if:options.*.type,text', // Textová možnost
+    ])]
+    public $dates = [];
+
+    // Otázky
+    #[Validate([
+        'questions' => 'required|array|min:1', // Otázky
         'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti
-    ];
-
+    ])]
+    public $questions = [];
 
 
     // Metoda mount
@@ -63,8 +78,8 @@ class FormCreate extends Component
     {
         // Pokud je uživatel přihlášený, načtou se jeho údaje
         if (Auth::check()) {
-            $this->user_name = Auth::user()->name;
-            $this->user_email = Auth::user()->email;
+            $this->userName = Auth::user()->name;
+            $this->userEmail = Auth::user()->email;
         }
 
         // Přidání prvního data
@@ -111,6 +126,9 @@ class FormCreate extends Component
     // Metoda pro přidání nové časové možnosti
     public function addDateOption($date, $type)
     {
+        // Kontrola, zda datum existuje
+        if(!isset($this->dates[$date])) return;
+
         //dd($dateIndex);
         if ($type == 'time')
             // Přidání nové časové možnosti
@@ -191,6 +209,7 @@ class FormCreate extends Component
         //dd($this->validate());
 
         // Validace
+        dd($this->validate());
         $validatedData = $this->validate();
 
 
@@ -210,6 +229,7 @@ class FormCreate extends Component
     private function save($validatedData): bool
     {
 
+
         // Započetí transakce, pokud se něco nepovede, vrátí se zpět
         DB::beginTransaction();
 
@@ -218,8 +238,8 @@ class FormCreate extends Component
             // Vytvoření nové ankety
             $poll = Poll::create([
                 'title' => $validatedData['title'],
-                'author_name' => $validatedData['user_name'],
-                'author_email' => $validatedData['user_email'],
+                'author_name' => $validatedData['userName'],
+                'author_email' => $validatedData['userEmail'],
                 'user_id' => Auth::id(),
                 'deadline' => $validatedData['deadline'],
                 'description' => $validatedData['description'],
@@ -241,7 +261,7 @@ class FormCreate extends Component
             return true;
         } catch (\Exception $e) {
 
-            dd($e);
+            //dd($e);
             // Pokud se něco nepovede, vrátí se zpět
             DB::rollBack();
             return false;

@@ -26,9 +26,9 @@
 
                     {{-- Informace o autorovi --}}
                     <div>
-                        <x-input id="user_name" model="user_name" type="text" label="Your name" />
+                        <x-input id="user_name" model="userName" type="text" label="Your name" />
 
-                        <x-input id="user_email" model="user_email" type="email" label="Your email" mandatory="true" />
+                        <x-input id="user_email" model="userEmail" type="email" label="Your email" mandatory="true" />
 
 
                     </div>
@@ -109,9 +109,9 @@
                     <x-poll.form.checkbox id="anonymous" model="settings.anonymous" label="Anonymous voting" />
 
                     <!-- Skryté výsledky -->
-                    <x-poll.form.checkbox id="hide_results" model="settings.hide_results" label="Hide results" />
+                    <x-poll.form.checkbox id="hide_results" model="settings.hideResults" label="Hide results" />
 
-                    <x-poll.form.checkbox id="invite_only" model="settings.invite_only" label="Invite only" />
+                    <x-poll.form.checkbox id="invite_only" model="settings.inviteOnly" label="Invite only" />
 
                     <!-- Heslo -->
                     <x-input id="password" model="settings.password" type="password" label="Password" />

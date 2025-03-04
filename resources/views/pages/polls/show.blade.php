@@ -8,14 +8,20 @@
         <!-- Panel s nastavením ankety -->
         <div class="card mb-5 p-2">
             <div class="d-flex justify-content-end gap-2">
-                <a href="#" class="btn btn-secondary">Copy link</a>
+                <a href="#" class="btn btn-outline-secondary">Copy link</a>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         Options
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
+                        <li><a class="dropdown-item" href="#">Close poll</a></li>
+                        <li><a class="dropdown-item" href="#">Invitations</a></li>
+                        <li><a class="dropdown-item" href="#">Copy admin key</a></li>
+                        <li><a class="dropdown-item" href="#">Delete poll</a></li>
+
+                        
                     </ul>
                 </div>
             </div>
@@ -55,6 +61,10 @@
         <!-- Hlasovací formulář -->
         <livewire:poll.voting :poll="$poll" />
 
+        {{-- Všechny hlasy --}}
+        <livewire:poll.all-votes :poll="$poll" />
+
+        {{-- Komentáře --}}
         @if (!$poll->comments)
             <div class="card mb-5">
                 Comments

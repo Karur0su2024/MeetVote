@@ -119,20 +119,23 @@ class Voting extends Component
 
     // Metoda pro načtení hlasu
     #[On('loadVote')]
-    public function loadVote($vote)
+    public function loadVote($voteIndex)
     {
         // Načteme hlas
-        $this->existingVote = $vote;
-        $this->userName = $vote->user_name;
-        $this->userEmail = $vote->user_email;
+        
+
+        $this->existingVote = Vote::find($voteIndex);
+        //dd($this->existingVote);
+        $this->userName = $this->existingVote->voter_name;
+        $this->userEmail = $this->existingVote->voter_email;
 
         // Načteme preference času
-        foreach ($vote->voteTimeOptions as $voteTimeOption) {
+        foreach ($this->existingVote->voteTimeOptions as $voteTimeOption) {
             $this->timeOptions[$voteTimeOption->time_option_id]['chosen_preference'] = $voteTimeOption->preference;
         }
 
         // Načteme preference otázek
-        foreach ($vote->voteQuestionOptions as $voteQuestionOption) {
+        foreach ($this->existingVote->voteQuestionOptions as $voteQuestionOption) {
             $this->questions[$voteQuestionOption->question_id]['options'][$voteQuestionOption->question_option_id]['preference'] = $voteQuestionOption->preference;
         }
     }
