@@ -43,6 +43,9 @@
 
             {{-- Badges ankety --}}
             <div class="d-flex gap-2">
+                @if ($poll->comments)
+                    <span class="badge bg-secondary">Comments</span>
+                @endif
                 @if ($poll->anonymous_votes)
                     <span class="badge bg-secondary">Anonymous votes</span>
                 @endif
@@ -66,10 +69,10 @@
         <livewire:poll.all-votes :poll="$poll" />
 
         {{-- Komentáře --}}
-        @if (!$poll->comments)
-            <div class="card mb-5">
-                Comments
-            </div>
+
+
+        @if ($poll->comments)
+            <livewire:poll.comments :poll="$poll" />
         @endif
 
 

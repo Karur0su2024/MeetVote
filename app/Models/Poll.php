@@ -9,7 +9,7 @@ class Poll extends Model
     // Atributy, které lze přiřadit 
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description', 
-        'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status', 
+        'anonymous_votes', 'allow_comments', 'invite_only', 'hide_results', 'status', 
         'deadline', 'password', 'public_id', 'admin_key'];
 
     // Vztah k uživateli (M:1)
