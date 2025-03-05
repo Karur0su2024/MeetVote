@@ -20,7 +20,7 @@
                         <td>{{ $invitation['status'] }}</td>
                         <td>{{ $invitation['sent_at'] }}</td>
                         <td><button class="btn btn-outline-secondary">Send again</button></td>
-                        <td><button class="btn btn-danger">Remove</button></td>
+                        <td><button class="btn btn-danger" wire:click='removeInvitation({{$invitation['id']}})'>Remove</button></td>
                     </tr>
                 @endforeach
             </tbody>

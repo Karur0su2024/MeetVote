@@ -9,35 +9,40 @@ use App\Http\Controllers\UserController;
 require __DIR__ . '/auth.php';
 
 
-// homepage
+// Domovská stránka
 Route::view('/', 'pages.home')->name('home');
 
-// poll create
+// Vytvoření ankety
 Route::get('polls/create', [PollController::class, 'create'])
     ->name('polls.create');
 
-// poll show
+// Zobrazení ankety
 Route::get('polls/{poll}', [PollController::class, 'show'])
     ->middleware(['inviteOnly','checkPassword', 'isPollAdmin'])
     ->name('polls.show');
 
-// poll edit
+// Úprava ankety
 Route::get('polls/{poll}/edit', [PollController::class, 'edit'])
     ->middleware(['isPollAdmin'])
     ->name('polls.edit');
 
-// dashboard
+// Dashboard
 Route::get('dashboard', [UserController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// settings
+// Nastavení uživatele
 Route::get('settings', [UserController::class, 'settings'])
     ->middleware(['auth', 'verified'])
     ->name('settings');
 
-// password
+// Heslo
 Route::get('polls/{poll}/authentification', [PollController::class, 'authentification'])
     ->name('polls.authentification');
 
+// Ověření hesla
 Route::post('polls/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
+
+
+// Přidat práva správce ankety pomocí odkazu
+

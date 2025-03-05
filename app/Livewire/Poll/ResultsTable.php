@@ -5,7 +5,7 @@ namespace App\Livewire\Poll;
 use Livewire\Component;
 use App\Models\Vote;
 
-class AllVotes extends Component
+class ResultsTable extends Component
 {
 
     public $votes;
@@ -31,6 +31,6 @@ class AllVotes extends Component
 
     public function render()
     {
-        return view('livewire.poll.all-votes');
+        return view('livewire.poll.results-table');
     }
 }

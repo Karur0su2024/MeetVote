@@ -52,9 +52,19 @@ class Invitations extends Component
         $invitation->key = Str::random(40);
         $invitation->save();
 
+        // Odeslat email
+        // Později přidat
 
         $this->loadInvitations();
         $this->email = '';
+    }
+
+    public function removeInvitation($id)
+    {
+        $invitation = Invitation::find($id);
+        $invitation->delete();
+
+        $this->loadInvitations();
     }
 
     public function render()

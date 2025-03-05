@@ -1,6 +1,6 @@
 <div class="card text-start mb-3">
     <div class="card-header">
-        <h3>Votes from others</h3>
+        <h3>Results</h3>
     </div>
     <div class="card-body">
         <table class="table">
