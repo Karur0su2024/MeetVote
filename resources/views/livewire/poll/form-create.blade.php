@@ -12,13 +12,6 @@
                 <div class="card-body p-3">
                     <x-input id="title" model="title" type="text" label="Poll Title" mandatory="true"  />
 
-                    <div class="mb-3">
-                        <label class="form-label">Poll Description</label>
-                        <textarea wire:model="description" class="form-control"></textarea>
-                        @error('description')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <x-textbox id="description" model="description" label="Description"/>
 
                     <hr>

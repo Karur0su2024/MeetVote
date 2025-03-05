@@ -40,5 +40,9 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         @endforeach
+
+        {{-- Tlačítko pro přidání možnosti --}}
+        <button type="button" wire:click="addQuestionOption('{{ $questionIndex }}')" class="btn btn-outline-secondary">
+            Add option
     </div>
 </div>
