@@ -3,8 +3,7 @@
 @php
 
 // Zjistíme, zda je uživatel správce ankety nebo vlastníkem komentáře
-$canDelete = session()->has('isPollAdmin', false) || (!is_null($comment->user_id) && (Auth::id() === $comment->user_id));
-
+$canDelete = request()->get('isPollAdmin', false) || (!is_null($comment->user_id) && (Auth::id() === $comment->user_id));
 
 @endphp
 

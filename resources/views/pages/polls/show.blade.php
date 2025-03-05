@@ -5,32 +5,34 @@
 
     <div class="container text-start">
 
-        <div class="alert alert-secondary mb-3" role="alert">
-            You are in admin mode!
-          </div>
+        @if (request()->get('isPollAdmin', false))
+            <div class="alert alert-secondary mb-3" role="alert">
+                You are in admin mode!
+            </div>
+        @endif
+
 
         <!-- Panel s nastavením ankety -->
         <div class="card mb-3 p-2">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">Copy link</a>
-                @if(session('isPollAdmin'))
+                @if (request()->get('isPollAdmin', false))
+                    {{-- Dropdown pro správce --}}
 
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Options
-                    </button>
-                    {{-- Nabídka pro správce --}}
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
-                        <li><a class="dropdown-item" href="#">Share poll</a></li>
-                        <li><a class="dropdown-item" href="#">Close poll</a></li>
-                        <li><a class="dropdown-item" href="#">Invitations</a></li>
-                        <li><a class="dropdown-item" href="#">Delete poll</a></li>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
+                            <li><a class="dropdown-item" href="#">Share poll</a></li>
+                            <li><a class="dropdown-item" href="#">Close poll</a></li>
+                            <li><a class="dropdown-item" href="#">Invitations</a></li>
+                            <li><a class="dropdown-item" href="#">Delete poll</a></li>
 
-
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
                 @endif
             </div>
 
@@ -75,6 +77,8 @@
 
         {{-- Všechny hlasy --}}
         <livewire:poll.all-votes :poll="$poll" />
+
+        <livewire:poll.invitations :poll="$poll" />
 
         {{-- Komentáře --}}
 
