@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class Settings extends Component
 {
@@ -12,7 +13,8 @@ class Settings extends Component
     public $email;
     public $current_password;
     public $new_password;
-    public $confirm_password;
+    public $password_confirmation;
+
 
     public function mount()
     {
@@ -34,6 +36,34 @@ class Settings extends Component
             'email' => $this->email,
         ]);
 
+    }
+
+    public function updatePassword()
+    {
+        if(!Hash::check($this->current_password, Auth::user()->password)){
+            return;
+        }
+
+        $this->validate([
+            'password' => 'required|string|min:8|confirmed|different:current_password',
+        ]);
+
+        //dd($this->password);
+        Auth::user()->update([
+            'password' => bcrypt($this->new_password),
+        ]);
+
+
+
+        $this->current_password = '';
+        $this->new_password = '';
+        $this->password_confirmation = '';
+
+    }
+
+    public function deleteAccount(){
+        Auth::user()->delete();
+        return redirect()->route('login');
     }
 
 

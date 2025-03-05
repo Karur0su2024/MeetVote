@@ -1,11 +1,12 @@
 <div>
-    
+
     <div class="card mb-5 p-2">
         <div class="d-flex justify-content-between align-items-center">
 
             <a href="{{ route('polls.create') }}" class="btn btn-outline-secondary">New poll</a>
 
-            <input type="text" name="search" class="form-control w-25" placeholder="Search polls..." wire:model.live="search" />
+            <input type="text" name="search" class="form-control w-25" placeholder="Search polls..."
+                wire:model.live="search" />
 
         </div>
     </div>
@@ -19,9 +20,12 @@
         </div>
     @else
         <div class="row text-start">
-            @foreach ($polls as $poll)
-                {{-- Karta ankety --}}
-                <x-dashboard.poll-card :poll="$poll" />
+            @foreach ($polls as $pollGroupName => $pollsGroup)
+                <h3 class="my-3">{{ $pollGroupName }}</h3>
+                @foreach ($pollsGroup as $poll)
+                    {{-- Karta ankety --}}
+                    <x-dashboard.poll-card :poll="$poll" />
+                @endforeach
             @endforeach
         </div>
     @endif
