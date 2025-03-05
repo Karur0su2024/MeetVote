@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" wire:model='event.description'></textarea>
+                <textarea class="form-control" id="description" wire:model='event.description' rows="10"></textarea>
                 @error('event.description')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror

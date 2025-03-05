@@ -22,15 +22,12 @@ class CreateEvent extends Component
 
     public function mount($poll){
         $this->poll = $poll;
-
         $this->event['title'] = $poll->title;
-        $this->event['description'] = $poll->description;
+        $this->event['description'] = "Poll description: " . $poll->description;
     }
 
     #[On('loadEvent')]
     public function loadEvent($event){
-
-
         $this->event = $event;
     }
 
@@ -45,7 +42,7 @@ class CreateEvent extends Component
             'event.description' => 'nullable',
         ]);
 
-        dd($validatedData);
+        //dd($validatedData);
 
         if($this->poll->event){
             $this->poll->event->delete();

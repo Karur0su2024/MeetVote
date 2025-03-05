@@ -10,7 +10,9 @@ class EndPoll extends Component
 
     public $poll;
     public $timeOptions = [];
+    public $questions = [];
     public $selectedTimeOption;
+    public $selectedQuestionOptions = [];
 
     public function mount($poll)
     {
@@ -37,17 +39,56 @@ class EndPoll extends Component
             ];
         }
 
+        foreach($poll->questions as $question) {
+            $options = [];
+            foreach($question->options as $option) {
+                $options[] = [
+                    'text' => $option->text,
+                    'votes' => $option->votes->count()
+                ];
+
+
+                usort($options, function($a, $b) {
+                    return $b['votes'] <=> $a['votes'];
+                });
+            }
+
+            $this->questions[] = [
+                'text' => $question->text,
+                'options' => $options
+            ];
+        }
+
+        // Seřazení časových možností podle počtu hlasů
+        usort($this->timeOptions, function($a, $b) {
+            return $b['votes'] <=> $a['votes'];
+        });
+
 
         $this->selectedTimeOption = 0;
+
+        foreach($this->questions as $questionIndex => $question) {
+            $this->selectedQuestionOptions[$questionIndex] = "0";
+        }
+
+        //dd($this->selectedQuestionOptions);
+
+
     }
 
     public function chooseFinalResults(){
         //dd($this->selectedTimeOption);
         $timeOption = $this->timeOptions[$this->selectedTimeOption];
 
-        $text = "";
+        $text = "Poll description: " . $this->poll->description . "\n";
 
         $text .= $timeOption['text'] . "\n";
+
+        foreach($this->questions as $questionIndex => $question) {
+            $text .= $question['text'] . ': ';
+            $text .= $question['options'][$this->selectedQuestionOptions[$questionIndex]]['text'] . "\n";
+            $text .= "\n";
+        }
 
         $event = [
             'title' => $this->poll->title,
@@ -55,7 +96,7 @@ class EndPoll extends Component
             'all_day' => false,
             'start' =>  $timeOption['start'],
             'end' => $timeOption['end'],
-            'description' => $this->poll->description,
+            'description' => $text,
         ];
 
         $this->dispatch('loadEvent', $event);
