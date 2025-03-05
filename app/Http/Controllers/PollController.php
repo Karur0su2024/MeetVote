@@ -24,4 +24,21 @@ class PollController extends Controller
         return view('pages.polls.edit', ['poll' => $poll]);
     }
 
+    public function authentification(Poll $poll)
+    {
+        return view('pages.polls.authentification', ['poll' => $poll]);
+    }
+
+    public function checkPassword(Request $request, Poll $poll)
+    {
+        if($request->password === $poll->password) {
+            //return dd('OK');
+            session()->put('poll_' . $poll->public_id . '_password', $request->password);
+            return redirect()->route('polls.show', $poll);
+        }
+
+        return dd('KO');
+        return redirect()->back()->with('error', 'Špatné heslo');
+    }
+
 }

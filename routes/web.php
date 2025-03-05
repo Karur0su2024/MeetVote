@@ -19,6 +19,7 @@ Route::get('polls/create', [PollController::class, 'create'])
 // poll show
 // přidat middleware pro ověření, zda je uživatel autorizován
 Route::get('polls/{poll}', [PollController::class, 'show'])
+    ->middleware(['checkPassword'])
     ->name('polls.show');
 
 // poll edit
@@ -36,3 +37,8 @@ Route::get('settings', [UserController::class, 'settings'])
     ->middleware(['auth', 'verified'])
     ->name('settings');
 
+// password
+Route::get('polls/{poll}/authentification', [PollController::class, 'authentification'])
+    ->name('polls.authentification');
+
+Route::post('polls/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');

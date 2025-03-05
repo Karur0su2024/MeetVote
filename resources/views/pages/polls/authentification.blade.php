@@ -5,7 +5,22 @@
 
     <div class="container text-start">
 
-        Test
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ $poll->title }}</h1>
+            </div>
+            <div class="card-body">
+                <p>Poll is behind password</p>
+                <form action="{{ route('polls.checkPassword', $poll) }}" method="post">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
 
 
     </div>

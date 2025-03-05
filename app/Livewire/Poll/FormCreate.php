@@ -320,7 +320,7 @@ class FormCreate extends Component
                 'anonymous_votes' => $validatedData['settings']['anonymous'],
                 'hide_results' => $validatedData['settings']['hide_results'],
                 'invite_only' => $validatedData['settings']['invite_only'],
-                //'password' => $validatedData['settings']['password'],
+                'password' => $validatedData['settings']['password'],
                 'status' => 'active',
             ]);
 

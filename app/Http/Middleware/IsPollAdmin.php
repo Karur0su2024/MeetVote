@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckPollAccess
+class IsPollAdmin
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,4 @@ class CheckPollAccess
     {
         return $next($request);
     }
-
-    // Později přidat kontrolu, zda má uživatel přístup k anketě
-    // - pokud nemá, přesměrovat na domovskou stránku
 }
