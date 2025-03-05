@@ -91,9 +91,12 @@
         {{-- Odkazy pro sdílení --}}
         <x-poll.show.share :poll="$poll" />
 
+        <livewire:poll.end-poll :poll="$poll" />
 
         {{-- Vytvoření události --}}
         <livewire:poll.create-event :poll="$poll" />
+
+
 
 
         {{-- Komentáře --}}

@@ -5,6 +5,7 @@ namespace App\Livewire\Poll;
 use Livewire\Component;
 use App\Models\Poll;
 use App\Models\Event as EventModel;
+use Livewire\Attributes\On;
 
 
 class CreateEvent extends Component
@@ -19,21 +20,32 @@ class CreateEvent extends Component
         'description' => '',
     ];
 
-    public function mount($poll, $event = null){
+    public function mount($poll){
         $this->poll = $poll;
 
         $this->event['title'] = $poll->title;
         $this->event['description'] = $poll->description;
     }
 
+    #[On('loadEvent')]
+    public function loadEvent($event){
+
+
+        $this->event = $event;
+    }
+
+
     public function createEvent(){
-        $this->validate([
+        $validatedData = $this->validate([
             'event.title' => 'required',
             'event.date' => 'required|date|after_or_equal:today',
+            'event.all_day' => 'boolean',
             'event.start' => 'required|date_format:H:i',
             'event.end' => 'required|date_format:H:i|after:event.start',
             'event.description' => 'nullable',
         ]);
+
+        dd($validatedData);
 
         if($this->poll->event){
             $this->poll->event->delete();

@@ -1,9 +1,9 @@
-<div class="card mb-3">
+<div class="card mb-3" wire:key='{{ $poll->id }}'>
     <div class="card-header">
         <h2>Create event</h2>
     </div>
     <div class="card-body">
-        <form wire:submit.prevent='createEvent()'>
+        <form wire:submit.prevent='createEvent()' wire:key='{{ now() }}'>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" wire:model='event.title'>
@@ -19,19 +19,30 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="start" class="form-label">Start</label>
-                <input type="time" class="form-control" id="start" wire:model='event.start'>
-                @error('event.start')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" wire:model='event.all_day' id="all_day" />
+                    <label class="form-check-label" for="all_day">All day event</label>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="end" class="form-label">End</label>
-                <input type="time" class="form-control" id="end" wire:model='event.end'>
-                @error('event.end')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
+
+
+            @if (!$event['all_day'])
+                <div class="mb-3">
+                    <label for="start" class="form-label">Start</label>
+                    <input type="time" class="form-control" id="start" wire:model='event.start'>
+                    @error('event.start')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="mb-3">
+                    <label for="end" class="form-label">End</label>
+                    <input type="time" class="form-control" id="end" wire:model='event.end'>
+                    @error('event.end')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            @endif
+
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" wire:model='event.description'></textarea>

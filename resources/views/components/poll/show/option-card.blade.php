@@ -4,11 +4,14 @@
     use Carbon\Carbon;
     // Den možnosti
     $day = Carbon::parse($option['date'])->isoFormat('dddd') . ", " . Carbon::parse($option['date'])->format('F d, Y');
+
+
+
     if($option['start'] != null){
+        $start = Carbon::parse($option['start'])->format('H:i');
+        $end = Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i');
         // Časová možnost
-        $optionText = Carbon::parse($option['start'])->format('H:i') . " - " . 
-        Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i') . 
-        ' (' . $option['minutes'] . ' minutes)';
+        $optionText = '(' . $start . ' - ' . $end . ')';
     } else {
         $optionText = $option['text'];
     }
