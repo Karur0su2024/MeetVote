@@ -19,76 +19,32 @@
                     <img class="icon-size" src="{{ asset('icons/yes.svg') }}" alt="Yes">
                     <p class="mb-0 fw-bold text-success">Yes (2)</p>
                 </div>
-        
+
                 <div class="d-flex align-items-center gap-2">
                     <img class="icon-size" src="{{ asset('icons/maybe.svg') }}" alt="Maybe">
                     <p class="mb-0 fw-bold text-warning">Maybe (1)</p>
                 </div>
-        
+
                 <div class="d-flex align-items-center gap-2">
                     <img class="icon-size" src="{{ asset('icons/no.svg') }}" alt="No">
                     <p class="mb-0 fw-bold text-danger">No (-1)</p>
                 </div>
             </div>
         </div>
-        
-        
 
 
         <div>
             <div>
-                <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse" href="#dateOptions" role="button"
-                    aria-expanded="true" aria-controls="dateOptions">
-                    <h2>D - Dates</h2>
+                <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse" href="#dateOptions"
+                    role="button" aria-expanded="true" aria-controls="dateOptions">
+                    <h2><i class="bi bi-calendar"></i> Dates ({{ count($timeOptions) }})</h2>
                 </div>
                 <div class="collapse show" id="dateOptions">
                     <div class="row g-0">
                         @foreach ($timeOptions as $option)
                             <div class="col-lg-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            {{-- Obsah možnosti --}}
-                                            <div>
-                                                {{-- Datum možnosti --}}
-                                                <p class="mb-0 fw-bold">
-                                                    {{ Carbon::parse($option['date'])->isoFormat('dddd') }},
-                                                    {{ Carbon::parse($option['date'])->format('F d, Y') }}
-                                                </p>
-                                                {{-- Čas/text možnosti --}}
-                                                <p class="mb-0 fw-bold">
-                                                    @if (!empty($option['start']))
-                                                        {{ Carbon::parse($option['start'])->format('H:i') }} -
-                                                        {{ Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i') }}
-                                                    @else
-                                                        {{ $option['text'] }}
-                                                    @endif
-                                                </p>
-                                            </div>
 
-                                            {{-- Zobrazení hlasů --}}
-                                            <div>
-                                                @foreach ($option['votes'] as $voteName => $vote)
-                                                    <div class="d-flex mb-2">
-                                                        <img class="me-2" src="{{ asset('icons/' . $voteName . '.svg') }}" alt="{{ $voteName }}"><p class="mb-0">  {{ $vote }}</p>
-                                                    </div>
- 
-                                                @endforeach
-                                            </div>
-
-                                            {{-- Výběr preference časové možnosti --}}
-
-                                            <div>
-                                                <button class="btn btn-outline-secondary" wire:click='changePreference({{ $option['id'] }})'>
-                                                    <img class="p-2 me-2" src="{{ asset('icons/' . $preferences[$option['chosen_preference']]['text'] . '.svg') }}" alt="{{ $voteName }}">
-                                                    
-                                                </button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                </div>
+                                <x-poll.show.option-card :option="$option" :preferences="$preferences" />
                             </div>
                         @endforeach
                         <div class="col-lg-6">
@@ -110,52 +66,15 @@
                     <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse"
                         href="#question-{{ $question['id'] }}-options" role="button" aria-expanded="true"
                         aria-controls="question-{{ $question['id'] }}-options">
-                        <h2>? - {{ $question['text'] }}</h2>
+                        <h2><i class="bi bi-question-lg"></i> {{ $question['text'] }} ({{ count($question['options']) }})</h2>
                     </div>
                     <div class="collapse show row g-0" id="question-{{ $question['id'] }}-options">
-
                         @foreach ($question['options'] as $option)
                             <div class="col-lg-6">
-                                <div class="card p-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            {{-- Obsah možnosti --}}
-                                            <div>
-                                                <p class="mb-0 fw-bold">{{ $option['text'] }}</p>
-                                            </div>
-                                            <div>
-                                                @foreach ($option['votes'] as $voteName => $vote)
-                                                    <p class="mb-0">{{ $voteName }} - {{ $vote }}</p>
-                                                @endforeach
 
-
-                                            </div>
-
-                                            <!-- Výběr preference časové možnosti -->
-                                            <div>
-                                                <select
-                                                    wire:change="changeQuestionOptionPreference({{ $question['id'] }}, {{ $option['id'] }}, $event.target.value,)"
-                                                    class="form-select">
-                                                    <option value="0"
-                                                        {{ $option['chosen_preference'] === 0 ? 'selected' : '' }}>No
-                                                        vote
-                                                    </option>
-                                                    <option value="2"
-                                                        {{ $option['chosen_preference'] === 2 ? 'selected' : '' }}>
-                                                        Yes
-                                                    </option>
-
-                                                </select>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                                {{-- Přidat karty pro zobrazení otázek --}}
                             </div>
                         @endforeach
-
                     </div>
                 @endforeach
             @endif

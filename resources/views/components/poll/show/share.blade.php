@@ -14,7 +14,7 @@ $admin_link = route('polls.show', $poll) . '/' . $poll->admin_key;
     <div class="card-body">
         <div class="mb-3">
             <label for="link" class="form-label">Link</label>
-            <div class="d-flex ">
+            <div class="input-group">
                 <input type="text" class="form-control" id="link" value="{{ $link }}" readonly>
                 <button class="btn btn-outline-secondary" onclick="copyToClipboard(`{{ $link }}`)">Copy</button>
             </div>
@@ -22,7 +22,7 @@ $admin_link = route('polls.show', $poll) . '/' . $poll->admin_key;
         </div>
         <div class="mb-3">
             <label for="admin_key" class="form-label">Admin key</label>
-            <div class="d-flex">
+            <div class="input-group">
                 <input type="text" class="form-control" id="admin_key" value="{{ route('polls.show', $poll) }}/{{ $poll->admin_key }}" readonly>
                 <button class="btn btn-outline-secondary"onclick="copyToClipboard(`{{ $admin_link }}`)">Copy</button>
             </div>

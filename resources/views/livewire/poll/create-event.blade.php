@@ -1,0 +1,45 @@
+<div class="card mb-3">
+    <div class="card-header">
+        <h2>Create event</h2>
+    </div>
+    <div class="card-body">
+        <form wire:submit.prevent='createEvent()'>
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" wire:model='event.title'>
+                @error('event.title')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" wire:model='event.date'>
+                @error('event.date')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="start" class="form-label">Start</label>
+                <input type="time" class="form-control" id="start" wire:model='event.start'>
+                @error('event.start')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="end" class="form-label">End</label>
+                <input type="time" class="form-control" id="end" wire:model='event.end'>
+                @error('event.end')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" wire:model='event.description'></textarea>
+                @error('event.description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>

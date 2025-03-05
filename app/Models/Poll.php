@@ -27,6 +27,11 @@ class Poll extends Model
         return $this->hasMany(Vote::class);
     }
 
+    // Vztah k události (1:1)
+    public function event() {
+        return $this->hasOne(Event::class);
+    }
+
     // Vztah k otázkám (1:N)
     public function questions() {
         return $this->hasMany(PollQuestion::class);

@@ -85,9 +85,16 @@
         {{-- Všechny hlasy --}}
         <livewire:poll.results-table :poll="$poll" />
 
+        {{-- Pozvánky --}}
         <livewire:poll.invitations :poll="$poll" />
         
+        {{-- Odkazy pro sdílení --}}
         <x-poll.show.share :poll="$poll" />
+
+
+        {{-- Vytvoření události --}}
+        <livewire:poll.create-event :poll="$poll" />
+
 
         {{-- Komentáře --}}
 
