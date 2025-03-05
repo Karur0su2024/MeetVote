@@ -17,14 +17,13 @@ Route::get('polls/create', [PollController::class, 'create'])
     ->name('polls.create');
 
 // poll show
-// přidat middleware pro ověření, zda je uživatel autorizován
 Route::get('polls/{poll}', [PollController::class, 'show'])
-    ->middleware(['checkPassword'])
+    ->middleware(['inviteOnly','checkPassword', 'isPollAdmin'])
     ->name('polls.show');
 
 // poll edit
-// přidat middleware pro ověření, zda je uživatel autorizován
 Route::get('polls/{poll}/edit', [PollController::class, 'edit'])
+    ->middleware(['isPollAdmin'])
     ->name('polls.edit');
 
 // dashboard

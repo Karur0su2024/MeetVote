@@ -13,6 +13,8 @@
         <div class="card mb-3 p-2">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">Copy link</a>
+                @if(session('isPollAdmin'))
+
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -29,6 +31,7 @@
 
                     </ul>
                 </div>
+                @endif
             </div>
 
         </div>

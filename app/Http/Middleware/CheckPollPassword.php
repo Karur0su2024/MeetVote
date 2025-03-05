@@ -17,7 +17,7 @@ class CheckPollPassword
     {
         // Kontrola, zda je uživatel autorizován
         if(session('poll_' . $request->poll->public_id . 'admin_key') !== $request->poll->admin_key) {
-            dd('Nemáte přístup');
+            //dd('Nemáte přístup');
             if($request->poll->password !== null) {
                 if(!session()->has('poll_' . $request->poll->public_id . '_password')) {
                     return redirect()->route('polls.authentification', $request->poll);

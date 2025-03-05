@@ -249,6 +249,8 @@ class FormCreate extends Component
         $poll = $this->save($validatedData);
 
         if ($poll) {
+            // Uložení klíče správce ankety do session
+            session()->put('poll_' . $poll->public_id . 'adminKey', $poll->admin_key);
             // Přesměrování
             return redirect()->route('polls.show', $poll);
         }

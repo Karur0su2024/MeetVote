@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invitation extends Model
 {
-    protected $fillable = ['poll_id', 'email', 'status', 'invite_code'];
+    protected $fillable = ['poll_id', 'email', 'status', 'key'];
 
     public function poll() {
         return $this->belongsTo(Poll::class);

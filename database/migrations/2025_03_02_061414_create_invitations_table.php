@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
             $table->string('email', 255);
             $table->string('status', 255)->default('pending');
-            $table->string('invite_code', 6);
+            $table->string('key', 40);
             $table->timestamps();
         });
     }
