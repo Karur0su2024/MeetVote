@@ -10,7 +10,7 @@
                 <h1>{{ $poll->title }}</h1>
             </div>
             <div class="card-body">
-                <p>Poll is behind password</p>
+                <p>Poll is secured with password</p>
                 <form action="{{ route('polls.checkPassword', $poll) }}" method="post">
                     @csrf
                     <div class="mb-3">

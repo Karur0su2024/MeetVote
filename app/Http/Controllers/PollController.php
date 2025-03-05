@@ -37,7 +37,6 @@ class PollController extends Controller
             return redirect()->route('polls.show', $poll);
         }
 
-        return dd('KO');
         return redirect()->back()->with('error', 'Špatné heslo');
     }
 
@@ -47,7 +46,7 @@ class PollController extends Controller
             //return redirect()->back()->with('error', 'Špatný klíč správce ankety');
         }
 
-        session()->put('poll_' . $poll->public_id . 'adminKey', $admin_key);
+        session()->put('poll_' . $poll->public_id . '_adminKey', $admin_key);
 
         return redirect()->route('polls.show', $poll);
     }

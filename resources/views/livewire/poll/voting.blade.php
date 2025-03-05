@@ -11,10 +11,6 @@
             {{-- Přidat otevření modalu s výsledky --}}
 
         </div>
-        <div class="">
-
-        </div>
-
     </div>
     <div class="card-body p-0">
         <div class="p-4 w-100">
@@ -166,7 +162,7 @@
 
 
             <div class="p-3">
-                <h3 class="mb-3">Your name</h3>
+                <h3 class="mb-3">Add new vote</h3>
                 <x-input id="name" model="userName" type="text" label="Your name" mandatory="true" />
                 <x-input id="email" model="userEmail" type="email" label="Your e-mail" mandatory="true" />
 
