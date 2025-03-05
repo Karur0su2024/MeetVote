@@ -1,3 +1,10 @@
+@php
+    $isAdmin = request()->get('isPollAdmin', false);
+    //dd($isAdmin);
+    
+@endphp
+
+
 <x-layouts.app>
 
     <!-- Název stránky -->
@@ -5,7 +12,7 @@
 
     <div class="container text-start">
 
-        @if (request()->get('isPollAdmin', false))
+        @if ($isAdmin)
             <div class="alert alert-secondary mb-3" role="alert">
                 You are in admin mode!
             </div>
@@ -80,7 +87,7 @@
 
         <livewire:poll.invitations :poll="$poll" />
         
-        <livewire:poll.share :poll="$poll" />
+        <x-poll.show.share :poll="$poll" />
 
         {{-- Komentáře --}}
 

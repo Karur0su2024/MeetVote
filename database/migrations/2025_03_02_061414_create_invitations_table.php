@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('status', 255)->default('pending');
             $table->string('key', 40);
+            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('accepted_at')->nullable();
             $table->timestamps();
         });
     }

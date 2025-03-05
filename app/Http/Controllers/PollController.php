@@ -41,4 +41,15 @@ class PollController extends Controller
         return redirect()->back()->with('error', 'Špatné heslo');
     }
 
+    public function addAdmin(Poll $poll, $admin_key)
+    {
+        if($admin_key !== $poll->admin_key) {
+            //return redirect()->back()->with('error', 'Špatný klíč správce ankety');
+        }
+
+        session()->put('poll_' . $poll->public_id . 'adminKey', $admin_key);
+
+        return redirect()->route('polls.show', $poll);
+    }
+
 }

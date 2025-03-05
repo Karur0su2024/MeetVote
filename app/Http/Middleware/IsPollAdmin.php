@@ -16,14 +16,9 @@ class IsPollAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //dd(session()->get('poll_' . $request->poll->public_id . 'adminKey'));
 
-
-        // Kontrola, zda je uživatel vlastníkem ankety
-        if($request->poll->user_id === Auth::id()) {
-            $this->setPermissions($request);
-        }
-        else {
-            // Kontrola, zda je v session uložen klíč správce ankety
+        if(Auth::check() === false) {
             if(session()->has('poll_' . $request->poll->public_id . 'adminKey')) {
                 // Porovnání klíče správce ankety z databáze s klíčem uloženým v session
                 if(session()->get('poll_' . $request->poll->public_id . 'adminKey') === $request->poll->admin_key) {
@@ -31,6 +26,12 @@ class IsPollAdmin
                 }
             }
         }
+        else {
+            if($request->poll->user_id === Auth::id()) {
+                $this->setPermissions($request);
+            }
+        }
+
 
 
 

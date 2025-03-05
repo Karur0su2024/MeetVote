@@ -45,4 +45,6 @@ Route::post('polls/{poll}/authentification', [PollController::class, 'checkPassw
 
 
 // Přidat práva správce ankety pomocí odkazu
+Route::get('polls/{poll}/{admin_key}', [PollController::class, 'addAdmin']);
+// 
 
