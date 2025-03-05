@@ -3,7 +3,7 @@
 
 @endphp
 
-<div class="card mb-5 text-start">
+<div class="card mb-3 text-start">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h2>Voting</h2>
@@ -182,5 +182,4 @@
     </div>
 
 
-</div>
 </div>

@@ -1,6 +1,6 @@
-<div class="card text-start mb-3">
-    <div class="card-header py-3">
-        <h2>Comments <span class="badge bg-secondary">{{ count($comments) }}</span></h2>
+<div class="card text-start">
+    <div class="card-header py-2">
+        <h2>Comments</h2>
     </div>
     <div class="card-body p-0">
         <div class="list-group">

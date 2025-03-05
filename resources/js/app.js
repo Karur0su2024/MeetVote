@@ -1,10 +1,16 @@
 import './bootstrap';
 
+// Bootstrap
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+// FullCalendar
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
 
+
+// Inicializace FullCalendar
 document.addEventListener('DOMContentLoaded', function() {
     initCalendar();
 });
@@ -13,6 +19,7 @@ Livewire.hook('message.processed', (message, component) => {
     initCalendar();
 });
 
+// Inicializace Kalendáře
 function initCalendar() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {

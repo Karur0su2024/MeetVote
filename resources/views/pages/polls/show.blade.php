@@ -3,10 +3,14 @@
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
 
-    <div class="container text-center">
+    <div class="container text-start">
+
+        <div class="alert alert-secondary mb-3" role="alert">
+            You are in admin mode!
+          </div>
 
         <!-- Panel s nastavením ankety -->
-        <div class="card mb-5 p-2">
+        <div class="card mb-3 p-2">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">Copy link</a>
                 <div class="dropdown">
@@ -14,6 +18,7 @@
                         aria-expanded="false">
                         Options
                     </button>
+                    {{-- Nabídka pro správce --}}
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
                         <li><a class="dropdown-item" href="#">Share poll</a></li>
@@ -28,7 +33,7 @@
 
         </div>
 
-        <div class="card p-4 shadow-sm text-start mb-5">
+        <div class="card p-4 shadow-sm text-start mb-3">
             <h2>{{ $poll->title }}</h2>
             <div class="d-flex align-items-center text-muted mb-2">
                 {{-- Doplnit logo autora --}}
