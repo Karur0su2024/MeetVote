@@ -3,12 +3,17 @@
     'date', // Data obsahující možnosti (textové nebo časové)
 ])
 
+@php
+    $day = Carbon\Carbon::parse($dateIndex)->format('F d, Y');
+
+@endphp
+
 <div class="card mb-3">
 
 
     <div class="card-header d-flex justify-content-between align-items-center">
         <!-- Zobrazení data -->
-        <strong>{{ Carbon\Carbon::parse($dateIndex)->format('F d, Y') }} </strong>
+        <strong>{{ $day }} </strong>
         <button type="button" wire:click="removeDate('{{ $dateIndex }}')" class="btn btn-sm btn-danger">X</button>
     </div>
 

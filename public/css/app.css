@@ -12,3 +12,47 @@
     height: auto;
     display: block;
 }
+
+.btn-outline-vote-yes {
+    border-color: #4BA569 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-yes:hover {
+    border-color: #4BA569 !important;
+    background-color: #4ba56928 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-no {
+    border-color: #D90000 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-no:hover {
+    border-color: #D90000 !important;
+    background-color: #d9000028 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-none {
+    border-color: #696969 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-none:hover {
+    border-color: #696969 !important;
+    background-color: #69696928 !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-maybe {
+    border-color: #D2B74B !important;
+    border-width: 3px !important;
+}
+
+.btn-outline-vote-maybe:hover {
+    border-color: #D2B74B !important;
+    background-color: #d2b74b28 !important;
+    border-width: 3px !important;
+}

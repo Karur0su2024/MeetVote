@@ -12,14 +12,22 @@ class Invitations extends Component
     public $invitations = [];
     public $email;
 
+    protected $rules = [
+        'email' => 'required|email|unique:invitations,email',
+    ];
+
     public function mount($poll)
     {
         $this->poll = $poll;
         $this->loadInvitations();
     }
 
+
+    // Metoda pro načtení pozvánek
     private function loadInvitations(){
         $this->invitations = [];
+        $this->poll->load('invitations');
+
         foreach($this->poll->invitations as $invitation) {
             $this->invitations[] = [
                 'id' => $invitation->id,
@@ -32,11 +40,9 @@ class Invitations extends Component
     }
 
 
+    // Metoda pro přidání pozvánky
     public function addInvitation()
     {
-        $this->validate([
-            'email' => 'required|email',
-        ]);
 
         foreach($this->poll->invitations as $invitation) {
             if($invitation->email === $this->email) {
@@ -55,15 +61,18 @@ class Invitations extends Component
         // Odeslat email
         // Později přidat
 
-        $this->loadInvitations();
         $this->email = '';
+
+        $this->loadInvitations();
+
     }
 
+
+    // Metoda pro odebrání pozvánky 
     public function removeInvitation($id)
     {
         $invitation = Invitation::find($id);
         $invitation->delete();
-
         $this->loadInvitations();
     }
 

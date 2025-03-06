@@ -1,7 +1,7 @@
 import './bootstrap';
 
-// Bootstrap
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 
 // FullCalendar
 import { Calendar } from '@fullcalendar/core';

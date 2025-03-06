@@ -26,7 +26,7 @@
             </tbody>
         </table>
 
-        <form wire:submit.prevent="addInvitation">
+        <form wire:submit.prevent="addInvitation" wire:key='{{ now() }}'>
             <x-input id="email" model="email" type="email" label="Email" />
 
             <button class="btn btn-primary" type="submit">Odeslat pozvánky</button>

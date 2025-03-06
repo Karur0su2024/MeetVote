@@ -44,7 +44,7 @@
                         @foreach ($timeOptions as $option)
                             <div class="col-lg-6">
 
-                                <x-poll.show.option-card :option="$option" :preferences="$preferences" />
+                                <x-poll.show.option-card :option="$option"/>
                             </div>
                         @endforeach
                         <div class="col-lg-6">
@@ -73,7 +73,7 @@
                             <div class="col-lg-6">
 
                                 {{-- Přidat karty pro zobrazení otázek --}}
-                                <x-poll.show.question-option-card :questionIndex="$questionIndex" :option="$option" :preferences="$preferences" />
+                                <x-poll.show.question-option-card :questionIndex="$questionIndex" :option="$option" />
                             </div>
                         @endforeach
                     </div>

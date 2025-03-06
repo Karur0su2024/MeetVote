@@ -4,6 +4,7 @@ namespace App\Livewire\Poll;
 
 use Livewire\Component;
 use App\Models\Vote;
+use Livewire\Attributes\On;
 
 class ResultsTable extends Component
 {
@@ -26,6 +27,14 @@ class ResultsTable extends Component
     {
         $vote = Vote::find($voteIndex);
         $vote->delete();
+        $this->votes = $this->poll->votes;
+
+        $this->dispatch('updateOptions');
+    }
+
+    #[On('updateVotes')]
+    public function updateVotes()
+    {
         $this->votes = $this->poll->votes;
     }
 

@@ -6,23 +6,27 @@ use Livewire\Component;
 use App\Models\Vote;
 use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\Poll\PollPage\Preferences;
 
 class Voting extends Component
 {
+
+    use Preferences;
+
     public $poll;
     public $userName;
     public $userEmail;
     public $timeOptions = [];
     public $questions = [];
     public $existingVote;
-    public $preferences = [];
+
 
     // Definice validací
     protected $rules = [
         'userName' => 'required|string|min:3|max:255',
         'userEmail' => 'required|email',
         'timeOptions.*.chosen_preference' => 'required|integer|min:-1|max:2',
-        'questions.*.options.*.chosen_preference' => 'required|integer|min:-1|max:2',
+        'questions.*.options.*.chosen_preference' => 'required|integer|in:0,2',
     ];
 
     // Metoda pro načtení dat
@@ -30,61 +34,9 @@ class Voting extends Component
     {
         $this->poll = $poll;
 
-        $this->preferences = [
-            '2' => [
-                'value' => 2,
-                'text' => 'yes',
-            ],
-            '1' => [
-                'value' => 1,
-                'text' => 'maybe',
-            ],
-            '-1' => [
-                'value' => -1,
-                'text' => 'no',
-            ],
-            '0' => [
-                'value' => 0,
-                'text' => 'none',
-            ],
-        ];
-
         $this->resetForm();
     }
 
-
-    // Metoda pro změnu preference časové možnosti
-    public function changeTimePreference($optionIndex)
-    {
-        switch($this->timeOptions[$optionIndex]['chosen_preference']) {
-            case 0:
-                $this->timeOptions[$optionIndex]['chosen_preference'] = 2;
-                break;
-            case 2:
-                $this->timeOptions[$optionIndex]['chosen_preference'] = 1;
-                break;
-            case 1:
-                $this->timeOptions[$optionIndex]['chosen_preference'] = -1;
-                break;
-            case -1:
-                $this->timeOptions[$optionIndex]['chosen_preference'] = 0;
-                break;
-        }
-
-    }
-
-    // Metoda pro změnu preference otázky
-    public function changeQuestionPreference($questionIndex, $optionIndex)
-    {
-        switch($this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference']) {
-            case 0:
-                $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = 2;
-                break;
-            case 2:
-                $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = 0;
-                break;
-        }
-    }
 
     // Metoda pro resetování formuláře
     private function resetForm()
@@ -99,47 +51,24 @@ class Voting extends Component
         }
 
         // Resetování možností času a otázek
-        $this->timeOptions = [];
-        $this->questions = [];
 
+
+        $this->resetOptions();
+    }
+
+    #[On('updateOptions')]
+    public function updateOptions()
+    {
+        $this->loadOptions();
+    }
+
+
+
+    private function loadOptions()
+    {
         // Načteme možnosti času
         foreach ($this->poll->timeOptions as $timeOption) {
-            $votes = [
-                'yes' => 0,
-                'maybe' => 0,
-                'no' => 0,
-                'total' => 0,
-            ];
-
-            foreach($timeOption->votes as $vote) {
-                switch ($vote->preference) {
-                    case 2:
-                        $votes['yes']++;
-                        $votes['total'] = $votes['total'] + 2;
-                        break;
-                    case 1:
-                        $votes['maybe']++;
-                        $votes['total'] = $votes['total'] + 1;
-                        break;
-                    case -1:
-                        $votes['no']++;
-                        $votes['total'] = $votes['total'] - 1;
-                        break;
-                }
-                
-            }
-
-
-
-            $this->timeOptions[$timeOption->id] = [
-                'id' => $timeOption->id,
-                'date' => $timeOption->date,
-                'start' => $timeOption->start,
-                'text' => $timeOption->text,
-                'minutes' => $timeOption->minutes,
-                'chosen_preference' => 0,
-                'votes' => $votes,
-            ];
+            $this->resetOptions($timeOption);
         }
 
         // Načteme otázky
@@ -155,7 +84,7 @@ class Voting extends Component
                     'yes' => 0,
                 ];
 
-                foreach($option->votes as $vote) {
+                foreach ($option->votes as $vote) {
                     $votes['yes']++;
                 }
 
@@ -163,7 +92,7 @@ class Voting extends Component
                     'id' => $option->id,
                     'text' => $option->text,
                     'chosen_preference' => 0,
-                    'votes' => $votes, 
+                    'votes' => $votes,
                 ];
             }
         }
@@ -172,25 +101,29 @@ class Voting extends Component
 
     // Metoda pro načtení hlasu
     #[On('loadVote')]
-    public function loadVote($voteIndex)
+    public function loadVote($voteIndex): bool
     {
-        // Načteme hlas
-        
 
         $this->existingVote = Vote::find($voteIndex);
-        //dd($this->existingVote);
+
+        if (!$this->existingVote) {
+            return false;
+        }
+
         $this->userName = $this->existingVote->voter_name;
         $this->userEmail = $this->existingVote->voter_email;
 
         // Načteme preference času
-        foreach ($this->existingVote->voteTimeOptions as $voteTimeOption) {
-            $this->timeOptions[$voteTimeOption->time_option_id]['chosen_preference'] = $voteTimeOption->preference;
+        foreach ($this->existingVote->voteTimeOptions as $vote_timeOption) {
+            $this->timeOptions[$vote_timeOption->timeOption_id]['chosen_preference'] = $vote_timeOption->preference;
         }
 
         // Načteme preference otázek
-        foreach ($this->existingVote->voteQuestionOptions as $voteQuestionOption) {
-            $this->questions[$voteQuestionOption->question_id]['options'][$voteQuestionOption->question_option_id]['preference'] = $voteQuestionOption->preference;
+        foreach ($this->existingVote->voteQuestionOptions as $vote_question_option) {
+            $this->questions[$vote_question_option->question_id]['options'][$vote_question_option->question_option_id]['preference'] = $vote_question_option->preference;
         }
+
+        return true;
     }
 
 
@@ -211,11 +144,10 @@ class Voting extends Component
     {
         // Validace formuláře
         $this->validate();
-        
+
 
         // Zjištění zda uživatel vybral alespoň jednu možnost
-        if (!$this->checkIfPreferencesWasChoosen())
-        {
+        if (!$this->checkIfPreferencesWasChoosen()) {
             $this->addError('noOptionChosen', 'You have to choose at least one option.');
             return;
         }
@@ -242,6 +174,8 @@ class Voting extends Component
         // Uložení jednotlivých možností do databáze
         $this->saveOptionsToDatabase($vote);
 
+        $this->dispatch('updateVotes');
+
         //sem dát odeslání e-mailů
 
         $this->resetForm();
@@ -250,11 +184,13 @@ class Voting extends Component
 
     private function checkIfPreferencesWasChoosen(): bool
     {
+        $this->resetErrorBag('noOptionChosen');
+
+
         // Kontrola všech časových možností, zda mají vybranou nějakou preferenci
         foreach ($this->timeOptions as $timeOption) {
             if ($timeOption['chosen_preference'] != 0) {
                 return true;
-                break;
             }
         }
 
@@ -263,10 +199,11 @@ class Voting extends Component
             foreach ($question['options'] as $option) {
                 if ($option['chosen_preference'] != 0) {
                     return true;
-                    break;
                 }
             }
         }
+
+        $this->addError('noOptionChosen', 'You have to choose at least one option.');
 
         return false;
     }

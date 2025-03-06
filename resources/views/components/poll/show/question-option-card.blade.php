@@ -1,4 +1,4 @@
-@props(['questionIndex', 'option', 'preferences'])
+@props(['questionIndex', 'option'])
 
 {{-- Karta časové možnosti --}}
 
@@ -26,10 +26,7 @@
             {{-- Výběr preference časové možnosti --}}
 
             <div>
-                <button class="btn btn-outline-secondary" wire:click='changeQuestionPreference({{ $questionIndex }}, {{ $option['id'] }})'>
-                    <img class="p-2 me-2" src="{{ asset('icons/' . $preferences[$option['chosen_preference']]['text'] . '.svg') }}" alt="{{ $voteName }}">
-                    
-                </button>
+                <x-poll.show.preference-button :option="$option" questionIndex="{{$questionIndex}}" />
             </div>
 
         </div>

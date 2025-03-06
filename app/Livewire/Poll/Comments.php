@@ -43,7 +43,6 @@ class Comments extends Component
         ]);
 
 
-
         $this->poll->comments()->create([
             'author_name' => $this->username,
             'content' => $this->content,

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('author_name', 255);
             $table->text('content');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

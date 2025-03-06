@@ -238,7 +238,7 @@ trait TimeOptions
         foreach ($dates as $date) {
             foreach ($date['options'] as $option) {
                 if ($option['type'] == 'time') {
-                    $minutes = Carbon::parse($option['end'])->diffInMinutes($option['start']);
+                    $minutes = Carbon::parse($option['start'])->diffInMinutes($option['end']);
                     //dd($option);
 
                     if (isset($option['id'])) {
@@ -257,7 +257,7 @@ trait TimeOptions
                         // Přidání nové časové možnosti do databáze
                         $poll->timeOptions()->create([
                             'date' => $date['date'],
-                            'start' => $date['date'] . ' ' . $option['start'],
+                            'start' => $option['start'],
                             'minutes' => $minutes
                         ]);
                     }
