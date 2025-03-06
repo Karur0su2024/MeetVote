@@ -17,7 +17,7 @@ trait TimeOptions
         'dates.*.options.*.id' => 'nullable|integer', // ID možnosti
         'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
         'dates.*.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:options.*.start', // Konec časové možnosti
+        'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec časové možnosti
         'dates.*.options.*.text' => 'required_if:options.*.type,text|string', // Textová možnost
     ])]
     public $dates = [];
@@ -61,12 +61,14 @@ trait TimeOptions
 
     // Metoda pro přidání nového data z kalendáře
     #[On('addDate')]
-    public function addDate($date)
+    public function addDate($date) : bool
     {
+        $this->resetErrorBag('dates');
+
         // Kontrola, zda datum již neexistuje
         if (isset($this->dates[$date])) {
-            // přidat případně chybovou hlášku
-            return;
+            $this->addError('dates', 'This date has already been added.');
+            return false;
         }
 
         // Kontrola, zda datum není v minulosti
@@ -74,8 +76,8 @@ trait TimeOptions
 
         // Pokud je datum v minulosti, nelze ho přidat
         if (!$is_not_past) {
-            // přidat případně chybovou hlášku
-            return;
+            $this->addError('dates', 'You cannot add a date in the past.');
+            return false;
         }
 
         // Přidání nového data
@@ -86,22 +88,27 @@ trait TimeOptions
 
         $this->addDateOption($date, 'time');
 
+
         // Seřazení dat podle klíče
         ksort($this->dates);
+
+        return true;
     }
 
     // Metoda pro odstranění data
     public function removeDate($date): bool
     {
+        $this->resetErrorBag('dates');
+
         // Kontrola, zda datum existuje
         if (!isset($this->dates[$date])) {
-            // přidat případně chybovou hlášku
+            $this->addError('dates', 'The selected date does not exist.');
             return false;
         }
 
         // Pokud je pouze jedno datum, nelze ho odstranit
         if (count($this->dates) == 1) {
-            // přidat případně chybovou hlášku
+            $this->addError('dates', 'At least one date must remain.');
             return false;
         }
 
@@ -111,16 +118,20 @@ trait TimeOptions
         // Seřazení dat podle klíče
         ksort($this->dates);
 
+
         return true;
     }
 
     // Metoda pro přidání nové časové možnosti
-    public function addDateOption($date, $type)
+    public function addDateOption($date, $type) : bool
     {
+        $this->resetErrorBag('dates');
+
         // Kontrola, zda datum existuje
         if (!isset($this->dates[$date]['options'])) {
-            // přidat případně chybovou hlášku
-            return;
+
+            $this->addError('dates', 'The selected date does not exist.');
+            return false;
         }
 
         // Kontrola, zda je typ možnosti časový nebo textový
@@ -129,10 +140,12 @@ trait TimeOptions
         } else {
             $this->dates[$date]['options'][] = ['type' => 'text', 'text' => ''];
         }
+
+        return true;
     }
 
     // Metoda pro přidání nové časové možnosti
-    private function addNewTimeOption($date)
+    private function addNewTimeOption($date) : bool
     {
 
         $date_options = &$this->dates[$date]['options'];
@@ -150,24 +163,29 @@ trait TimeOptions
 
         // přidání nové časové možnosti do pole
         $date_options[] = ['type' => 'time', 'start' => $start_time, 'end' => $end_time];
+
+        return true;
     }
 
     // Metoda pro odstranění časových možnosti
-    public function removeDateOption($dateIndex, $optionIndex)
+    public function removeDateOption($dateIndex, $optionIndex) : bool
     {
+        $this->resetErrorBag('dates');
 
         // Kontrola, zda datum a možnost existuje
         if (isset($this->dates[$dateIndex]['options'][$optionIndex])) {
             $date_options = &$this->dates[$dateIndex]['options'];
         } else {
-            // přidat případně chybovou hlášku
-            return;
+            $this->resetErrorBag('dates');
+            $this->addError('dates', 'The selected time option does not exist.');
+            return false;
         }
 
         // Pokud je pouze jedna možnost, nelze ji odstranit
         if (count($date_options) == 1) {
             if (!$this->removeDate($dateIndex)) {
-                return;
+                $this->addError('dates', 'At least one time option must remain.');
+                return false;
             }
         }
 
@@ -183,12 +201,15 @@ trait TimeOptions
 
         // Přeindexování možností
         $date_options = array_values($date_options);
+
+        return true;
     }
 
 
 
     private function checkDupliciteTimeOptions($dates): bool
     {
+        $this->resetErrorBag('save');
 
         foreach ($dates as $date) {
             $optionContent = [];
@@ -200,6 +221,7 @@ trait TimeOptions
 
             // Porovnání všech termínů a unikátních termínů
             if (count($optionContent) !== count(array_unique($optionContent))) {
+                $this->addError('save', 'Duplicate time options are not allowed.');
                 return false;
             }
         }
@@ -210,8 +232,9 @@ trait TimeOptions
 
 
     // Metoda pro uložení časových možností
-    private function saveTimeOptions($poll, $dates)
+    private function saveTimeOptions($poll, $dates) : bool
     {
+        $this->resetErrorBag('save');
         foreach ($dates as $date) {
             foreach ($date['options'] as $option) {
                 if ($option['type'] == 'time') {
@@ -221,6 +244,10 @@ trait TimeOptions
                     if (isset($option['id'])) {
                         // Aktualizace časové možnosti, která již existuje
                         $newOption = TimeOption::find($option['id']);
+                        if(!$newOption){
+                            $this->addError('save', 'Failed to update: Time option not found.');
+                            return false;
+                        }
                         $newOption->update([
                             'start' => $date['date'] . ' ' . $option['start'],
                             'minutes' => $minutes
@@ -239,6 +266,10 @@ trait TimeOptions
                     if (isset($option['id'])) {
                         // Aktualizace textové možnosti, která již existuje
                         $newOption = TimeOption::find($option['id']);
+                        if(!$newOption){
+                            $this->addError('save', 'Failed to update: Time option not found.');
+                            return false;
+                        }
                         $newOption->update([
                             'text' => $option['text'],
                         ]);
@@ -252,6 +283,8 @@ trait TimeOptions
                 }
             }
         }
+
+        return true;
     }
 
 

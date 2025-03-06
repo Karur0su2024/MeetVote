@@ -63,14 +63,17 @@ trait Questions
     }
 
     // Metoda pro odstranění otázky
-    public function removeQuestion($index)
+    public function removeQuestion($index) : bool
     {
+        $this->resetErrorBag('questions');
+
         // Pokud otázka neexistuje, nelze ji odstranit
         if (isset($this->questions[$index])){
             $question = &$this->questions[$index];
         }
         else { 
-            return; 
+            $this->addError('questions', 'The selected question does not exist.');
+            return false;
         }
 
         // Pokud otázka má ID, uloží se do pole pro odstranění
@@ -80,33 +83,51 @@ trait Questions
 
         // Odstranění otázky
         unset($this->questions[$index]);
+
+        $this->questions = array_values($this->questions);
+
+        $this->resetErrorBag('questions');
+        return true;
     }
 
     // Metoda pro přidání možnosti k otázce
-    public function addQuestionOption($questionIndex)
+    public function addQuestionOption($questionIndex) : bool
     {
+        $this->resetErrorBag('questions');
+
         // Kontrola, zda otázka existuje
-        if(!isset($this->questions[$questionIndex])) return;
+        if(!isset($this->questions[$questionIndex])){
+            $this->addError('questions', 'The selected option does not exist.');
+            return false;
+        }
 
         // Přidání nové možnosti
         $this->questions[$questionIndex]['options'][] = ['text' => ''];
+
+        return true;
     }
 
 
 
     // Metoda pro odstranění možnosti k otázce
-    public function removeQuestionOption($questionIndex, $optionIndex)
+    public function removeQuestionOption($questionIndex, $optionIndex) : bool
     {
+        $this->resetErrorBag('questions');
+
         // Kontrola, zda otázka a možnost existuje
         if(isset($this->questions[$questionIndex]['options'][$optionIndex])){
             $question_options = &$this->questions[$questionIndex]['options'];
 
         } else {
-            return;
+            $this->addError('questions', 'The selected question does not exist.');
+            return false;
         }
 
         // Pokud je má otázka pouze dvě možnosti, nelze je smazat
-        if (count($question_options) <= 2) return;
+        if (count($question_options) <= 2) {
+            $this->addError('questions', 'The question must have at least two options.');
+            return false;
+        }
 
         // Pokud je možnost s ID, uloží se do pole pro odstranění
         if(isset($question_options[$optionIndex]['id'])){
@@ -118,17 +139,22 @@ trait Questions
 
         // Přeindexování možností
         $question_options = array_values($question_options);
+
+        return true;
     }
 
 
     public function checkDupliciteQuestions($validatedData) : bool
     {
 
+        $this->resetErrorBag('save');
+
         // Kontrola duplicitních otázek
         $questions = array_map('mb_strtolower', array_column($validatedData['questions'], 'text'));
     
         // Porovnání všech textů otázek a unikátních textů otázek
         if (count($questions) !== count(array_unique($questions))) {
+            $this->addError('save', 'Duplicate questions are not allowed.');
             return false;
         }
 
@@ -136,6 +162,7 @@ trait Questions
         foreach ($validatedData['questions'] as $question) {
             $options = array_map('mb_strtolower', array_column($question['options'], 'text'));
             if (count($options) !== count(array_unique($options))) {
+                $this->addError('save', 'Duplicate options in a question are not allowed.');
                 return false;
             }
         }
@@ -154,6 +181,12 @@ trait Questions
             if(isset($question['id'])){
                 // Aktualizace otázky, která již existuje
                 $newQuestion = PollQuestion::find($question['id']);
+
+                if(!$newQuestion){
+                    $this->addError('save', 'Failed to update: Question not found.');
+                    return;
+                }
+
                 $newQuestion->update([
                     'text' => $question['text'],
                 ]);
@@ -177,6 +210,10 @@ trait Questions
         if(isset($option['id'])){
             // Aktualizace možnosti, která již existuje
             $newOption = QuestionOption::find($option['id']);
+            if(!$newOption){
+                $this->addError('save', 'Failed to update: Option not found.');
+                return;
+            }
             $newOption->update([
                 'text' => $option['text'],
             ]);

@@ -49,6 +49,11 @@
                         </div>
                         <div class="col-lg-6 col-md-12 mb-4">
                             <h3 class="mb-4">Chosen dates</h3>
+                            @error('dates')
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $message }}
+                                </div>
+                            @enderror
 
                             @foreach ($dates as $dateIndex => $date)
                                 <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />
@@ -69,6 +74,7 @@
                     <h2>Additional questions</h2>
                 </div>
                 <div class="card-body p-3">
+
                     @if (count($questions) == 0)
                         <div class="alert alert-secondary" role="alert">
                             No questions added
@@ -83,6 +89,13 @@
                     <button type="button" type="button w-25" wire:click="addQuestion()"
                         class="btn btn-outline-secondary">Add
                         question</button>
+                        
+                    @error('questions')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
                 </div>
 
 
@@ -116,6 +129,11 @@
             </div>
         </div>
 
+        @error('save')
+            <div class="alert alert-danger" role="alert">
+                {{ $message }}
+            </div>
+        @enderror
 
 
         <button type="submit" class="btn btn-primary w-75">Submit</button>

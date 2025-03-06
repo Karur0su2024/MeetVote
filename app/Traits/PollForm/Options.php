@@ -5,6 +5,7 @@ namespace App\Traits\PollForm;
 use App\Models\TimeOption;
 use App\Models\PollQuestion;
 use App\Models\QuestionOption;
+use Exception;
 
 
 trait Options
@@ -31,10 +32,13 @@ trait Options
     {
         // kontrola duplicitních termínů
         if (!$this->checkDupliciteTimeOptions($validatedData['dates'])) {
+            // Přidání chybové hlášky
             return false;
+
         }
 
         if (!$this->checkDupliciteQuestions($validatedData)) {
+            // Přidání chybové hlášky
             return false;
         }
 
@@ -49,19 +53,27 @@ trait Options
     }
 
     private function removeDeletedOptions(){
-        foreach($this->removedTimeOptions as $optionIndex){
-            $option = TimeOption::find($optionIndex);
-            $option->delete();
-        }
 
-        foreach($this->removedQuestionOptions as $optionIndex){
-            $option = QuestionOption::find($optionIndex);
-            $option->delete();
-        }
+        try{
+            foreach($this->removedTimeOptions as $optionIndex){
+                $option = TimeOption::find($optionIndex);
+                $option->delete();
+            }
+    
+            foreach($this->removedQuestionOptions as $optionIndex){
+                $option = QuestionOption::find($optionIndex);
+                $option->delete();
+            }
+    
+            foreach($this->removedQuestions as $questionIndex){
+                $question = PollQuestion::find($questionIndex);
+                $question->delete();
+            }
 
-        foreach($this->removedQuestions as $questionIndex){
-            $question = PollQuestion::find($questionIndex);
-            $question->delete();
+        }
+        catch(Exception $e){
+            // Přidání chyboé hlašky
+            dd($e);
         }
     }
 }
