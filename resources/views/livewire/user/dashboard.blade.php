@@ -19,13 +19,16 @@
             No polls
         </div>
     @else
-        <div class="row text-start">
+        <div>
+            {{-- Skupiny skupin anket --}}
             @foreach ($polls as $pollGroupName => $pollsGroup)
-                <h3 class="my-3">{{ $pollGroupName }}</h3>
-                @foreach ($pollsGroup as $poll)
-                    {{-- Karta ankety --}}
-                    <x-dashboard.poll-card :poll="$poll" />
-                @endforeach
+                <div class="row text-start my-5">
+                    <h3 class="my-3">{{ ucfirst($pollGroupName) }} polls</h3>
+                    @foreach ($pollsGroup as $poll)
+                        {{-- Karta ankety --}}
+                        <x-dashboard.poll-card :poll="$poll" />
+                    @endforeach
+                </div>
             @endforeach
         </div>
     @endif

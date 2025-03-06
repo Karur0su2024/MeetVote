@@ -42,7 +42,7 @@ class Dashboard extends Component
         
         // Potřebuje opravit
         // Nutné rozdělit podle statusu
-        $this->polls = $this->polls->groupBy('status', true);
+        $this->polls = $this->polls->groupBy('status')->all();
 
 
         //dd($this->polls);
