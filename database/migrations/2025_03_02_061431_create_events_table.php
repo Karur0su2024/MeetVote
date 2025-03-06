@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
-            $table->timestamp('final_datetime');
-            $table->boolean('allday')->default(false);
+            $table->string('title');
             $table->text('description')->nullable();
-            $table->integer('duration')->nullable();
+            $table->datetime('start_datetime');
+            $table->datetime('end_datetime')->nullable();
+            $table->boolean('allday')->default(false);
             $table->timestamps();
         });
     }

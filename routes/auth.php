@@ -13,13 +13,9 @@ Route::middleware('guest')->group(function () {
     //login formulář
     Route::view('login', 'pages.auth.login')->name('login');
 
+    Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
 
-    // Nutno předělat na normální stránku
-    Volt::route('forgot-password', 'pages.auth.forgot-password')
-        ->name('password.request');
+    Route::view('reset-password', 'pages.auth.reset-password')->name('password.reset');
 
-    // Nutno předělat na normální stránku
-    Volt::route('reset-password/{token}', 'pages.auth.reset-password')
-        ->name('password.reset');
 });
 

@@ -53,6 +53,7 @@ class Voting extends Component
     }
 
 
+    // Metoda pro změnu preference časové možnosti
     public function changeTimePreference($optionIndex)
     {
         switch($this->timeOptions[$optionIndex]['chosen_preference']) {
@@ -72,6 +73,7 @@ class Voting extends Component
 
     }
 
+    // Metoda pro změnu preference otázky
     public function changeQuestionPreference($questionIndex, $optionIndex)
     {
         switch($this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference']) {

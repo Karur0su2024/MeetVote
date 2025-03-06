@@ -78,7 +78,7 @@
 
                     @endif
 
-                    <button type="button" type="button w-25" wire:click="addQuestion" class="btn btn-outline-secondary">Add
+                    <button type="button" type="button w-25" wire:click="addQuestion()" class="btn btn-outline-secondary">Add
                         question</button>
                 </div>
 

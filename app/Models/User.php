@@ -64,4 +64,8 @@ class User extends Authenticatable
     public function attendeePolls(){
         return $this->belongsToMany(Poll::class, 'votes');
     }
+
+    public function events(){
+        return $this->votes()->with('poll.event');
+    }
 }

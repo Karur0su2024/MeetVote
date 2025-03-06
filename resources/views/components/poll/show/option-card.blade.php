@@ -50,7 +50,7 @@
             {{-- Výběr preference časové možnosti --}}
 
             <div>
-                <button class="btn btn-outline-secondary" wire:click='changePreference({{ $option['id'] }})'>
+                <button class="btn btn-outline-secondary" wire:click='changeTimePreference({{ $option['id'] }})'>
                     <img class="p-2 me-2" src="{{ asset('icons/' . $preferences[$option['chosen_preference']]['text'] . '.svg') }}" alt="{{ $voteName }}">
                     
                 </button>
