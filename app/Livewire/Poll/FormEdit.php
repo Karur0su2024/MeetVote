@@ -54,6 +54,7 @@ class FormEdit extends Component
         'dates' => 'required|array|min:1', // Pole různých dnů
         'dates.*.date' => 'required|date', // Datum
         'dates.*.options' => 'required|array|min:1', // Časové možnosti podle data
+        'dates.*.options.*.id' => 'nullable|integer', // ID možnosti
         'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
         'dates.*.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
         'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:options.*.start', // Konec časové možnosti
@@ -320,44 +321,75 @@ class FormEdit extends Component
     }
 
 
+        // Metoda pro kontrolu duplicit jednotlivých možností
+        private function checkDuplicate($validatedData) : bool
+        {
+            // kontrola duplicitních termínů
+            foreach ($validatedData['dates'] as $date) {
+                $optionContent = [];
+    
+                foreach($date['options'] as $option){
+                    if($option['type'] == 'time'){
+                        $optionContent[] = strtolower($option['start'] . '-' . $option['end']);
+                    }
+                    else {
+                        $optionContent[] = strtolower($option['text'] . '-text');
+                    }
+                }
+    
+                // Porovnání všech termínů a unikátních termínů
+                if (count($optionContent) !== count(array_unique($optionContent))) {
+                    return false;
+                }
+            }
+    
+            // Kontrola duplicitních otázek
+            $questions = array_map('mb_strtolower', array_column($validatedData['questions'], 'text'));
+        
+            // Porovnání všech textů otázek a unikátních textů otázek
+            if (count($questions) !== count(array_unique($questions))) {
+                return false;
+            }
+    
+            // Kontrola možností
+            foreach ($validatedData['questions'] as $question) {
+                $options = array_map('mb_strtolower', array_column($question['options'], 'text'));
+                if (count($options) !== count(array_unique($options))) {
+                    return false;
+                }
+            }
+    
+            return true;
+        }
+    
+
+
+
     public function submit(){
         //dd($this->removedTimeOptions, $this->removedQuestions, $this->removedQuestionOptions);
 
 
         $validatedData = $this->validate();
+
         //dd($validatedData);
 
-        $this->poll->update([
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
-            'deadline' => $validatedData['deadline'],
-            'anonymous_votes' => $validatedData['settings']['anonymous'],
-            'comments' => $validatedData['settings']['comments'],
-            'hide_results' => $validatedData['settings']['hide_results'],
-            'invite_only' => $validatedData['settings']['invite_only'],
-            'password' => $validatedData['settings']['password'],
-        ]);
-
-        
-        foreach($this->removedTimeOptions as $optionIndex){
-            $option = TimeOption::find($optionIndex);
-            $option->delete();
+        // Kontrola duplicit
+        if(!$this->checkDuplicate($validatedData)){
+            
+            return;
         }
 
-        foreach($this->removedQuestionOptions as $optionIndex){
-            $option = QuestionOption::find($optionIndex);
-            $option->delete();
-        }
 
-        foreach($this->removedQuestions as $questionIndex){
-            $question = PollQuestion::find($questionIndex);
-            $question->delete();
+
+
+        //dd($validatedData);
+
+        // Uložení změn ankety
+        if(!$this->save($validatedData)){
+            return;
         }
         
 
-        // Přidat uložení časových možností
-
-        // Přidat uložení otázek
 
 
         return redirect()->route('polls.show', $this->poll);
@@ -365,26 +397,106 @@ class FormEdit extends Component
     }
 
 
+    private function save($validatedData) : bool {
+        // Vytvoření nové ankety
+
+
+        DB::beginTransaction();
+
+        try {
+            $this->poll->update([
+                'title' => $validatedData['title'],
+                'description' => $validatedData['description'],
+                'deadline' => $validatedData['deadline'],
+                'anonymous_votes' => $validatedData['settings']['anonymous'],
+                'comments' => $validatedData['settings']['comments'],
+                'hide_results' => $validatedData['settings']['hide_results'],
+                'invite_only' => $validatedData['settings']['invite_only'],
+                'password' => $validatedData['settings']['password'],
+            ]);
+    
+            //dd($this->removedTimeOptions, $this->removedQuestions, $this->removedQuestionOptions);
+
+            //dd($this->removedTimeOptions);
+            
+            foreach($this->removedTimeOptions as $optionIndex){
+                $option = TimeOption::find($optionIndex);
+                //dd($option);
+                $option->delete();
+            }
+    
+            foreach($this->removedQuestionOptions as $optionIndex){
+                $option = QuestionOption::find($optionIndex);
+                $option->delete();
+            }
+    
+            foreach($this->removedQuestions as $questionIndex){
+                $question = PollQuestion::find($questionIndex);
+                $question->delete();
+            }
+
+            $this->saveTimeOptions($this->poll, $validatedData['dates']);
+            $this->saveQuestions($this->poll, $validatedData['questions']);
+
+            DB::commit();
+
+            return true;
+        }
+        catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            return false;
+
+
+        }
+
+
+
+
+    }
+
     // Metoda pro uložení časových možností
     private function saveTimeOptions($poll, $dates)
     {
-        $timeOptions = [];
-
         foreach ($dates as $date) {
             foreach ($date['options'] as $option) {
                 if ($option['type'] == 'time') {
-                    // Přidání časové možnosti
-                    $timeOptions[] = [
-                        'date' => $date['date'],
-                        'start' => $option['start'],
-                        'minutes' => (strtotime($option['end']) - strtotime($option['start'])) / 60,
-                    ];
+                    $minutes = Carbon::parse($option['end'])->diffInMinutes($option['start']);
+                    //dd($option);
+
+                    if(isset($option['id'])){
+                        // Aktualizace časové možnosti, která již existuje
+                        $newOption = TimeOption::find($option['id']);
+                        $newOption->update([
+                            'start' => $date['date'] . ' ' . $option['start'],
+                            'minutes' => $minutes
+                        ]);
+                    }
+                    else {
+                        dd($option);
+                        // Přidání nové časové možnosti do databáze
+                        $poll->timeOptions()->create([
+                            'date' => $date['date'],
+                            'start' => $date['date'] . ' ' . $option['start'],
+                            'minutes' => $minutes
+                        ]);
+                    }
                 } else {
-                    // Přidání textové možnosti
-                    $timeOptions[] = [
-                        'date' => $date['date'],
-                        'text' => $option['text'],
-                    ];
+
+                    if(isset($option['id'])){
+                        // Aktualizace textové možnosti, která již existuje
+                        $newOption = TimeOption::find($option['id']);
+                        $newOption->update([
+                            'text' => $option['text'],
+                        ]);
+                    }
+                    else {
+                        // Přidání textové možnosti do databáze
+                        $poll->timeOptions()->create([
+                            'date' => $date['date'],
+                            'text' => $option['text'],
+                        ]);
+                    }
                 }
             }
         }
@@ -396,13 +508,19 @@ class FormEdit extends Component
     // Metoda pro uložení otázek
     private function saveQuestions($poll, $questions)
     {
-
         // Přidání otázek
         foreach ($questions as $question) {
-            $newQuestion = $poll->questions()->create([
-                'text' => $question['text'],
-            ]);
-
+            if(!isset($question['id'])){
+                $newQuestion = $poll->questions()->create([
+                    'text' => $question['text'],
+                ]);
+            }
+            else {
+                $newQuestion = PollQuestion::find($question['id']);
+                $newQuestion->update([
+                    'text' => $question['text'],
+                ]);
+            }
             // Přidání možností k otázce
             foreach ($question['options'] as $option) {
                 $newQuestion->options()->create([
