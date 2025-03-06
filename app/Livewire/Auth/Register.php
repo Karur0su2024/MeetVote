@@ -8,6 +8,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Models\Poll;
 
 class Register extends Component
 {
@@ -31,6 +32,13 @@ class Register extends Component
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered($user = User::create($validated)));
+
+        $polls = Poll::where('author_email', $user->email)->get();
+
+        foreach($polls as $poll) {
+            $poll->user_id = $user->id;
+            $poll->save();
+        }
 
         Auth::login($user);
 

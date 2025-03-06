@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Modals;
 
 use Livewire\Component;
 use App\Models\Poll;
@@ -14,14 +14,12 @@ class Share extends Component
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
-        $this->link = route('poll', ['publicIndex' => $this->poll->public_id]);
-        $this->adminLink = route('admin.poll', ['publicIndex' => $this->poll->public_id]);
-
-        dd($this->link, $this->adminLink);
+        $this->link = route('polls.show', ['poll' => $this->poll->public_id]);
+        $this->adminLink = route('polls.show.admin', ['poll' => $this->poll->public_id, 'admin_key' => $this->poll->admin_key]);
     }
 
     public function render()
     {
-        return view('livewire.poll.share');
+        return view('livewire.modals.share');
     }
 }

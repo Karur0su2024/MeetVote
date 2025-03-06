@@ -21,7 +21,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @livewireStyles
+    <livewire:styles />
 
 </head>
 
@@ -51,8 +51,11 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    @livewireScripts
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <livewire:scripts />
+    <livewire:modals />
+
 
 </body>
 

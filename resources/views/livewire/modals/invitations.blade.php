@@ -1,8 +1,9 @@
-<div class="card text-start mb-3">
-    <div class="card-header">
-        <h2>Invitations</h2>
+<div>
+    <div class="modal-header bg-warning">
+        <h5 class="modal-title">Invitations</h5>
+        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
-    <div class="card-body">
+    <div class="modal-body">
         <table class="table">
             <thead>
                 <tr>
@@ -20,7 +21,8 @@
                         <td>{{ $invitation['status'] }}</td>
                         <td>{{ $invitation['sent_at'] }}</td>
                         <td><button class="btn btn-outline-secondary">Send again</button></td>
-                        <td><button class="btn btn-danger" wire:click='removeInvitation({{$invitation['id']}})'>Remove</button></td>
+                        <td><button class="btn btn-danger"
+                                wire:click='removeInvitation({{ $invitation['id'] }})'>Remove</button></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -33,5 +35,3 @@
         </form>
     </div>
 </div>
-
-@livewireScripts

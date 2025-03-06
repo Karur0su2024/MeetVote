@@ -24,10 +24,7 @@
                 <button class="btn btn-outline-secondary" wire:click='deleteComment({{ $comment->id }})'>Delete </button>
             @endif
 
-
         </div>
-
-
     @endif
 
 

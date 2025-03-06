@@ -1,7 +1,6 @@
 @php
     $isAdmin = request()->get('isPollAdmin', false);
     //dd($isAdmin);
-    
 @endphp
 
 
@@ -27,16 +26,17 @@
                     {{-- Dropdown pro správce --}}
 
                     <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             Options
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
-                            <li><a class="dropdown-item" href="#">Share poll</a></li>
-                            <li><a class="dropdown-item" href="#">Close poll</a></li>
-                            <li><a class="dropdown-item" href="#">Invitations</a></li>
-                            <li><a class="dropdown-item" href="#">Delete poll</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openShareModal('{{ $poll->public_id }}')">Share poll</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openClosePollModal('{{ $poll->public_id }}')">Close poll</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openInvitationsModal('{{ $poll->public_id }}')">
+                                    Invitations</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openDeletePollModal('{{ $poll->public_id }}')">Delete poll</a></li>
 
                         </ul>
                     </div>
@@ -85,11 +85,6 @@
         {{-- Všechny hlasy --}}
         <livewire:poll.results-table :poll="$poll" />
 
-        {{-- Pozvánky --}}
-        <livewire:poll.invitations :poll="$poll" />
-        
-        {{-- Odkazy pro sdílení --}}
-        <x-poll.show.share :poll="$poll" />
 
         <livewire:poll.end-poll :poll="$poll" />
 
@@ -112,3 +107,58 @@
 
 
 </x-layouts.app>
+
+
+<script>
+    function openInvitationsModal(index) {
+        console.log(index);
+        Livewire.dispatch('showModal', {
+            data: {
+                alias: 'modals.invitations',
+                params: {
+                    publicIndex: index
+                }
+            },
+
+        });
+    }
+
+    function openDeletePollModal(index) {
+        console.log(index);
+        Livewire.dispatch('showModal', {
+            data: {
+                alias: 'modals.delete-poll',
+                params: {
+                    publicIndex: index
+                }
+            },
+
+        });
+    }
+
+    function openShareModal(index) {
+        console.log(index);
+        Livewire.dispatch('showModal', {
+            data: {
+                alias: 'modals.share',
+                params: {
+                    publicIndex: index
+                }
+            },
+
+        });
+    }
+
+    function openClosePollModal(index) {
+        console.log(index);
+        Livewire.dispatch('showModal', {
+            data: {
+                alias: 'modals.poll.close-poll',
+                params: {
+                    publicIndex: index
+                }
+            },
+
+        });
+    }
+</script>
