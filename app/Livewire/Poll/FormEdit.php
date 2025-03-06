@@ -3,11 +3,8 @@
 namespace App\Livewire\Poll;
 
 use Livewire\Component;
-use App\Models\Poll;
 use App\Models\TimeOption;
 use Livewire\Attributes\Validate;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\On;
 use Carbon\Carbon;

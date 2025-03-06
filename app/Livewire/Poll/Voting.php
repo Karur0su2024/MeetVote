@@ -53,7 +53,7 @@ class Voting extends Component
     }
 
 
-    public function changePreference($optionIndex)
+    public function changeTimePreference($optionIndex)
     {
         switch($this->timeOptions[$optionIndex]['chosen_preference']) {
             case 0:
@@ -70,6 +70,18 @@ class Voting extends Component
                 break;
         }
 
+    }
+
+    public function changeQuestionPreference($questionIndex, $optionIndex)
+    {
+        switch($this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference']) {
+            case 0:
+                $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = 2;
+                break;
+            case 2:
+                $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = 0;
+                break;
+        }
     }
 
     // Metoda pro resetování formuláře

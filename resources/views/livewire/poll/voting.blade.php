@@ -62,7 +62,7 @@
 
 
             @if (count($questions) != 0)
-                @foreach ($questions as $question)
+                @foreach ($questions as $questionIndex => $question)
                     <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse"
                         href="#question-{{ $question['id'] }}-options" role="button" aria-expanded="true"
                         aria-controls="question-{{ $question['id'] }}-options">
@@ -73,6 +73,7 @@
                             <div class="col-lg-6">
 
                                 {{-- Přidat karty pro zobrazení otázek --}}
+                                <x-poll.show.question-option-card :questionIndex="$questionIndex" :option="$option" :preferences="$preferences" />
                             </div>
                         @endforeach
                     </div>
