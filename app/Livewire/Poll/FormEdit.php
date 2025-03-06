@@ -178,12 +178,7 @@ class FormEdit extends Component
 
 
     public function submit(){
-        //dd($this->removedTimeOptions, $this->removedQuestions, $this->removedQuestionOptions);
-
-
         $validatedData = $this->validate();
-
-        //dd($validatedData);
 
         // Kontrola duplicit
         if(!$this->checkDuplicate($validatedData)){
@@ -191,18 +186,11 @@ class FormEdit extends Component
             return;
         }
 
-
-
-
-        //dd($validatedData);
-
         // Uložení změn ankety
         if(!$this->save($validatedData)){
             return;
         }
-        
-
-
+    
 
         return redirect()->route('polls.show', $this->poll);
 
@@ -322,22 +310,33 @@ class FormEdit extends Component
     {
         // Přidání otázek
         foreach ($questions as $question) {
-            if(!isset($question['id'])){
-                $newQuestion = $poll->questions()->create([
-                    'text' => $question['text'],
-                ]);
-            }
-            else {
+            if(isset($question['id'])){
+                // Aktualizace otázky, která již existuje
                 $newQuestion = PollQuestion::find($question['id']);
                 $newQuestion->update([
                     'text' => $question['text'],
                 ]);
             }
-            // Přidání možností k otázce
-            foreach ($question['options'] as $option) {
-                $newQuestion->options()->create([
-                    'text' => $option['text'],
+            else {
+                // Přidání nové otázky do databáze
+                $newQuestion = $poll->questions()->create([
+                    'text' => $question['text'],
                 ]);
+            }
+            foreach ($question['options'] as $option) {
+                if(isset($option['id'])){
+                    // Aktualizace možnosti, která již existuje
+                    $newOption = QuestionOption::find($option['id']);
+                    $newOption->update([
+                        'text' => $option['text'],
+                    ]);
+                }
+                else {
+                    // Přidání nové možnosti do databáze
+                    $newQuestion->options()->create([
+                        'text' => $option['text'],
+                    ]);
+                }
             }
         }
     }

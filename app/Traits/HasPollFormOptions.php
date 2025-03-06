@@ -8,8 +8,6 @@ use Carbon\Carbon;
 
 trait HasPollFormOptions
 {
-
-    // Otázky
     // Časové možnosti
     #[Validate([
         'dates' => 'required|array|min:1', // Pole různých dnů
@@ -26,24 +24,28 @@ trait HasPollFormOptions
     // Otázky
     #[Validate([
         'questions' => 'nullable|array', // Pole otázek
+        'questions.*.id' => 'nullable|integer', // ID otázky
         'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
+        'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
     ])]
     public $questions = [];
 
+    // Pole odstranění existujících časových možností
     public $removedTimeOptions = [];
+
+    // Pole odstraněných existujících otázek
     public $removedQuestions = [];
+
+    // Pole odstraněných existujících možností otázek
     public $removedQuestionOptions = [];
 
 
-    // Metoda pro přidání nového data
+    // Metoda pro přidání nového data z kalendáře
     #[On('addDate')]
     public function addDate($date)
     {
-        // Kontrola, zda je datum vyplněné
-        if (!isset($date)) return;
-
         // Kontrola, zda datum již neexistuje
         if (isset($this->dates[$date])) return;
 
@@ -62,14 +64,14 @@ trait HasPollFormOptions
     // Metoda pro odstranění data
     public function removeDate($date)
     {
+        // Kontrola, zda datum existuje
+        if (!isset($this->dates[$date])) return;
+
         // Pokud je pouze jedno datum, nelze ho odstranit
         if (count($this->dates) == 1) return;
 
         // Odstranění data
         unset($this->dates[$date]);
-
-
-        //Odstanění všech možností
 
         // Seřazení dat podle klíče
         ksort($this->dates);
@@ -79,9 +81,9 @@ trait HasPollFormOptions
     public function addDateOption($date, $type)
     {
         // Kontrola, zda datum existuje
-        if (!isset($this->dates[$date])) return;
+        if (!isset($this->dates[$date]['options'])) return;
 
-        //dd($dateIndex);
+        // Kontrola, zda je typ možnosti časový nebo textový
         if ($type == 'time'){
             $this->addNewTimeOption($date);
 
@@ -94,54 +96,58 @@ trait HasPollFormOptions
 
     // Metoda pro přidání nové časové možnosti
     private function addNewTimeOption($date){
-        $start = Carbon::now()->format('H:i');
 
+        $date_options = &$this->dates[$date]['options'];
+        
         // Získání posledního konce
-        foreach($this->dates[$date]['options'] as $option){
-            if($option['type'] == 'time'){
-                $lastEnd = Carbon::parse($option['end'])->format('H:i');
+        foreach($date_options as $option){
+            if($option['type'] === 'time'){
+                $last_end = Carbon::parse($option['end'])->format('H:i');
             }
         }
 
-        // Počet možností
-        $optionCount = count($this->dates[$date]['options']);
-
         // Pokud je více možností, začátek se nastaví na konec poslední časové (ne textové) možnosti
         // V případě, že neexistuje časová možnost, nastaví se na aktuální čas
-        if($optionCount > 0){
-            $start = isset($lastEnd) ? Carbon::parse($lastEnd)->format('H:i') : Carbon::now()->format('H:i');
+        if(count($date_options) > 0){
+            $start_time = isset($last_end) ?? Carbon::now()->format('H:i');
+        }
+        else {
+            $start_time = Carbon::now()->format('H:i');
         }
 
         // Nastavení konce hodinu po začátku
-        $end = Carbon::parse($start)->addHour()->format('H:i');
+        $end_time = Carbon::parse($start_time)->addHour()->format('H:i');
 
         // přidání nové časové možnosti do pole
-        $this->dates[$date]['options'][] = ['type' => 'time', 'start' => $start, 'end' => $end];
+        $date_options[] = ['type' => 'time', 'start' => $start_time, 'end' => $end_time];
 
     }
 
     // Metoda pro odstranění časových možnosti
     public function removeDateOption($dateIndex, $optionIndex)
     {
-        // Pokud možnost neexistuje, nelze ji odstranit
-        if (!isset($this->dates[$dateIndex]['options'][$optionIndex])) return;
+
+        if(isset($this->dates[$dateIndex]['options'][$optionIndex])) {
+            $date_options = &$this->dates[$dateIndex]['options'];
+        }
+        else {
+            return;
+        }
 
         // Pokud je pouze jedna možnost, nelze ji odstranit
-        if (count($this->dates[$dateIndex]['options']) == 1) return;
-
-
+        if (count($date_options) == 1) return;
     
         // Pokud je možnost s ID, uloží se do pole pro odstranění
-        if(isset($this->dates[$dateIndex]['options'][$optionIndex]['id'])){
+        if(isset($date_options[$optionIndex]['id'])){
 
-            $this->removedTimeOptions[] = $this->dates[$dateIndex]['options'][$optionIndex]['id'];
+            $this->removedTimeOptions[] = $date_options[$optionIndex]['id'];
         }
 
         // Odstranění možnosti z pole
-        unset($this->dates[$dateIndex]['options'][$optionIndex]);
+        unset($date_options[$optionIndex]);
 
         // Přeindexování možností
-        $this->dates[$dateIndex]['options'] = array_values($this->dates[$dateIndex]['options']);
+        $date_options = array_values($date_options);
 
     }
 
@@ -167,39 +173,54 @@ trait HasPollFormOptions
     public function removeQuestion($index)
     {
         // Pokud otázka neexistuje, nelze ji odstranit
-        if (!isset($this->questions[$index])) return;
+        if (isset($this->questions[$index])){
+            $question = &$this->questions[$index];
+        }
+        else { 
+            return; 
+        }
 
-        if(isset($this->questions[$index]['id'])){
-            $this->removedQuestions[] = $this->questions[$index]['id'];
+        // Pokud otázka má ID, uloží se do pole pro odstranění
+        if(isset($question['id'])){
+            $this->removedQuestions[] = $question['id'];
         }
 
         // Odstranění otázky
-        unset($this->questions[$index]);
+        unset($question);
     }
 
     // Metoda pro přidání možnosti k otázce
     public function addQuestionOption($questionIndex)
     {
+        // Kontrola, zda otázka existuje
+        if(!isset($this->questions[$questionIndex])) return;
+
         // Přidání nové možnosti
         $this->questions[$questionIndex]['options'][] = ['text' => ''];
     }
 
+
+
     // Metoda pro odstranění možnosti k otázce
     public function removeQuestionOption($questionIndex, $optionIndex)
     {
-        // Pokud je má otázka pouze dvě možnosti, nelze je samostatně odstranit
-        if (count($this->questions[$questionIndex]['options']) <= 2) return;
+        // Kontrola, zda otázka a možnost existuje
+        if(isset($this->questions[$questionIndex]['options'][$optionIndex])){
+            $question_options = &$this->questions[$questionIndex]['options'];
 
-        // Pokud možnost neexistuje, nelze ji odstranit
-        if (!isset($this->questions[$questionIndex]['options'][$optionIndex])) return;
-
-        if(isset($this->questions[$questionIndex]['options'][$optionIndex]['id'])){
-            $this->removedQuestionOptions[] = $this->questions[$questionIndex]['options'][$optionIndex]['id'];
+        } else {
+            return;
         }
 
-        unset($this->questions[$questionIndex]['options'][$optionIndex]);
+        // Pokud je má otázka pouze dvě možnosti, nelze je samostatně odstranit
+        if (count($question_options) <= 2) return;
+
+        // Pokud je možnost s ID, uloží se do pole pro odstranění
+        if(isset($question_options[$optionIndex]['id'])){
+            $this->removedQuestionOptions[] = $question_options[$optionIndex]['id'];
+        }
+
+        // Odstranění možnosti
+        unset($question_options[$optionIndex]);
     }
-
-
-
 }
