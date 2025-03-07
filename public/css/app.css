@@ -56,3 +56,8 @@
     background-color: #d2b74b28 !important;
     border-width: 3px !important;
 }
+
+.card-sharp {
+    border-radius: 0 !important;
+    
+}

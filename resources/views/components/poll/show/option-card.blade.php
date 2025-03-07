@@ -10,15 +10,17 @@
     // Zpracování časového intervalu
     $optionText = $option['text'] ?? __('No time specified');
     
-    if (!empty($option['start']) && !empty($option['minutes'])) {
-        $start = Carbon::parse($option['start']);
-        $end = $start->copy()->addMinutes($option['minutes']);
-        $optionText = "({$start->format('H:i')} - {$end->format('H:i')})";
+    if (!empty($option['start'])) {
+        $start = Carbon::parse($option['start'])->format('H:i');
+        $end = Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i');
+        $optionText = "({$start} - {$end})";
     }
+
+    
 @endphp
 
 {{-- Karta časové možnosti --}}
-<div class="card shadow-sm rounded-lg p-3">
+<div class="card card-sharp rounded-lg p-3">
     <div class="d-flex justify-content-between align-items-center">
         {{-- Obsah možnosti --}}
         <div>

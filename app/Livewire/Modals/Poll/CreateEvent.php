@@ -22,10 +22,21 @@ class CreateEvent extends Component
         'description' => '',
     ];
 
-    public function mount($event){
+    protected $rules = [
+        'event.title' => 'required',
+        'event.date' => 'required|date|after_or_equal:today',
+        'event.all_day' => 'boolean',
+        'event.start' => 'required|date_format:H:i',
+        'event.end' => 'required|date_format:H:i|after:event.start',
+        'event.description' => 'nullable',
+    ];
 
+    public function mount($event = null){
 
-        $this->event = $event;
+        if($event){
+            $this->event = $event;
+        }
+        
     }
 
     #[On('loadEvent')]
@@ -34,30 +45,28 @@ class CreateEvent extends Component
     }
 
 
+    // Metoda pro vytvoření nové události
     public function createEvent(){
 
-        //$this->dispatch('hideModal');
         
-        $validatedData = $this->validate([
-            'event.title' => 'required',
-            'event.date' => 'required|date|after_or_equal:today',
-            'event.all_day' => 'boolean',
-            'event.start' => 'required|date_format:H:i',
-            'event.end' => 'required|date_format:H:i|after:event.start',
-            'event.description' => 'nullable',
-        ]);
+        
+        $validatedData = $this->validate();
 
-        //dd($validatedData);
 
         if($this->poll->event){
             $this->poll->event->delete();
         }
 
+
         $event = EventModel::create([
-            'poll_id' => $this->poll->id,
-            'title' => $this->event['title'],
-            'final_datetime' => $this->event['date'],
-            'description' => $this->event['description'],
+            'poll_id' => $validatedData['event']['poll_id'],
+            'title' => $validatedData['event']['title'],
+            'date' => $validatedData['event']['date'],
+            'all_day' => $validatedData['event']['all_day'],
+            'start' => $validatedData['event']['start'],
+            'end' => $validatedData['event']['end'],
+            'title' => $validatedData['event']['title'],
+            'description' => $validatedData['event']['description'],
         ]);
 
         $this->poll->event()->save($event);

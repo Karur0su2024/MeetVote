@@ -39,8 +39,8 @@ class Form extends Component
     {
         // Pokud je uživatel přihlášený, načtou se jeho údaje
         if (Auth::check()) {
-            $this->user_name = Auth::user()->name;
-            $this->user_email = Auth::user()->email;
+            $this->userName = Auth::user()->name;
+            $this->userEmail = Auth::user()->email;
         }
 
         // Přidání prvního data
@@ -52,8 +52,8 @@ class Form extends Component
         $this->title = $this->poll->title;
         $this->description = $this->poll->description;
         $this->deadline = $this->poll->deadline;
-        $this->user_name = $this->poll->author_name;
-        $this->user_email = $this->poll->author_email;
+        $this->userName = $this->poll->author_name;
+        $this->userEmail = $this->poll->author_email;
         $this->settings['anonymous'] = $this->poll->anonymous_votes == 1 ? true : false;
         $this->settings['comments'] = $this->poll->comments == 1 ? true : false;
         $this->settings['hide_results'] = $this->poll->hide_results == 1 ? true : false;

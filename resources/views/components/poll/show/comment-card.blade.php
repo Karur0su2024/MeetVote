@@ -7,7 +7,7 @@
 
 @endphp
 
-<div class="list-group-item p-3">
+<div class="list-group-item card-sharp p-3">
     @if ($comment->deleted_at)
         <div class="d-flex justify-content-between">
             <span class="badge bg-danger">Deleted</span>

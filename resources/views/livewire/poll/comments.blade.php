@@ -1,4 +1,4 @@
-<div class="card text-start">
+<div class="card text-start shadow-sm">
     <div class="card-header py-2">
         <h2>Comments</h2>
     </div>

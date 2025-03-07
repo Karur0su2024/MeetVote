@@ -20,6 +20,6 @@ class Share extends Component
 
     public function render()
     {
-        return view('livewire.modals.share');
+        return view('livewire.modals.poll.share');
     }
 }

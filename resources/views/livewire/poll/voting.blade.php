@@ -3,7 +3,7 @@
 
 @endphp
 
-<div class="card mb-3 text-start">
+<div class="card mb-3 text-start shadow-sm">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h2>Voting</h2>
@@ -49,7 +49,7 @@
                             </div>
                         @endforeach
                         <div class="col-lg-6">
-                            <div class="card text-center">
+                            <div class="card card-sharp text-center">
                                 <div class="card-body">
                                     <h4 class="card-title">Add new option</h4>
                                 </div>

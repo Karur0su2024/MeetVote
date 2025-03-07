@@ -12,14 +12,14 @@
     <div class="container text-start">
 
         @if ($isAdmin)
-            <div class="alert alert-secondary mb-3" role="alert">
+            <div class="alert alert-secondary mb-3 shadow-sm" role="alert">
                 You are in admin mode!
             </div>
         @endif
 
 
         <!-- Panel s nastavením ankety -->
-        <div class="card mb-3 p-2">
+        <div class="card mb-3 p-2 shadow-sm">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">Copy link</a>
                 @if (request()->get('isPollAdmin', false))
@@ -31,16 +31,48 @@
                             Options
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openShareModal('{{ $poll->public_id }}')">Share poll</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openClosePollModal('{{ $poll->public_id }}')">Close poll</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openModal('modals.poll.choose-final-options', '{{ $poll->public_id }}')">Final options</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openModal('modals.poll.create-event', '{{ $poll->public_id }}')">Create event</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openInvitationsModal('{{ $poll->public_id }}')">
-                                    Invitations</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="openDeletePollModal('{{ $poll->public_id }}')">Delete poll</a></li>
-
+                            <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">
+                                    <i class="bi bi-pencil-square"></i> Edit poll
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"
+                                onclick="openModal('modals.poll.share', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-share"></i> Share poll
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"
+                                onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-x-circle"></i> Close poll
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"
+                                    onclick="openModal('modals.poll.choose-final-options', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-check2-square"></i> Final options
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"
+                                    onclick="openModal('modals.poll.create-event', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-calendar-event"></i> Create event
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"
+                                    onclick="openModal('modals.poll.invitations', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-person-plus"></i> Invitations
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="#"
+                                    onclick="openModal('modals.poll.delete-poll', '{{ $poll->public_id }}')">
+                                    <i class="bi bi-trash"></i> Delete poll
+                                </a>
+                            </li>
                         </ul>
+
                     </div>
                 @endif
             </div>
@@ -106,58 +138,6 @@
 
 
 <script>
-    function openInvitationsModal(index) {
-        console.log(index);
-        Livewire.dispatch('showModal', {
-            data: {
-                alias: 'modals.invitations',
-                params: {
-                    publicIndex: index
-                }
-            },
-
-        });
-    }
-
-    function openDeletePollModal(index) {
-        console.log(index);
-        Livewire.dispatch('showModal', {
-            data: {
-                alias: 'modals.delete-poll',
-                params: {
-                    publicIndex: index
-                }
-            },
-
-        });
-    }
-
-    function openShareModal(index) {
-        console.log(index);
-        Livewire.dispatch('showModal', {
-            data: {
-                alias: 'modals.share',
-                params: {
-                    publicIndex: index
-                }
-            },
-
-        });
-    }
-
-    function openClosePollModal(index) {
-        console.log(index);
-        Livewire.dispatch('showModal', {
-            data: {
-                alias: 'modals.poll.close-poll',
-                params: {
-                    publicIndex: index
-                }
-            },
-
-        });
-    }
-
     function openModal(alias, index) {
         console.log(index);
         Livewire.dispatch('showModal', {
@@ -170,5 +150,4 @@
 
         });
     }
-
 </script>
