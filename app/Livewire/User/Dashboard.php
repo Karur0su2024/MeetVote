@@ -21,6 +21,7 @@ class Dashboard extends Component
         $this->polls = Auth::user()->polls;
     }
 
+    // Vyhledávání
     public function updatingSearch()
     {
         $this->render();
@@ -34,19 +35,21 @@ class Dashboard extends Component
     }
 
 
+
+    // Načtení anket
     private function loadPolls()
     {
+
+        // Načtení anket
         $this->polls = Poll::where('user_id', Auth::id())
         ->where('title', 'like', '%' . $this->search . '%')->get();
 
-        
-        // Potřebuje opravit
-        // Nutné rozdělit podle statusu
+    
+        // Seskupení anket podle jejich statusu
         $this->polls = $this->polls->groupBy('status')->all();
 
 
-        //dd($this->polls);
-        
+
 
 
     }
