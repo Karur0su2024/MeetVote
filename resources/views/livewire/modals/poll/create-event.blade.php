@@ -1,8 +1,10 @@
-<div class="card mb-3" wire:key='{{ $poll->id }}'>
-    <div class="card-header">
-        <h2>Create event</h2>
+<div>
+    <div class="modal-header bg-warning">
+        <h5 class="modal-title">Create event</h5>
+        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
-    <div class="card-body">
+    <div class="modal-body">
+
         <form wire:submit.prevent='createEvent()' wire:key='{{ now() }}'>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -52,5 +54,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
+
+
     </div>
 </div>

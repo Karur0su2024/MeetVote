@@ -1,8 +1,9 @@
-<div class="card text-start mb-3">
-    <div class="card-header">
-        <h3>Results</h3>
+<div>
+    <div class="modal-header bg-warning">
+        <h5 class="modal-title">Results</h5>
+        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
-    <div class="card-body">
+    <div class="modal-body">
         <table class="table">
             <thead>
                 <tr>
@@ -20,5 +21,4 @@
             </tbody>
         </table>
     </div>
-
 </div>

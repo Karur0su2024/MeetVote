@@ -34,6 +34,8 @@
                             <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">Edit poll</a></li>
                             <li><a class="dropdown-item" href="#" onclick="openShareModal('{{ $poll->public_id }}')">Share poll</a></li>
                             <li><a class="dropdown-item" href="#" onclick="openClosePollModal('{{ $poll->public_id }}')">Close poll</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openModal('modals.poll.choose-final-options', '{{ $poll->public_id }}')">Final options</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="openModal('modals.poll.create-event', '{{ $poll->public_id }}')">Create event</a></li>
                             <li><a class="dropdown-item" href="#" onclick="openInvitationsModal('{{ $poll->public_id }}')">
                                     Invitations</a></li>
                             <li><a class="dropdown-item" href="#" onclick="openDeletePollModal('{{ $poll->public_id }}')">Delete poll</a></li>
@@ -82,14 +84,8 @@
         <!-- Hlasovací formulář -->
         <livewire:poll.voting :poll="$poll" />
 
-        {{-- Všechny hlasy --}}
-        <livewire:poll.results-table :poll="$poll" />
 
 
-        <livewire:poll.end-poll :poll="$poll" />
-
-        {{-- Vytvoření události --}}
-        <livewire:poll.create-event :poll="$poll" />
 
 
 
@@ -161,4 +157,18 @@
 
         });
     }
+
+    function openModal(alias, index) {
+        console.log(index);
+        Livewire.dispatch('showModal', {
+            data: {
+                alias: alias,
+                params: {
+                    publicIndex: index
+                }
+            },
+
+        });
+    }
+
 </script>

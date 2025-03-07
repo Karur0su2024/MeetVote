@@ -1,9 +1,9 @@
-<div class="card mb-3">
-    <div class="card-header">
-        <h1>Choose your options</h1>
+<div>
+    <div class="modal-header bg-warning">
+        <h5 class="modal-title">Close Poll</h5>
+        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
-
-    <div class="card-body">
+    <div class="modal-body">
         <form wire:submit.prevent='chooseFinalResults'>
             <div class="mb-3">
                 <h3>Dates</h3>
@@ -31,11 +31,5 @@
 
 
         </form>
-
-
-
     </div>
-
-
-
 </div>

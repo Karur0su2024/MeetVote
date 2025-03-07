@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Modals\Poll;
 
 use Livewire\Component;
 use App\Models\Poll;
@@ -10,8 +10,10 @@ use Livewire\Attributes\On;
 
 class CreateEvent extends Component
 {
+
     public $poll;
     public $event = [
+        'poll_id' => '',
         'title' => '',
         'date' => '',
         'all_day' => false,
@@ -20,10 +22,10 @@ class CreateEvent extends Component
         'description' => '',
     ];
 
-    public function mount($poll){
-        $this->poll = $poll;
-        $this->event['title'] = $poll->title;
-        $this->event['description'] = "Poll description: " . $poll->description;
+    public function mount($event){
+
+
+        $this->event = $event;
     }
 
     #[On('loadEvent')]
@@ -33,6 +35,9 @@ class CreateEvent extends Component
 
 
     public function createEvent(){
+
+        //$this->dispatch('hideModal');
+        
         $validatedData = $this->validate([
             'event.title' => 'required',
             'event.date' => 'required|date|after_or_equal:today',
@@ -57,11 +62,13 @@ class CreateEvent extends Component
 
         $this->poll->event()->save($event);
 
-        return redirect()->route('polls.show', $this->poll);
+        
+        
+        //return redirect()->route('polls.show', $this->poll);
     }
 
     public function render()
     {
-        return view('livewire.poll.create-event');
+        return view('livewire.modals.poll.create-event');
     }
 }

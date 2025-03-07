@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Modals;
+namespace App\Livewire\Modals\Poll;
 
 use Livewire\Component;
 use App\Models\Poll;

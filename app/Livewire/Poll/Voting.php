@@ -242,6 +242,18 @@ class Voting extends Component
         // zatím neimplementováno
     }
 
+    // Metoda pro modalového okna výsledků ankety
+    public function openResultsModal()
+    {
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.results',
+            'params' => [
+                'publicIndex' => $this->poll->public_id,
+            ],
+
+        ]);
+    }
+
 
     // Metoda pro renderování komponenty
     public function render()

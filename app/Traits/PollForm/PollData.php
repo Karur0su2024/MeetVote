@@ -38,10 +38,10 @@ trait PollData
     
     // Jméno uživatele
     #[Validate('required', 'string', 'min:3', 'max:255')]
-    public $user_name = "";
+    public $userName = "";
 
     // E-mail uživatele
     #[Validate('required', 'email')]
-    public $user_email = "";
+    public $userEmail = "";
 
 }

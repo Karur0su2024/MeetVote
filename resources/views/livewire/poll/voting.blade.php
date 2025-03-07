@@ -7,7 +7,8 @@
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h2>Voting</h2>
-            <button class="btn btn-outline-secondary">Results ({{ count($poll->votes) }}) </button>
+            <button class="btn btn-outline-secondary"
+            wire:click='openResultsModal()'>Results ({{ count($poll->votes) }}) </button>
             {{-- Přidat otevření modalu s výsledky --}}
 
         </div>
@@ -91,7 +92,6 @@
                 @enderror
 
                 <button wire:click="saveVote()" class="btn btn-primary mt-3">Submit your vote</button>
-                <button wire:click="$dispatch('showModal', {data: {'alias' : 'modals.invitations','params' :{'pollIndex':'{{ $poll->public_id }}'}}})">Test</button>
             </div>
 
         </div>

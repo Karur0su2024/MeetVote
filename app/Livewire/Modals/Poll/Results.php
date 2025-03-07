@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Modals\Poll;
 
 use Livewire\Component;
 use App\Models\Vote;
 use Livewire\Attributes\On;
+use App\Models\Poll;
 
-class ResultsTable extends Component
+class Results extends Component
 {
-
     public $votes;
     public $poll;
 
-    public function mount($poll)
+    public function mount($publicIndex)
     {
-        $this->poll = $poll;
-        $this->votes = $poll->votes;
+        $this->poll = Poll::where('public_id', $publicIndex)->first();
+        $this->votes = $this->poll->votes;
     }
 
     public function loadVote($voteIndex)
     {
+        $this->dispatch('hideModal');
         $this->dispatch('loadVote', $voteIndex);
     }
 
@@ -32,14 +33,8 @@ class ResultsTable extends Component
         $this->dispatch('updateOptions');
     }
 
-    #[On('updateVotes')]
-    public function updateVotes()
-    {
-        $this->votes = $this->poll->votes;
-    }
-
     public function render()
     {
-        return view('livewire.poll.results-table');
+        return view('livewire.modals.poll.results');
     }
 }
