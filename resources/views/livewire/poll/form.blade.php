@@ -21,10 +21,10 @@
                     @if (!$poll)
                         <hr>
                         <div>
-                            <x-input id="user_name" model="user_name" type="text" label="Your name"
-                                :value="$user_name" />
-                            <x-input id="user_email" model="user_email" type="email" label="Your email"
-                                mandatory="true" :value="$user_email" />
+                            <x-input id="userName" model="user_name" type="text" label="Your name"
+                                :value="$userName" />
+                            <x-input id="userEmail" model="user_email" type="email" label="Your email"
+                                mandatory="true" :value="$userEmail" />
                         </div>
                     @endif
                 </div>

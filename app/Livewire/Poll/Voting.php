@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Poll;
 
+use App\Services\VoteService;
 use Livewire\Component;
 use App\Models\Vote;
 use Livewire\Attributes\On;
@@ -11,15 +12,26 @@ use App\Traits\Poll\PollPage\Preferences;
 class Voting extends Component
 {
 
-    use Preferences;
+    // Služba pro hlasování
+    protected $voteService;
 
+    // Anketa
     public $poll;
+
+    // Uživatelské jméno a email
     public $userName;
     public $userEmail;
+
+    // Časové možnosti
     public $timeOptions = [];
+
+    // Možnosti otázek
     public $questions = [];
+    //
     public $existingVote;
 
+
+    use Preferences;
 
     // Definice validací
     protected $rules = [
@@ -30,13 +42,12 @@ class Voting extends Component
     ];
 
     // Metoda pro načtení dat
-    public function mount($poll)
+    public function mount($poll, VoteService $voteService)
     {
+        $this->voteService = $voteService;
         $this->poll = $poll;
-
         $this->resetForm();
     }
-
 
     // Metoda pro resetování formuláře
     private function resetForm()
@@ -64,6 +75,7 @@ class Voting extends Component
 
 
 
+    // Přesunout do služby
     private function loadOptions()
     {
         // Načteme možnosti času
@@ -99,6 +111,7 @@ class Voting extends Component
     }
 
 
+    // Přesunout do služby
     // Metoda pro načtení hlasu
     #[On('loadVote')]
     public function loadVote($voteIndex): bool
@@ -139,12 +152,22 @@ class Voting extends Component
         $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = $value;
     }
 
+
+    // Přesunout do služby
     //Metoda pro uložení hlasu
     public function saveVote()
     {
         // Validace formuláře
         $this->validate();
 
+        $this->voteService->saveVote(
+            $this->poll,
+            $this->userName,
+            $this->userEmail,
+            $this->timeOptions,
+            $this->questions,
+            $this->existingVote
+        );
 
         // Zjištění zda uživatel vybral alespoň jednu možnost
         if (!$this->checkIfPreferencesWasChoosen()) {
@@ -152,27 +175,15 @@ class Voting extends Component
             return;
         }
 
+        $vote = $this->voteService->saveVote(
+            $this->poll,
+            $this->userName,
+            $this->userEmail,
+            $this->timeOptions,
+            $this->questions,
+            $this->existingVote
+        );
 
-        if ($this->existingVote) {
-            // Aktualizace stávajícího hlasu
-            $vote = $this->existingVote;
-
-            // Smazání stávajících preferencí
-            $this->existingVote->voteTimeOptions()->delete();
-            $this->existingVote = null;
-        } else {
-            // Vytvoření nového hlasu
-            $vote = Vote::create([
-                'poll_id' => $this->poll->id,
-                'user_id' => Auth::id(),
-                'voter_name' => $this->userName,
-                'voter_email' => $this->userEmail,
-            ]);
-        }
-
-
-        // Uložení jednotlivých možností do databáze
-        $this->saveOptionsToDatabase($vote);
 
         $this->dispatch('updateVotes');
 
@@ -207,34 +218,6 @@ class Voting extends Component
 
         return false;
     }
-
-
-    private function saveOptionsToDatabase($vote = null)
-    {
-        // Uložení časových odpovědí do hlasu
-        foreach ($this->timeOptions as $timeOption) {
-            if ($timeOption['chosen_preference'] != 0) {
-                $vote->voteTimeOptions()->create([
-                    'time_option_id' => $timeOption['id'],
-                    'preference' => $timeOption['chosen_preference'],
-                ]);
-            }
-        }
-
-        // Uložení otázek do hlasu
-        foreach ($this->questions as $question) {
-            foreach ($question['options'] as $option) {
-                if ($option['chosen_preference'] != 0) {
-                    $vote->voteQuestionOptions()->create([
-                        'poll_question_id' => $question['id'],
-                        'question_option_id' => $option['id'],
-                        'preference' => $option['chosen_preference'],
-                    ]);
-                }
-            }
-        }
-    }
-
 
     // Metoda pro odeslání emailů
     private function sendEmails($vote)

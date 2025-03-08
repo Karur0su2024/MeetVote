@@ -207,6 +207,7 @@ trait TimeOptions
 
 
 
+    // Metoda pro zjištění, zda nejde o duplicitní časové možnosti
     private function checkDupliciteTimeOptions($dates): bool
     {
         $this->resetErrorBag('save');

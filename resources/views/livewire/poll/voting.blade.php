@@ -1,16 +1,12 @@
 @php
     use Carbon\Carbon;
-
 @endphp
-
 <div class="card mb-3 text-start shadow-sm">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <h2>Voting</h2>
             <button class="btn btn-outline-secondary"
             wire:click='openResultsModal()'>Results ({{ count($poll->votes) }}) </button>
-            {{-- Přidat otevření modalu s výsledky --}}
-
         </div>
     </div>
     <div class="card-body p-0">
@@ -90,13 +86,8 @@
                 @error('noOptionChosen')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
-
                 <button wire:click="saveVote()" class="btn btn-primary mt-3">Submit your vote</button>
             </div>
-
         </div>
-
     </div>
-
-
 </div>

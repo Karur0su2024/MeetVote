@@ -9,7 +9,7 @@
 
         <livewire:user.settings />
 
-        <!-- Potřeba doplnit (kolem 8.-9.) -->
+
     </div>
 
 

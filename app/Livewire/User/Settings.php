@@ -15,7 +15,6 @@ class Settings extends Component
     public $new_password;
     public $password_confirmation;
 
-
     public function mount()
     {
 
@@ -48,7 +47,7 @@ class Settings extends Component
             ]);
         }
 
-        
+
 
 
 
