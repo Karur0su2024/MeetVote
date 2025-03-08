@@ -3,6 +3,7 @@
 namespace App\Livewire\Poll;
 
 use App\Livewire\Forms\PollForm;
+use App\Services\QuestionService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Services\PollService;
@@ -15,6 +16,7 @@ class Form2 extends Component
     // Služby
     protected PollService $pollService;
     protected TimeOptionService $timeOptionService;
+    protected QuestionService $questionService;
 
     public PollForm $form;
 
@@ -30,6 +32,7 @@ class Form2 extends Component
     {
         $this->pollService = new PollService();
         $this->timeOptionService = new TimeOptionService();
+        $this->questionService = new QuestionService();
     }
 
     public function mount($poll = null) : void
@@ -61,12 +64,19 @@ class Form2 extends Component
         ];
 
 
+
+
         //dd($validatedData);
 
         // Zkontrolovat duplicity
         // Zde zkontrolovat duplicity
         // Později
                 //Uložit změny
+
+        if($this->checkDuplicity($validatedData)){
+            return;
+        }
+
 
 
 
@@ -94,6 +104,22 @@ class Form2 extends Component
         DB::commit();
         session()->put('poll_' . $this->poll->public_id . '_adminKey', $this->poll->admin_key);
         return redirect()->route('polls.show', $this->poll);
+
+    }
+
+    private function checkDuplicity($validatedData){
+        if($this->timeOptionService->checkDuplicity($validatedData['time_options'])) {
+            $this->addError('form.dates', 'Duplicate time options are not allowed.');
+            return true;
+        }
+
+        if($this->questionService->checkDupliciteQuestions($validatedData['questions'])) {
+            $this->addError('form.questions', 'Duplicate questions are not allowed.');
+            dd('Duplicate questions are not allowed.');
+            return true;
+        }
+
+        //Dodělat kontrolu duplicitních otázek
 
     }
 
@@ -176,6 +202,8 @@ class Form2 extends Component
         }
 
         $this->form->dates[$date][] = $this->timeOptionService->addNewOption($date, $type, $this->getLastEnd($date));
+
+        //dd($this->form->dates);
         return;
     }
 
@@ -183,13 +211,10 @@ class Form2 extends Component
     {
         $this->resetErrorBag('form.dates');
 
-        //dd($this->form->dates[$date][$optionIndex]);
         if(!isset($this->form->dates[$date][$optionIndex])) {
             $this->addError('form.dates', 'This time option does not exist.');
-            dd("tst");
             return;
         }
-
 
         if(count($this->form->dates[$date]) < 2) {
             if($this->removeDate($date)) {
@@ -200,11 +225,6 @@ class Form2 extends Component
                 return;
             }
         }
-
-
-        // Zjistit, zda je možnost poslední
-
-
 
 
 
@@ -249,7 +269,7 @@ class Form2 extends Component
     {
         // Pokud otázka neexistuje, nelze ji odstranit
         if (isset($this->form->questions[$questionIndex])) {
-            $question = &$this->questions[$questionIndex];
+            $question = &$this->form->questions[$questionIndex];
         } else {
             $this->addError('questions', 'The selected question does not exist.');
             return;
@@ -313,7 +333,7 @@ class Form2 extends Component
 
 
 
-
+    // Přesunout do služby
     private function getLastEnd($date) : ?string
     {
         $endTime = null;
@@ -327,7 +347,6 @@ class Form2 extends Component
         }
         return $endTime;
     }
-
 
 
 

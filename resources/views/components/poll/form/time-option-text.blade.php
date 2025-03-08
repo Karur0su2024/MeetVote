@@ -7,7 +7,7 @@
 
     <div class="d-flex align-items-center gap-2 mb-2">
         <!-- Pole pro zadání textové možnosti -->
-        <input type="text" wire:model="form.dates.{{ $dateIndex }}.options.{{ $timeIndex }}.content.text" class="form-control" placeholder="Option {{ $timeIndex + 1 }}">
+        <input type="text" wire:model="form.dates.{{ $dateIndex }}.{{ $timeIndex }}.content.text" class="form-control" placeholder="Option {{ $timeIndex + 1 }}">
 
         <!-- Tlačítko pro odstranění textové možnosti -->
         <button type="button" wire:click="removeTimeOption('{{ $dateIndex }}', '{{ $timeIndex }}')"

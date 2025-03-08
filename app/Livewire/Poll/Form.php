@@ -64,20 +64,7 @@ class Form extends Component
 
 
 
-    // Metoda pro zjištění, zda nejde o duplicitní časové možnosti
-    private function checkDupliciteTimeOptions($dates): bool
-    {
-        $this->resetErrorBag('save');
 
-        $error = $this->timeOptionService->checkDupliciteTimeOptions($dates);
-
-        if($error){
-            $this->addError('save', $error);
-            return false;
-        }
-
-        return true;
-    }
 
 
 

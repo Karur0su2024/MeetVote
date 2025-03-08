@@ -102,4 +102,29 @@ class QuestionService
     }
 
 
+    public function checkDupliciteQuestions(array $questions) : bool
+    {
+        $questionText = [];
+        // Kontrola duplicitních otázek
+        foreach ($questions as $questionIndex => $question) {
+            if($this->checkDupliciteOptions($question['options'])) {
+                return true;
+            }
+            $questionText[] = strtolower($question['text']);
+        }
+
+        return count($questionText) !== count(array_unique($questionText));
+    }
+
+    private function checkDupliciteOptions(array $options) : bool
+    {
+        $optionText = [];
+        foreach ($options as $optionIndex => $option) {
+            $optionText[] = strtolower($option['text']);
+        }
+
+        return count($optionText) !== count(array_unique($optionText));
+    }
+
+
 }

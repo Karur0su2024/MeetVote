@@ -112,7 +112,7 @@ class TimeOptionService
         //dd($lastEnd);
 
 
-        if($type == 'text'){
+        if($type === 'text'){
             $content = [
                 'text' => '',
             ];
@@ -120,7 +120,6 @@ class TimeOptionService
         else {
             $content = $this->addNewTimeOption($lastEnd);
         }
-
 
         return [
             'type' => $type,
@@ -151,23 +150,17 @@ class TimeOptionService
 
 
 
-    private function checkDupliciteTimeOptions($dates): ?string
+    public function checkDuplicity($options): bool
     {
+        $toCheck = array_map(function ($item) {
+            return $this->convertContentToText($item);
+        }, $options);
 
-        foreach ($dates as $date) {
-            $optionContent = [];
+        //dd($toCheck);
 
-            // Načtení všech možností v textové podobě podobě
-            foreach ($date['options'] as $option) {
-                $optionContent[] = $this->convertTimeOptionToText($option);
-            }
 
-            // Porovnání všech termínů a unikátních termínů
-            if (count($optionContent) !== count(array_unique($optionContent))) {
-                return 'Duplicate time options are not allowed.';
-            }
-        }
-        return null;
+        return count($options) !== count(array_unique($toCheck));
+
     }
 
 
@@ -178,14 +171,12 @@ class TimeOptionService
 
 
     // Metoda pro konverzi časové možnosti na textovou podobu
-    private function convertTimeOptionToText($option)
+    private function convertContentToText($option) : string
     {
-        if ($option['type'] == 'time') {
-            return strtolower($option['start'] . '-' . $option['end']);
-        } else {
-            return strtolower($option['text'] . '-text');
-        }
+        return $option['date'] . ' ' . strtolower(implode('-', $option['content']));
+
     }
+
 
 
 

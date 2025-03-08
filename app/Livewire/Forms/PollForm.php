@@ -52,9 +52,9 @@ class PollForm extends Form
         'dates.*.*.id' => 'nullable|integer', // ID možnosti
         'dates.*.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
         'dates.*.*.date' => 'required', // Obsah možnosti
-        'dates.*.*.content.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.*.*.content.end' => 'required_if:options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec časové možnosti
-        'dates.*.*.content.text' => 'required_if:options.*.type,text|string', // Textová možnost
+        'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
+        'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
+        'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
     ])]
     public $dates = [];
 
