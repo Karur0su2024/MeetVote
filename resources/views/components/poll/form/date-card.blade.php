@@ -19,7 +19,7 @@
 
     <div class="card-body">
 
-        @foreach ($date['options'] as $optionIndex => $option)
+        @foreach ($date as $optionIndex => $option)
             @if ($option['type'] == 'text')
                 <!-- Zobrazení textové možnosti -->
                 <x-poll.form.time-option-text :dateIndex="$dateIndex" :timeIndex="$optionIndex" />

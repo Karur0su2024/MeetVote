@@ -6,32 +6,45 @@ use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
 use Illuminate\Support\Str;
+use App\Services\TimeOptionService;
 
 class PollService
 {
 
-    public function loadPollData(Poll $poll) : array
+    protected TimeOptionService $timeOptionService;
+
+    // Metoda pro načtení dat ankety
+    public function getPollData(?Poll $poll) : array
     {
+        $timeOptionService = new TimeOptionService();
+
+        //dd($timeOptionService->loadTimeOptionsForPoll($poll));
+
         return [
-            'title' => $poll->title,
-            'description' => $poll->description,
-            'deadline' => $poll->deadline,
-            'userName' => $poll->author_name,
-            'userEmail' => $poll->author_email,
-            'settings' => [
-                'anonymous' => $poll->anonymous_votes == 1,
-                'comments' => $poll->comments == 1,
-                'hide_results' => $poll->hide_results == 1,
-                'invite_only' => $poll->invite_only == 1,
-                'password' => $poll->password,
+            'title' => $poll->title ?? '',
+            'description' => $poll->description ?? '',
+            'deadline' => $poll->deadline ?? '',
+            'user' => [
+                'name' => $poll->author_name ?? Auth::user()?->name,
+                'email' => $poll->author_email ?? Auth::user()?->email,
             ],
+            'settings' => [
+                'anonymous' => (bool)$poll?->anonymous_votes,
+                'comments' => (bool)$poll?->comments,
+                'hide_results' => (bool)$poll?->hide_results,
+                'invite_only' => (bool)$poll?->invite_only,
+                'password' => $poll?->password ?? '',
+            ],
+            'questions' => $this->getPollQuestions($poll),
+            'timeOptions' => $timeOptionService->getTimeOptionsForPoll($poll),
         ];
     }
 
 
+    // Metoda pro vytvoření nové ankety
     public function createPoll(array $validatedData) : Poll
     {
-        $poll = Poll::create([
+        return Poll::create([
             'title' => $validatedData['title'],
             'public_id' => Str::random(40),
             'admin_key' => Str::random(40),
@@ -47,11 +60,10 @@ class PollService
             'password' => $validatedData['settings']['password'],
             'status' => 'active',
         ]);
-
-        return $poll;
     }
 
 
+    // Metoda pro aktualizaci ankety
     public function updatePoll(Poll $poll, array $validatedData) : Poll
     {
         $poll->update([
@@ -67,6 +79,61 @@ class PollService
 
         return $poll;
     }
+
+
+    // Metoda pro načtení časových možností pro hlasování
+    public function getPollQuestions(?Poll $poll) : array
+    {
+        if(!$poll){
+            return [];
+        }
+        else {
+            $questions = [];
+            foreach ($poll->questions as $question) {
+                $questionOptions = [];
+
+                // Načtení možností otázky
+                foreach ($question->options as $option) {
+                    $questionOptions[] = [
+                        'id' => $option['id'],
+                        'text' => $option['text'],
+                    ];
+                }
+
+                // Načtení otázky do pole
+                $questions[] = [
+                    'id' => $question['id'],
+                    'text' => $question['text'],
+                    'options' => $questionOptions,
+                ];
+            }
+            return $questions;
+        }
+    }
+
+
+    // Metoda pro načtení časových možností pro hlasování
+    public function getPollTimeOptions(?Poll $poll) : array
+    {
+
+        if(!$poll){
+
+            return [];
+        }
+
+
+        foreach ($poll->timeOptions as $timeOption) {
+            $timeOptions[] = [
+                'id' => $timeOption->id,
+                'start_time' => $timeOption->start_time,
+                'end_time' => $timeOption->end_time,
+                'chosen_preference' => 0,
+            ];
+        }
+        return $timeOptions;
+    }
+
+
 
 
 

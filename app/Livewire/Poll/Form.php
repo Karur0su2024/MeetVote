@@ -19,132 +19,74 @@ use App\Traits\PollForm\Options;
 use App\Traits\PollForm\PollData;
 
 use App\Services\PollService;
+use App\Services\TimeOptionService;
+
+use App\Livewire\Forms\PollForm;
+
 
 
 class Form extends Component
 {
-
     protected $pollService;
+    protected $timeOptionService;
 
-    // Název ankety
-    #[Validate('required', 'string', 'min:3', 'max:255')]
-    public $title = "abc";
-
-    // Popis ankety
-    #[Validate('nullable', 'max:1000')]
-    public $description;
-
-    // Deadline ankety, po kterém nebude možné hlasovat
-    #[Validate('nullable', 'date')]
-    public $deadline = null;
-
-    // Nastavení ankety
-    #[Validate([
-        'settings' => 'array', // Komentáře
-        'settings.comments' => 'boolean', // Komentáře
-        'settings.anonymous' => 'boolean', // Anonymní hlasování
-        'settings.hide_results' => 'boolean', // Skrytí výsledků
-        'settings.password' => 'nullable|string', // Heslo
-        'settings.invite_only' => 'boolean', // Pouze na pozvánku
-    ])]
-    public $settings = [
-        'comments' => true,
-        'anonymous' => false,
-        'hide_results' => false,
-        'password' => null,
-        'invite_only' => false,
-    ];
-
-
-    // Časové možnosti
-    #[Validate([
-        'dates' => 'required|array|min:1', // Pole různých dnů
-        'dates.*.date' => 'required|date', // Datum
-        'dates.*.options' => 'required|array|min:1', // Časové možnosti podle data
-        'dates.*.options.*.id' => 'nullable|integer', // ID možnosti
-        'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
-        'dates.*.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec časové možnosti
-        'dates.*.options.*.text' => 'required_if:options.*.type,text|string', // Textová možnost
-    ])]
-    public $dates = [];
-
-    // Otázky
-    #[Validate([
-        'questions' => 'nullable|array', // Pole otázek
-        'questions.*.id' => 'nullable|integer', // ID otázky
-        'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
-        'questions.*.options' => 'required|array|min:2', // Možnosti otázky
-        'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
-        'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
-    ])]
-    public $questions = [];
-
-    // Jméno uživatele
-    #[Validate('required', 'string', 'min:3', 'max:255')]
-    public $userName = "";
-
-    // E-mail uživatele
-    #[Validate('required', 'email')]
-    public $userEmail = "";
-
-
-    // Načtení dat ankety
-    use PollData;
-
-    // Načtení možností ankety
-    use Options;
+    // Data formuláře
+    public PollForm $form;
 
     public $poll;
 
     // Metoda mount
-    function mount(PollService $pollService, $poll = null)
+    public function mount($poll = null)
     {
-        $this->pollService = $pollService;
+        $this->initializeServices();
+        $this->form->loadForm($this->pollService->getPollData($poll));
+    }
 
-        $this->poll = $poll;
+    private function initializeServices()
+    {
+        // Inicializace služeb
+        $this->pollService = new PollService();
+        $this->timeOptionService = new TimeOptionService();
+    }
 
-        if ($this->poll) {
-            $this->loadExistingPoll();
-        } else {
-            $this->loadNewPoll();
+
+
+
+    // Metoda pro přidání nového data z kalendáře
+    #[On('addDate')]
+    public function addDate($date): bool
+    {
+        // resetování chybového pole
+        $this->resetErrorBag('dates');
+
+        // Kontrola, zda datum již neexistuje
+        if (isset($this->form->dates[$date])) {
+            $this->addError('dates', 'This date has already been added.');
+            return false;
         }
-    }
 
+        // Kontrola, zda datum není v minulosti
+        $is_not_past = Carbon::parse($date)->isToday() || Carbon::parse($date)->isFuture();
 
-    private function loadNewPoll()
-    {
-        // Pokud je uživatel přihlášený, načtou se jeho údaje
-        if (Auth::check()) {
-            $this->userName = Auth::user()->name;
-            $this->userEmail = Auth::user()->email;
+        // Pokud je datum v minulosti, nelze ho přidat
+        if (!$is_not_past) {
+            $this->addError('dates', 'You cannot add a date in the past.');
+            return false;
         }
 
-        // Přidání prvního data
-        $this->addDate(date('Y-m-d'));
+        // Přidání nového data
+        $this->form->dates[$date] = [
+            'date' => $date,
+        ];
+
+        //$this->addDateOption($date, 'time');
+
+
+        // Seřazení dat podle klíče
+        ksort($this->form->dates);
+
+        return true;
     }
-
-    private function loadExistingPoll()
-    {
-        // Načtení dat ankety
-        //$data = $this->pollService->getPollData($this->poll);
-
-
-        $this->userName = $data['user_name'];
-        $this->userEmail = $data['user_email'];
-        $this->title = $data['title'];
-        $this->description = $data['description'];
-        $this->deadline = $data['deadline'];
-        $this->settings = $data['settings'];
-
-
-        // Načtení časových možností
-        $this->loadTimeOptions();
-
-        // Načtení otázek
-        $this->loadQuestions();
-    }
-
 
 
     // Odeslání formuláře
@@ -183,7 +125,7 @@ class Form extends Component
             if ($poll = $this->poll) {
 
                 // Uložení změn ankety
-
+                $this->pollService->updatePoll($this->poll, $validatedData);
 
                 // Odstranění existujících možností
                 $this->removeDeletedOptions();
@@ -212,27 +154,7 @@ class Form extends Component
 
 
     // Načtení otázek
-    public function loadQuestions()
-    {
-        $questions = $this->poll->questions;
 
-        foreach ($questions as $question) {
-            //dd($question);
-            $questionOptions = [];
-            foreach ($question->options as $option) {
-                $questionOptions[] = [
-                    'id' => $option['id'],
-                    'text' => $option['text'],
-                ];
-            }
-
-            $this->questions[] = [
-                'id' => $question['id'],
-                'text' => $question['text'],
-                'options' => $questionOptions,
-            ];
-        }
-    }
 
 
     // Metoda pro přidání otázky
@@ -332,6 +254,7 @@ class Form extends Component
     }
 
 
+    // Tohle přesunout do služby
     public function checkDupliciteQuestions($validatedData): bool
     {
 
@@ -360,7 +283,7 @@ class Form extends Component
 
 
 
-
+    // Tohlento přesunout do služby
     // Metoda pro uložení otázek
     private function saveQuestions($poll, $questions)
     {
@@ -391,6 +314,7 @@ class Form extends Component
     }
 
 
+    // Tohle přesunout do služby
     // Metoda pro uložení možností otázek
     private function saveQuestionOption($question, $option)
     {
@@ -413,77 +337,12 @@ class Form extends Component
     }
 
 
-    // Metoda pro načtení časových možností
-    public function loadTimeOptions()
-    {
-        $dates = $this->poll->timeOptions->groupBy('date')->toArray();
-
-        foreach ($dates as $dateIndex => $options) {
-            $timeOptions = [];
-            foreach ($options as $option) {
-                if ($option['start'] != null) {
-                    $timeOptions[] = [
-                        'id' => $option['id'],
-                        'type' => 'time',
-                        'start' => Carbon::parse($option['start'])->format('H:i'),
-                        'end' => Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i'),
-                    ];
-                } else {
-                    $timeOptions[] = [
-                        'id' => $option['id'],
-                        'type' => 'text',
-                        'text' => $option['text'],
-                    ];
-                }
-            }
-
-            $this->dates[$dateIndex] = [
-                'date' => $dateIndex,
-                'options' => $timeOptions,
-            ];
-        }
-        //dd($this->dates);
-
-    }
 
 
 
 
-    // Metoda pro přidání nového data z kalendáře
-    #[On('addDate')]
-    public function addDate($date): bool
-    {
-        $this->resetErrorBag('dates');
-
-        // Kontrola, zda datum již neexistuje
-        if (isset($this->dates[$date])) {
-            $this->addError('dates', 'This date has already been added.');
-            return false;
-        }
-
-        // Kontrola, zda datum není v minulosti
-        $is_not_past = Carbon::parse($date)->isToday() || Carbon::parse($date)->isFuture();
-
-        // Pokud je datum v minulosti, nelze ho přidat
-        if (!$is_not_past) {
-            $this->addError('dates', 'You cannot add a date in the past.');
-            return false;
-        }
-
-        // Přidání nového data
-        $this->dates[$date] = [
-            'date' => $date,
-            'options' => [],
-        ];
-
-        $this->addDateOption($date, 'time');
 
 
-        // Seřazení dat podle klíče
-        ksort($this->dates);
-
-        return true;
-    }
 
     // Metoda pro odstranění data
     public function removeDate($date): bool
@@ -534,28 +393,6 @@ class Form extends Component
         return true;
     }
 
-    // Metoda pro přidání nové časové možnosti
-    private function addNewTimeOption($date): bool
-    {
-
-        $date_options = &$this->dates[$date]['options'];
-        $start_time = Carbon::now()->format('H:i');
-
-        // Získání posledního konce
-        foreach ($date_options as $option) {
-            if ($option['type'] === 'time') {
-                $start_time = Carbon::parse($option['end'])->format('H:i');
-            }
-        }
-
-        // Nastavení konce hodinu po začátku
-        $end_time = Carbon::parse($start_time)->addHour()->format('H:i');
-
-        // přidání nové časové možnosti do pole
-        $date_options[] = ['type' => 'time', 'start' => $start_time, 'end' => $end_time];
-
-        return true;
-    }
 
     // Metoda pro odstranění časových možnosti
     public function removeDateOption($dateIndex, $optionIndex): bool
@@ -602,21 +439,12 @@ class Form extends Component
     {
         $this->resetErrorBag('save');
 
-        foreach ($dates as $date) {
-            $optionContent = [];
+        $error = $this->timeOptionService->checkDupliciteTimeOptions($dates);
 
-            // Načtení všech možností v textové podobě podobě
-            foreach ($date['options'] as $option) {
-                $optionContent[] = $this->convertTimeOptionToText($option);
-            }
-
-            // Porovnání všech termínů a unikátních termínů
-            if (count($optionContent) !== count(array_unique($optionContent))) {
-                $this->addError('save', 'Duplicate time options are not allowed.');
-                return false;
-            }
+        if($error){
+            $this->addError('save', $error);
+            return false;
         }
-
 
         return true;
     }
@@ -679,15 +507,6 @@ class Form extends Component
     }
 
 
-    // Metoda pro konverzi časové možnosti na textovou podobu
-    private function convertTimeOptionToText($option)
-    {
-        if ($option['type'] == 'time') {
-            return strtolower($option['start'] . '-' . $option['end']);
-        } else {
-            return strtolower($option['text'] . '-text');
-        }
-    }
 
 
     public function render()
