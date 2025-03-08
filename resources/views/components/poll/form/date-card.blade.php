@@ -29,16 +29,15 @@
             @endif
         @endforeach
 
+
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
         <div class="d-flex align-items-center gap-2 mt-3">
-            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'time')"
-                class="btn btn-outline-secondary">
-                Add time option
-            </button>
-            <button type="button" wire:click="addDateOption('{{ $dateIndex }}', 'text')"
-                class="btn btn-outline-secondary">
-                Add text option
-            </button>
+            @foreach(['text', 'time'] as $type)
+                <button type="button" wire:click="addTimeOption('{{ $dateIndex }}', '{{ $type }}')"
+                    class="btn btn-outline-secondary">
+                    Add {{ $type }} option
+                </button>
+            @endforeach
         </div>
 
         @error("dates.{$dateIndex}.*")

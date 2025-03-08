@@ -48,13 +48,13 @@ class PollForm extends Form
     // Časové možnosti
     #[Validate([
         'dates' => 'required|array|min:1', // Pole různých dnů
-        'dates.*.date' => 'required|date', // Datum
-        'dates.*.options' => 'required|array|min:1', // Časové možnosti podle data
-        'dates.*.options.*.id' => 'nullable|integer', // ID možnosti
-        'dates.*.options.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
-        'dates.*.options.*.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.*.options.*.end' => 'required_if:options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec časové možnosti
-        'dates.*.options.*.text' => 'required_if:options.*.type,text|string', // Textová možnost
+        'dates.*.*' => 'required|array|min:1', // Časové možnosti podle data
+        'dates.*.*.id' => 'nullable|integer', // ID možnosti
+        'dates.*.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
+        'dates.*.*.date' => 'required', // Obsah možnosti
+        'dates.*.*.content.start' => 'required_if:options.*.type,time|date_format:H:i', // Začátek časové možnosti
+        'dates.*.*.content.end' => 'required_if:options.*.type,time|date_format:H:i|after:dates.*.options.*.start', // Konec časové možnosti
+        'dates.*.*.content.text' => 'required_if:options.*.type,text|string', // Textová možnost
     ])]
     public $dates = [];
 
@@ -76,11 +76,8 @@ class PollForm extends Form
         $this->deadline = $data['deadline'];
         $this->settings = $data['settings'];
         $this->user = $data['user'];
-        //dd($data['timeOptions']);
-        $this->dates = collect($data['timeOptions'])->groupBy('date')->toArray();
+        $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         $this->questions = $data['questions'];
-
-        //dd($this->dates);
     }
 
 

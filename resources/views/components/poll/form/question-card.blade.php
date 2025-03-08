@@ -9,7 +9,7 @@
 
 
         {{-- Input pole pro text otázky --}}
-        <input type="text" id="question_{{ $questionIndex }}" wire:model="questions.{{ $questionIndex }}.text"
+        <input type="text" id="question_{{ $questionIndex }}" wire:model="form.questions.{{ $questionIndex }}.text"
             class="form-control" placeholder="Question {{ $questionIndex + 1 }}">
 
 
@@ -24,7 +24,7 @@
         @foreach ($question['options'] as $optionIndex => $option)
             <div class="d-flex align-items-center gap-2 mb-3">
                 {{-- Input pole pro text možnosti --}}
-                <input type="text" wire:model="questions.{{ $questionIndex }}.options.{{ $optionIndex }}.text"
+                <input type="text" wire:model="form.questions.{{ $questionIndex }}.options.{{ $optionIndex }}.text"
                     placeholder="Option {{ $optionIndex + 1 }}" class="form-control">
 
                 {{-- Tlačítko pro odstranění možnosti --}}
@@ -40,7 +40,7 @@
         {{-- Tlačítko pro přidání možnosti --}}
         <button type="button" wire:click="addQuestionOption('{{ $questionIndex }}')" class="btn btn-outline-secondary">
             Add option</button>
-        @error("questions.{$questionIndex}.*")
+        @error("form.questions.{$questionIndex}.*")
             <div class="alert alert-danger mt-3 mb-0" role="alert">
                 {{ $message }}
             </div>

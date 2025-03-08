@@ -8,47 +8,122 @@ use App\Models\TimeOption;
 
 class TimeOptionService
 {
-    public function getTimeOptionsForPoll(?Poll $poll) : array
+    public function getPollTimeOptions(?Poll $poll) : array
     {
         $timeOptions = [];
+
         if(!$poll){
-            $timeOptions[] = $this->addNewTimeOption(Carbon::today()->format('Y-m-d'), null);
-            $timeOptions[] = $this->addNewTimeOption(Carbon::tomorrow()->addDay()->format('Y-m-d'), null);
+            $timeOptions[] = $this->addNewOption(Carbon::today()->format('Y-m-d'), 'time', null);
+
+            $timeOptions[] = $this->addNewOption(Carbon::tomorrow()->format('Y-m-d'), 'time', null);
+
             return $timeOptions;
         }
-
 
         foreach ($poll->timeOptions as $timeOption) {
             $timeOptions[] = [
                 'id' => $timeOption->id,
-                'start_time' => $timeOption->start_time,
-                'end_time' => $timeOption->end_time,
+                'date' => $timeOption->date,
+                'type' => $timeOption->start ? 'time' : 'text',
+                'content' => $timeOption->start ? [
+                    'start' => Carbon::parse($timeOption->start)->format('H:i'),
+                    'end' => Carbon::parse($timeOption->start)->addMinutes($timeOption->minutes)->format('H:i'),
+                ] : [
+                    'text' => $timeOption->text,
+                ],
                 'chosen_preference' => 0,
             ];
         }
         return $timeOptions;
+
+
+
+    }
+
+    public function deleteTimeOptions(array $deletedOptions) : void
+    {
+        TimeOption::whereIn('id', $deletedOptions)->delete();
+    }
+
+    public function saveTimeOptions(Poll $poll, array $timeOptions) : bool
+    {
+        foreach($timeOptions as $option) {
+            if ($option['type'] == 'time') {
+                $minutes = Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end']);
+
+                if (isset($option['id'])) {
+
+
+
+                    // Aktualizace časové možnosti, která již existuje
+                    $newOption = TimeOption::find($option['id']);
+                    if (!$newOption) {
+
+                        return false;
+                    }
+                    $newOption->update([
+                        'start' => $option['date'] . ' ' . $option['content']['start'],
+                        'minutes' => $minutes
+                    ]);
+
+
+
+                } else {
+
+                    // Přidání nové časové možnosti do databáze
+                    $poll->timeOptions()->create([
+                        'date' => $option['date'],
+                        'start' => $option['content']['start'],
+                        'minutes' => $minutes
+                    ]);
+                }
+            } else {
+
+                if (isset($option['id'])) {
+                    // Aktualizace textové možnosti, která již existuje
+                    $newOption = TimeOption::find($option['id']);
+                    if (!$newOption) {
+                        $this->addError('save', 'Failed to update: Time option not found.');
+                        return false;
+                    }
+                    $newOption->update([
+                        'text' => $option['content']['text'],
+                    ]);
+
+                } else {
+
+                    // Přidání textové možnosti do databáze
+                    $poll->timeOptions()->create([
+                        'date' => $option['date'],
+                        'text' => $option['content']['text'],
+                    ]);
+
+                }
+            }
+        }
+        return true;
     }
 
 
     // Metoda pro vytvoření nové časové možnosti do pole
-    public function addNewOption($date, $content, $lastEnd = null) : array
+    public function addNewOption($date, $type, $lastEnd) : array
     {
         //return $this->addNewTimeOption($date, $lastEnd);
+        //dd($lastEnd);
 
 
-        if($start){
+        if($type == 'text'){
             $content = [
-                'start' => $start,
-                'end' => $this->getEndOfTimeOption($start, 60),
+                'text' => '',
             ];
         }
         else {
-            $content = '';
+            $content = $this->addNewTimeOption($lastEnd);
         }
 
 
         return [
-            'type' => $start ? 'time' : 'date',
+            'type' => $type,
             'date' => $date,
             'content' => $content
         ];
@@ -58,20 +133,16 @@ class TimeOptionService
 
 
     // Metoda pro přidání nové možnosti do pole typu čas
-    public function addNewTimeOption($date, $lastEnd = null) : array
+    public function addNewTimeOption($lastEnd) : array
     {
         if($lastEnd){
             return [
-                'type' => 'time',
-                'date' => $date,
                 'start' => $lastEnd,
                 'end' => $this->getEndOfTimeOption($lastEnd, 60),
             ];
         }
         else {
             return [
-                'type' => 'time',
-                'date' => $date,
                 'start' => Carbon::now()->format('H:i'),
                 'end' => Carbon::now()->addHour()->format('H:i'),
             ];
@@ -114,47 +185,6 @@ class TimeOptionService
         } else {
             return strtolower($option['text'] . '-text');
         }
-    }
-
-
-    // Tohle přesunout do služby
-    // Metoda pro načtení časových možností
-    public function getPollTimeOptions(?Poll $poll = null) : array
-    {
-        if(!$poll){
-            return [];
-        }
-
-        $dates = $this->poll->timeOptions->groupBy('date')->toArray();
-
-        foreach ($dates as $dateIndex => $options) {
-            $timeOptions = [];
-            foreach ($options as $option) {
-                if ($option['start'] != null) {
-                    $timeOptions[] = [
-                        'id' => $option['id'],
-                        'type' => 'time',
-                        'start' => Carbon::parse($option['start'])->format('H:i'),
-                        'end' => Carbon::parse($option['start'])->addMinutes($option['minutes'])->format('H:i'),
-                    ];
-                } else {
-                    $timeOptions[] = [
-                        'id' => $option['id'],
-                        'type' => 'text',
-                        'text' => $option['text'],
-                    ];
-                }
-            }
-
-            $this->dates[$dateIndex] = [
-                'date' => $dateIndex,
-                'options' => $timeOptions,
-            ];
-        }
-
-        return $dates;
-        //dd($this->dates);
-
     }
 
 

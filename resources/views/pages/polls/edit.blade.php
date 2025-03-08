@@ -7,7 +7,7 @@
         <h1 class="my-3">Edit Poll</h1>
 
         <!-- Livewire komponenta pro celý formulář úpravy ankety -->
-        <livewire:poll.form :poll="$poll" />
+        <livewire:poll.form2 :poll="$poll" />
     </div>
 
 
