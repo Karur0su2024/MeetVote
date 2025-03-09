@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
 use Illuminate\Support\Str;
@@ -15,13 +14,29 @@ class PollService
     protected TimeOptionService $timeOptionService;
     protected QuestionService $questionService;
 
+
+    public function getTimeOptionService(): TimeOptionService
+    {
+        return $this->timeOptionService;
+    }
+
+    public function getQuestionService(): QuestionService
+    {
+        return $this->questionService;
+    }
+
+
+    // Konstruktor
+    public function __construct(TimeOptionService $timeOptionService, QuestionService $questionService)
+    {
+        // Inicializace služeb
+        $this->timeOptionService = $timeOptionService;
+        $this->questionService = $questionService;
+    }
+
     // Metoda pro načtení dat ankety
     public function getPollData(?Poll $poll) : array
     {
-        $timeOptionService = new TimeOptionService();
-        $questionService = new QuestionService();
-
-        //dd($timeOptionService->loadTimeOptionsForPoll($poll));
 
         return [
             'title' => $poll->title ?? 'abc',
@@ -38,8 +53,8 @@ class PollService
                 'invite_only' => (bool)$poll?->invite_only,
                 'password' => $poll?->password ?? '',
             ],
-            'questions' => $questionService->getPollQuestions($poll),
-            'time_options' => $timeOptionService->getPollTimeOptions($poll),
+            'questions' => $this->questionService->getPollQuestions($poll),
+            'time_options' => $this->timeOptionService->getPollTimeOptions($poll),
         ];
     }
 
@@ -47,8 +62,6 @@ class PollService
     // Metoda pro vytvoření nové ankety
     public function createPoll(array $validatedData) : Poll
     {
-        $questionService = new QuestionService();
-        $timeOptionService = new TimeOptionService();
 
         $poll = Poll::create([
             'title' => $validatedData['title'],
@@ -67,8 +80,10 @@ class PollService
             'status' => 'active',
         ]);
 
-        $questionService->saveQuestions($poll, $validatedData['questions'], []);
-        $timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
+        $this->questionService->saveQuestions($poll, $validatedData['questions'], []);
+
+
+        $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
 
         return $poll;
 
@@ -79,8 +94,6 @@ class PollService
     // Metoda pro aktualizaci ankety
     public function updatePoll(Poll $poll, array $validatedData) : Poll
     {
-        $questionService = new QuestionService();
-        $timeOptionService = new TimeOptionService();
 
         $poll->update([
             'title' => $validatedData['title'],
@@ -93,13 +106,15 @@ class PollService
             'password' => $validatedData['settings']['password'],
         ]);
 
-        $timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
-        $questionService->saveQuestions($poll, $validatedData['questions']);
+        //dd($validatedData['time_options']);
+
+        $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
+        $this->questionService->saveQuestions($poll, $validatedData['questions']);
 
 
-        $timeOptionService->deleteTimeOptions($validatedData['removed']['time_options']);
-        $questionService->deleteQuestions($validatedData['removed']['questions']);
-        $questionService->deleteQuestionOptions($validatedData['removed']['question_options']);
+        $this->timeOptionService->deleteTimeOptions($validatedData['removed']['time_options']);
+        $this->questionService->deleteQuestions($validatedData['removed']['questions']);
+        $this->questionService->deleteQuestionOptions($validatedData['removed']['question_options']);
 
 
 
@@ -113,26 +128,19 @@ class PollService
     // Metoda pro načtení časových možností pro hlasování
     public function getPollTimeOptions(?Poll $poll) : array
     {
-
         if(!$poll){
-
             return [];
         }
-
 
         foreach ($poll->timeOptions as $timeOption) {
             $timeOptions[] = [
                 'id' => $timeOption->id,
                 'start_time' => $timeOption->start_time,
                 'end_time' => $timeOption->end_time,
-                'chosen_preference' => 0,
+                //'chosen_preference' => 0,
             ];
         }
         return $timeOptions;
     }
-
-
-
-
 
 }

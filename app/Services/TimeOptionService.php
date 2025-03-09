@@ -8,14 +8,17 @@ use App\Models\TimeOption;
 
 class TimeOptionService
 {
+
+
+    // Metoda pro načtení časových možností ankety
+    // Pokud není anketa nastavena, vrátí dvě časové možnosti
+    // Pokud je anketa nastavena, vrátí pole časových možností ankety
     public function getPollTimeOptions(?Poll $poll) : array
     {
         $timeOptions = [];
 
-        if(!$poll){
+        if(!Poll::where('id', $poll->id)->first()) {
             $timeOptions[] = $this->addNewOption(Carbon::today()->format('Y-m-d'), 'time', null);
-
-            $timeOptions[] = $this->addNewOption(Carbon::tomorrow()->format('Y-m-d'), 'time', null);
 
             return $timeOptions;
         }
@@ -37,81 +40,53 @@ class TimeOptionService
         return $timeOptions;
 
 
-
     }
 
+
+    // Metoda pro smazání existujících časových možností
     public function deleteTimeOptions(array $deletedOptions) : void
     {
         TimeOption::whereIn('id', $deletedOptions)->delete();
     }
 
+
+
+    // Metoda pro uložení časových možností do databáze
+    // Pokud časová možnost již existuje, aktualizuje ji
+    // Pokud časová možnost neexistuje, vytvoří ji
     public function saveTimeOptions(Poll $poll, array $timeOptions) : bool
     {
         foreach($timeOptions as $option) {
-            if ($option['type'] == 'time') {
-                $minutes = Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end']);
 
-                if (isset($option['id'])) {
-
-
-
-                    // Aktualizace časové možnosti, která již existuje
-                    $newOption = TimeOption::find($option['id']);
-                    if (!$newOption) {
-
-                        return false;
-                    }
-                    $newOption->update([
-                        'start' => $option['date'] . ' ' . $option['content']['start'],
-                        'minutes' => $minutes
-                    ]);
+            $minutes = isset($option['content']['start']) && isset($option['content']['end'])
+            ? Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end'])
+            : null;
 
 
+            $optionToAdd = [
+                'date' => $option['date'],
+                'text' => $option['content']['text'] ?? null,
+                'start' => $option['content']['start'] ?? null,
+                'minutes' => $minutes,
+            ];
 
-                } else {
-
-                    // Přidání nové časové možnosti do databáze
-                    $poll->timeOptions()->create([
-                        'date' => $option['date'],
-                        'start' => $option['content']['start'],
-                        'minutes' => $minutes
-                    ]);
-                }
-            } else {
-
-                if (isset($option['id'])) {
-                    // Aktualizace textové možnosti, která již existuje
-                    $newOption = TimeOption::find($option['id']);
-                    if (!$newOption) {
-                        $this->addError('save', 'Failed to update: Time option not found.');
-                        return false;
-                    }
-                    $newOption->update([
-                        'text' => $option['content']['text'],
-                    ]);
-
-                } else {
-
-                    // Přidání textové možnosti do databáze
-                    $poll->timeOptions()->create([
-                        'date' => $option['date'],
-                        'text' => $option['content']['text'],
-                    ]);
-
-                }
+            if(isset($option['id'])){
+                $poll->timeOptions()->where('id', $option['id'])->update($optionToAdd);
             }
+            else{
+                $poll->timeOptions()->create($optionToAdd);
+            }
+
+
         }
+
         return true;
     }
 
 
-    // Metoda pro vytvoření nové časové možnosti do pole
-    public function addNewOption($date, $type, $lastEnd) : array
+    // Metoda pro přidání nové možnosti do pole
+    public function addNewOption(String $date, String $type, ?String $lastEnd) : array
     {
-        //return $this->addNewTimeOption($date, $lastEnd);
-        //dd($lastEnd);
-
-
         if($type === 'text'){
             $content = [
                 'text' => '',
@@ -132,7 +107,7 @@ class TimeOptionService
 
 
     // Metoda pro přidání nové možnosti do pole typu čas
-    public function addNewTimeOption($lastEnd) : array
+    public function addNewTimeOption(?String $lastEnd) : array
     {
         if($lastEnd){
             return [
@@ -150,33 +125,48 @@ class TimeOptionService
 
 
 
-    public function checkDuplicity($options): bool
+    // Kontrola, zda nejsou v časových možnostech duplicity
+    // Pokud ano, vrátí true
+    public function checkDuplicity(Array $options): bool
     {
         $toCheck = array_map(function ($item) {
             return $this->convertContentToText($item);
         }, $options);
 
-        //dd($toCheck);
-
-
         return count($options) !== count(array_unique($toCheck));
 
     }
 
-
     // Metoda pro převod konce časové možnosti
-    private function getEndOfTimeOption($start, $minutes){
+    private function getEndOfTimeOption(String $start, String $minutes){
         return Carbon::parse($start)->addMinutes($minutes)->format('H:i');
     }
 
 
-    // Metoda pro konverzi časové možnosti na textovou podobu
+    // Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
     private function convertContentToText($option) : string
     {
         return $option['date'] . ' ' . strtolower(implode('-', $option['content']));
 
     }
 
+
+
+    // Přesunout do služby
+    public function getLastEnd(array $date): ?string
+    {
+        $endTime = null;
+
+        if (isset($date)) {
+            foreach ($date as $options) {
+                if (isset($options['content']['end'])) {
+                    $endTime = $options['content']['end'];
+                }
+            }
+        }
+
+        return $endTime;
+    }
 
 
 

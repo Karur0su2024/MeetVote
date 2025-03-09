@@ -10,18 +10,20 @@ use App\Services\PollService;
 use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Poll;
+use Illuminate\Support\Facades\Log;
 
 class Form2 extends Component
 {
     // Služby
-    protected PollService $pollService;
-    protected TimeOptionService $timeOptionService;
-    protected QuestionService $questionService;
+    protected ?PollService $pollService;
+    protected ?TimeOptionService $timeOptionService;
+    protected ?QuestionService $questionService;
 
     public PollForm $form;
 
 
-    public $poll;
+    public ?Poll $poll;
 
     public $removedTimeOptions = [];
     public $removedQuestions = [];
@@ -30,27 +32,78 @@ class Form2 extends Component
 
     public function __construct()
     {
-        $this->pollService = new PollService();
-        $this->timeOptionService = new TimeOptionService();
-        $this->questionService = new QuestionService();
+        $this->pollService = app(PollService::class);
+        $this->timeOptionService = app(TimeOptionService::class);
+        $this->questionService = app(QuestionService::class);
     }
 
-    public function mount($poll = null) : void
+    // Konstruktor
+    public function mount(?Poll $poll): void
     {
+        // Načtení dat ankety
+        $this->poll = $poll;
 
         $this->form->loadForm($this->pollService->getPollData($poll));
+
     }
 
 
-    public function submit(){
-
+    // Metoda po odelání formuláře
+    public function submit()
+    {
+        // Validace
         try {
             $validatedData = $this->validate();
         } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->errors());
+            Log::error($e->errors());
+            session()->flash('error', 'Validation failed. Please check your input.');
+            return;
         }
 
-        //přesunutí do jiné proměnné
+        $validatedData = $this->prepareValidatedDataArray($validatedData);
+
+
+        if ($this->checkDuplicity($validatedData)) {
+            return;
+        }
+
+        $this->savePoll($validatedData);
+
+    }
+
+
+
+    // Metoda pro transakci a uložení ankety
+    private function savePoll($validatedData){
+        try {
+            DB::beginTransaction();
+
+
+            if (Poll::find($this->poll->id)) {
+                // Uložení změn ankety
+                $this->poll = $this->pollService->updatePoll($this->poll, $validatedData);
+            } else {
+
+                $this->poll = $this->pollService->createPoll($validatedData);
+            }
+        } catch (\Throwable $e) {
+            dd($e);
+            DB::rollBack();
+            // Zpracování chyby
+            return;
+        }
+
+        DB::commit();
+        session()->put('poll_' . $this->poll->public_id . '_adminKey', $this->poll->admin_key);
+        return redirect()->route('polls.show', $this->poll);
+    }
+
+
+    // Úprava pole pro uložení do databáze
+    private function prepareValidatedDataArray($validatedData) : array
+    {
+
+        // Převod z dat do formátu pro uložení do databáze
         $validatedData['time_options'] = array_reduce($validatedData['dates'], function ($carry, $date) {
             return array_merge($carry, $date);
         }, []);
@@ -63,88 +116,50 @@ class Form2 extends Component
             'question_options' => $this->removedQuestionOptions,
         ];
 
-
-
-
-        //dd($validatedData);
-
-        // Zkontrolovat duplicity
-        // Zde zkontrolovat duplicity
-        // Později
-                //Uložit změny
-
-        if($this->checkDuplicity($validatedData)){
-            return;
-        }
-
-
-
-
-        try {
-            DB::beginTransaction();
-            if($this->poll) {
-                // Uložení změn ankety
-                $this->poll = $this->pollService->updatePoll($this->poll, $validatedData);
-            } else {
-                // Vytvoření nové ankety
-                $this->poll = $this->pollService->createPoll($validatedData);
-            }
-
-
-        } catch (\Throwable $e) {
-            dd($e);
-            DB::rollBack();
-            // Zpracování chyby
-            return;
-
-        }
-
-        //dd("test");
-
-        DB::commit();
-        session()->put('poll_' . $this->poll->public_id . '_adminKey', $this->poll->admin_key);
-        return redirect()->route('polls.show', $this->poll);
-
+        return $validatedData;
     }
 
-    private function checkDuplicity($validatedData){
-        if($this->timeOptionService->checkDuplicity($validatedData['time_options'])) {
+
+    // Kontrola duplicitních otázek a časových možností
+    private function checkDuplicity($validatedData)
+    {
+        if ($this->timeOptionService->checkDuplicity($validatedData['time_options'])) {
             $this->addError('form.dates', 'Duplicate time options are not allowed.');
             return true;
         }
 
-        if($this->questionService->checkDupliciteQuestions($validatedData['questions'])) {
+        if ($this->questionService->checkDupliciteQuestions($validatedData['questions'])) {
             $this->addError('form.questions', 'Duplicate questions are not allowed.');
-            dd('Duplicate questions are not allowed.');
             return true;
         }
 
         //Dodělat kontrolu duplicitních otázek
-
+        return false;
     }
 
 
-    // Blok funkcí pro data
-    //
-    //
+    // Funkce pro přidání data
+    // Volá se po výběru dne v kalendáři
     #[On('addDate')]
-    public function addDate($date) : void
+    public function addDate($date): void
     {
         $this->resetErrorBag('form.dates');
 
 
         // Kontrola zda je datum již přidáno
-        if(isset($this->form->dates[$date])) {
+        if (isset($this->form->dates[$date])) {
             $this->addError('form.dates', 'This date has already been added.');
             return;
         }
 
         $isNotPast = Carbon::parse($date)->isFuture() || Carbon::parse($date)->isToday();
 
-        if(!$isNotPast) {
+        if (!$isNotPast) {
             $this->addError('form.dates', 'You cannot add a date in the past.');
             return;
         }
+
+        $this->form->dates[$date] = [];
 
         $this->addTimeOption($date, 'time');
 
@@ -154,34 +169,35 @@ class Form2 extends Component
 
         //dd($this->form->dates);
         return;
-
     }
 
 
     // Funkce pro odstranění data
-    public function removeDate($date) : bool
+    // V případě, že je poslední časová možnost, nelze ji odstranit
+    // Odstraní také všechny časové možnosti uvnitř data
+    public function removeDate($date): bool
     {
-        //dd($this->form->dates);
-        // Přidat komentář
         $this->resetErrorBag('form.dates');
 
-        // Přidat komentář
-        if(!isset($this->form->dates[$date])) {
+        if (!isset($this->form->dates[$date])) {
             $this->addError('form.dates', 'The selected date does not exist.');
             return false;
         }
 
-        // Přidat komentář
-        if(count($this->form->dates) < 2) {
+        if (count($this->form->dates) < 2) {
             $this->addError('form.dates', 'You must have at least one date.');
             return false;
         }
 
-        //dd($this->form->dates[$date]);
-        // Přidat komentář
-        unset($this->form->dates[$date]);
 
-        // Přidat komentář
+        foreach($this->form->dates[$date] as $optionIndex => $option) {
+            if(isset($option['id'])) {
+                $this->removedTimeOptions[] = $option['id'];
+            }
+        }
+
+
+        unset($this->form->dates[$date]);
         ksort($this->form->dates);
 
         return true;
@@ -191,45 +207,61 @@ class Form2 extends Component
     // Funkce pro přidání časové možnosti
     //
     //
-    public function addTimeOption($date, $type) : void
+    public function addTimeOption($date, $type): void
     {
         $this->resetErrorBag('form.dates');
 
 
-        if(isset($this->form->timeOptions[$date])) {
+        if (isset($this->form->timeOptions[$date])) {
             // přidat error
             return;
         }
 
-        $this->form->dates[$date][] = $this->timeOptionService->addNewOption($date, $type, $this->getLastEnd($date));
 
+        $this->form->dates[$date][] = $this->timeOptionService->addNewOption($date, $type, $this->timeOptionService->getLastEnd($this->form->dates[$date]));
+
+        ksort($this->form->dates);
         //dd($this->form->dates);
         return;
     }
 
-    public function removeTimeOption($date, $optionIndex) : void
+    public function removeTimeOption($date, $optionIndex): void
     {
+        dd("test");
         $this->resetErrorBag('form.dates');
 
-        if(!isset($this->form->dates[$date][$optionIndex])) {
+        if (!isset($this->form->dates[$date][$optionIndex])) {
             $this->addError('form.dates', 'This time option does not exist.');
             return;
         }
 
-        if(count($this->form->dates[$date]) < 2) {
-            if($this->removeDate($date)) {
-                unset($this->form->dates[$date]);
-            }
-            else {
+        // Pokud je poslední časová možnost, nelze ji odstranit
+        if (count($this->form->dates[$date]) < 2) {
+            // Pokud je poslední datum, nelze jej odstranit
+            if (count($this->form->dates) < 2) {
                 $this->addError('form.dates', 'You must have at least one date.');
                 return;
             }
+
+
+            // Pro existující ankety
+            if (isset($this->form->dates[$date][$optionIndex]['id'])) {
+                $this->removedTimeOptions[] = $this->form->dates[$date][$optionIndex]['id'];
+            }
+
+
+            if ($this->removeDate($date)) {
+                unset($this->form->dates[$date]);
+            }
+
+            ksort($this->form->dates);
+            return;
         }
 
 
 
         // Pro existující ankety
-        if(isset($this->form->dates[$date][$optionIndex]['id'])) {
+        if (isset($this->form->dates[$date][$optionIndex]['id'])) {
             $this->removedTimeOptions[] = $this->form->dates[$date][$optionIndex]['id'];
         }
 
@@ -240,14 +272,13 @@ class Form2 extends Component
         $this->form->dates[$date] = array_values($this->form->dates[$date]);
 
         return;
-
     }
     //
     //
     // Funkce pro přidání otázky
     //
     //
-    public function addQuestion() : void
+    public function addQuestion(): void
     {
         $this->form->questions[] = [
             'text' => '',
@@ -265,7 +296,7 @@ class Form2 extends Component
         return;
     }
 
-    public function removeQuestion($questionIndex) : void
+    public function removeQuestion($questionIndex): void
     {
         // Pokud otázka neexistuje, nelze ji odstranit
         if (isset($this->form->questions[$questionIndex])) {
@@ -275,7 +306,7 @@ class Form2 extends Component
             return;
         }
 
-        if(isset($question['id'])){
+        if (isset($question['id'])) {
             $this->removedQuestions[] = $question['id'];
         }
 
@@ -284,10 +315,9 @@ class Form2 extends Component
         $this->form->questions = array_values($this->form->questions);
 
         return;
-
     }
 
-    public function addQuestionOption($questionIndex) : void
+    public function addQuestionOption($questionIndex): void
     {
         $this->resetErrorBag('questions');
 
@@ -303,24 +333,23 @@ class Form2 extends Component
         return;
     }
 
-    public function removeQuestionOption($questionIndex, $optionIndex) : void
+    public function removeQuestionOption($questionIndex, $optionIndex): void
     {
         $this->resetErrorBag('form.questions');
 
-        if(isset($this->form->questions[$questionIndex]['options'][$optionIndex])) {
+        if (isset($this->form->questions[$questionIndex]['options'][$optionIndex])) {
             $options = &$this->form->questions[$questionIndex]['options'];
-        }
-        else {
+        } else {
             $this->addError('form.questions', 'The selected option does not exist.');
             return;
         }
 
-        if(count($options) <= 2) {
+        if (count($options) <= 2) {
             $this->addError('form.questions', 'The question must have at least two options.');
             return;
         }
 
-        if(isset($options[$optionIndex]['id'])) {
+        if (isset($options[$optionIndex]['id'])) {
             $this->removedQuestionOptions[] = $options[$optionIndex]['id'];
         }
 
@@ -331,22 +360,6 @@ class Form2 extends Component
         return;
     }
 
-
-
-    // Přesunout do služby
-    private function getLastEnd($date) : ?string
-    {
-        $endTime = null;
-
-        if(isset($this->form->dates[$date])) {
-            foreach($this->form->dates[$date] as $options) {
-                if(isset($options['content']['end'])) {
-                    $endTime = $options['content']['end'];
-                }
-            }
-        }
-        return $endTime;
-    }
 
 
 

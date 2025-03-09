@@ -10,11 +10,14 @@ use App\Models\QuestionOption;
 class QuestionService
 {
 
-    public function getPollQuestions(Poll $poll) : array
+    // Metoda pro načtení otázek ankety
+    // Pokud není anketa nastavena, vrátí prázdné pole
+    // Pokud je anketa nastavena, vrátí pole otázek s možnostmi
+    public function getPollQuestions(?Poll $poll) : array
     {
         $questions = [];
 
-        if(!$poll) {
+        if(!Poll::where('id', $poll->id)->first()) {
             return $questions;
         }
 
@@ -38,6 +41,9 @@ class QuestionService
     }
 
 
+    // Metoda pro uložení otázek do databáze
+    // Pokud otázka již existuje, aktualizuje ji
+    // Pokud otázka neexistuje, vytvoří ji
     public function saveQuestions(Poll $poll, array $questions) : void
     {
         foreach ($questions as $question) {
@@ -67,6 +73,9 @@ class QuestionService
 
 
 
+    // Metoda pro uložení možností otázky do databáze
+    // Pokud možnost otázky již existuje, aktualizuje ji
+    // Pokud možnost otázky neexistuje, vytvoří ji
     public function saveQuestionOptions(PollQuestion $question, array $options) : void
     {
         foreach ($options as $option) {
@@ -90,18 +99,22 @@ class QuestionService
         }
     }
 
+    // Metoda pro odstranění otázek a jejich možností
     public function deleteQuestions(array $removedQuestions) : void
     {
         PollQuestion::whereIn('id', $removedQuestions)->delete();
     }
 
 
+    // Metoda pro odstranění možností otázek
     public function deleteQuestionOptions(array $removedQuestionOptions) : void
     {
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();
     }
 
 
+    // Metoda pro kontrolu duplicitních otázek
+    // Pokud otázka již existuje, vrátí true
     public function checkDupliciteQuestions(array $questions) : bool
     {
         $questionText = [];
@@ -116,6 +129,8 @@ class QuestionService
         return count($questionText) !== count(array_unique($questionText));
     }
 
+    // Metoda pro kontrolu duplicitních možností
+    // Pokud možnost již existuje, vrátí true
     private function checkDupliciteOptions(array $options) : bool
     {
         $optionText = [];

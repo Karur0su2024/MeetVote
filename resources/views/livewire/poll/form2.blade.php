@@ -18,9 +18,9 @@
                     @if (!$poll)
                         <hr>
                         <div>
-                            <x-input id="userName" model="form.user.name" type="text" label="Your name"
-                            />
-                            <x-input id="userEmail" model="form.user.email" type="email" label="Your email"
+                            <x-input id="user_name" model="form.user.name" type="text" label="Your name"
+                                     mandatory="true"  />
+                            <x-input id="user_email" model="form.user.email" type="email" label="Your email"
                                      mandatory="true"  />
                         </div>
                     @endif
