@@ -2,17 +2,20 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Component;
 
 class Settings extends Component
 {
-
     public $name;
+
     public $email;
+
     public $current_password;
+
     public $new_password;
+
     public $password_confirmation;
 
     public function mount()
@@ -20,12 +23,11 @@ class Settings extends Component
 
         // Zjištění, zda je uživatel přihlášený
         // Načtení jména a emailu
-        if(Auth::check()) {
+        if (Auth::check()) {
             $this->name = Auth::user()->name;
             $this->email = Auth::user()->email;
         }
     }
-
 
     // Metoda pro aktualizaci jména a emailu
     public function updateProfile()
@@ -33,23 +35,17 @@ class Settings extends Component
         // Validace jména a emailu
         $this->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|unique:users,email,'.Auth::id(),
         ]);
-
-
 
         // Zjištění, zda je uživatel přihlášený
         // Aktualizace jména a emailu
-        if(Auth::check()) {
+        if (Auth::check()) {
             Auth::user()->update([
                 'name' => $this->name,
                 'email' => $this->email,
             ]);
         }
-
-
-
-
 
     }
 
@@ -58,7 +54,7 @@ class Settings extends Component
     {
 
         // Zjištění, zda je aktuální heslo správné
-        if(!Hash::check($this->current_password, Auth::user()->password)){
+        if (! Hash::check($this->current_password, Auth::user()->password)) {
             return;
         }
 
@@ -71,7 +67,6 @@ class Settings extends Component
         Auth::user()->update([
             'password' => bcrypt($this->new_password),
         ]);
-
 
         // Resetování proměnných
         // Přesunout do vlastní metody
@@ -94,15 +89,14 @@ class Settings extends Component
         // Přidat propojení s kalendářem
     }
 
-
-
     // Metoda pro smazání účtu
-    public function deleteAccount(){
+    public function deleteAccount()
+    {
         // přidat potvrzení
         Auth::user()->delete();
+
         return redirect()->route('login');
     }
-
 
     public function render()
     {

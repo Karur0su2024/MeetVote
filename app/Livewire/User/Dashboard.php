@@ -2,21 +2,19 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Dashboard extends Component
 {
     public $polls;
 
-
-    public $search = "";
+    public $search = '';
 
     public function mount()
     {
         $this->loadPolls();
-
 
         $this->polls = Auth::user()->polls;
     }
@@ -34,23 +32,16 @@ class Dashboard extends Component
         return view('livewire.user.dashboard');
     }
 
-
-
     // Načtení anket
     private function loadPolls()
     {
 
         // Načtení anket
         $this->polls = Poll::where('user_id', Auth::id())
-        ->where('title', 'like', '%' . $this->search . '%')->get();
+            ->where('title', 'like', '%'.$this->search.'%')->get();
 
-    
         // Seskupení anket podle jejich statusu
         $this->polls = $this->polls->groupBy('status')->all();
-
-
-
-
 
     }
 }

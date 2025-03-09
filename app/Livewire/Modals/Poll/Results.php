@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
-use App\Models\Vote;
-use Livewire\Attributes\On;
 use App\Models\Poll;
+use App\Models\Vote;
+use Livewire\Component;
 
 class Results extends Component
 {
     public $votes;
+
     public $poll;
 
     public function mount($publicIndex)

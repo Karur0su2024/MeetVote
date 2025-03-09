@@ -8,11 +8,13 @@ class VoteQuestionOption extends Model
 {
     protected $fillable = ['vote_id', 'poll_question_id', 'question_option_id', 'preference'];
 
-    public function vote() {
+    public function vote()
+    {
         return $this->belongsTo(Vote::class);
     }
 
-    public function questionOption() {
+    public function questionOption()
+    {
         return $this->belongsTo(QuestionOption::class);
     }
 }

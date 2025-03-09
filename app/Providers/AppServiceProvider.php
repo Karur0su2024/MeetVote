@@ -3,9 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Services\PollService;
-use App\Services\TimeOptionService;
-use App\Services\QuestionService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,10 +18,10 @@ class AppServiceProvider extends ServiceProvider
             );
         });
         $this->app->singleton('App\Services\TimeOptionService', function ($app) {
-            return new \App\Services\TimeOptionService();
+            return new \App\Services\TimeOptionService;
         });
         $this->app->singleton('App\Services\QuestionService', function ($app) {
-            return new \App\Services\QuestionService();
+            return new \App\Services\QuestionService;
         });
     }
 

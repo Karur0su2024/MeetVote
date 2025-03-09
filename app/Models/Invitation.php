@@ -8,7 +8,8 @@ class Invitation extends Model
 {
     protected $fillable = ['poll_id', 'email', 'status', 'key'];
 
-    public function poll() {
+    public function poll()
+    {
         return $this->belongsTo(Poll::class);
     }
 }

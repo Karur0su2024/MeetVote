@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('status', 45);
             $table->timestamp('deadline')->nullable();
-            //Později přidat pro časovou zónu
+            // Později přidat pro časovou zónu
             $table->timestamps();
         });
     }

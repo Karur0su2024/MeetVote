@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class ResetPassword extends Component
 {
     public string $token = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     /**
@@ -69,10 +70,8 @@ class ResetPassword extends Component
         $this->redirectRoute('login', navigate: true);
     }
 
-
     public function render()
     {
         return view('livewire.auth.reset-password');
     }
 }
-

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Poll;
+use Illuminate\Http\Request;
 
 class PollController extends Controller
 {
-    
     public function create()
     {
         return view('pages.polls.create');
@@ -31,9 +29,10 @@ class PollController extends Controller
 
     public function checkPassword(Request $request, Poll $poll)
     {
-        if($request->password === $poll->password) {
-            //return dd('OK');
-            session()->put('poll_' . $poll->public_id . '_password', $request->password);
+        if ($request->password === $poll->password) {
+            // return dd('OK');
+            session()->put('poll_'.$poll->public_id.'_password', $request->password);
+
             return redirect()->route('polls.show', $poll);
         }
 
@@ -42,13 +41,12 @@ class PollController extends Controller
 
     public function addAdmin(Poll $poll, $admin_key)
     {
-        if($admin_key !== $poll->admin_key) {
-            //return redirect()->back()->with('error', 'Špatný klíč správce ankety');
+        if ($admin_key !== $poll->admin_key) {
+            // return redirect()->back()->with('error', 'Špatný klíč správce ankety');
         }
 
-        session()->put('poll_' . $poll->public_id . '_adminKey', $admin_key);
+        session()->put('poll_'.$poll->public_id.'_adminKey', $admin_key);
 
         return redirect()->route('polls.show', $poll);
     }
-
 }

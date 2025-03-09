@@ -2,20 +2,22 @@
 
 namespace App\Livewire\Auth;
 
-use Livewire\Component;
+use App\Models\Poll;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use App\Models\Poll;
+use Livewire\Component;
 
 class Register extends Component
 {
-
     public string $name = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     /**
@@ -35,7 +37,7 @@ class Register extends Component
 
         $polls = Poll::where('author_email', $user->email)->get();
 
-        foreach($polls as $poll) {
+        foreach ($polls as $poll) {
             $poll->user_id = $user->id;
             $poll->save();
         }

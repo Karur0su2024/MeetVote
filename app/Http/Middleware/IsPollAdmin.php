@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class IsPollAdmin
 {
@@ -18,9 +18,9 @@ class IsPollAdmin
     {
 
         if (Auth::check() === false) {
-            if (session()->has('poll_' . $request->poll->public_id . '_adminKey')) {
+            if (session()->has('poll_'.$request->poll->public_id.'_adminKey')) {
                 // Porovnání klíče správce ankety z databáze s klíčem uloženým v session
-                if (session()->get('poll_' . $request->poll->public_id . '_adminKey') === $request->poll->admin_key) {
+                if (session()->get('poll_'.$request->poll->public_id.'_adminKey') === $request->poll->admin_key) {
                     $this->setPermissions($request);
                 }
             }
@@ -30,17 +30,15 @@ class IsPollAdmin
             }
         }
 
-        if (!$request->get('isPollAdmin')) {
+        if (! $request->get('isPollAdmin')) {
             // Pokud uživatel není správcem ankety, je přesměrován na stránku s anketou
-            if (!$request->routeIs('polls.show')) {
+            if (! $request->routeIs('polls.show')) {
                 return redirect()->route('polls.show', $request->poll);
             }
         }
 
-
         return $next($request);
     }
-
 
     // nastavení práv pro správce ankety
     private function setPermissions($request)

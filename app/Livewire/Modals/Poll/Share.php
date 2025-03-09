@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
 use App\Models\Poll;
+use Livewire\Component;
 
 class Share extends Component
 {
     public $poll;
+
     public $link;
+
     public $adminLink;
 
     public function mount($publicIndex)

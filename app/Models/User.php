@@ -47,25 +47,30 @@ class User extends Authenticatable
     }
 
     // Vztah k anketám (1:N)
-    public function polls() {
+    public function polls()
+    {
         return $this->hasMany(Poll::class);
     }
 
     // Vztah k hlasováním (1:N)
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
     // Vztah k hlasováním (1:N)
-    public function votes() {
+    public function votes()
+    {
         return $this->hasMany(Vote::class);
     }
 
-    public function attendeePolls(){
+    public function attendeePolls()
+    {
         return $this->belongsToMany(Poll::class, 'votes');
     }
 
-    public function events(){
+    public function events()
+    {
         return $this->votes()->with('poll.event');
     }
 }

@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
 use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class DeletePoll extends Component
 {
-
     public $poll;
 
     public function mount($publicIndex)
@@ -16,16 +15,14 @@ class DeletePoll extends Component
         $this->poll = Poll::where('public_id', $publicIndex)->first();
     }
 
-
     // Smazání ankety
     public function deletePoll()
     {
         $this->poll->delete();
-        
-        if(Auth::check()) {
+
+        if (Auth::check()) {
             return redirect()->route('dashboard');
-        }
-        else {
+        } else {
             return redirect()->route('home');
         }
 

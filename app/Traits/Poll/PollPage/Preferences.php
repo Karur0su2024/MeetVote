@@ -2,23 +2,19 @@
 
 namespace App\Traits\Poll\PollPage;
 
-use Livewire\Attributes\On;
-
 trait Preferences
 {
-
-
     // Metoda pro změnu preference časové možnosti
     public function changePreference($optionIndex, $questionIndex = null)
     {
-        //dd('test');
-        //dd($questionIndex);
-        //dd('test');
+        // dd('test');
+        // dd($questionIndex);
+        // dd('test');
 
         if ($questionIndex !== null) {
             $option = &$this->questions[$questionIndex]['options'][$optionIndex];
-            
-            //dd($option);
+
+            // dd($option);
             switch ($option['chosen_preference']) {
                 case 0:
                     $option['chosen_preference'] = 2;
@@ -27,10 +23,10 @@ trait Preferences
                     $option['chosen_preference'] = 0;
                     break;
             }
-            //dd($option);
+            // dd($option);
         } else {
             $option = &$this->timeOptions[$optionIndex];
-            
+
             switch ($option['chosen_preference']) {
                 case 0:
                     $option['chosen_preference'] = 2;
@@ -45,7 +41,7 @@ trait Preferences
                     $option['chosen_preference'] = 0;
                     break;
             }
-            //dd($option);
+            // dd($option);
         }
     }
 
@@ -62,7 +58,6 @@ trait Preferences
         }
     }
 
-
     private function resetOptions()
     {
 
@@ -70,9 +65,6 @@ trait Preferences
         $this->resetTimeOptions();
         $this->resetQuestionOptions();
     }
-
-
-
 
     // Metoda pro resetování časových možností
     private function resetTimeOptions()
@@ -114,7 +106,6 @@ trait Preferences
             ];
         }
     }
-
 
     // Metoda pro resetování otázek a jejich možností
     private function resetQuestionOptions()

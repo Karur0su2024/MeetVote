@@ -8,11 +8,13 @@ class PollQuestion extends Model
 {
     protected $fillable = ['poll_id', 'text'];
 
-    public function poll() {
+    public function poll()
+    {
         return $this->belongsTo(Poll::class);
     }
 
-    public function options() {
+    public function options()
+    {
         return $this->hasMany(QuestionOption::class);
     }
 }

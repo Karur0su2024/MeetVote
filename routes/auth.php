@@ -1,16 +1,13 @@
 <?php
 
-use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    
 
-    //registrační formulář
+    // registrační formulář
     Route::view('register', 'pages.auth.registration')->name('register');
 
-    //login formulář
+    // login formulář
     Route::view('login', 'pages.auth.login')->name('login');
 
     Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
@@ -18,4 +15,3 @@ Route::middleware('guest')->group(function () {
     Route::view('reset-password', 'pages.auth.reset-password')->name('password.reset');
 
 });
-

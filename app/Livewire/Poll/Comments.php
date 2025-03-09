@@ -2,15 +2,18 @@
 
 namespace App\Livewire\Poll;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Comments extends Component
 {
     public $poll;
+
     public $comments;
+
     public $username;
+
     public $content;
 
     // Načtení komentářů
@@ -21,27 +24,25 @@ class Comments extends Component
         $this->resetForm();
     }
 
-
     // Resetování formuláře
-    private function resetForm(){
+    private function resetForm()
+    {
         if (Auth::check()) {
             $this->username = Auth::user()->name;
-        }
-        else {
+        } else {
             $this->username = '';
         }
 
         $this->content = '';
     }
 
-
     // Validace formuláře
-    public function addComment(){
+    public function addComment()
+    {
         $this->validate([
             'username' => 'nullable|string|max:255',
             'content' => 'required|string|max:1000',
         ]);
-
 
         $this->poll->comments()->create([
             'author_name' => $this->username,
@@ -55,13 +56,14 @@ class Comments extends Component
     }
 
     // Smazání komentáře
-    public function deleteComment($commentIndex){
+    public function deleteComment($commentIndex)
+    {
         $comment = Comment::find($commentIndex);
 
         // Kontrola, zda je komentář v databázi
-        if($comment){
+        if ($comment) {
             $comment->delete();
-        };
+        }
 
         // Nové načtení komentářů
         $this->comments = $this->poll->comments()->latest()->get();

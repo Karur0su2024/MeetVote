@@ -4,20 +4,18 @@ namespace App\Services;
 
 use App\Models\Poll;
 use App\Models\PollQuestion;
-use Carbon\Carbon;
 use App\Models\QuestionOption;
 
 class QuestionService
 {
-
     // Metoda pro načtení otázek ankety
     // Pokud není anketa nastavena, vrátí prázdné pole
     // Pokud je anketa nastavena, vrátí pole otázek s možnostmi
-    public function getPollQuestions(?Poll $poll) : array
+    public function getPollQuestions(?Poll $poll): array
     {
         $questions = [];
 
-        if(!Poll::where('id', $poll->id)->first()) {
+        if (! Poll::where('id', $poll->id)->first()) {
             return $questions;
         }
 
@@ -40,58 +38,49 @@ class QuestionService
         return $questions;
     }
 
-
     // Metoda pro uložení otázek do databáze
     // Pokud otázka již existuje, aktualizuje ji
     // Pokud otázka neexistuje, vytvoří ji
-    public function saveQuestions(Poll $poll, array $questions) : void
+    public function saveQuestions(Poll $poll, array $questions): void
     {
         foreach ($questions as $question) {
             if (isset($question['id'])) {
                 $newQuestion = PollQuestion::find($question['id']);
 
-                if(!$newQuestion) {
+                if (! $newQuestion) {
                     throw new \Exception('Question not found');
-                }
-                else {
+                } else {
                     $newQuestion->update([
                         'text' => $question['text'],
                     ]);
                 }
-            }
-            else {
+            } else {
                 $newQuestion = $poll->questions()->create([
                     'text' => $question['text'],
                 ]);
             }
 
-
             $this->saveQuestionOptions($newQuestion, $question['options']);
         }
     }
 
-
-
-
     // Metoda pro uložení možností otázky do databáze
     // Pokud možnost otázky již existuje, aktualizuje ji
     // Pokud možnost otázky neexistuje, vytvoří ji
-    public function saveQuestionOptions(PollQuestion $question, array $options) : void
+    public function saveQuestionOptions(PollQuestion $question, array $options): void
     {
         foreach ($options as $option) {
             if (isset($option['id'])) {
                 $newOption = QuestionOption::find($option['id']);
 
-                if(!$newOption) {
+                if (! $newOption) {
                     throw new \Exception('Question option not found');
-                }
-                else {
+                } else {
                     $newOption->update([
                         'text' => $option['text'],
                     ]);
                 }
-            }
-            else {
+            } else {
                 $question->options()->create([
                     'text' => $option['text'],
                 ]);
@@ -100,27 +89,25 @@ class QuestionService
     }
 
     // Metoda pro odstranění otázek a jejich možností
-    public function deleteQuestions(array $removedQuestions) : void
+    public function deleteQuestions(array $removedQuestions): void
     {
         PollQuestion::whereIn('id', $removedQuestions)->delete();
     }
 
-
     // Metoda pro odstranění možností otázek
-    public function deleteQuestionOptions(array $removedQuestionOptions) : void
+    public function deleteQuestionOptions(array $removedQuestionOptions): void
     {
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();
     }
 
-
     // Metoda pro kontrolu duplicitních otázek
     // Pokud otázka již existuje, vrátí true
-    public function checkDupliciteQuestions(array $questions) : bool
+    public function checkDupliciteQuestions(array $questions): bool
     {
         $questionText = [];
         // Kontrola duplicitních otázek
         foreach ($questions as $questionIndex => $question) {
-            if($this->checkDupliciteOptions($question['options'])) {
+            if ($this->checkDupliciteOptions($question['options'])) {
                 return true;
             }
             $questionText[] = strtolower($question['text']);
@@ -131,7 +118,7 @@ class QuestionService
 
     // Metoda pro kontrolu duplicitních možností
     // Pokud možnost již existuje, vrátí true
-    private function checkDupliciteOptions(array $options) : bool
+    private function checkDupliciteOptions(array $options): bool
     {
         $optionText = [];
         foreach ($options as $optionIndex => $option) {
@@ -140,6 +127,4 @@ class QuestionService
 
         return count($optionText) !== count(array_unique($optionText));
     }
-
-
 }

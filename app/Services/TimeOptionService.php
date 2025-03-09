@@ -3,21 +3,19 @@
 namespace App\Services;
 
 use App\Models\Poll;
-use Carbon\Carbon;
 use App\Models\TimeOption;
+use Carbon\Carbon;
 
 class TimeOptionService
 {
-
-
     // Metoda pro načtení časových možností ankety
     // Pokud není anketa nastavena, vrátí dvě časové možnosti
     // Pokud je anketa nastavena, vrátí pole časových možností ankety
-    public function getPollTimeOptions(?Poll $poll) : array
+    public function getPollTimeOptions(?Poll $poll): array
     {
         $timeOptions = [];
 
-        if(!Poll::where('id', $poll->id)->first()) {
+        if (! Poll::where('id', $poll->id)->first()) {
             $timeOptions[] = $this->addNewOption(Carbon::today()->format('Y-m-d'), 'time', null);
 
             return $timeOptions;
@@ -37,31 +35,27 @@ class TimeOptionService
                 'chosen_preference' => 0,
             ];
         }
-        return $timeOptions;
 
+        return $timeOptions;
 
     }
 
-
     // Metoda pro smazání existujících časových možností
-    public function deleteTimeOptions(array $deletedOptions) : void
+    public function deleteTimeOptions(array $deletedOptions): void
     {
         TimeOption::whereIn('id', $deletedOptions)->delete();
     }
 
-
-
     // Metoda pro uložení časových možností do databáze
     // Pokud časová možnost již existuje, aktualizuje ji
     // Pokud časová možnost neexistuje, vytvoří ji
-    public function saveTimeOptions(Poll $poll, array $timeOptions) : bool
+    public function saveTimeOptions(Poll $poll, array $timeOptions): bool
     {
-        foreach($timeOptions as $option) {
+        foreach ($timeOptions as $option) {
 
             $minutes = isset($option['content']['start']) && isset($option['content']['end'])
             ? Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end'])
             : null;
-
 
             $optionToAdd = [
                 'date' => $option['date'],
@@ -70,52 +64,44 @@ class TimeOptionService
                 'minutes' => $minutes,
             ];
 
-            if(isset($option['id'])){
+            if (isset($option['id'])) {
                 $poll->timeOptions()->where('id', $option['id'])->update($optionToAdd);
-            }
-            else{
+            } else {
                 $poll->timeOptions()->create($optionToAdd);
             }
-
 
         }
 
         return true;
     }
 
-
     // Metoda pro přidání nové možnosti do pole
-    public function addNewOption(String $date, String $type, ?String $lastEnd) : array
+    public function addNewOption(string $date, string $type, ?string $lastEnd): array
     {
-        if($type === 'text'){
+        if ($type === 'text') {
             $content = [
                 'text' => '',
             ];
-        }
-        else {
+        } else {
             $content = $this->addNewTimeOption($lastEnd);
         }
 
         return [
             'type' => $type,
             'date' => $date,
-            'content' => $content
+            'content' => $content,
         ];
     }
 
-
-
-
     // Metoda pro přidání nové možnosti do pole typu čas
-    public function addNewTimeOption(?String $lastEnd) : array
+    public function addNewTimeOption(?string $lastEnd): array
     {
-        if($lastEnd){
+        if ($lastEnd) {
             return [
                 'start' => $lastEnd,
                 'end' => $this->getEndOfTimeOption($lastEnd, 60),
             ];
-        }
-        else {
+        } else {
             return [
                 'start' => Carbon::now()->format('H:i'),
                 'end' => Carbon::now()->addHour()->format('H:i'),
@@ -123,11 +109,9 @@ class TimeOptionService
         }
     }
 
-
-
     // Kontrola, zda nejsou v časových možnostech duplicity
     // Pokud ano, vrátí true
-    public function checkDuplicity(Array $options): bool
+    public function checkDuplicity(array $options): bool
     {
         $toCheck = array_map(function ($item) {
             return $this->convertContentToText($item);
@@ -138,19 +122,17 @@ class TimeOptionService
     }
 
     // Metoda pro převod konce časové možnosti
-    private function getEndOfTimeOption(String $start, int $minutes){
+    private function getEndOfTimeOption(string $start, int $minutes)
+    {
         return Carbon::parse($start)->addMinutes($minutes)->format('H:i');
     }
 
-
     // Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
-    private function convertContentToText($option) : string
+    private function convertContentToText($option): string
     {
-        return $option['date'] . ' ' . strtolower(implode('-', $option['content']));
+        return $option['date'].' '.strtolower(implode('-', $option['content']));
 
     }
-
-
 
     // Přesunout do služby
     public function getLastEnd(array $date): ?string
@@ -167,8 +149,4 @@ class TimeOptionService
 
         return $endTime;
     }
-
-
-
-
 }

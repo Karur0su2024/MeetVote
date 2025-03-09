@@ -2,16 +2,17 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
 use App\Models\Invitation;
-use Illuminate\Support\Str;
 use App\Models\Poll;
+use Illuminate\Support\Str;
+use Livewire\Component;
 
 class Invitations extends Component
 {
-
     public $poll;
+
     public $invitations = [];
+
     public $email;
 
     protected $rules = [
@@ -25,11 +26,12 @@ class Invitations extends Component
     }
 
     // Metoda pro načtení pozvánek
-    private function loadInvitations(){
+    private function loadInvitations()
+    {
         $this->invitations = [];
         $this->poll->load('invitations');
 
-        foreach($this->poll->invitations as $invitation) {
+        foreach ($this->poll->invitations as $invitation) {
             $this->invitations[] = [
                 'id' => $invitation->id,
                 'email' => $invitation->email,
@@ -40,21 +42,20 @@ class Invitations extends Component
         }
     }
 
-
     // Metoda pro přidání pozvánky
     public function addInvitation()
     {
 
         $this->validate();
 
-        foreach($this->poll->invitations as $invitation) {
-            if($invitation->email === $this->email) {
-                //Vypsat error
+        foreach ($this->poll->invitations as $invitation) {
+            if ($invitation->email === $this->email) {
+                // Vypsat error
                 return;
             }
         }
 
-        $invitation = new Invitation();
+        $invitation = new Invitation;
         $invitation->poll_id = $this->poll->id;
         $invitation->email = $this->email;
         $invitation->status = 'pending';
@@ -70,8 +71,7 @@ class Invitations extends Component
 
     }
 
-
-    // Metoda pro odebrání pozvánky 
+    // Metoda pro odebrání pozvánky
     public function removeInvitation($id)
     {
         $invitation = Invitation::find($id);

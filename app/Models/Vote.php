@@ -8,15 +8,18 @@ class Vote extends Model
 {
     protected $fillable = ['user_id', 'poll_id', 'voter_email', 'voter_name'];
 
-    public function poll() {
+    public function poll()
+    {
         return $this->belongsTo(Poll::class);
     }
 
-    public function voteTimeOptions() {
+    public function voteTimeOptions()
+    {
         return $this->hasMany(VoteTimeOption::class);
     }
 
-    public function voteQuestionOptions() {
+    public function voteQuestionOptions()
+    {
         return $this->hasMany(VoteQuestionOption::class);
     }
 }

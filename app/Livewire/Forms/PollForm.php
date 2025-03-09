@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class PollForm extends Form
 {
     // Název ankety
-    public $title = "abc";
+    public $title = 'abc';
 
     // Popis ankety
     public $description;
@@ -26,7 +25,6 @@ class PollForm extends Form
 
     // Otázky ankety
     public $questions = [];
-
 
     protected $rules = [
         'title' => 'required|string|min:3|max:255',
@@ -54,7 +52,6 @@ class PollForm extends Form
         'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
     ];
-
 
     // Bylo použité AI pro generování všech chybových zpráv
     protected $messages = [
@@ -108,7 +105,8 @@ class PollForm extends Form
         'questions.*.options.*.text.max' => 'The option text must not exceed 255 characters.',
     ];
 
-    public function loadForm($data){
+    public function loadForm($data)
+    {
         $this->title = $data['title'];
         $this->description = $data['description'];
         $this->deadline = $data['deadline'];

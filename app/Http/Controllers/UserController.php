@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Event;
 use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function dashboard()
-    {;
+    {
         $polls = Poll::where('user_id', Auth::id())->with('event')->get();
 
-
-
-        $events = $polls->map(function ($poll){
+        $events = $polls->map(function ($poll) {
             return $poll->event;
         })->filter();
-        
+
         $events->all();
 
-        //dd($events);
+        // dd($events);
         return view('pages.user.dashboard', compact('events'));
     }
 

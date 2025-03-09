@@ -8,11 +8,13 @@ class VoteTimeOption extends Model
 {
     protected $fillable = ['vote_id', 'time_option_id', 'preference'];
 
-    public function vote() {
+    public function vote()
+    {
         return $this->belongsTo(Vote::class);
     }
 
-    public function timeOption() {
+    public function timeOption()
+    {
         return $this->belongsTo(TimeOption::class);
     }
 }

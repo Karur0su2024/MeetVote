@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Invitation;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Invitation;
 
 class PollIsInviteOnly
 {
@@ -17,32 +17,28 @@ class PollIsInviteOnly
     public function handle(Request $request, Closure $next): Response
     {
 
-        
-        if(session()->has('poll_' . $request->poll->public_id . 'adminKey')) {
+        if (session()->has('poll_'.$request->poll->public_id.'adminKey')) {
             return $next($request);
         }
 
-
-        if($request->poll->invite_only) {
+        if ($request->poll->invite_only) {
             // Kontrola, zda je v session uložen klíč pozvánky
-            if(!session()->has('poll_' . $request->poll->public_id . '_invite')) {
+            if (! session()->has('poll_'.$request->poll->public_id.'_invite')) {
                 return redirect()->route('home', $request->poll);
-            }
-            else {
+            } else {
 
                 // Získání klíče pozvánky z session
-                $invite_key = session()->get('poll_' . $request->poll->public_id . '_invite');
+                $invite_key = session()->get('poll_'.$request->poll->public_id.'_invite');
 
                 // Získání pozvánky z databáze
                 $invitation = Invitation::where('poll_id', $request->poll->id)->where('key', $invite_key)->first();
 
                 // Kontrola, zda je pozvánka platná
-                if($invitation === null) {
+                if ($invitation === null) {
                     return redirect()->route('home', $request->poll);
-                }
-                else {
+                } else {
                     // Kontrola, zda není pozvánka deaktivovaná
-                    if($invitation->status === 'deactivated') {
+                    if ($invitation->status === 'deactivated') {
                         return redirect()->route('home', $request->poll);
                     }
                 }

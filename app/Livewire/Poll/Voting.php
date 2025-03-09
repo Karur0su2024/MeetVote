@@ -2,16 +2,15 @@
 
 namespace App\Livewire\Poll;
 
-use App\Services\VoteService;
-use Livewire\Component;
 use App\Models\Vote;
-use Livewire\Attributes\On;
-use Illuminate\Support\Facades\Auth;
+use App\Services\VoteService;
 use App\Traits\Poll\PollPage\Preferences;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class Voting extends Component
 {
-
     // Služba pro hlasování
     protected $voteService;
 
@@ -20,6 +19,7 @@ class Voting extends Component
 
     // Uživatelské jméno a email
     public $userName;
+
     public $userEmail;
 
     // Časové možnosti
@@ -27,9 +27,9 @@ class Voting extends Component
 
     // Možnosti otázek
     public $questions = [];
+
     //
     public $existingVote;
-
 
     use Preferences;
 
@@ -63,7 +63,6 @@ class Voting extends Component
 
         // Resetování možností času a otázek
 
-
         $this->resetOptions();
     }
 
@@ -72,8 +71,6 @@ class Voting extends Component
     {
         $this->loadOptions();
     }
-
-
 
     // Přesunout do služby
     private function loadOptions()
@@ -110,7 +107,6 @@ class Voting extends Component
         }
     }
 
-
     // Přesunout do služby
     // Metoda pro načtení hlasu
     #[On('loadVote')]
@@ -119,7 +115,7 @@ class Voting extends Component
 
         $this->existingVote = Vote::find($voteIndex);
 
-        if (!$this->existingVote) {
+        if (! $this->existingVote) {
             return false;
         }
 
@@ -139,7 +135,6 @@ class Voting extends Component
         return true;
     }
 
-
     // Metoda pro změnu preference časové možnosti
     public function changeTimeOptionPreference($timeOptionIndex, $value)
     {
@@ -152,9 +147,8 @@ class Voting extends Component
         $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = $value;
     }
 
-
     // Přesunout do služby
-    //Metoda pro uložení hlasu
+    // Metoda pro uložení hlasu
     public function saveVote()
     {
         // Validace formuláře
@@ -170,8 +164,9 @@ class Voting extends Component
         );
 
         // Zjištění zda uživatel vybral alespoň jednu možnost
-        if (!$this->checkIfPreferencesWasChoosen()) {
+        if (! $this->checkIfPreferencesWasChoosen()) {
             $this->addError('noOptionChosen', 'You have to choose at least one option.');
+
             return;
         }
 
@@ -184,19 +179,16 @@ class Voting extends Component
             $this->existingVote
         );
 
-
         $this->dispatch('updateVotes');
 
-        //sem dát odeslání e-mailů
+        // sem dát odeslání e-mailů
 
         $this->resetForm();
     }
 
-
     private function checkIfPreferencesWasChoosen(): bool
     {
         $this->resetErrorBag('noOptionChosen');
-
 
         // Kontrola všech časových možností, zda mají vybranou nějakou preferenci
         foreach ($this->timeOptions as $timeOption) {
@@ -236,7 +228,6 @@ class Voting extends Component
 
         ]);
     }
-
 
     // Metoda pro renderování komponenty
     public function render()

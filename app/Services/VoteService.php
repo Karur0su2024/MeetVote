@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class VoteService
 {
-
-
     public function saveVote($poll, $userName, $userEmail, $timeOptions, $questions, $existingVote = null)
     {
         if ($existingVote) {
@@ -26,10 +24,9 @@ class VoteService
         }
 
         $this->saveOptionsToDatabase($vote, $timeOptions, $questions);
+
         return $vote;
     }
-
-
 
     // Metoda pro uložení jednotlivých odpovědí do databáze
     private function saveOptionsToDatabase($vote, $timeOptions, $questions)
@@ -55,7 +52,4 @@ class VoteService
             }
         }
     }
-
-
-
 }

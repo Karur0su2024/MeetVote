@@ -14,7 +14,8 @@ class Event extends Model
         'allday',
     ];
 
-    public function poll() {
+    public function poll()
+    {
         return $this->belongsTo(Poll::class);
     }
 }

@@ -2,16 +2,15 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
-use App\Models\Poll;
 use App\Models\Event as EventModel;
+use App\Models\Poll;
 use Livewire\Attributes\On;
-
+use Livewire\Component;
 
 class CreateEvent extends Component
 {
-
     public $poll;
+
     public $event = [
         'poll_id' => '',
         'title' => '',
@@ -31,32 +30,30 @@ class CreateEvent extends Component
         'event.description' => 'nullable',
     ];
 
-    public function mount($event = null){
+    public function mount($event = null)
+    {
 
-        if($event){
+        if ($event) {
             $this->event = $event;
         }
-        
+
     }
 
     #[On('loadEvent')]
-    public function loadEvent($event){
+    public function loadEvent($event)
+    {
         $this->event = $event;
     }
 
-
     // Metoda pro vytvoření nové události
-    public function createEvent(){
+    public function createEvent()
+    {
 
-        
-        
         $validatedData = $this->validate();
 
-
-        if($this->poll->event){
+        if ($this->poll->event) {
             $this->poll->event->delete();
         }
-
 
         $event = EventModel::create([
             'poll_id' => $validatedData['event']['poll_id'],
@@ -71,9 +68,7 @@ class CreateEvent extends Component
 
         $this->poll->event()->save($event);
 
-        
-        
-        //return redirect()->route('polls.show', $this->poll);
+        // return redirect()->route('polls.show', $this->poll);
     }
 
     public function render()

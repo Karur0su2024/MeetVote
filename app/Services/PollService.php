@@ -2,18 +2,15 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Services\QuestionService;
-use App\Services\TimeOptionService;
 
 class PollService
 {
-
     protected TimeOptionService $timeOptionService;
-    protected QuestionService $questionService;
 
+    protected QuestionService $questionService;
 
     public function getTimeOptionService(): TimeOptionService
     {
@@ -25,7 +22,6 @@ class PollService
         return $this->questionService;
     }
 
-
     // Konstruktor
     public function __construct(TimeOptionService $timeOptionService, QuestionService $questionService)
     {
@@ -35,7 +31,7 @@ class PollService
     }
 
     // Metoda pro načtení dat ankety
-    public function getPollData(?Poll $poll) : array
+    public function getPollData(?Poll $poll): array
     {
 
         return [
@@ -47,10 +43,10 @@ class PollService
                 'email' => $poll->author_email ?? Auth::user()?->email,
             ],
             'settings' => [
-                'anonymous' => (bool)$poll?->anonymous_votes,
-                'comments' => (bool)$poll?->comments,
-                'hide_results' => (bool)$poll?->hide_results,
-                'invite_only' => (bool)$poll?->invite_only,
+                'anonymous' => (bool) $poll?->anonymous_votes,
+                'comments' => (bool) $poll?->comments,
+                'hide_results' => (bool) $poll?->hide_results,
+                'invite_only' => (bool) $poll?->invite_only,
                 'password' => $poll?->password ?? '',
             ],
             'questions' => $this->questionService->getPollQuestions($poll),
@@ -58,9 +54,8 @@ class PollService
         ];
     }
 
-
     // Metoda pro vytvoření nové ankety
-    public function createPoll(array $validatedData) : Poll
+    public function createPoll(array $validatedData): Poll
     {
 
         $poll = Poll::create([
@@ -70,7 +65,7 @@ class PollService
             'author_name' => $validatedData['user']['name'],
             'author_email' => $validatedData['user']['email'],
             'user_id' => Auth::id(),
-            //'deadline' => $validatedData['deadline'],
+            // 'deadline' => $validatedData['deadline'],
             'description' => $validatedData['description'],
             'comments' => $validatedData['settings']['comments'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
@@ -82,23 +77,20 @@ class PollService
 
         $this->questionService->saveQuestions($poll, $validatedData['questions'], []);
 
-
         $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
 
         return $poll;
 
-
     }
 
-
     // Metoda pro aktualizaci ankety
-    public function updatePoll(Poll $poll, array $validatedData) : Poll
+    public function updatePoll(Poll $poll, array $validatedData): Poll
     {
 
         $poll->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
-            //'deadline' => $validatedData['deadline'],
+            // 'deadline' => $validatedData['deadline'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
@@ -106,29 +98,22 @@ class PollService
             'password' => $validatedData['settings']['password'],
         ]);
 
-        //dd($validatedData['time_options']);
+        // dd($validatedData['time_options']);
 
         $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
         $this->questionService->saveQuestions($poll, $validatedData['questions']);
-
 
         $this->timeOptionService->deleteTimeOptions($validatedData['removed']['time_options']);
         $this->questionService->deleteQuestions($validatedData['removed']['questions']);
         $this->questionService->deleteQuestionOptions($validatedData['removed']['question_options']);
 
-
-
         return $poll;
     }
 
-
-
-
-
     // Metoda pro načtení časových možností pro hlasování
-    public function getPollTimeOptions(?Poll $poll) : array
+    public function getPollTimeOptions(?Poll $poll): array
     {
-        if(!$poll){
+        if (! $poll) {
             return [];
         }
 
@@ -137,10 +122,10 @@ class PollService
                 'id' => $timeOption->id,
                 'start_time' => $timeOption->start_time,
                 'end_time' => $timeOption->end_time,
-                //'chosen_preference' => 0,
+                // 'chosen_preference' => 0,
             ];
         }
+
         return $timeOptions;
     }
-
 }
