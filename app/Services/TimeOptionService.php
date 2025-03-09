@@ -138,7 +138,7 @@ class TimeOptionService
     }
 
     // Metoda pro převod konce časové možnosti
-    private function getEndOfTimeOption(String $start, String $minutes){
+    private function getEndOfTimeOption(String $start, int $minutes){
         return Carbon::parse($start)->addMinutes($minutes)->format('H:i');
     }
 
