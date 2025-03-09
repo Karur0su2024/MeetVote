@@ -1,26 +1,43 @@
-@props([
-    'option', 
-    'questionIndex' => null
-])
+@props(['optionIndex', 'questionIndex' => null, 'pickedPreference' => 0])
 
 @php
-    // Definice preferencí na základě otázky
-    $preferences = $questionIndex === null ? [
-        0 => ['text' => 'none'],
-        1 => ['text' => 'maybe'],
-        2 => ['text' => 'yes'],
-        -1 => ['text' => 'no'],
-    ] : [
-        0 => ['text' => 'none'],
-        2 => ['text' => 'yes'],
-    ];
-
-    $chosenPreference = $option['chosen_preference'] ?? 0;
-    $preferenceText = $preferences[$chosenPreference]['text'];
+    $preferenceValues =
+        $questionIndex === null
+            ? [
+                '0' => [
+                    'text' => 'none',
+                    'next' => 2,
+                ],
+                '2' => [
+                    'text' => 'yes',
+                    'next' => 1,
+                ],
+                '1' => [
+                    'text' => 'maybe',
+                    'next' => -1,
+                ],
+                '-1' => [
+                    'text' => 'no',
+                    'next' => 0,
+                ],
+            ]
+            : [
+                '0' => [
+                    'text' => 'none',
+                    'next' => 1,
+                ],
+                '1' => [
+                    'text' => 'yes',
+                    'next' => 0,
+                ],
+            ];
 
 @endphp
-<button class="btn btn-outline-vote-{{ $preferenceText }} d-flex align-items-center"
-    wire:click="changePreference({{ $option['id'] }}, {{ $questionIndex ?? null }})">
-    <img class="p-1" src="{{ asset('icons/' . $preferenceText . '.svg') }}"
-    alt="Preference">
+<button class="btn btn-outline-vote-{{ $preferenceValues[$pickedPreference]['text'] }}
+    d-flex align-items-center"
+    type="button"
+    wire:click="changePreference('{{ $questionIndex }}', '{{ $optionIndex }}', '{{ $preferenceValues[$pickedPreference]['next'] }}')">
+    <img class="p-1" src="{{ asset('icons/' . $preferenceValues[$pickedPreference]['text'] . '.svg') }}"
+        alt="Preference">
+
 </button>

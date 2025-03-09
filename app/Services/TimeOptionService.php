@@ -32,12 +32,21 @@ class TimeOptionService
                 ] : [
                     'text' => $timeOption->text,
                 ],
-                'chosen_preference' => 0,
+                'score' => $this->getOptionScore($timeOption),
             ];
         }
 
         return $timeOptions;
+    }
 
+    private function getOptionScore(TimeOption $option): int
+    {
+        $score = 0;
+        foreach ($option->votes as $vote) {
+            $score += $vote->preference;
+        }
+
+        return $score;
     }
 
     // Metoda pro smazání existujících časových možností
@@ -54,8 +63,8 @@ class TimeOptionService
         foreach ($timeOptions as $option) {
 
             $minutes = isset($option['content']['start']) && isset($option['content']['end'])
-            ? Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end'])
-            : null;
+                ? Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end'])
+                : null;
 
             $optionToAdd = [
                 'date' => $option['date'],
@@ -69,7 +78,6 @@ class TimeOptionService
             } else {
                 $poll->timeOptions()->create($optionToAdd);
             }
-
         }
 
         return true;
@@ -118,7 +126,6 @@ class TimeOptionService
         }, $options);
 
         return count($options) !== count(array_unique($toCheck));
-
     }
 
     // Metoda pro převod konce časové možnosti
@@ -130,15 +137,13 @@ class TimeOptionService
     // Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
     private function convertContentToText($option): string
     {
-        return $option['date'].' '.strtolower(implode('-', $option['content']));
-
+        return $option['date'] . ' ' . strtolower(implode('-', $option['content']));
     }
 
     // Přesunout do služby
     public function getLastEnd(array $date): ?string
     {
         $endTime = null;
-
         if (isset($date)) {
             foreach ($date as $options) {
                 if (isset($options['content']['end'])) {

@@ -1,9 +1,6 @@
-@props([
-    'dateIndex', // Index aktuálního data
-    'optionIndex', // Index aktuální možnosti
-])
+@props(['dateIndex', 'optionIndex', 'exists' => false])
 
-<div class="p-2 mb-2 bg-light rounded border">
+<div class="p-2 mb-2 bg-{{ $exists ? 'light' : '' }} rounded border">
     <!-- Zobrazení časového intervalu -->
     <div class="d-flex align-items-center gap-2">
         {{-- Pole pro zadání začátku časového intervalu  --}}
@@ -22,11 +19,7 @@
     </div>
 
     {{-- Chybové hlášky pro začátek a konec časového intervalu --}}
-    @error("form.dates.{{ $dateIndex }}.{{ $optionIndex }}.content.start")
-        <span class="text-danger">{{ $message }}</span>
-    @enderror
-
-    @error("form.dates.{{ $dateIndex }}.{{ $optionIndex }}.content.end")
+    @error("form.dates.{{ $dateIndex }}.{{ $optionIndex }}.content.*")
         <span class="text-danger">{{ $message }}</span>
     @enderror
 </div>

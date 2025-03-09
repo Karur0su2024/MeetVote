@@ -92,7 +92,7 @@ class Form extends Component
         }
 
         DB::commit();
-        session()->put('poll_'.$this->poll->public_id.'_adminKey', $this->poll->admin_key);
+        session()->put('poll_' . $this->poll->public_id . '_adminKey', $this->poll->admin_key);
 
         return redirect()->route('polls.show', $this->poll);
     }

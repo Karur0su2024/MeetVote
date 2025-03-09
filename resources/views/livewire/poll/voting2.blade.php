@@ -1,0 +1,106 @@
+@php
+    use Carbon\Carbon;
+@endphp
+<div class="card mb-3 text-start shadow-sm">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <h2>Voting</h2>
+            <button class="btn btn-outline-secondary" wire:click='openResultsModal()'>Results ({{ count($poll->votes) }})
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+
+
+        <!-- Zobrazit ikony pro odpovědi -->
+        <div class="p-4 w-100">
+            <div class="mx-auto w-75 d-flex justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <img class="icon-size" src="{{ asset('icons/yes.svg') }}" alt="Yes">
+                    <p class="mb-0 fw-bold text-success">Yes (2)</p>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <img class="icon-size" src="{{ asset('icons/maybe.svg') }}" alt="Maybe">
+                    <p class="mb-0 fw-bold text-warning">Maybe (1)</p>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <img class="icon-size" src="{{ asset('icons/no.svg') }}" alt="No">
+                    <p class="mb-0 fw-bold text-danger">No (-1)</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <form wire:submit.prevent='submit'>
+
+            <div>
+                <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse" href="#dateOptions"
+                    role="button" aria-expanded="true" aria-controls="dateOptions">
+                    <h2><i class="bi bi-calendar"></i> Dates ({{ count($form->timeOptions) }})</h2>
+                </div>
+                <div class="collapse show" id="dateOptions">
+                    <div class="row g-0">
+                        @foreach ($form->timeOptions as $optionIndex => $option)
+                            <div class="col-lg-6">
+
+                                <x-poll.show.option-card :option="$option" :optionIndex="$optionIndex" />
+                            </div>
+                        @endforeach
+                        <div class="col-lg-6">
+                            <div class="card card-sharp text-center">
+                                <div class="card-body">
+                                    <h4 class="card-title">Add new option</h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            @if (count($form->questions) != 0)
+                @foreach ($form->questions as $questionIndex => $question)
+                    <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse"
+                        href="#question-{{ $question['id'] }}-options" role="button" aria-expanded="true"
+                        aria-controls="question-{{ $question['id'] }}-options">
+                        <h2><i class="bi bi-question-lg"></i> {{ $question['text'] }}
+                            ({{ count($question['options']) }})
+                        </h2>
+                    </div>
+                    <div class="collapse show row g-0" id="question-{{ $question['id'] }}-options">
+                        @foreach ($question['options'] as $optionIndex => $option)
+                            <div class="col-lg-6">
+
+                                {{-- Přidat karty pro zobrazení otázek --}}
+                                <x-poll.show.question-option-card :questionIndex="$questionIndex" :optionIndex="$optionIndex"
+                                    :option="$option" />
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            @endif
+
+
+
+
+            <div class="p-3">
+                <h3 class="mb-3">Add new vote</h3>
+                <x-input id="name" model="form.user.name" type="text" label="Your name" mandatory="true" />
+                <x-input id="email" model="form.user.email" type="email" label="Your e-mail" mandatory="true" />
+
+                @error('noOptionChosen')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+                <button type="submit" class="btn btn-primary mt-3">Submit your vote</button>
+            </div>
+
+        </form>
+    </div>
+</div>

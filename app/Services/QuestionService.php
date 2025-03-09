@@ -25,6 +25,7 @@ class QuestionService
                 $options[] = [
                     'id' => $option->id,
                     'text' => $option->text,
+                    'score' => $this->getOptionScore($option),
                 ];
             }
 
@@ -36,6 +37,16 @@ class QuestionService
         }
 
         return $questions;
+    }
+
+    private function getOptionScore(QuestionOption $option): int
+    {
+        $score = 0;
+        foreach ($option->votes as $vote) {
+            $score += $vote->preference;
+        }
+
+        return $score;
     }
 
     // Metoda pro uložení otázek do databáze

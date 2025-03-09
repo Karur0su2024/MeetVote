@@ -1,4 +1,4 @@
-@props(['questionIndex', 'option'])
+@props(['questionIndex', 'optionIndex', 'option'])
 
 {{-- Karta časové možnosti --}}
 
@@ -14,19 +14,14 @@
             </div>
 
             {{-- Zobrazení hlasů --}}
-            <div>
-                @foreach ($option['votes'] as $voteName => $vote)
-                    <div class="d-flex mb-2">
-                        <img class="me-2" src="{{ asset('icons/' . $voteName . '.svg') }}" alt="{{ $voteName }}"><p class="mb-0">  {{ $vote }}</p>
-                    </div>
-
-                @endforeach
+            <div class="d-flex flex-column">
+                {{ $option['score'] }}
             </div>
 
             {{-- Výběr preference časové možnosti --}}
 
             <div>
-                <x-poll.show.preference-button :option="$option" questionIndex="{{$questionIndex}}" />
+                <x-poll.show.preference-button :questionIndex="$questionIndex" :optionIndex="$optionIndex" :pickedPreference="$option['picked_preference']" />
             </div>
 
         </div>

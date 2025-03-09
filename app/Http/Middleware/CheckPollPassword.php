@@ -19,7 +19,7 @@ class CheckPollPassword
         if (session('poll_'.$request->poll->public_id.'_adminKey') !== $request->poll->admin_key) {
 
             // Kontrola, zda je anketa chráněna heslem
-            if ($request->poll->password !== null) {
+            if ($request->poll->password !== '') {
 
                 // Kontrola, zda uživatel heslo již zadal
                 if (session('poll_'.$request->poll->public_id.'_password') === $request->poll->password) {

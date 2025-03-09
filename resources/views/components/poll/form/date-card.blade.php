@@ -24,22 +24,22 @@
         @foreach ($date as $optionIndex => $option)
             @if ($option['type'] == 'text')
                 <!-- Zobrazení textové možnosti -->
-                <x-poll.form.time-options.text :dateIndex="$dateIndex" :optionIndex="$optionIndex" />
+                <x-poll.form.time-options.text :dateIndex="$dateIndex" :optionIndex="$optionIndex" :exists="isset($option['id'])" />
             @else
                 <!-- Zobrazení časového intervalu -->
-                <x-poll.form.time-options.time :dateIndex="$dateIndex" :optionIndex="$optionIndex" />
+                <x-poll.form.time-options.time :dateIndex="$dateIndex" :optionIndex="$optionIndex" :exists="isset($option['id'])" />
             @endif
         @endforeach
 
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
         <div class="d-flex align-items-center gap-2 mt-1">
-            <x-secondary-button wireClick="addTimeOption('{{ $dateIndex }}', 'time')">
+            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'time')">
                 <i class="bi bi-fonts"></i> Add time option
-            </x-secondary-button>
+            </x-outline-button>
 
-            <x-secondary-button wireClick="addTimeOption('{{ $dateIndex }}', 'text')">
+            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'text')">
                 <i class="bi bi-fonts"></i> Add text option
-            </x-secondary-button>
+            </x-outline-button>
         </div>
 
         @error("form.dates.{$dateIndex}.*")

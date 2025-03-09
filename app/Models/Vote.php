@@ -13,12 +13,12 @@ class Vote extends Model
         return $this->belongsTo(Poll::class);
     }
 
-    public function voteTimeOptions()
+    public function timeOptions()
     {
         return $this->hasMany(VoteTimeOption::class);
     }
 
-    public function voteQuestionOptions()
+    public function questionOptions()
     {
         return $this->hasMany(VoteQuestionOption::class);
     }

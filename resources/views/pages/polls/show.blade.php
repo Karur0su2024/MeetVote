@@ -18,6 +18,7 @@
         @endif
 
 
+        <!-- Tohle přesunout do samostatné komponenty -->
         <!-- Panel s nastavením ankety -->
         <div class="card mb-3 p-2 shadow-sm">
             <div class="d-flex justify-content-end gap-2">
@@ -37,13 +38,13 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#"
-                                onclick="openModal('modals.poll.share', '{{ $poll->public_id }}')">
+                                    onclick="openModal('modals.poll.share', '{{ $poll->public_id }}')">
                                     <i class="bi bi-share"></i> Share poll
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#"
-                                onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
+                                    onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
                                     <i class="bi bi-x-circle"></i> Close poll
                                 </a>
                             </li>
@@ -82,7 +83,7 @@
         <div class="card p-4 shadow-sm text-start mb-3">
             <h2>{{ $poll->title }}</h2>
             <div class="d-flex align-items-center text-muted mb-2">
-                {{-- Doplnit logo autora --}}
+                {{-- Doplnit avatar uživatele --}}
                 <span>{{ $poll->author_name }}</span>
             </div>
 
@@ -114,9 +115,7 @@
         </div>
 
         <!-- Hlasovací formulář -->
-        <livewire:poll.voting :poll="$poll" />
-
-
+        <livewire:poll.voting2 :poll="$poll" />
 
 
 
