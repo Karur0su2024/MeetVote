@@ -1,0 +1,65 @@
+.btn-outline-vote-yes {
+    border-color: #4BA569 !important;
+    border-width: 3px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-vote-yes:hover {
+    border-color: #4BA569 !important;
+    background-color: #4ba56928 !important;
+}
+
+.btn-outline-vote-no {
+    border-color: #D90000 !important;
+    border-width: 3px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-vote-no:hover {
+    border-color: #D90000 !important;
+    background-color: #d9000028 !important;
+}
+
+.btn-outline-vote-none {
+    border-color: #696969 !important;
+    border-width: 3px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-vote-none:hover {
+    border-color: #696969 !important;
+    background-color: #69696928 !important;
+}
+
+
+.btn-outline-vote-maybe {
+    border-color: #D2B74B !important;
+    border-width: 3px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-vote-maybe:hover {
+    border-color: #D2B74B !important;
+    background-color: #d2b74b28 !important;
+}
+
+.voting-card {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Vzhled pozadí karet */
+.voting-card-0 {
+    background-color: #69696920 !important;
+}
+
+.voting-card-2 {
+    background-color: #4ba56920 !important;
+}
+
+.voting-card-1 {
+    background-color: #d2b74b20 !important;
+}
+
+.voting-card--1 {
+    background-color: #d9000020 !important;
+}

@@ -50,39 +50,12 @@ class VoteService
             );
         }
 
-        $vote->timeOptions()->delete();
 
-        foreach ($data['timeOptions'] as $option) {
+        $this->saveTimeOptionsVotes($vote, $data);
 
-            if ($option['picked_preference'] == 0) {
-                continue;
-            }
 
-            VoteTimeOption::Create(
-                [
-                    'vote_id' => $vote->id,
-                    'time_option_id' => $option['id'],
-                    'preference' => $option['picked_preference'],
-                ]
-            );
-        }
 
-        $vote->questionOptions()->delete();
-
-        foreach ($data['questions'] as $question) {
-            foreach ($question['options'] as $option) {
-                if ($option['picked_preference'] == 0) {
-                    continue;
-                }
-
-                VoteQuestionOption::create([
-                    'vote_id' => $vote->id,
-                    'poll_question_id' => $question['id'],
-                    'question_option_id' => $option['id'],
-                    'preference' => $option['picked_preference'],
-                ]);
-            }
-        }
+        $this->saveQuestionOptionsVotes($vote, $data);
     }
 
     // Metoda pro získání dat o hlasování
@@ -99,6 +72,7 @@ class VoteService
             'questions' => $this->getQuestionData($this->questionService->getPollQuestions($poll), $voteId),
         ];
 
+
         return $data;
     }
 
@@ -110,7 +84,7 @@ class VoteService
 
         foreach ($data as $option) {
             // dd($option);
-            $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['start'].')';
+            $content = $option['content']['text'] ?? '(' . $option['content']['start'] . ' - ' . $option['content']['end'] . ')';
             if ($voteIndex) {
 
                 $preferenceOption = VoteTimeOption::where('vote_id', $voteIndex)
@@ -130,6 +104,8 @@ class VoteService
                 'picked_preference' => $preference ?? 0,
             ];
         }
+
+
 
         return $timeOptions;
     }
@@ -168,6 +144,81 @@ class VoteService
         }
 
         return $questions;
+    }
+
+
+    // Metoda pro uložení hlasů pro časové možnosti
+    private function saveTimeOptionsVotes($vote, $data)
+    {
+
+        $vote->timeOptions()->delete();
+
+        if (isset($data['timeOptions'])) {
+
+
+
+            foreach ($data['timeOptions'] as $option) {
+
+                if ($option['picked_preference'] == 0) {
+                    continue;
+                }
+
+                VoteTimeOption::Create(
+                    [
+                        'vote_id' => $vote->id,
+                        'time_option_id' => $option['id'],
+                        'preference' => $option['picked_preference'],
+                    ]
+                );
+            }
+        }
+    }
+
+    // Metoda pro uložení hlasů pro otázky
+    private function saveQuestionOptionsVotes($vote, $data)
+    {
+        $vote->questionOptions()->delete();
+
+        if (isset($data['questions'])) {
+
+            foreach ($data['questions'] as $question) {
+                foreach ($question['options'] as $option) {
+                    if ($option['picked_preference'] == 0) {
+                        continue;
+                    }
+
+                    VoteQuestionOption::create([
+                        'vote_id' => $vote->id,
+                        'poll_question_id' => $question['id'],
+                        'question_option_id' => $option['id'],
+                        'preference' => $option['picked_preference'],
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function atLeastOnePickedPreference($data)
+    {
+        $timeOptions = $data['timeOptions'] ?? [];
+        $questions = $data['questions'] ?? [];
+
+        foreach ($timeOptions as $option) {
+            if ($option['picked_preference'] != 0) {
+                return true;
+            }
+        }
+
+        foreach ($questions as $question) {
+            foreach ($question['options'] as $option) {
+                if ($option['picked_preference'] != 0) {
+                    return true;
+                }
+            }
+        }
+
+        //dd('No preference selected');
+        return false;
     }
 
     public function sendEmails() {}

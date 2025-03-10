@@ -35,7 +35,7 @@
             <div class="row g-0">
                 @foreach ($form->timeOptions as $optionIndex => $option)
                     <div class="col-lg-6">
-                        <x-poll.show.voting.card>
+                        <x-poll.show.voting.card class="voting-card voting-card-{{ $option['picked_preference'] }}">
                             <x-slot:content>
                                 <p class="mb-0 fw-bold">{{ Carbon::parse($option['date'])->format('F d, Y') }}
                                 </p>
@@ -52,7 +52,7 @@
                     </div>
                 @endforeach
                 <div class="col-lg-6">
-                    <div class="card card-sharp text-center">
+                    <div class="card card-sharp text-center" wire:click="openAddNewTimeOptionModal()">
                         <div class="card-body">
                             <h4 class="card-title">Add new option</h4>
                         </div>
@@ -110,10 +110,25 @@
                 Your e-mail
             </x-input>
 
-            @error('noOptionChosen')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
-            <button type="submit" class="btn btn-primary btn-lg mt-3">Submit your vote</button>
+            <div class="d-flex align-items-center gap-3 mt-3">
+                <button type="submit" class="btn btn-primary btn-lg me-1">Submit your vote</button>
+
+                <div class="d-flex align-items-center">
+
+                    @if (session()->has('error'))
+                        <span class="text-danger">{{ session('error') }}</span>
+                    @else
+                        <span class="text-dark" wire:loading>Saving...</span>
+                    @endif
+
+                    @if (session()->has('success'))
+                        <span class="text-success">{{ session('success') }}</span>
+                    @endif
+                </div>
+            </div>
+
+
+
         </div>
 
     </form>

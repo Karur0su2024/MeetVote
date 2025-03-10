@@ -45,9 +45,21 @@ class Voting extends Component
         }
         $validatedData = $this->form->validate();
 
+
         $validatedData['poll_id'] = $this->poll->id;
 
+        if (!$this->voteService->atLeastOnePickedPreference($validatedData)) {
+            session()->flash('error', 'Please select at least one option.');
+            return;
+        }
+
         $this->voteService->saveVote($validatedData);
+
+        if (isset($validatedData['existingVote'])) {
+            session()->flash('success', 'Vote has been updated successfully.');
+        } else {
+            session()->flash('success', 'Vote has been created successfully.');
+        }
 
         $this->form->loadData($this->voteService->getPollData($this->poll));
 
@@ -64,11 +76,18 @@ class Voting extends Component
         $this->form->existingVote = $voteIndex;
     }
 
+    #[On('removeVote')]
+    public function removeVote()
+    {
+        $this->form->loadData($this->voteService->getPollData($this->poll));
+        $this->form->existingVote = null;
+    }
+
+
+
+    // Změna preference
     public function changePreference($questionIndex, $optionIndex, $value)
     {
-
-        // dd($questionIndex, $optionIndex, $value);
-
         if ($questionIndex == null) {
             $this->changeTimeOptionPreference($optionIndex, $value);
         } else {
@@ -76,20 +95,42 @@ class Voting extends Component
         }
     }
 
+    // Změna preference pro časovou volbu
     private function changeTimeOptionPreference($timeOptionIndex, $value)
     {
         $this->form->timeOptions[$timeOptionIndex]['picked_preference'] = $value;
     }
 
+
+    // Změna preference pro otázku
     private function changeQuestionOptionPreference($questionIndex, $optionIndex, $value)
     {
         $this->form->questions[$questionIndex]['options'][$optionIndex]['picked_preference'] = $value;
     }
 
+    // Zobrazení modálního okna s výsledky
     public function openResultsModal()
     {
         $this->dispatch('showModal', [
             'alias' => 'modals.poll.results',
+            'params' => [
+                'publicIndex' => $this->poll->public_id,
+            ],
+
+        ]);
+    }
+
+
+    #[On('updateTimeOptions')]
+    public function updateTimeOptions()
+    {
+        $this->form->loadData($this->voteService->getPollData($this->poll));
+    }
+
+    public function openAddNewTimeOptionModal()
+    {
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.add-new-time-option',
             'params' => [
                 'publicIndex' => $this->poll->public_id,
             ],

@@ -1,6 +1,12 @@
-{{-- Karta časové možnosti --}}
-<div class="card card-sharp border-start-0 border-end-0 p-3">
-    <div class="card-body bg-gradient">
+@props([
+    'class' => '',
+    'content',
+    'score',
+    'button',
+])
+
+<div class="card card-sharp border-start-0 border-end-0 p-3 {{ $class }} bg-gradient">
+    <div class="card-body">
         <div class="d-flex justify-content-between align-items-center">
             {{-- Obsah možnosti --}}
             <div>

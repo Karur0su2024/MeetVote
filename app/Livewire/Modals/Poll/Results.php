@@ -31,6 +31,7 @@ class Results extends Component
         $this->votes = $this->poll->votes;
 
         $this->dispatch('updateOptions');
+        $this->dispatch('removeVote');
     }
 
     public function render()
