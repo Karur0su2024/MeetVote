@@ -32,27 +32,27 @@
                                 </a>
                             </li>
 
-                            <x-poll.show.dropdown-item modalName="share" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
                                 <i class="bi bi-share"></i> Share poll
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->public_id">
                                 <i class="bi bi-x-circle"></i> Close poll
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="choose-final-options" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="choose-final-options" :id="$poll->public_id">
                                 <i class="bi bi-check2-square"></i> Final options
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="create-event" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="create-event" :id="$poll->public_id">
                                 <i class="bi bi-calendar-event"></i> Create event
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->public_id">
                                 <i class="bi bi-person-plus"></i> Invitations
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->id" type="danger">
+                            <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->public_id" type="danger">
                                 <i class="bi bi-trash"></i> Delete poll
                             </x-poll.show.dropdown-item>
 

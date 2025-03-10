@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class PollService
 {
@@ -38,7 +39,7 @@ class PollService
             'pollIndex' => $poll->id ?? null,
             'title' => $poll->title ?? 'abc',
             'description' => $poll->description ?? '',
-            'deadline' => $poll->deadline ?? '',
+            'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
             'user' => [
                 'name' => $poll->author_name ?? Auth::user()?->name,
                 'email' => $poll->author_email ?? Auth::user()?->email,

@@ -21,7 +21,7 @@
 
 
             {{-- Informace o autorovi --}}
-            @if (!$poll)
+            @if (!$poll->id)
                 <hr>
                 <div>
                     <x-input id="user_name" model="form.user.name" type="text" mandatory="true">
