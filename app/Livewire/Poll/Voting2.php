@@ -51,6 +51,7 @@ class Voting2 extends Component
 
 
 
+
         $this->form->loadData($this->voteService->getPollData($this->poll));
 
 
@@ -69,6 +70,7 @@ class Voting2 extends Component
     public function loadVote($voteIndex)
     {
         $this->form->loadData($this->voteService->getPollData($this->poll, $voteIndex));
+        $this->form->existingVote = $voteIndex;
     }
 
     public function changePreference($questionIndex, $optionIndex, $value)
@@ -100,6 +102,19 @@ class Voting2 extends Component
 
 
 
+
+
+
+    public function openResultsModal()
+    {
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.results',
+            'params' => [
+                'publicIndex' => $this->poll->public_id,
+            ],
+
+        ]);
+    }
 
 
 

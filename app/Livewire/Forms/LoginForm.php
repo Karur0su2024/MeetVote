@@ -7,19 +7,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class LoginForm extends Form
 {
-    #[Validate('required|string|email')]
     public string $email = '';
 
-    #[Validate('required|string')]
     public string $password = '';
 
-    #[Validate('boolean')]
     public bool $remember = false;
+
+
+    protected array $rules = [
+        'email' => 'required|string|email',
+        'password' => 'required|string',
+        'remember' => 'boolean',
+    ];
 
     /**
      * Attempt to authenticate the request's credentials.
@@ -67,6 +70,6 @@ class LoginForm extends Form
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
+        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
     }
 }
