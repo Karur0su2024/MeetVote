@@ -18,14 +18,12 @@ class Voting extends Component
     // Služby
     protected ?VoteService $voteService;
 
-    public $existingVote;
-
     public function __construct()
     {
         $this->voteService = app(VoteService::class);
     }
 
-    public function mount(Poll $poll, VoteService $voteService)
+    public function mount(Poll $poll)
     {
         // Tohle nechat
         $this->poll = $poll;
@@ -35,37 +33,10 @@ class Voting extends Component
 
     public function submit()
     {
-        try {
-            $this->form->validate();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Zde můžete zpracovat chybu validace
-            dd($e->validator->errors());
-
-            return;
+        if($this->form->submit($this->voteService, $this->poll->id)) {
+            $this->dispatch('updateVotes');
+            // Sem přidat odeslání notifikace
         }
-        $validatedData = $this->form->validate();
-
-        $validatedData['poll_id'] = $this->poll->id;
-
-        if (! $this->voteService->atLeastOnePickedPreference($validatedData)) {
-            session()->flash('error', 'Please select at least one option.');
-
-            return;
-        }
-
-        $this->voteService->saveVote($validatedData);
-
-        if (isset($validatedData['existingVote'])) {
-            session()->flash('success', 'Vote has been updated successfully.');
-        } else {
-            session()->flash('success', 'Vote has been created successfully.');
-        }
-
-        $this->form->loadData($this->voteService->getPollData($this->poll));
-
-        // Metoda pro odeslání formuláře
-
-        $this->dispatch('updateVotes');
     }
 
     // Načtení hlasu

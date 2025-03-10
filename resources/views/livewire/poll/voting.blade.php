@@ -35,7 +35,7 @@
             <div class="row g-0">
                 @foreach ($form->timeOptions as $optionIndex => $option)
                     <div class="col-lg-6">
-                        <x-poll.show.voting.card class="voting-card voting-card-{{ $option['picked_preference'] }}">
+                        <x-poll.show.voting.card class="voting-card-{{ $option['picked_preference'] }}">
                             <x-slot:content>
                                 <p class="mb-0 fw-bold">{{ Carbon::parse($option['date'])->format('F d, Y') }}
                                 </p>
@@ -55,12 +55,13 @@
                 {{-- V případě, že možné přidat nové časové možnosti, zobrazí se tlačítko pro přidání --}}
                 @if (!$poll->canAddOptions)
                     <div class="col-lg-6">
-                        <div class="card card-sharp text-center" wire:click="openAddNewTimeOptionModal()">
-                            <div class="card-body">
-                                <h4 class="card-title">Add new option</h4>
+                        <div class="card voting-card voting-card-clickable text-center" wire:click="openAddNewTimeOptionModal()">
+                            <div class="card-body add-option-card">
+                                <h4 class="card-title" style="vertical-align: middle;">Add new option</h4>
                             </div>
                         </div>
                     </div>
+
                 @endif
 
             </div>
@@ -79,7 +80,7 @@
                 <div class="row g-0">
                     @foreach ($question['options'] as $optionIndex => $option)
                         <div class="col-lg-6">
-                            <x-poll.show.voting.card>
+                            <x-poll.show.voting.card class="voting-card-{{ $option['picked_preference']*2 }}">
                                 <x-slot:content>
                                     <p class="mb-0 text-muted">
                                         {{ $option['text'] }}

@@ -45,7 +45,26 @@
 
 .voting-card {
     transition: all 0.3s ease-in-out;
+    height: 120px !important;
+    border-radius: 0 !important;
 }
+
+.voting-card-clickable {
+    cursor: pointer;
+}
+
+.voting-card-clickable:hover {
+    background-color: #f0f0f0;
+}
+
+
+.add-option-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
 
 /* Vzhled pozadí karet */
 .voting-card-0 {

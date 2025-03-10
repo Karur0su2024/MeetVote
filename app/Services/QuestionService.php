@@ -59,7 +59,7 @@ class QuestionService
                 $newQuestion = PollQuestion::find($question['id']);
 
                 if (! $newQuestion) {
-                    throw new \Exception('Question not found');
+                    throw new \Exception('Questionnot found. Please try again.');
                 } else {
                     $newQuestion->update([
                         'text' => $question['text'],
@@ -85,7 +85,7 @@ class QuestionService
                 $newOption = QuestionOption::find($option['id']);
 
                 if (! $newOption) {
-                    throw new \Exception('Question option not found');
+                    throw new \Exception('Question option not found. Please try again.');
                 } else {
                     $newOption->update([
                         'text' => $option['text'],
@@ -117,7 +117,7 @@ class QuestionService
     {
         $questionText = [];
         // Kontrola duplicitních otázek
-        foreach ($questions as $questionIndex => $question) {
+        foreach ($questions as $question) {
             if ($this->checkDupliciteOptions($question['options'])) {
                 return true;
             }
@@ -132,7 +132,7 @@ class QuestionService
     private function checkDupliciteOptions(array $options): bool
     {
         $optionText = [];
-        foreach ($options as $optionIndex => $option) {
+        foreach ($options as $option) {
             $optionText[] = strtolower($option['text']);
         }
 

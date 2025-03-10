@@ -7,13 +7,18 @@
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
-            <x-input id="title" model="form.title" type="text" label="" mandatory="true">
+            <x-input id="title" model="form.title" type="text" mandatory="true">
                 Poll Title
             </x-input>
 
             <x-textbox id="description" model="form.description">
                 Poll description
             </x-textbox>
+
+            <x-input id="deadline" model="form.deadline" type="date">
+                Deadline
+            </x-input>
+
 
             {{-- Informace o autorovi --}}
             @if (!$poll)
@@ -97,14 +102,18 @@
             </x-poll.form.checkbox>
 
             {{-- Skrytí výsledků --}}
-            <x-poll.form.checkbox id="hide_results" model="form.settings.hideResults">
+            <x-poll.form.checkbox id="hide_results" model="form.settings.hide_results">
                 Hide results
             </x-poll.form.checkbox>
 
 
             {{-- Pouze pro pozvané --}}
-            <x-poll.form.checkbox id="invite_only" model="form.settings.inviteOnly">
+            <x-poll.form.checkbox id="invite_only" model="form.settings.invite_only">
                 Invite only
+            </x-poll.form.checkbox>
+
+            <x-poll.form.checkbox id="timeOptionsAdded" model="form.settings.time_options">
+                User can add time options
             </x-poll.form.checkbox>
 
             {{-- Heslo --}}

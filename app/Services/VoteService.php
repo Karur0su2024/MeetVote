@@ -21,45 +21,13 @@ class VoteService
         $this->questionService = app(QuestionService::class);
     }
 
-    // Metoda pro uložení hlasu do databáze
-    // V případě, že je hlas již uložen, aktualizuje se
-    // V případě, že je hlas nový, vytvoří se nový záznam
-    public function saveVote($data)
-    {
-        // dd($data);
-
-        if (! isset($data['existingVote'])) {
-            $vote = Vote::create(
-                [
-                    'poll_id' => $data['poll_id'],
-                    'user_id' => Auth::user()->id,
-                    'voter_name' => $data['user']['name'],
-                    'voter_email' => $data['user']['email'],
-                ]
-            );
-        } else {
-            $vote = Vote::find($data['existingVote']);
-            if (! $vote) {
-                throw new \Exception('Vote not found');
-            }
-            $vote->update(
-                [
-                    'voter_name' => $data['user']['name'],
-                    'voter_email' => $data['user']['email'],
-                ]
-            );
-        }
-
-        $this->saveTimeOptionsVotes($vote, $data);
-
-        $this->saveQuestionOptionsVotes($vote, $data);
-    }
-
     // Metoda pro získání dat o hlasování
     // Vratí data o hlasování pro daný dotazník
     // Vratí pole s daty o uživateli, časových možnostech a otázkách
     public function getPollData(Poll $poll, $voteId = null): array
     {
+
+
         $data = [
             'user' => [
                 'name' => Auth::user()->name ?? '',
@@ -79,7 +47,7 @@ class VoteService
         $timeOptions = [];
 
         foreach ($data as $option) {
-            // dd($option);
+            $preference = 0;
             $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['end'].')';
             if ($voteIndex) {
 
@@ -87,9 +55,11 @@ class VoteService
                     ->where('time_option_id', $option['id'])
                     ->first();
 
-                if ($preferenceOption) {
+                if ($preferenceOption !== null) {
                     $preference = $preferenceOption->preference;
+
                 }
+
             }
 
             $timeOptions[] = [
@@ -138,6 +108,47 @@ class VoteService
         }
 
         return $questions;
+    }
+
+
+
+    // -------------------------------------------------
+    // Metody pro uložení
+    //
+    //
+    //
+    // Metoda pro uložení hlasu do databáze
+    // V případě, že je hlas již uložen, aktualizuje se
+    // V případě, že je hlas nový, vytvoří se nový záznam
+    public function saveVote($data): Vote
+    {
+        if (! isset($data['existingVote'])) {
+            $vote = Vote::create(
+                [
+                    'poll_id' => $data['poll_id'],
+                    'user_id' => Auth::user()->id,
+                    'voter_name' => $data['user']['name'],
+                    'voter_email' => $data['user']['email'],
+                ]
+            );
+        } else {
+            $vote = Vote::find($data['existingVote']);
+            if (! $vote) {
+                throw new \Exception('Vote not found');
+            }
+            $vote->update(
+                [
+                    'voter_name' => $data['user']['name'],
+                    'voter_email' => $data['user']['email'],
+                ]
+            );
+        }
+
+        $this->saveTimeOptionsVotes($vote, $data);
+
+        $this->saveQuestionOptionsVotes($vote, $data);
+
+        return $vote;
     }
 
     // Metoda pro uložení hlasů pro časové možnosti
@@ -189,6 +200,8 @@ class VoteService
         }
     }
 
+
+    // Metoda pro kontrolu, zda je alespoň jedna preference vybrána
     public function atLeastOnePickedPreference($data)
     {
         $timeOptions = $data['timeOptions'] ?? [];
@@ -208,9 +221,6 @@ class VoteService
             }
         }
 
-        // dd('No preference selected');
         return false;
     }
-
-    public function sendEmails() {}
 }

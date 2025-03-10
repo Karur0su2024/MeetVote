@@ -2,12 +2,16 @@
 
 namespace App\Livewire\Forms;
 
+use App\Services\VoteService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
+use Illuminate\Support\Facades\DB;
+use App\Models\Vote;
+use App\Models\Poll;
 
 class VotingForm extends Form
 {
-    public $poll;
+    public $pollIndex = null;
 
     // Uživatelské jméno a email
     public $user = [
@@ -38,6 +42,7 @@ class VotingForm extends Form
 
     public function loadData($data)
     {
+        $this->pollIndex = $data['poll_index'] ?? null;
 
         if (Auth::check()) {
             $this->user['name'] = Auth::user()->name;
@@ -50,5 +55,49 @@ class VotingForm extends Form
         $this->timeOptions = $data['time_options'];
         $this->questions = $data['questions'];
         $this->existingVote = null;
+    }
+
+
+    public function submit(VoteService $voteService, $pollId): bool
+    {
+        $validatedData = $this->validate();
+
+        $validatedData['poll_id'] = $pollId;
+
+        return $this->saveVote($validatedData, $voteService) !== null;
+
+
+    }
+
+    private function saveVote($validatedData, VoteService $voteService): ?Vote
+    {
+        DB::beginTransaction();
+        try{
+            if (!$voteService->atLeastOnePickedPreference($validatedData)) {
+                throw new \Exception('No option selected');
+            }
+
+            $vote = $voteService->saveVote($validatedData);
+
+
+            if (isset($validatedData['existingVote'])) {
+                session()->flash('success', 'Vote has been updated successfully.');
+            } else {
+                session()->flash('success', 'Vote has been created successfully.');
+            }
+
+            DB::commit();
+
+            $poll = Poll::find($validatedData['poll_id']);
+            $this->loadData($voteService->getPollData($poll));
+            return $vote;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            session()->flash('error', $e->getMessage());
+            return null;
+        }
+
     }
 }

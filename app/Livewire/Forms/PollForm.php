@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Poll;
 use App\Services\PollService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Form;
 
@@ -43,7 +44,7 @@ class PollForm extends Form
         'pollIndex' => 'nullable|integer',
         'title' => 'required|string|min:3|max:255',
         'description' => 'nullable|max:1000',
-        'deadline' => 'nullable|date',
+        'deadline' => 'nullable|date|after:today',
         'settings.comments' => 'boolean',
         'settings.anonymous' => 'boolean',
         'settings.hide_results' => 'boolean',
@@ -124,27 +125,24 @@ class PollForm extends Form
 
     public function loadForm($data)
     {
-        $this->pollIndex = $data['pollIndex'];
-        $this->title = $data['title'];
-        $this->description = $data['description'];
-        $this->deadline = $data['deadline'];
-        $this->settings = $data['settings'];
-        $this->user = $data['user'];
+        $this->pollIndex = $data['pollIndex'] ?? null;
+        $this->title = $data['title'] ?? '';
+        $this->description = $data['description'] ?? '';
+        $this->deadline = Carbon::parse($data['deadline'])->format('Y-m-d') ?? null;
+        $this->settings = $data['settings'] ?? [];
+        $this->user = $data['user'] ?? [];
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         ksort($this->dates);
-        $this->questions = $data['questions'];
+        $this->questions = $data['questions'] ?? [];
     }
 
     // Metoda po odelání formuláře
     public function submit(PollService $pollService): ?Poll
     {
         // Validace
-        $validatedData = $this->validate();
-
-        $validatedData = $this->prepareValidatedDataArray($validatedData);
+        $validatedData = $this->prepareValidatedDataArray($this->validate());
 
         if ($this->checkDuplicity($validatedData, $pollService)) {
-            // Sem přidat error
             return null;
         }
 
@@ -156,9 +154,11 @@ class PollForm extends Form
     {
 
         // Převod z dat do formátu pro uložení do databáze
-        $validatedData['time_options'] = array_reduce($validatedData['dates'], function ($carry, $date) {
-            return array_merge($carry, $date);
-        }, []);
+        foreach ($validatedData['dates'] as $date) {
+            foreach ($date as $optionIndex => $option) {
+                $validatedData['time_options'][] = $option;
+            }
+        }
 
         unset($validatedData['dates']);
 
@@ -195,15 +195,13 @@ class PollForm extends Form
             } else {
                 $poll = $pollService->createPoll($validatedData);
             }
+
+            DB::commit();
+            return $poll;
         } catch (\Throwable $e) {
             DB::rollBack();
-            $this->addError('form', 'An error occurred while saving the poll. Please try again.');
-
+            $this->addError('form', $e);
             return null;
         }
-
-        DB::commit();
-
-        return $poll;
     }
 }

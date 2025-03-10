@@ -66,7 +66,7 @@ class PollService
             'author_name' => $validatedData['user']['name'],
             'author_email' => $validatedData['user']['email'],
             'user_id' => Auth::id(),
-            // 'deadline' => $validatedData['deadline'],
+            'deadline' => $validatedData['deadline'],
             'description' => $validatedData['description'],
             'comments' => $validatedData['settings']['comments'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
@@ -90,7 +90,7 @@ class PollService
         $poll->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
-            // 'deadline' => $validatedData['deadline'],
+            'deadline' => $validatedData['deadline'],
             'anonymous_votes' => $validatedData['settings']['anonymous'],
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
