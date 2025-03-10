@@ -16,7 +16,12 @@ class Settings extends Component
 
     public $new_password;
 
-    public $password_confirmation;
+    public $new_password_confirmation;
+
+    public $flashMessages = [
+        'settings.profile.success',
+        'settings.password.success',
+    ];
 
     public function mount()
     {
@@ -45,8 +50,9 @@ class Settings extends Component
                 'name' => $this->name,
                 'email' => $this->email,
             ]);
-        }
 
+            session()->flash('settings.profile.success', 'Profile updated successfully.');
+        }
     }
 
     // Metoda pro aktualizaci hesla
@@ -55,12 +61,12 @@ class Settings extends Component
 
         // Zjištění, zda je aktuální heslo správné
         if (! Hash::check($this->current_password, Auth::user()->password)) {
-            return;
+            $this->addError('password', 'Current password is incorrect.');
         }
 
         // Validace nového hesla
         $this->validate([
-            'password' => 'required|string|min:8|confirmed|different:current_password',
+            'new_password' => 'required|string|min:8|confirmed|different:current_password',
         ]);
 
         // Aktualizace hesla
@@ -72,8 +78,9 @@ class Settings extends Component
         // Přesunout do vlastní metody
         $this->current_password = '';
         $this->new_password = '';
-        $this->password_confirmation = '';
+        $this->new_password_confirmation = '';
 
+        session()->flash('settings.password.success', 'Password updated successfully.');
     }
 
     // Metoda pro propojení s Googlem

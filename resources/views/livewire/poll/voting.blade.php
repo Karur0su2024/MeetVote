@@ -1,98 +1,121 @@
 @php
     use Carbon\Carbon;
 @endphp
-<div class="card mb-3 text-start shadow-sm">
-    <div class="card-header">
+
+<x-card bodyPadding="0">
+
+    <x-slot:header>
         <div class="d-flex justify-content-between">
-            <h2>Voting</h2>
-            <button class="btn btn-outline-secondary" wire:click='openResultsModal()'>Results ({{ count($poll->votes) }})
+            Voting
+            <button class="btn btn-outline-light" wire:click='openResultsModal()'>Results ({{ count($poll->votes) }})
             </button>
         </div>
+    </x-slot:header>
+
+
+    <div class="p-4 w-100">
+        <div class="mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
+            <x-poll.show.voting.legend name="Yes" value="2" />
+            <x-poll.show.voting.legend name="Maybe" value="1" />
+            <x-poll.show.voting.legend name="No" value="-1" />
+        </div>
     </div>
-    <div class="card-body p-0">
-        <div class="p-4 w-100">
-            <div class="mx-auto w-75 d-flex justify-content-between">
-                <div class="d-flex align-items-center gap-2">
-                    <img class="icon-size" src="{{ asset('icons/yes.svg') }}" alt="Yes">
-                    <p class="mb-0 fw-bold text-success">Yes (2)</p>
-                </div>
 
-                <div class="d-flex align-items-center gap-2">
-                    <img class="icon-size" src="{{ asset('icons/maybe.svg') }}" alt="Maybe">
-                    <p class="mb-0 fw-bold text-warning">Maybe (1)</p>
-                </div>
 
-                <div class="d-flex align-items-center gap-2">
-                    <img class="icon-size" src="{{ asset('icons/no.svg') }}" alt="No">
-                    <p class="mb-0 fw-bold text-danger">No (-1)</p>
+
+
+    <form wire:submit.prevent='submit'>
+
+        {{-- Časové možnosti --}}
+        <x-poll.show.voting.collapse-section id="timeOption">
+            <x:slot:header>
+                <i class="bi bi-calendar"></i> Dates ({{ count($form->timeOptions) }})
+            </x:slot:header>
+
+            <div class="row g-0">
+                @foreach ($form->timeOptions as $optionIndex => $option)
+                    <div class="col-lg-6">
+                        <x-poll.show.voting.card>
+                            <x-slot:content>
+                                <p class="mb-0 fw-bold">{{ Carbon::parse($option['date'])->format('F d, Y') }}
+                                </p>
+                                <p class="mb-0 text-muted d-flex align-items-center">
+                                    {{ $option['content'] }}
+                                    <i class="bi bi-exclamation-circle-fill ms-2 text-warning"></i>
+                                </p>
+                            </x-slot:content>
+                            <x-slot:score>{{ $option['score'] }}</x-slot:score>
+                            <x-slot:button>
+                                <x-poll.show.preference-button :optionIndex="$optionIndex" :pickedPreference="$option['picked_preference']" />
+                            </x-slot:button>
+                        </x-poll.show.voting.card>
+                    </div>
+                @endforeach
+                <div class="col-lg-6">
+                    <div class="card card-sharp text-center">
+                        <div class="card-body">
+                            <h4 class="card-title">Add new option</h4>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <form wire:submit.prevent='submit'>
-            <div>
-
-                <div>
-                    <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse" href="#dateOptions"
-                        role="button" aria-expanded="true" aria-controls="dateOptions">
-                        <h2><i class="bi bi-calendar"></i> Dates ({{ count($timeOptions) }})</h2>
-                    </div>
-                    <div class="collapse show" id="dateOptions">
-                        <div class="row g-0">
-                            @foreach ($timeOptions as $option)
-                                <div class="col-lg-6">
-
-                                    <x-poll.show.option-card :option="$option" />
-                                </div>
-                            @endforeach
-                            <div class="col-lg-6">
-                                <div class="card card-sharp text-center">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Add new option</h4>
-                                    </div>
-                                </div>
-                            </div>
+        </x-poll.show.voting.collapse-section>
 
 
-                        </div>
-                    </div>
-                </div>
+        {{-- Otázky ankety --}}
+        @forelse ($form->questions as $questionIndex => $question)
 
+            <x-poll.show.voting.collapse-section id="question-{{ $question['id'] }}-options">
+                <x:slot:header>
+                    <i class="bi bi-question-lg"></i> {{ $question['text'] }}
+                    ({{ count($question['options']) }})
+                </x:slot:header>
 
-                @if (count($questions) != 0)
-                    @foreach ($questions as $questionIndex => $question)
-                        <div class="w-100 p-3 bg-secondary text-light" data-bs-toggle="collapse"
-                            href="#question-{{ $question['id'] }}-options" role="button" aria-expanded="true"
-                            aria-controls="question-{{ $question['id'] }}-options">
-                            <h2><i class="bi bi-question-lg"></i> {{ $question['text'] }}
-                                ({{ count($question['options']) }})
-                            </h2>
-                        </div>
-                        <div class="collapse show row g-0" id="question-{{ $question['id'] }}-options">
-                            @foreach ($question['options'] as $option)
-                                <div class="col-lg-6">
-
-                                    {{-- Přidat karty pro zobrazení otázek --}}
-                                    <x-poll.show.question-option-card :questionIndex="$questionIndex" :option="$option" />
-                                </div>
-                            @endforeach
+                <div class="row g-0">
+                    @foreach ($question['options'] as $optionIndex => $option)
+                        <div class="col-lg-6">
+                            <x-poll.show.voting.card>
+                                <x-slot:content>
+                                    <p class="mb-0 text-muted">
+                                        {{ $option['text'] }}
+                                    </p>
+                                </x-slot:content>
+                                <x-slot:score>{{ $option['score'] }}</x-slot:score>
+                                <x-slot:button>
+                                    <x-poll.show.preference-button :questionIndex="$questionIndex" :optionIndex="$optionIndex"
+                                        :pickedPreference="$option['picked_preference']" />
+                                </x-slot:button>
+                            </x-poll.show.voting.card>
                         </div>
                     @endforeach
-                @endif
-
-
-                <div class="p-3">
-                    <h3 class="mb-3">Add new vote</h3>
-                    <x-input id="name" model="userName" type="text" label="Your name" mandatory="true" />
-                    <x-input id="email" model="userEmail" type="email" label="Your e-mail" mandatory="true" />
-
-                    @error('noOptionChosen')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    <button type="submit" class="btn btn-primary mt-3">Submit your vote</button>
                 </div>
 
+            </x-poll.show.voting.collapse-section>
+
+        @empty
+            <div class="text-center my-3">
+                <p class="text-muted">No questions available</p>
             </div>
-        </form>
-    </div>
-</div>
+        @endforelse
+
+
+
+        {{-- Formulář pro vyplnění jména a e-mailu --}}
+        <div class="p-3">
+            <h3 class="mb-3">Add new vote</h3>
+            <x-input id="name" model="form.user.name" type="text" mandatory="true">
+                Your name
+            </x-input>
+            <x-input id="email" model="form.user.email" type="email" mandatory="true">
+                Your e-mail
+            </x-input>
+
+            @error('noOptionChosen')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Submit your vote</button>
+        </div>
+
+    </form>
+
+</x-card>

@@ -2,154 +2,138 @@
 
     <form wire:submit.prevent="submit">
 
-        <div class="text-start">
-            <!-- Obecné informace ankety -->
-            <div class="card mb-5 shadow-sm">
-                <div class="card-header">
-                    <h2 class="mb-3">General information</h2>
+
+
+        <!-- Obecné informace ankety -->
+        <x-card>
+            <x-slot:header>General information</x-slot>
+            <x-input id="title" model="form.title" type="text" label="" mandatory="true">
+                Poll Title
+            </x-input>
+
+            <x-textbox id="description" model="form.description">
+                Poll description
+            </x-textbox>
+
+            {{-- Informace o autorovi --}}
+            @if (!$poll)
+                <hr>
+                <div>
+                    <x-input id="user_name" model="form.user.name" type="text" mandatory="true">
+                        Your name
+                    </x-input>
+
+                    <x-input id="user_email" model="form.user.email" type="email" mandatory="true">
+                        Your email
+                    </x-input>
                 </div>
+            @endif
 
-                <div class="card-body p-3">
-                    <x-input id="title" model="form.title" type="text" label="Poll Title" mandatory="true" />
+        </x-card>
 
-                    <x-textbox id="description" model="form.description" label="Description" />
-
-                    {{-- Informace o autorovi --}}
-                    @if (!$poll)
-                        <hr>
-                        <div>
-                            <x-input id="user_name" model="form.user.name" type="text" label="Your name"
-                                     mandatory="true"  />
-                            <x-input id="user_email" model="form.user.email" type="email" label="Your email"
-                                     mandatory="true"  />
+        {{-- Výběr časových termínů --}}
+        <x-card>
+            <x-slot:header>Time options</x-slot>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <!-- Kalendář -->
+                    <div id='calendar' wire:ignore></div>
+                </div>
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <h3 class="mb-4">Chosen dates</h3>
+                    @error('form.dates')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message }}
                         </div>
-                    @endif
-
-
-
-
-                </div>
-
-            </div>
-
-            <!-- Výběr časových termínů -->
-            <div class="card mb-5 shadow-sm">
-
-                <div class="card-header">
-
-                    <h2>Time options</h2>
-
-                </div>
-
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 mb-4">
-
-                            <!-- Kalendář -->
-                            <div id='calendar' wire:ignore></div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 mb-4">
-                            <h3 class="mb-4">Chosen dates</h3>
-                            @error('form.dates')
-                            <div class="alert alert-danger" role="alert">
-                                {{ $message }}
-                            </div>
-                            @enderror
-
-                            @foreach ($form->dates as $dateIndex => $date)
-                                <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />
-                            @endforeach
-
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-            <!-- Výběr doplňujících otázek -->
-            <div class="card mb-5 shadow-sm">
-                <div class="card-header">
-                    <h2>Additional questions</h2>
-                </div>
-                <div class="card-body p-3">
-
-                    @if (count($form->questions) == 0)
-                        <div class="alert alert-secondary" role="alert">
-                            No questions added
-                        </div>
-                    @else
-                        @foreach ($form->questions as $questionIndex => $question)
-                            <x-poll.form.question-card :questionIndex="$questionIndex" :question="$question" />
-                        @endforeach
-
-                    @endif
-
-                    <button type="button" type="button w-25" wire:click="addQuestion()"
-                            class="btn btn-outline-secondary">Add
-                        question</button>
-
-                    @error('form.questions')
-                    <div class="alert alert-danger" role="alert">
-                        {{ $message }}
-                    </div>
                     @enderror
 
+                    @foreach ($form->dates as $dateIndex => $date)
+                        <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />
+                    @endforeach
+
+
                 </div>
-
-
-
-
             </div>
+        </x-card>
 
-            <!-- Nastavení ankety -->
-            <div class="card mb-5 shadow-sm">
-                <div class="card-header">
-                    <h2>Poll settings</h2>
+        {{-- Výběr doplňujících otázek --}}
+        <x-card>
+            <x-slot:header>Additional questions</x-slot>
+
+            @if (count($form->questions) == 0)
+                <div class="alert alert-secondary" role="alert">
+                    No questions added
                 </div>
-                <div class="card-body p-3">
+            @else
+                @foreach ($form->questions as $questionIndex => $question)
+                    <x-poll.form.question-card :questionIndex="$questionIndex" :question="$question" />
+                @endforeach
 
-                    <!-- Komentáře -->
-                    <x-poll.form.checkbox id="comments" model="form.settings.comments" label="Comments" />
+            @endif
 
-                    <!-- Tajné hlasování -->
-                    <x-poll.form.checkbox id="anonymous" model="form.settings.anonymous" label="Anonymous voting" />
+            <button type="button" type="button w-25" wire:click="addQuestion()" class="btn btn-outline-secondary">Add
+                question</button>
 
-                    <!-- Skryté výsledky -->
-                    <x-poll.form.checkbox id="hide_results" model="form.settings.hideResults" label="Hide results" />
-
-                    <x-poll.form.checkbox id="invite_only" model="form.settings.inviteOnly" label="Invite only" />
-
-                    <!-- Heslo -->
-                    <x-input id="password" model="form.settings.password" type="password" label="Password" />
+            @error('form.questions')
+                <div class="alert alert-danger" role="alert">
+                    {{ $message }}
                 </div>
+            @enderror
+        </x-card>
+
+        {{-- Nastavení ankety --}}
+        <x-card>
+            <x-slot:header>Poll settings</x-slot>
 
 
-            </div>
-        </div>
+            <!-- Komentáře -->
+            <x-poll.form.checkbox id="comments" model="form.settings.comments">
+                Comments
+            </x-poll.form.checkbox>
+
+            {{-- Tajné hlasování --}}
+            <x-poll.form.checkbox id="anonymous" model="form.settings.anonymous">
+                Anonymous voting
+            </x-poll.form.checkbox>
+
+            {{-- Skrytí výsledků --}}
+            <x-poll.form.checkbox id="hide_results" model="form.settings.hideResults">
+                Hide results
+            </x-poll.form.checkbox>
+
+
+            {{-- Pouze pro pozvané --}}
+            <x-poll.form.checkbox id="invite_only" model="form.settings.inviteOnly">
+                Invite only
+            </x-poll.form.checkbox>
+
+            {{-- Heslo --}}
+            <x-input id="password" model="form.settings.password" type="password">
+                Password
+            </x-input>
+
+        </x-card>
+
+
 
         @error('form.save')
-        <div class="alert alert-danger" role="alert">
-            {{ $message }}
-        </div>
+            <div class="alert alert-danger" role="alert">
+                {{ $message }}
+            </div>
         @enderror
 
-
-        <button type="submit" class="btn btn-primary w-75">Submit</button>
-
-
-    </form>
+        <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">Submit</button>
 
 
 </div>
 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
+
+<script>
     // Inicializace FullCalendar
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('test');
         initCalendar();
     });
 

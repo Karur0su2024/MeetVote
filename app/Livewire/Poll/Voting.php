@@ -3,102 +3,89 @@
 namespace App\Livewire\Poll;
 
 use App\Livewire\Forms\VotingForm;
-use App\Models\Vote;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Poll;
+use App\Services\VoteService;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Voting extends Component
 {
+    public Poll $poll;
 
+    // Formulář pro hlasování
+    public VotingForm $form;
 
-    // Tohle tady může zůstat
-    #[On('updateOptions')]
-    public function updateOptions()
+    // Služby
+    protected ?VoteService $voteService;
+
+    public $existingVote;
+
+    public function __construct()
     {
-        $this->loadOptions();
+        $this->voteService = app(VoteService::class);
     }
 
-
-    // Metoda pro změnu preference časové možnosti
-    public function changeTimeOptionPreference($timeOptionIndex, $value)
+    public function mount(Poll $poll, VoteService $voteService)
     {
-        $this->timeOptions[$timeOptionIndex]['chosen_preference'] = $value;
+        // Tohle nechat
+        $this->poll = $poll;
+
+        $this->form->loadData($this->voteService->getPollData($poll));
     }
 
-    // Metoda pro změnu preference možnosti otázky
-    public function changeQuestionOptionPreference($questionIndex, $optionIndex, $value)
+    public function submit()
     {
-        $this->questions[$questionIndex]['options'][$optionIndex]['chosen_preference'] = $value;
-    }
-
-    // Přesunout do služby
-    // Metoda pro uložení hlasu
-    public function saveVote()
-    {
-        // Validace formuláře
-        $this->validate();
-
-        $this->voteService->saveVote(
-            $this->poll,
-            $this->userName,
-            $this->userEmail,
-            $this->timeOptions,
-            $this->questions,
-            $this->existingVote
-        );
-
-        // Zjištění zda uživatel vybral alespoň jednu možnost
-        if (! $this->checkIfPreferencesWasChoosen()) {
-            $this->addError('noOptionChosen', 'You have to choose at least one option.');
+        try {
+            $this->form->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Zde můžete zpracovat chybu validace
+            dd($e->validator->errors());
 
             return;
         }
+        $validatedData = $this->form->validate();
 
-        $vote = $this->voteService->saveVote(
-            $this->poll,
-            $this->userName,
-            $this->userEmail,
-            $this->timeOptions,
-            $this->questions,
-            $this->existingVote
-        );
+        $validatedData['poll_id'] = $this->poll->id;
+
+        $this->voteService->saveVote($validatedData);
+
+        $this->form->loadData($this->voteService->getPollData($this->poll));
+
+        // Metoda pro odeslání formuláře
 
         $this->dispatch('updateVotes');
-
-        // sem dát odeslání e-mailů
-
-        $this->resetForm();
     }
 
-    private function checkIfPreferencesWasChoosen(): bool
+    // Načtení hlasu
+    #[On('loadVote')]
+    public function loadVote($voteIndex)
     {
-        $this->resetErrorBag('noOptionChosen');
-
-        // Kontrola všech časových možností, zda mají vybranou nějakou preferenci
-        foreach ($this->timeOptions as $timeOption) {
-            if ($timeOption['chosen_preference'] != 0) {
-                return true;
-            }
-        }
-
-        // Kontrola všech možností otázek, zda mají vybranou nějakou preferenci
-        foreach ($this->questions as $question) {
-            foreach ($question['options'] as $option) {
-                if ($option['chosen_preference'] != 0) {
-                    return true;
-                }
-            }
-        }
-
-        $this->addError('noOptionChosen', 'You have to choose at least one option.');
-
-        return false;
+        $this->form->loadData($this->voteService->getPollData($this->poll, $voteIndex));
+        $this->form->existingVote = $voteIndex;
     }
 
+    public function changePreference($questionIndex, $optionIndex, $value)
+    {
 
+        // dd($questionIndex, $optionIndex, $value);
 
-    // Metoda pro modalového okna výsledků ankety
+        if ($questionIndex == null) {
+            $this->changeTimeOptionPreference($optionIndex, $value);
+        } else {
+            $this->changeQuestionOptionPreference($questionIndex, $optionIndex, $value);
+        }
+    }
+
+    private function changeTimeOptionPreference($timeOptionIndex, $value)
+    {
+        $this->form->timeOptions[$timeOptionIndex]['picked_preference'] = $value;
+    }
+
+    private function changeQuestionOptionPreference($questionIndex, $optionIndex, $value)
+    {
+        $this->form->questions[$questionIndex]['options'][$optionIndex]['picked_preference'] = $value;
+    }
+
     public function openResultsModal()
     {
         $this->dispatch('showModal', [
@@ -110,23 +97,8 @@ class Voting extends Component
         ]);
     }
 
-    // Metoda pro renderování komponenty
     public function render()
     {
         return view('livewire.poll.voting');
     }
-
-
-
-
-
-
-
-    // -----------------------------------------------------------------------------------------------------
-
-    // Tohle bylo ve službě
-
-
-
-
 }

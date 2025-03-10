@@ -17,7 +17,6 @@ class LoginForm extends Form
 
     public bool $remember = false;
 
-
     protected array $rules = [
         'email' => 'required|string|email',
         'password' => 'required|string',
@@ -70,6 +69,6 @@ class LoginForm extends Form
      */
     protected function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->email) . '|' . request()->ip());
+        return Str::transliterate(Str::lower($this->email).'|'.request()->ip());
     }
 }

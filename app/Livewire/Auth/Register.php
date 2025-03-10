@@ -2,19 +2,16 @@
 
 namespace App\Livewire\Auth;
 
+use App\Livewire\Forms\RegisterForm;
 use App\Models\Poll;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Livewire\Component;
-use App\Livewire\Forms\RegisterForm;
-use Illuminate\Validation\ValidationException;
 
 class Register extends Component
 {
-
     public RegisterForm $form;
 
     /**
@@ -40,7 +37,6 @@ class Register extends Component
     {
         return view('livewire.auth.register');
     }
-
 
     private function assignPollsToUser($user): void
     {

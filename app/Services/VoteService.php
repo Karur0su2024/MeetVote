@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Models\Poll;
 use App\Models\Vote;
-use App\Models\VoteTimeOption;
 use App\Models\VoteQuestionOption;
+use App\Models\VoteTimeOption;
 use Illuminate\Support\Facades\Auth;
 
 class VoteService
@@ -26,9 +26,9 @@ class VoteService
     // V případě, že je hlas nový, vytvoří se nový záznam
     public function saveVote($data)
     {
-        //dd($data);
+        // dd($data);
 
-        if (!isset($data['existingVote'])) {
+        if (! isset($data['existingVote'])) {
             $vote = Vote::create(
                 [
                     'poll_id' => $data['poll_id'],
@@ -39,7 +39,7 @@ class VoteService
             );
         } else {
             $vote = Vote::find($data['existingVote']);
-            if (!$vote) {
+            if (! $vote) {
                 throw new \Exception('Vote not found');
             }
             $vote->update(
@@ -110,7 +110,7 @@ class VoteService
 
         foreach ($data as $option) {
             // dd($option);
-            $content = $option['content']['text'] ?? '(' . $option['content']['start'] . ' - ' . $option['content']['start'] . ')';
+            $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['start'].')';
             if ($voteIndex) {
 
                 $preferenceOption = VoteTimeOption::where('vote_id', $voteIndex)
@@ -169,8 +169,6 @@ class VoteService
 
         return $questions;
     }
-
-
 
     public function sendEmails() {}
 }

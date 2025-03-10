@@ -2,15 +2,8 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Attributes\Validate;
-use Livewire\Form;
-
-use App\Models\Poll;
-use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Form;
 
 class RegisterForm extends Form
 {

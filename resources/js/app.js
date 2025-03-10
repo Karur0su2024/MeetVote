@@ -6,7 +6,7 @@ import './bootstrap';
 import('@popperjs/core');
 
 // Bootstrap
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
 
 // https://github.com/aliqasemzadeh/livewire-bootstrap-modal
 // aliqasemzadeh/livewire-bootstrap-modal

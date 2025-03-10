@@ -137,7 +137,7 @@ class TimeOptionService
     // Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
     private function convertContentToText($option): string
     {
-        return $option['date'] . ' ' . strtolower(implode('-', $option['content']));
+        return $option['date'].' '.strtolower(implode('-', $option['content']));
     }
 
     // Přesunout do služby

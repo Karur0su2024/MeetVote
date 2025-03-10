@@ -1,9 +1,3 @@
-@php
-    $isAdmin = request()->get('isPollAdmin', false);
-    //dd($isAdmin);
-@endphp
-
-
 <x-layouts.app>
 
     <!-- Název stránky -->
@@ -20,67 +14,57 @@
 
         <!-- Tohle přesunout do samostatné komponenty -->
         <!-- Panel s nastavením ankety -->
-        <div class="card mb-3 p-2 shadow-sm">
+        <div class="card mb-5 p-2 shadow-sm">
             <div class="d-flex justify-content-end gap-2">
-                <a href="#" class="btn btn-outline-secondary">Copy link</a>
-                @if (request()->get('isPollAdmin', false))
+                <a href="#" class="btn btn-outline-secondary">
+                    <i class="bi bi-link-45deg"></i> Copy link </a>
+                @if ($isAdmin)
                     {{-- Dropdown pro správce --}}
-
                     <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Options
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">
+
+                            <li><a class="dropdown-item py-1" href="{{ route('polls.edit', $poll) }}">
                                     <i class="bi bi-pencil-square"></i> Edit poll
                                 </a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="#"
-                                    onclick="openModal('modals.poll.share', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-share"></i> Share poll
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"
-                                    onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-x-circle"></i> Close poll
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"
-                                    onclick="openModal('modals.poll.choose-final-options', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-check2-square"></i> Final options
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"
-                                    onclick="openModal('modals.poll.create-event', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-calendar-event"></i> Create event
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#"
-                                    onclick="openModal('modals.poll.invitations', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-person-plus"></i> Invitations
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item text-danger" href="#"
-                                    onclick="openModal('modals.poll.delete-poll', '{{ $poll->public_id }}')">
-                                    <i class="bi bi-trash"></i> Delete poll
-                                </a>
-                            </li>
-                        </ul>
 
+                            <x-poll.show.dropdown-item modalName="share" :id="$poll->id">
+                                <i class="bi bi-share"></i> Share poll
+                            </x-poll.show.dropdown-item>
+
+                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->id">
+                                <i class="bi bi-x-circle"></i> Close poll
+                            </x-poll.show.dropdown-item>
+
+                            <x-poll.show.dropdown-item modalName="choose-final-options" :id="$poll->id">
+                                <i class="bi bi-check2-square"></i> Final options
+                            </x-poll.show.dropdown-item>
+
+                            <x-poll.show.dropdown-item modalName="create-event" :id="$poll->id">
+                                <i class="bi bi-calendar-event"></i> Create event
+                            </x-poll.show.dropdown-item>
+
+                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->id">
+                                <i class="bi bi-person-plus"></i> Invitations
+                            </x-poll.show.dropdown-item>
+
+                            <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->id" type="danger">
+                                <i class="bi bi-trash"></i> Delete poll
+                            </x-poll.show.dropdown-item>
+
+                        </ul>
                     </div>
                 @endif
             </div>
 
         </div>
 
-        <div class="card p-4 shadow-sm text-start mb-3">
+        {{-- Základní informace o anketě --}}
+        <div class="card p-4 shadow-sm text-start mb-5">
             <h2>{{ $poll->title }}</h2>
             <div class="d-flex align-items-center text-muted mb-2">
                 {{-- Doplnit avatar uživatele --}}
@@ -110,20 +94,13 @@
                     <span class="badge bg-secondary">Ends in
                         {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
                 @endif
-
             </div>
         </div>
 
         <!-- Hlasovací formulář -->
-        <livewire:poll.voting2 :poll="$poll" />
-
-
-
-
+        <livewire:poll.voting :poll="$poll" />
 
         {{-- Komentáře --}}
-
-
         @if ($poll->comments)
             <livewire:poll.comments :poll="$poll" />
         @endif

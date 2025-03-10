@@ -1,103 +1,76 @@
 <div>
+    <x-card>
+        <x-slot:header>Profile Information</x-slot>
 
+        <form wire:submit.prevent='updateProfile'>
+            {{-- Přezdívka --}}
+            <x-input id="name" model="name" type="text" label="Username" mandatory="true" />
 
-    <div class="card text-start mb-3">
-        <div class="card-header py-3">
-            <h2>Profile information</h2>
-        </div>
-        <div class="card-body">
-            <form wire:submit.prevent='updateProfile'>
+            {{-- Email --}}
+            <x-input id="email" model="email" type="email" label="Your e-mail" mandatory="true" />
 
-                <div class="mb-3">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" class="form-control" wire:model="name">
-                    @error('name')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" wire:model="email">
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-
-        </div>
-
-    </div>
-
-    <div class="card text-start mb-3">
-        <div class="card-header py-3">
-            <h2>Password</h2>
-        </div>
-        <div class="card-body">
-            <form wire:submit.prevent='updatePassword'>                
-                <div class="mb-3">
-                    <label for="current_password">Current password</label>
-                    <input type="password" id="current_password" class="form-control" wire:model="current_password">
-                    @error('current_password')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="password">New password</label>
-                    <input type="password" id="password" class="form-control" wire:model="new_password">
-                    @error('password')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="mb-3">
-                    <label for="password_confirmation">Confirm new password</label>
-                    <input type="password" id="password_confirmation" class="form-control" wire:model="password_confirmation">
-                    @error('password_confirmation')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-            
-        </div>
-
-    </div>
-
-    <div class="card text-start mb-3">
-        <div class="card-header py-3">
-            <h2>Preferences</h2>
-        </div>
-        <div class="card-body">
-            To be added
-
-        </div>
-
-    </div>
-
-    <div class="card text-start mb-3">
-        <div class="card-header py-3">
-            <h2>Google & Calendar</h2>
-        </div>
-        <div class="card-body">
-            To be added
-
-        </div>
-
-    </div>
-
-    <div class="card text-start">
-        <div class="card-header py-3">
-            <h2>Delete account</h2>
-        </div>
-        <div class="card-body">
-            
-            <button class="btn btn-danger" wire:click="deleteAccount">
-                Delete account
+            <button type="submit" class="btn btn-primary">
+                Save Changes
             </button>
 
-        </div>
+            {{-- Zpráva v případě úspěšného uložení --}}
+            @if (session()->has('settings.profile.success'))
+                <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>
+            @endif
+        </form>
+    </x-card>
 
-    </div>
+    <x-card>
+        <x-slot:header>Password</x-slot>
+
+        <form wire:submit.prevent='updatePassword'>
+            {{-- Současné heslo --}}
+            <x-input id="current_password" model="current_password" type="password" label="Current password"
+                mandatory="true" />
+
+            {{-- Nové heslo --}}
+            <x-input id="new_password" model="new_password" type="password" label="New password" mandatory="true" />
+
+            {{-- Potvrzení nového hesla --}}
+            <x-input id="password_confirmation" model="new_password_confirmation" type="password"
+                label="Confirm new password" mandatory="true" />
+
+            <button type="submit" class="btn btn-primary">
+                Save Changes
+            </button>
+
+            {{-- Zpráva v případě úspěšného uložení --}}
+            @if (session()->has('settings.password.success'))
+                <span class="text-success ms-3">{{ session('settings.password.success') }}</span>
+            @endif
+        </form>
+    </x-card>
+
+    <x-card>
+        <x-slot:header>Preferences</x-slot>
+        <p class="text-muted">
+            This feature is coming soon...
+        </p>
+    </x-card>
+
+    <x-card>
+        <x-slot:header>Google & Calendar</x-slot>
+        <p class="text-muted">
+            This feature is coming soon...
+        </p>
+
+        <button class="btn btn-outline-primary">
+            <i class="bi bi-google"></i> Connect with Google
+        </button>
+        <button class="btn btn-outline-primary ms-3">
+            <i class="bi bi-google"></i> Connect with Google Calendar
+        </button>
+    </x-card>
+
+    <x-card>
+        <x-slot:header>Delete account</x-slot>
+        <button class="btn btn-danger" wire:click="deleteAccount">
+            Delete account
+        </button>
+    </x-card>
 </div>
