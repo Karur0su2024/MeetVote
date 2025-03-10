@@ -2,14 +2,13 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use Livewire\Component;
 use App\Models\Poll;
 use App\Services\TimeOptionService;
 use Carbon\Carbon;
+use Livewire\Component;
 
 class AddNewTimeOption extends Component
 {
-
     public $poll;
 
     public $type;
@@ -29,7 +28,6 @@ class AddNewTimeOption extends Component
         'content.end' => 'required_if:type,time|date_format:H:i|after:content.start',
         'content.text' => 'required_if:type,text|string',
     ];
-
 
     protected TimeOptionService $timeOptionService;
 
@@ -57,9 +55,9 @@ class AddNewTimeOption extends Component
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Zde můžete zpracovat chybu validace
             dd($e);
+
             return;
         }
-
 
         $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
 
@@ -76,6 +74,7 @@ class AddNewTimeOption extends Component
 
         if ($this->timeOptionService->checkDuplicity($timeOptions)) {
             $this->addError('error', 'Duplicity detected');
+
             return;
         }
 

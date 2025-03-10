@@ -45,11 +45,11 @@ class Voting extends Component
         }
         $validatedData = $this->form->validate();
 
-
         $validatedData['poll_id'] = $this->poll->id;
 
-        if (!$this->voteService->atLeastOnePickedPreference($validatedData)) {
+        if (! $this->voteService->atLeastOnePickedPreference($validatedData)) {
             session()->flash('error', 'Please select at least one option.');
+
             return;
         }
 
@@ -83,8 +83,6 @@ class Voting extends Component
         $this->form->existingVote = null;
     }
 
-
-
     // Změna preference
     public function changePreference($questionIndex, $optionIndex, $value)
     {
@@ -100,7 +98,6 @@ class Voting extends Component
     {
         $this->form->timeOptions[$timeOptionIndex]['picked_preference'] = $value;
     }
-
 
     // Změna preference pro otázku
     private function changeQuestionOptionPreference($questionIndex, $optionIndex, $value)
@@ -119,7 +116,6 @@ class Voting extends Component
 
         ]);
     }
-
 
     #[On('updateTimeOptions')]
     public function updateTimeOptions()

@@ -2,31 +2,45 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Poll;
+use App\Services\PollService;
+use Illuminate\Support\Facades\DB;
 use Livewire\Form;
 
 class PollForm extends Form
 {
+    public ?int $pollIndex = null;
+
     // Název ankety
-    public $title = 'abc';
+    public ?string $title = 'abc';
 
     // Popis ankety
-    public $description;
+    public ?string $description;
 
     // Deadline ankety, po kterém nebude možné hlasovat
-    public $deadline = null;
+    public ?string $deadline = null;
 
     // Nastavení ankety
-    public $settings = [];
+    public array $settings = [];
 
-    public $user;
+    // Informace o uživateli
+    public array $user = [];
 
     // Časové možnosti
-    public $dates = [];
+    public array $dates = [];
 
     // Otázky ankety
-    public $questions = [];
+    public array $questions = [];
 
+    public $removed = [
+        'time_options' => [],
+        'questions' => [],
+        'question_options' => [],
+    ];
+
+    // Validace
     protected $rules = [
+        'pollIndex' => 'nullable|integer',
         'title' => 'required|string|min:3|max:255',
         'description' => 'nullable|max:1000',
         'deadline' => 'nullable|date',
@@ -51,6 +65,9 @@ class PollForm extends Form
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
         'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
         'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
+        'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
+        'removed.questions' => 'nullable|array', // ID odstraněných otázek
+        'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
     ];
 
     // Bylo použité AI pro generování všech chybových zpráv
@@ -107,6 +124,7 @@ class PollForm extends Form
 
     public function loadForm($data)
     {
+        $this->pollIndex = $data['pollIndex'];
         $this->title = $data['title'];
         $this->description = $data['description'];
         $this->deadline = $data['deadline'];
@@ -115,5 +133,77 @@ class PollForm extends Form
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         ksort($this->dates);
         $this->questions = $data['questions'];
+    }
+
+    // Metoda po odelání formuláře
+    public function submit(PollService $pollService): ?Poll
+    {
+        // Validace
+        $validatedData = $this->validate();
+
+        $validatedData = $this->prepareValidatedDataArray($validatedData);
+
+        if ($this->checkDuplicity($validatedData, $pollService)) {
+            // Sem přidat error
+            return null;
+        }
+
+        return $this->savePoll($validatedData, $pollService);
+    }
+
+    // Úprava pole pro uložení do databáze
+    private function prepareValidatedDataArray($validatedData): array
+    {
+
+        // Převod z dat do formátu pro uložení do databáze
+        $validatedData['time_options'] = array_reduce($validatedData['dates'], function ($carry, $date) {
+            return array_merge($carry, $date);
+        }, []);
+
+        unset($validatedData['dates']);
+
+        return $validatedData;
+    }
+
+    // Kontrola duplicitních otázek a časových možností
+    private function checkDuplicity($validatedData, PollService $pollService): bool
+    {
+        if ($pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
+            $this->addError('form.dates', 'Duplicate time options are not allowed.');
+
+            return true;
+        }
+
+        if ($pollService->getQuestionService()->checkDupliciteQuestions($validatedData['questions'])) {
+            $this->addError('form.questions', 'Duplicate questions are not allowed.');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // Metoda pro transakci a uložení ankety
+    private function savePoll($validatedData, PollService $pollService): ?Poll
+    {
+        try {
+            DB::beginTransaction();
+            $poll = Poll::find($this->pollIndex);
+
+            if ($poll) {
+                $poll = $pollService->updatePoll($poll, $validatedData);
+            } else {
+                $poll = $pollService->createPoll($validatedData);
+            }
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            $this->addError('form', 'An error occurred while saving the poll. Please try again.');
+
+            return null;
+        }
+
+        DB::commit();
+
+        return $poll;
     }
 }

@@ -51,13 +51,18 @@
                         </x-poll.show.voting.card>
                     </div>
                 @endforeach
-                <div class="col-lg-6">
-                    <div class="card card-sharp text-center" wire:click="openAddNewTimeOptionModal()">
-                        <div class="card-body">
-                            <h4 class="card-title">Add new option</h4>
+
+                {{-- V případě, že možné přidat nové časové možnosti, zobrazí se tlačítko pro přidání --}}
+                @if (!$poll->canAddOptions)
+                    <div class="col-lg-6">
+                        <div class="card card-sharp text-center" wire:click="openAddNewTimeOptionModal()">
+                            <div class="card-body">
+                                <h4 class="card-title">Add new option</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </x-poll.show.voting.collapse-section>
 

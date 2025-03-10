@@ -33,7 +33,7 @@ class PollController extends Controller
     {
         if ($request->password === $poll->password) {
             // return dd('OK');
-            session()->put('poll_' . $poll->public_id . '_password', $request->password);
+            session()->put('poll_'.$poll->public_id.'_password', $request->password);
 
             return redirect()->route('polls.show', $poll);
         }
@@ -47,7 +47,7 @@ class PollController extends Controller
             // return redirect()->back()->with('error', 'Špatný klíč správce ankety');
         }
 
-        session()->put('poll_' . $poll->public_id . '_adminKey', $admin_key);
+        session()->put('poll_'.$poll->public_id.'_adminKey', $admin_key);
 
         return redirect()->route('polls.show', $poll);
     }

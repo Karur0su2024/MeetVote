@@ -50,10 +50,7 @@ class VoteService
             );
         }
 
-
         $this->saveTimeOptionsVotes($vote, $data);
-
-
 
         $this->saveQuestionOptionsVotes($vote, $data);
     }
@@ -72,7 +69,6 @@ class VoteService
             'questions' => $this->getQuestionData($this->questionService->getPollQuestions($poll), $voteId),
         ];
 
-
         return $data;
     }
 
@@ -84,7 +80,7 @@ class VoteService
 
         foreach ($data as $option) {
             // dd($option);
-            $content = $option['content']['text'] ?? '(' . $option['content']['start'] . ' - ' . $option['content']['end'] . ')';
+            $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['end'].')';
             if ($voteIndex) {
 
                 $preferenceOption = VoteTimeOption::where('vote_id', $voteIndex)
@@ -104,8 +100,6 @@ class VoteService
                 'picked_preference' => $preference ?? 0,
             ];
         }
-
-
 
         return $timeOptions;
     }
@@ -146,7 +140,6 @@ class VoteService
         return $questions;
     }
 
-
     // Metoda pro uložení hlasů pro časové možnosti
     private function saveTimeOptionsVotes($vote, $data)
     {
@@ -154,8 +147,6 @@ class VoteService
         $vote->timeOptions()->delete();
 
         if (isset($data['timeOptions'])) {
-
-
 
             foreach ($data['timeOptions'] as $option) {
 
@@ -217,7 +208,7 @@ class VoteService
             }
         }
 
-        //dd('No preference selected');
+        // dd('No preference selected');
         return false;
     }
 

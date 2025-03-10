@@ -35,6 +35,7 @@ class PollService
     {
 
         return [
+            'pollIndex' => $poll->id ?? null,
             'title' => $poll->title ?? 'abc',
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ?? '',
@@ -80,7 +81,6 @@ class PollService
         $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
 
         return $poll;
-
     }
 
     // Metoda pro aktualizaci ankety
