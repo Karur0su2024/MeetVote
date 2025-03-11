@@ -13,7 +13,7 @@ class PollForm extends Form
     public ?int $pollIndex = null;
 
     // Název ankety
-    public ?string $title = 'abc';
+    public ?string $title = '';
 
     // Popis ankety
     public ?string $description;

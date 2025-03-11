@@ -3,6 +3,9 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Models\Poll;
+use App\Models\QuestionOption;
+use App\Services\QuestionService;
+use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -18,86 +21,63 @@ class ChooseFinalOptions extends Component
 
     public $selectedQuestionOptions = [];
 
+    public $selected = [];
+
+    protected TimeOptionService $timeOptionService;
+    protected QuestionService $questionService;
+
+
+    public function __construct()
+    {
+        $this->timeOptionService = app(TimeOptionService::class);
+        $this->questionService = app(QuestionService::class);
+    }
+
     public function mount($publicIndex)
     {
-        $this->poll = Poll::where('public_id', $publicIndex)->first();
+        $this->poll = Poll::find($publicIndex);
 
-        foreach ($this->poll->timeOptions as $timeOption) {
-            $points = 0;
-            foreach ($timeOption->votes as $vote) {
-                $points += $vote->preference;
-            }
-
-            $start = $timeOption->start ? Carbon::parse($timeOption->start)->format('H:i') : null;
-            $end = $timeOption->start ? Carbon::parse($timeOption->start)->addMinutes($timeOption->minutes)->format('H:i') : null;
-            $text = $timeOption->text ?? null;
-
-            $this->timeOptions[] = [
-                'id' => $timeOption->id,
-                'date' => $timeOption->date,
-                'start' => $start,
-                'end' => $end,
-                'text' => $text,
-                'votes' => $points,
-            ];
+        $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
+        foreach ($this->timeOptions as &$timeOption) {
+            $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
         }
 
-        foreach ($this->poll->questions as $question) {
-            $options = [];
-            foreach ($question->options as $option) {
-                $options[] = [
-                    'text' => $option->text,
-                    'votes' => $option->votes->count(),
-                ];
 
-                usort($options, function ($a, $b) {
-                    return $b['votes'] <=> $a['votes'];
-                });
-            }
+        $this->selected['time_option'] = 0;
 
-            $this->questions[] = [
-                'text' => $question->text,
-                'options' => $options,
-            ];
-        }
-
-        // Seřazení časových možností podle počtu hlasů
-        usort($this->timeOptions, function ($a, $b) {
-            return $b['votes'] <=> $a['votes'];
-        });
+        $this->questions = $this->questionService->getPollQuestions($this->poll);
 
         $this->selectedTimeOption = 0;
 
         foreach ($this->questions as $questionIndex => $question) {
-            $this->selectedQuestionOptions[$questionIndex] = '0';
+            $this->selected['questions'][$questionIndex] = 0;
         }
 
-        // dd($this->selectedQuestionOptions);
+        //dd($this->timeOptions, $this->questions);
 
     }
 
     public function chooseFinalResults()
     {
-        // dd($this->selectedTimeOption);
-        $timeOption = $this->timeOptions[$this->selectedTimeOption];
 
-        $text = 'Poll description: '.$this->poll->description."\n";
+        $timeOption = $this->timeOptions[$this->selected['time_option']];
 
-        $text .= $timeOption['text']."\n";
+        $text = 'Poll description: '.$this->poll->description."\n\n";
+
+        $text .= 'Chosen time option: ' . $timeOption['content']['full'] . "\n\n";
 
         foreach ($this->questions as $questionIndex => $question) {
             $text .= $question['text'].': ';
-            $text .= $question['options'][$this->selectedQuestionOptions[$questionIndex]]['text']."\n";
+            $text .= $question['options'][$this->selected['questions'][$questionIndex]]['text']."\n";
             $text .= "\n";
         }
 
         $event = [
-            'poll_id' => $this->poll->id,
+            'poll_id' => $this->poll->public_id,
             'title' => $this->poll->title,
-            'date' => $timeOption['date'],
             'all_day' => false,
-            'start' => $timeOption['start'],
-            'end' => $timeOption['end'],
+            'start_time' => $timeOption['date'] . ' ' . $timeOption['content']['start'],
+            'end_time' => $timeOption['date'] . ' ' . $timeOption['content']['end'],
             'description' => $text,
         ];
 

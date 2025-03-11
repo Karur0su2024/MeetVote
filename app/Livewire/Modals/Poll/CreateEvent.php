@@ -4,6 +4,7 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Event as EventModel;
 use App\Models\Poll;
+use Illuminate\Container\Attributes\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -11,30 +12,34 @@ class CreateEvent extends Component
 {
     public $poll;
 
+    public bool $update = false;
+
     public $event = [
         'poll_id' => '',
         'title' => '',
-        'date' => '',
         'all_day' => false,
-        'start' => '',
-        'end' => '',
+        'start_time' => '',
+        'end_time' => '',
         'description' => '',
     ];
 
     protected $rules = [
-        'event.title' => 'required',
-        'event.date' => 'required|date|after_or_equal:today',
+        'event.title' => 'required|string|max:255',
         'event.all_day' => 'boolean',
-        'event.start' => 'required|date_format:H:i',
-        'event.end' => 'required|date_format:H:i|after:event.start',
-        'event.description' => 'nullable',
+        'event.start_time' => 'required|date',
+        'event.end_time' => 'required|date|after:event.start_time',
+        'event.description' => 'nullable|string',
     ];
+
 
     public function mount($event = null)
     {
-
         if ($event) {
             $this->event = $event;
+            $this->poll = Poll::where('public_id', $event['poll_id'])->first();
+            if ($this->poll->event()->exists()) {
+                $this->update = true;
+            }
         }
 
     }
@@ -49,27 +54,38 @@ class CreateEvent extends Component
     public function createEvent()
     {
 
-        $validatedData = $this->validate();
+        try {
+            $validatedData = $this->validate();
 
-        if ($this->poll->event) {
-            $this->poll->event->delete();
+            $this->poll->event()->delete();
+
+            $this->poll->event()->create($validatedData['event']);
+
+            session()->flash('event', 'Událost byla úspěšně vytvořena.');
+
+            return redirect()->route('polls.show', $this->poll);
+        }
+        catch (\Exception $e) {
+            return;
         }
 
-        $event = EventModel::create([
-            'poll_id' => $validatedData['event']['poll_id'],
-            'title' => $validatedData['event']['title'],
-            'date' => $validatedData['event']['date'],
-            'all_day' => $validatedData['event']['all_day'],
-            'start' => $validatedData['event']['start'],
-            'end' => $validatedData['event']['end'],
-            'title' => $validatedData['event']['title'],
-            'description' => $validatedData['event']['description'],
-        ]);
 
-        $this->poll->event()->save($event);
 
-        // return redirect()->route('polls.show', $this->poll);
+        $this->dispatch('hideModal');
+
     }
+
+
+    public function openResultsModal(){
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.choose-final-options',
+            'params' => [
+                'publicIndex' => $this->poll->id,
+            ],
+
+        ]);
+    }
+
 
     public function render()
     {

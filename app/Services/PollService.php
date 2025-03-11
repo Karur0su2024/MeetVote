@@ -86,7 +86,6 @@ class PollService
     // Metoda pro aktualizaci ankety
     public function updatePoll(Poll $poll, array $validatedData): Poll
     {
-
         $poll->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
@@ -98,7 +97,6 @@ class PollService
             'password' => $validatedData['settings']['password'],
         ]);
 
-        // dd($validatedData['time_options']);
 
         $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
         $this->questionService->saveQuestions($poll, $validatedData['questions']);

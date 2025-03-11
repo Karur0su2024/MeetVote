@@ -11,10 +11,15 @@
 
 
         {{-- Email --}}
-        <x-input id="email" model="form.email" type="email" label="Email" mandatory="true" />
+        <x-input id="email" model="form.email" type="email" mandatory="true">
+            Email
+        </x-input>
+
 
         {{-- Heslo --}}
-        <x-input id="password" model="form.password" type="password" label="Password" mandatory="true" />
+        <x-input id="password" model="form.password" type="password"  mandatory="true">
+            Password
+        </x-input>
 
 
 

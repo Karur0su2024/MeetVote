@@ -1,32 +1,51 @@
 <div>
     <div class="modal-header bg-warning">
-        <h5 class="modal-title">Create event</h5>
+        <h5 class="modal-title">Create event for poll {{ $poll->title }}</h5>
         <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
     <div class="modal-body">
 
-        <form wire:submit.prevent='createEvent()' wire:key='{{ now() }}'>
-
-            <x-input id="title" model="event.title" type="text" label="Title" />
-            <x-input id="date" model="event.date" type="date" label="Date of event" />
+        <p class="text-muted">
+            Fill in the details below to create an event and optionally import final options from the poll results.
+        </p>
             <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" wire:model='event.all_day' id="all_day" />
-                    <label class="form-check-label" for="all_day">All day event</label>
-                </div>
+                <x-input id="title" model="event.title" type="text" mandatory="true">
+                    Event title
+                </x-input>
+            </div>
+
+            <div class="mb-3">
+                <x-input id="start" model="event.start_time" type="datetime-local" label="Start">
+                    Start
+                </x-input>
+            </div>
+
+            <div class="mb-3">
+                <x-input id="end" model="event.end_time" type="datetime-local" label="End">
+                    End
+                </x-input>
+            </div>
+
+            <div class="mb-3">
+                <x-textbox id="description" model="event.description">
+                    Event Description
+                </x-textbox>
             </div>
 
 
-            @if (!$event['all_day'])
-                <x-input id="end" model="event.end" type="time" label="End" />
-                <x-input id="start" model="event.start" type="time" label="Start" />
-            @endif
 
-            <x-textbox id="location" model="event.description" label="Description" />
+        <div class="d-flex justify-content-center gap-2">
+            <button wire:click='openResultsModal()' class="btn btn-outline-secondary w-100">
+                <i class="bi bi-download"></i> Import from poll results
+            </button>
+            <button class="btn btn-outline-danger w-100">
+                <i class="bi bi-calendar-plus"></i> Delete event
 
-            <button type="submit" class="btn btn-primary">Create</button>
-        </form>
-
-
+            <button wire:click='createEvent' class="btn btn-primary w-100">
+                <i class="bi bi-calendar-plus"></i> {{ $update ? 'Update' : 'Create' }}
+                event
+            </button>
+        </div>
     </div>
+
 </div>
