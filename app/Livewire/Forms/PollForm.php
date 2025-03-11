@@ -125,21 +125,33 @@ class PollForm extends Form
 
     public function loadForm($data)
     {
+        //dd($data);
+
+
         $this->pollIndex = $data['pollIndex'] ?? null;
         $this->title = $data['title'] ?? '';
         $this->description = $data['description'] ?? '';
-        $this->deadline = Carbon::parse($data['deadline'])->format('Y-m-d') ?? null;
+        $this->deadline = $data['deadline'] ?? null;
         $this->settings = $data['settings'] ?? [];
         $this->user = $data['user'] ?? [];
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         ksort($this->dates);
         $this->questions = $data['questions'] ?? [];
+
     }
 
     // Metoda po odelání formuláře
     public function submit(PollService $pollService): ?Poll
     {
         // Validace
+        try {
+            $this->validate();
+        } catch (\Throwable $e) {
+            dd($e);
+            return null;
+        }
+
+
         $validatedData = $this->prepareValidatedDataArray($this->validate());
 
         if ($this->checkDuplicity($validatedData, $pollService)) {

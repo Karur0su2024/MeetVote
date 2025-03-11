@@ -81,6 +81,6 @@ class Invitations extends Component
 
     public function render()
     {
-        return view('livewire.modals.invitations');
+        return view('livewire.modals.poll.invitations');
     }
 }

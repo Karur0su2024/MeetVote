@@ -30,6 +30,6 @@ class DeletePoll extends Component
 
     public function render()
     {
-        return view('livewire.modals.delete-poll');
+        return view('livewire.modals.poll.delete-poll');
     }
 }
