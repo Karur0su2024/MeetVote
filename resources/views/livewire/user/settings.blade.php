@@ -1,4 +1,6 @@
 <div>
+
+    {{-- Sekce pro nastavení jména a emailové adresy --}}
     <x-card>
         <x-slot:header>Profile Information</x-slot>
 
@@ -25,6 +27,8 @@
         </form>
     </x-card>
 
+
+    {{-- Sekce pro nastavení hesla --}}
     <x-card>
         <x-slot:header>Password</x-slot>
 
@@ -55,13 +59,7 @@
         </form>
     </x-card>
 
-    <x-card>
-        <x-slot:header>Preferences</x-slot>
-        <p class="text-muted">
-            This feature is coming soon...
-        </p>
-    </x-card>
-
+    {{-- Sekce pro nastavení  --}}
     <x-card>
         <x-slot:header>Google & Calendar</x-slot>
 

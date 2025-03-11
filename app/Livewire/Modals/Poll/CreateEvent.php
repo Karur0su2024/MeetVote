@@ -7,10 +7,13 @@ use App\Models\Poll;
 use Illuminate\Container\Attributes\DB;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Services\EventService;
 
 class CreateEvent extends Component
 {
     public $poll;
+
+    protected EventService $eventService;
 
     public bool $update = false;
 
@@ -31,9 +34,15 @@ class CreateEvent extends Component
         'event.description' => 'nullable|string',
     ];
 
+    public function __construct()
+    {
+        $this->eventService = app(EventService::class);
+    }
+
 
     public function mount($event = null)
     {
+
         if ($event) {
             $this->event = $event;
             $this->poll = Poll::where('public_id', $event['poll_id'])->first();
@@ -63,17 +72,16 @@ class CreateEvent extends Component
 
             session()->flash('event', 'Událost byla úspěšně vytvořena.');
 
+            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique(), $this->event);
+
             return redirect()->route('polls.show', $this->poll);
         }
         catch (\Exception $e) {
-            return;
+            dd($e->getMessage());
         }
 
 
 
-
-
-        $this->dispatch('hideModal');
 
     }
 

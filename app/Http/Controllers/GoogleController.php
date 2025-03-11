@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class GoogleController extends Controller
 {
@@ -46,6 +47,7 @@ class GoogleController extends Controller
                 'name' => $googleUser->getName(),
                 'avatar' => $googleUser->getAvatar(),
                 'google_token' => $googleUser->token,
+                'password' => bcrypt(Str::random(16)), // generování náhodného hesla
             ]
         );
 
