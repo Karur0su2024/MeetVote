@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class Settings extends Component
 {
+    public $user;
+
     public $name;
 
     public $email;
@@ -26,8 +28,9 @@ class Settings extends Component
     public function mount()
     {
 
-        // Zjištění, zda je uživatel přihlášený
-        // Načtení jména a emailu
+
+        $this->user = Auth::user();
+
         if (Auth::check()) {
             $this->name = Auth::user()->name;
             $this->email = Auth::user()->email;

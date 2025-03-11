@@ -43,7 +43,11 @@
                 {{-- Tlačítko pro přihlášení --}}
                 <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
 
+                <a class="btn btn-primary">{{ __('Log in') }}</a>
                 {{-- Sem později přidat tlačítko pro přihlášení přes Google --}}
+                <a href="{{ route('google.login')  }}" class="btn btn-outline-primary">
+                    <i class="bi bi-google"></i> Connect with Google
+                </a>
             </div>
 
         </div>

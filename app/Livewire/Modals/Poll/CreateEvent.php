@@ -71,6 +71,8 @@ class CreateEvent extends Component
 
 
 
+
+
         $this->dispatch('hideModal');
 
     }

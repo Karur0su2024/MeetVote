@@ -64,37 +64,47 @@
         </div>
 
         {{-- Základní informace o anketě --}}
-        <div class="card p-4 shadow-sm text-start mb-5">
-            <h2>{{ $poll->title }}</h2>
-            <div class="d-flex align-items-center text-muted mb-2">
-                {{-- Doplnit avatar uživatele --}}
-                <span>{{ $poll->author_name }}</span>
+
+
+        <div class="row g-4 mb-5">
+            {{-- Levá strana – základní informace o anketě --}}
+            <div class="col-lg-8 d-flex">
+                <div class="card shadow-sm text-start mb-5 w-100 h-100 border-0">
+                    <div class="card-body">
+                        <h2>{{ $poll->title }}</h2>
+                        <div class="d-flex align-items-center text-muted mb-2">
+                            {{-- Doplnit avatar uživatele --}}
+                            <span>{{ $poll->author_name }}</span>
+                        </div>
+                        <p class="card-text text-muted">
+                            {{ $poll->description }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        @if ($poll->comments)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Comments</span>
+                        @endif
+                        @if ($poll->anonymous_votes)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Anonymous votes</span>
+                        @endif
+                        @if ($poll->password)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Password set</span>
+                        @endif
+                        @if ($poll->invite_only)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Invite only</span>
+                        @endif
+                        @if ($poll->deadline)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Ends in
+                                {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
+                        @endif
+                    </div>
+
+                </div>
             </div>
 
-            <p class="mb-3">
-                {{ $poll->description ?? 'No description' }}
-            </p>
+            {{-- Pravá strana – informace o události --}}
+            <livewire:poll.event-details :pollId="$poll->id" />
 
-
-            {{-- Badges ankety --}}
-            <div class="d-flex gap-2">
-                @if ($poll->comments)
-                    <span class="badge bg-secondary">Comments</span>
-                @endif
-                @if ($poll->anonymous_votes)
-                    <span class="badge bg-secondary">Anonymous votes</span>
-                @endif
-                @if ($poll->password)
-                    <span class="badge bg-secondary">Password set</span>
-                @endif
-                @if ($poll->invite_only)
-                    <span class="badge bg-secondary">Invite only</span>
-                @endif
-                @if ($poll->deadline)
-                    <span class="badge bg-secondary">Ends in
-                        {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
-                @endif
-            </div>
         </div>
 
         <!-- Hlasovací formulář -->

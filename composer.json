@@ -7,8 +7,10 @@
     "require": {
         "php": "^8.2",
         "aliqasemzadeh/livewire-bootstrap-modal": "^2.3",
+        "google/apiclient": "^2.18",
         "laravel/breeze": "^2.3",
         "laravel/framework": "^11.0",
+        "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "livewire/volt": "^1.0",

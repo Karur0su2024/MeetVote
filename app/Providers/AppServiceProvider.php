@@ -24,11 +24,16 @@ class AppServiceProvider extends ServiceProvider
             return new \App\Services\QuestionService;
         });
 
+
         $this->app->singleton('App\Services\VoteService', function ($app) {
             return new \App\Services\VoteService(
                 $app->make('App\Services\TimeOptionService'),
                 $app->make('App\Services\QuestionService')
             );
+        });
+
+        $this->app->singleton('App\Services\EventService', function ($app) {
+            return new \App\Services\EventService;
         });
     }
 
