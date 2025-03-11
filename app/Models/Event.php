@@ -19,4 +19,9 @@ class Event extends Model
     {
         return $this->belongsTo(Poll::class);
     }
+
+    public function userEvents()
+    {
+        return $this->hasMany(UserEvent::class);
+    }
 }

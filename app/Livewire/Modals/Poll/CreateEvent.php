@@ -66,13 +66,20 @@ class CreateEvent extends Component
         try {
             $validatedData = $this->validate();
 
-            $this->poll->event()->delete();
+            $event = $this->poll->event()->first();
 
-            $this->poll->event()->create($validatedData['event']);
+
+            if($event){
+                $this->poll->event()->update($validatedData['event']);
+            }
+            else{
+                $event = $this->poll->event()->create($validatedData['event']);
+            }
 
             session()->flash('event', 'Událost byla úspěšně vytvořena.');
 
-            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique(), $this->event);
+            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique(), $event);
+
 
             return redirect()->route('polls.show', $this->poll);
         }
