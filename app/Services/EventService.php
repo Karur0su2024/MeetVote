@@ -20,7 +20,6 @@ class EventService
         foreach ($users as $user) {
             $this->refreshToken($user, $client); // Obnovení Google tokenu uživatele
             $this->addEventToCalendar($pollEvent, $client, $user); // Přidání události do Google Kalendáře
-
         }
     }
 
@@ -87,12 +86,15 @@ class EventService
             ->where('user_id', $user->id)
             ->first();
 
+        dd($calendarEvent);
+
         if($calendarEvent){
             try {
                 $calendar->events->get('primary', $calendarEvent->calendar_event_id); // Získání události z Google Kalendáře
                 $calendar->events->update('primary', $calendarEvent->calendar_event_id, $event); // Aktualizace události
             }
             catch (\Exception $e) {
+                dd('test');
                 $calendarEvent->delete(); // Smazání události z databáze, pokud již neexistuje v Google Kalendáři
                 $this->createNewEvent($event, $calendar, $user, $pollEvent);
             }

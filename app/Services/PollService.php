@@ -37,7 +37,7 @@ class PollService
 
         return [
             'pollIndex' => $poll->id ?? null,
-            'title' => $poll->title ?? 'abc',
+            'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
             'user' => [

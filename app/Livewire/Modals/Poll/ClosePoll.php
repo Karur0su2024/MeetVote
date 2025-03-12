@@ -4,11 +4,18 @@ namespace App\Livewire\Modals\Poll;
 
 use Livewire\Component;
 use App\Models\Poll;
+use App\Services\EventService;
 
 class ClosePoll extends Component
 {
 
     public $poll;
+    protected EventService $eventService;
+
+    public function __construct()
+    {
+        $this->eventService = app(EventService::class);
+    }
 
     public function mount($publicIndex)
     {
@@ -30,6 +37,9 @@ class ClosePoll extends Component
         }
         else {
             $this->poll->update(['status' => 'active']);
+            if($this->poll->event()->exists()) {
+                $this->eventService->deleteEvent($this->poll->event);
+            }
         }
 
 

@@ -20,8 +20,8 @@ class Dashboard extends Component
         //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
 
-        $this->events = Auth::user()->allPolls()->pluck('event')->unique('id');
-
+        $this->events = Auth::user()->allPolls()->pluck('event')->unique('id')->filter();
+        //dd($this->events);
     }
 
     // Vyhledávání

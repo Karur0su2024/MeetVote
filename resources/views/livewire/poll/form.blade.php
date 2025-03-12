@@ -45,11 +45,11 @@
                 Select available dates and time slots for participants to vote on.
             </x-slot:tooltip>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <h3 class="mb-4">Calendar</h3>
                     <div id="js-calendar" class="w-100" wire:ignore></div>
                 </div>
-                <div class="col-lg-6 col-md-12 mb-4">
+                <div class="col-lg-6 col-md-12 mb-3">
                     <h3 class="mb-4">Chosen dates</h3>
                     @error('form.dates')
                         <div class="alert alert-danger" role="alert">

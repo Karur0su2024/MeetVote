@@ -1,9 +1,8 @@
 @php
-
     use Carbon\Carbon;
 
     $start = Carbon::parse($event->start_time)->format('d.m.Y H:i');
-    $end = Carbon::parse($event->start_time)->format('d.m.Y H:i');
+    $end = Carbon::parse($event->end_time)->format('d.m.Y H:i');
 
     $synced = $event->syncedEvents->where('user_id', Auth::user()->id)->isNotEmpty();
 

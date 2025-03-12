@@ -11,6 +11,9 @@
                 Are you sure you want to close this poll? Once closed, no further votes will be accepted.
             @else
                 Do you want to reopen this poll? Users will be able to vote again.
+                <div class="alert alert-warning" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Warning: If you created event, it will be deleted.
+                </div>
             @endif
         </p>
     </div>
@@ -21,3 +24,4 @@
         </button>
     </div>
 </div>
+

@@ -81,7 +81,7 @@ class CreateEvent extends Component
 
 
 
-            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique(), $event);
+            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter(), $event);
 
 
             return redirect()->route('polls.show', $this->poll);

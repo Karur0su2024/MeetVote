@@ -5,11 +5,20 @@
 
     <div class="container text-start">
 
-        @if ($isAdmin)
-            <div class="alert alert-secondary mb-3 shadow-sm" role="alert">
-                You are in admin mode!
-            </div>
-        @endif
+        <div class="mb-5">
+            @if ($isAdmin)
+                <div class="alert alert-info shadow-sm" role="alert">
+                    <i class="bi bi-info-circle me-1"></i> You are in admin mode!
+                </div>
+            @endif
+            @if ($poll->status == 'closed')
+                <div class="alert alert-danger shadow-sm" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i> Poll is closed!
+                </div>
+            @endif
+        </div>
+
+
 
 
         <!-- Tohle přesunout do samostatné komponenty -->
@@ -17,7 +26,7 @@
         <div class="card mb-5 p-2 shadow-sm">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">
-                    Notifications </a>
+                    <i class="bi bi-bell-fill me-1"></i> Notifications </a>
                 @if ($isAdmin)
                     {{-- Dropdown pro správce --}}
                     <div class="dropdown">
@@ -28,32 +37,28 @@
                         <ul class="dropdown-menu">
 
                             <li><a class="dropdown-item py-1" href="{{ route('polls.edit', $poll) }}">
-                                    <i class="bi bi-pencil-square"></i> Edit poll
+                                    <i class="bi bi-pencil-square me-1"></i> Edit poll
                                 </a>
                             </li>
 
                             <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
-                                <i class="bi bi-share"></i> Share poll
+                                <i class="bi bi-share me-1"></i> Share poll
                             </x-poll.show.dropdown-item>
 
                             <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->id">
-                                <i class="bi bi-x-circle"></i> Close poll
-                            </x-poll.show.dropdown-item>
-
-                            <x-poll.show.dropdown-item modalName="choose-final-options" :id="$poll->id">
-                                <i class="bi bi-check2-square"></i> Final options
-                            </x-poll.show.dropdown-item>
-
-                            <x-poll.show.dropdown-item modalName="create-event" :id="$poll->id">
-                                <i class="bi bi-calendar-event"></i> Create event
+                                @if ($poll->status == 'active')
+                                    <i class="bi bi-lock me-1"></i> Close poll
+                                @else
+                                    <i class="bi bi-unlock me-1"></i> Reopen poll
+                                @endif
                             </x-poll.show.dropdown-item>
 
                             <x-poll.show.dropdown-item modalName="invitations" :id="$poll->id">
-                                <i class="bi bi-person-plus"></i> Invitations
+                                <i class="bi bi-person-plus me-1"></i> Invitations
                             </x-poll.show.dropdown-item>
 
                             <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->id" type="danger">
-                                <i class="bi bi-trash"></i> Delete poll
+                                <i class="bi bi-trash me-1"></i> Delete poll
                             </x-poll.show.dropdown-item>
 
                         </ul>

@@ -125,9 +125,6 @@ class PollForm extends Form
 
     public function loadForm($data)
     {
-        //dd($data);
-
-
         $this->pollIndex = $data['pollIndex'] ?? null;
         $this->title = $data['title'] ?? '';
         $this->description = $data['description'] ?? '';
@@ -137,7 +134,6 @@ class PollForm extends Form
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         ksort($this->dates);
         $this->questions = $data['questions'] ?? [];
-
     }
 
     // Metoda po odelání formuláře
@@ -151,8 +147,7 @@ class PollForm extends Form
             return null;
         }
 
-
-        $validatedData = $this->prepareValidatedDataArray($this->validate());
+        $validatedData = $this->prepareValidatedDataArray($this->validate()); // Úprava dat pro lepší zpracování
 
         if ($this->checkDuplicity($validatedData, $pollService)) {
             return null;
@@ -167,7 +162,7 @@ class PollForm extends Form
 
         // Převod z dat do formátu pro uložení do databáze
         foreach ($validatedData['dates'] as $date) {
-            foreach ($date as $optionIndex => $option) {
+            foreach ($date as $option) {
                 $validatedData['time_options'][] = $option;
             }
         }

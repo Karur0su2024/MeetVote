@@ -51,6 +51,8 @@ class Form extends Component
     {
         $this->resetErrorBag('form.dates');
 
+        $date = Carbon::parse($date)->format('Y-m-d');
+
         // Kontrola zda je datum již přidáno
         if (isset($this->form->dates[$date])) {
             $this->addError('form.dates', 'This date has already been added.');
@@ -71,6 +73,7 @@ class Form extends Component
         $this->addTimeOption($date, 'time');
 
         ksort($this->form->dates);
+
     }
 
     // Funkce pro odstranění data

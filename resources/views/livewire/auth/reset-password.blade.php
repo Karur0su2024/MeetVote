@@ -14,7 +14,9 @@
 
 
         <button class="btn btn-primary">
-            {{ __('Reset Password') }}
+            Reset password
         </button>
     </form>
 </div>
+
+

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">MeetVote</a>
 
@@ -9,14 +9,14 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item">
+                <li class="nav-item p-0">
                     <a class="nav-link" href="{{ route('polls.create') }}">New Poll</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </a>
