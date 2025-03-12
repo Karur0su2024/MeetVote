@@ -8,7 +8,7 @@
 
         <div class="card shadow p-4">
             <h2 class="text-center mb-4">Register</h2>
-            <form wire:submit="login">
+            <form wire:submit="register">
 
                 <!-- Name -->
                 <x-input id="name" model="form.name" type="text" required>

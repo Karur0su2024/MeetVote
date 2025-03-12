@@ -34,18 +34,32 @@
     @endif
 
 
-    <h2 class="my-3">Events</h2>
+    <div class="text-start">
 
-    @if (count($events) == 0)
-        {{-- Upozornění pro žádné události --}}
-        <div class="alert alert-secondary" role="alert">
-            No events
-        </div>
-    @else
-        <div class="row text-start my-5">
-            @foreach ($events as $event)
-                <x-dashboard.event-card :event="$event" />
-            @endforeach
-        </div>
-    @endif
+
+        <h2 class="my-3">Events</h2>
+
+        @if (Auth::user()->google_id == null)
+            {{-- Upozornění pro žádné události --}}
+            <div class="alert alert-secondary" role="alert">
+                You do not have a Google account linked to your profile. To sync with Google Calendar, please link your
+                account in the settings.
+            </div>
+        @endif
+
+
+        @if (count($events) == 0)
+            {{-- Upozornění pro žádné události --}}
+            <div class="alert alert-secondary" role="alert">
+                No events
+            </div>
+        @else
+            <div class="row text-start my-5">
+                @foreach ($events as $event)
+                    <x-dashboard.event-card :event="$event" />
+                @endforeach
+            </div>
+        @endif
+
+    </div>
 </div>
