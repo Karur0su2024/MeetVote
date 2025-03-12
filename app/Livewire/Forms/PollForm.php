@@ -143,12 +143,7 @@ class PollForm extends Form
     public function submit(PollService $pollService): ?Poll
     {
         // Validace
-        try {
-            $this->validate();
-        } catch (\Throwable $e) {
-            dd($e);
-            return null;
-        }
+        $this->validate();
 
         $validatedData = $this->prepareValidatedDataArray($this->validate()); // Úprava dat pro lepší zpracování
 

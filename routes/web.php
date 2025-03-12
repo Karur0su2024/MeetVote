@@ -48,11 +48,11 @@ Route::get('polls/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->nam
 //
 
 
-
-Route::get('/odeslat-email', function () {
-    $data = Poll::find(1); // Zde nahraďte ID ankety, kterou chcete odeslat
-
-    Mail::to('kareltynek2000@gmail.com')->send(new PollCreatedConfirmationEmail($data));
-
-    return 'Nový e-mail byl úspěšně odeslán!';
-});
+Route::get('/toggledarkmode', function () {
+    if (session('darkmode')) {
+        session()->forget('darkmode');
+    } else {
+        session(['darkmode' => 'dark']);
+    }
+    return redirect()->back();
+})->name('toggleDarkMode');

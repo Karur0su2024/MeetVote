@@ -1,5 +1,5 @@
 <div class="border">
-    <div class="w-100 px-3 py-2 bg-light text-dark" data-bs-toggle="collapse" href="#{{ $id }}" role="button"
+    <div class="w-100 px-3 py-2" data-bs-toggle="collapse" href="#{{ $id }}" role="button"
         aria-expanded="true" aria-controls="{{ $id }}">
         <h3>{{ $header }}</h3>
     </div>

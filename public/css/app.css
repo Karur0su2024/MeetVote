@@ -1,5 +1,8 @@
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 .app-background {
-    background-image: url('../images/app-background.png');
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
@@ -7,20 +10,43 @@
     height: 100vh;
 }
 
-.app-background-overlay {
+[data-bs-theme="light"] .app-background {
+    background-image: url('../images/app-background-light.png');
+}
+
+[data-bs-theme="dark"] .app-background {
+    background-image: url('../images/app-background-dark.png');
+}
+
+
+
+
+[data-bs-theme="light"] .app-background-overlay {
     background-color: #f0f0f09d;
     height: auto;
     display: block;
 }
 
+[data-bs-theme="dark"] .app-background-overlay {
+    background-color: #4b4b4b38;
+    height: auto;
+    display: block;
+}
 
-.jsCalendar {
+
+ .jsCalendar {
     width: 100%;
+
 }
 
 .jsCalendar table {
     width: 100% !important;
     table-layout: fixed !important;
+}
+
+[data-bs-theme="dark"] .jsCalendar table {
+    background-color: var(--bs-body-bg) !important;
+    color: #fff;
 }
 
 .jsCalendar table th, .jsCalendar table td {
@@ -55,13 +81,8 @@
 
 
 .card .card-header {
-    background-color: #EFEFEF !important;
-    color: #000 !important;
+    /*background-color: #EFEFEF !important;*/
     font-weight:  bold;
 }
 
-.card .card-body {
-    /*background-color: #FFFFFF !important;*/
-    color: #000 !important;
-}
 

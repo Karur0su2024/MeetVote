@@ -1,5 +1,5 @@
 <div>
-    <div class="modal-header bg-warning">
+    <div class="modal-header">
         <h5 class="modal-title">Close Poll</h5>
         <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>

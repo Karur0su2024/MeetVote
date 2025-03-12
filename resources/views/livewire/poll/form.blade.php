@@ -48,14 +48,15 @@
                 <div class="col-lg-6 col-md-12 mb-3">
                     <h3 class="mb-4">Calendar</h3>
                     <div id="js-calendar" class="w-100" wire:ignore></div>
+                    @error('form.dates')
+                    <div class="alert alert-danger" role="alert">
+                        {{ $message }}
+                    </div>
+                @enderror
                 </div>
                 <div class="col-lg-6 col-md-12 mb-3">
                     <h3 class="mb-4">Chosen dates</h3>
-                    @error('form.dates')
-                        <div class="alert alert-danger" role="alert">
-                            {{ $message }}
-                        </div>
-                    @enderror
+
 
                     @foreach ($form->dates as $dateIndex => $date)
                         <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />

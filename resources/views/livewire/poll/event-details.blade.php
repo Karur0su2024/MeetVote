@@ -1,6 +1,6 @@
 <div class="col-lg-4 d-flex">
     <div class="card shadow border-0 w-100 h-100">
-        <div class="card-header bg-secondary text-white">
+        <div class="card-header">
             <h3 class="mb-0">Event Details</h3>
         </div>
         <div class="card-body d-flex flex-column h-100">
@@ -40,7 +40,7 @@
 
 
 
-        <div class="card-footer bg-light d-grid gap-2">
+        <div class="card-footer d-grid gap-2">
             @if ($poll->status == 'closed')
                 @if ($poll->event)
                     <button wire:click='importToGoogleCalendar' class="btn btn-primary">
