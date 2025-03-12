@@ -3,6 +3,9 @@
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Mail\PollCreatedConfirmationEmail;
+use App\Models\Poll;
+use Illuminate\Support\Facades\Mail;
 
 require __DIR__.'/auth.php';
 
@@ -43,3 +46,13 @@ Route::post('polls/{poll}/authentification', [PollController::class, 'checkPassw
 // Přidat práva správce ankety pomocí odkazu
 Route::get('polls/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');
 //
+
+
+
+Route::get('/odeslat-email', function () {
+    $data = Poll::find(1); // Zde nahraďte ID ankety, kterou chcete odeslat
+
+    Mail::to('kareltynek2000@gmail.com')->send(new PollCreatedConfirmationEmail($data));
+
+    return 'Nový e-mail byl úspěšně odeslán!';
+});

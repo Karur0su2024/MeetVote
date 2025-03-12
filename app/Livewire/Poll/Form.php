@@ -38,7 +38,6 @@ class Form extends Component
 
         if ($poll) {
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
-
             return redirect()->route('polls.show', $poll);
         }
 

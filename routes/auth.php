@@ -17,7 +17,7 @@ Route::middleware('guest')->group(function () {
 
     Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
 
-    Route::view('reset-password', 'pages.auth.reset-password')->name('password.reset');
+
 
     // Google OAuth
 

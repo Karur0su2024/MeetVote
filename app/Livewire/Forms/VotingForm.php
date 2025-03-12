@@ -8,6 +8,7 @@ use Livewire\Form;
 use Illuminate\Support\Facades\DB;
 use App\Models\Vote;
 use App\Models\Poll;
+use App\Services\NotificationService;
 
 class VotingForm extends Form
 {
@@ -79,14 +80,18 @@ class VotingForm extends Form
 
             $vote = $voteService->saveVote($validatedData);
 
+            DB::commit();
 
             if (isset($validatedData['existingVote'])) {
                 session()->flash('success', 'Vote has been updated successfully.');
             } else {
                 session()->flash('success', 'Vote has been created successfully.');
+
+                $notificationService = app(NotificationService::class);
+                $notificationService->voteNotification($vote->poll, $vote);
             }
 
-            DB::commit();
+
 
             $poll = Poll::find($validatedData['poll_id']);
             $this->loadData($voteService->getPollData($poll));

@@ -7,9 +7,12 @@ use App\Services\PollService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Form;
+use App\Services\NotificationService;
 
 class PollForm extends Form
 {
+
+
     public ?int $pollIndex = null;
 
     // Název ankety
@@ -201,9 +204,17 @@ class PollForm extends Form
                 $poll = $pollService->updatePoll($poll, $validatedData);
             } else {
                 $poll = $pollService->createPoll($validatedData);
+
+                $notificationService = app()->make(NotificationService::class);
+
+
+
+                $notificationService->sendConfirmationEmail($poll);
             }
 
             DB::commit();
+
+
             return $poll;
         } catch (\Throwable $e) {
             DB::rollBack();
