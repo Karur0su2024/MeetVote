@@ -223,4 +223,23 @@ class VoteService
 
         return false;
     }
+
+
+    public function getPollResults(Poll $poll)
+    {
+        $votes = $poll->votes;
+
+        $data = [];
+
+        foreach ($votes as $voteIndex => $vote) {
+            $data[$voteIndex]['id'] = $vote->id;
+            $data[$voteIndex]['user_id'] = $vote->user_id;
+            $data[$voteIndex]['voter_name'] = $vote->voter_name;
+            $data[$voteIndex]['updated_at'] = $vote->updated_at;
+            $data[$voteIndex]['time_options'] = $this->getTimeOptionsData($this->timeOptionService->getPollTimeOptions($poll), $vote->id);
+            $data[$voteIndex]['questions'] = $this->getQuestionData($this->questionService->getPollQuestions($poll), $vote->id);
+        }
+
+        return $data;
+    }
 }

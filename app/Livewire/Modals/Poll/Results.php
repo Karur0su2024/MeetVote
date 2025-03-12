@@ -5,6 +5,7 @@ namespace App\Livewire\Modals\Poll;
 use App\Models\Poll;
 use App\Models\Vote;
 use Livewire\Component;
+use App\Services\VoteService;
 
 class Results extends Component
 {
@@ -12,10 +13,20 @@ class Results extends Component
 
     public $poll;
 
+
+    protected VoteService $voteService;
+
+    public function __construct()
+    {
+        $this->voteService = app(VoteService::class);
+    }
+
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
-        $this->votes = $this->poll->votes;
+
+        //Převézt do pole pro lepší vypsání
+        $this->votes = $this->voteService->getPollResults($this->poll);
     }
 
     public function loadVote($voteIndex)

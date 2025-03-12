@@ -9,22 +9,9 @@
                 No votes yet
             </div>
         @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Last change</th>
-
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($votes as $vote)
-                        <x-poll.show.vote-card :vote="$vote" />
-                    @endforeach
-                </tbody>
-            </table>
+            @foreach ($votes as $vote)
+                <x-poll.show.vote-card :vote="$vote" />
+            @endforeach
         @endif
     </div>
 </div>
