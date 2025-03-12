@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\SyncedEvent;
 use Carbon\Carbon;
 use Google\Client;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event;
-use App\Models\UserEvent;
 
 class EventService
 {
@@ -15,68 +15,27 @@ class EventService
     // Metoda pro synchronizaci události s Google Kalendářem
     function synchronizeGoogleCalendar($users, $pollEvent)
     {
+        $client = new Client();
+        $client->setApplicationName('MeetVote');
+        $client->addScope(Calendar::CALENDAR); // Přístup k událostem kalendáře
+        $client->setClientId(config('services.google.client_id')); // ID klienta
+        $client->setClientSecret(config('services.google.client_secret')); // Tajný klíč klienta
+
 
         foreach ($users as $user) {
-            $client = new Client();
-            $client->setApplicationName('MeetVote');
-            $client->addScope(Calendar::CALENDAR);
-            $client->setClientId(config('services.google.client_id'));
-            $client->setClientSecret(config('services.google.client_secret'));
-            $client->setAccessToken($user->google_token);
+            // Vytvoření Google Client
+            $client->setAccessToken($user->google_token); // Přístupový token uživatele
 
             if ($client->isAccessTokenExpired()) {
                 if ($user->google_refresh_token) {
                     $client->fetchAccessTokenWithRefreshToken($user->google_refresh_token);
                     $user->google_token = $client->getAccessToken();
-                    $user->save(); // Uložíme nový token do databáze
+                    $user->save();
                     $client->setAccessToken($user->google_token);
                 }
             }
 
-
-
-
-            $startDateTime = date('Y-m-d\TH:i:s', strtotime($pollEvent->start_time));
-            $endDateTime = date('Y-m-d\TH:i:s', strtotime($pollEvent->end_time));
-
-            // Google Calendar služba
-            $calendar = new Calendar($client);
-
-            // Vytvoření události
-            $event = new Event([
-                'summary' => $pollEvent->title,
-                'description' => $pollEvent->description,
-                'start' => [
-                    'dateTime' => $startDateTime,
-                    'timeZone' => 'Europe/Prague',
-                ],
-                'end' => [
-                    'dateTime' => $endDateTime,
-                    'timeZone' => 'Europe/Prague',
-                ],
-            ]);
-
-            $calendarEvent = UserEvent::where('event_id', $pollEvent->id)
-                ->where('user_id', $user->id)
-                ->first();
-
-            if($calendarEvent){
-                try {
-                    $calendar->events->get('primary', $calendarEvent->calendar_event_id);
-                    $calendar->events->update('primary', $calendarEvent->calendar_event_id, $event);
-                }
-                catch (\Exception $e) {
-                    dd($e->getMessage());
-                    $calendarEvent->delete();
-                    $this->createNewEvent($event, $calendar, $user, $pollEvent);
-
-                }
-            }
-            else {
-                $this->createNewEvent($event, $calendar, $user, $pollEvent);
-            }
-
-
+            $this->addEventToCalendar($pollEvent, $client, $user);
 
 
         }
@@ -84,10 +43,61 @@ class EventService
 
     private function createNewEvent($event, $calendar, $user, $pollEvent){
         $calendarEvent = $calendar->events->insert('primary', $event);
-        UserEvent::create([
+        SyncedEvent::create([
             'calendar_event_id' => $calendarEvent->id,
             'event_id' => $pollEvent->id,
             'user_id' => $user->id,
         ]);
+    }
+
+
+    private function buildEvent($pollEvent)
+    {
+        $description = $pollEvent->description;
+        $description .= "\n\nPoll link: " . route('polls.show', ['poll' => $pollEvent->poll->public_id]);
+
+        return new Event([
+            'summary' => 'MeetVote: ' . $pollEvent->title,
+            'description' => $description,
+            'start' => [
+                'dateTime' => date('Y-m-d\TH:i:s', strtotime($pollEvent->start_time)),
+                'timeZone' => 'Europe/Prague',
+            ],
+            'end' => [
+                'dateTime' => date('Y-m-d\TH:i:s', strtotime($pollEvent->end_time)),
+                'timeZone' => 'Europe/Prague',
+            ],
+        ]);
+
+    }
+
+    private function addEventToCalendar($pollEvent, $client, $user)
+    {
+        // Google Calendar služba
+        $calendar = new Calendar($client);
+
+        // Vytvoření události
+        $event = $this->buildEvent($pollEvent);
+
+
+        // Kontrola, zda synchronizovaná událost již existuje
+        $calendarEvent = SyncedEvent::where('event_id', $pollEvent->id)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if($calendarEvent){
+            try {
+                $calendar->events->get('primary', $calendarEvent->calendar_event_id); // Získání události z Google Kalendáře
+                $calendar->events->update('primary', $calendarEvent->calendar_event_id, $event); // Aktualizace události
+            }
+            catch (\Exception $e) {
+                $calendarEvent->delete(); // Smazání události z databáze, pokud již neexistuje v Google Kalendáři
+                $this->createNewEvent($event, $calendar, $user, $pollEvent);
+            }
+        }
+        else {
+            $this->createNewEvent($event, $calendar, $user, $pollEvent);
+        }
+
     }
 }

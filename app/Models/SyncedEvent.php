@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserEvent extends Model
+class SyncedEvent extends Model
 {
 
     protected $primaryKey = 'id';

@@ -94,7 +94,6 @@ class VotingForm extends Form
 
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             session()->flash('error', $e->getMessage());
             return null;
         }

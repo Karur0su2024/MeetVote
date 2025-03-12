@@ -79,6 +79,7 @@ class GoogleController extends Controller
 
     public function disconnectGoogle()
     {
+        // Případně odpojit všechny události
 
         $user = Auth::user();
         $user->google_id = null;

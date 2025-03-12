@@ -77,4 +77,9 @@ class User extends Authenticatable
     {
         return $this->votes()->with('poll.event');
     }
+
+    public function syncedEvents()
+    {
+        return $this->hasMany(SyncedEvent::class);
+    }
 }

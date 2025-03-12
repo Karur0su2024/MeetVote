@@ -6,6 +6,7 @@ use DateTime;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 use App\Models\Poll;
+use Illuminate\Support\Facades\Auth;
 
 class EventDetails extends Component
 {
@@ -13,12 +14,18 @@ class EventDetails extends Component
     public $poll;
     public $event;
 
+    public $syncGoogleCalendar = false;
+
     public function mount($pollId)
     {
         $this->poll = Poll::find($pollId);
 
         if($pollId) {
             $this->event = $this->poll->event()->first();
+            if(Auth::check() && $this->event) {
+                $this->syncGoogleCalendar = $this->poll->event->userEvents->where('user_id', Auth::user()->id)->isNotEmpty();
+                //dd($this->syncGoogleCalendar);
+            }
         }
     }
 

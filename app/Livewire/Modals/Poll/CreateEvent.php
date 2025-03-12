@@ -71,12 +71,15 @@ class CreateEvent extends Component
 
             if($event){
                 $this->poll->event()->update($validatedData['event']);
+                $event = $this->poll->event()->first();
             }
             else{
                 $event = $this->poll->event()->create($validatedData['event']);
             }
 
             session()->flash('event', 'Událost byla úspěšně vytvořena.');
+
+
 
             $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique(), $event);
 

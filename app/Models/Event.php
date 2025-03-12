@@ -22,6 +22,6 @@ class Event extends Model
 
     public function userEvents()
     {
-        return $this->hasMany(UserEvent::class);
+        return $this->hasMany(SyncedEvent::class);
     }
 }

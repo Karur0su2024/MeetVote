@@ -5,6 +5,12 @@
 
             @if ($event)
                 <p><strong>Title:</strong> {{ $event->title }}</p>
+                @if ($syncGoogleCalendar)
+                    <p><strong>Synced</strong></p>
+
+                @else
+                    <p><strong>Not synced</strong></p>
+                @endif
 
                 @if ($event->all_day)
                     <p><strong>Duration:</strong> All day event</p>

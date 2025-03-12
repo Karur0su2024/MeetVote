@@ -126,7 +126,7 @@ class VoteService
             $vote = Vote::create(
                 [
                     'poll_id' => $data['poll_id'],
-                    'user_id' => Auth::user()->id,
+                    'user_id' => Auth::user()->id ?? null,
                     'voter_name' => $data['user']['name'],
                     'voter_email' => $data['user']['email'],
                 ]
