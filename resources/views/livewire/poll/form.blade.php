@@ -7,7 +7,7 @@
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
-            <x-input id="title" model="form.title" type="text" mandatory="true">
+            <x-input id="title" model="form.title" type="text" required>
                 Poll Title
             </x-input>
 
@@ -16,13 +16,15 @@
             </x-textbox>
 
             <x-input id="deadline" model="form.deadline" type="date">
+                <x-slot:tooltip>
+                    Set the deadline for the poll. After this date, no new votes will be accepted. Deadline is not required
+                </x-slot:tooltip>
                 Deadline
             </x-input>
 
 
             {{-- Informace o autorovi --}}
             @if (!$poll->id)
-                <hr>
                 <div>
                     <x-input id="user_name" model="form.user.name" type="text" mandatory="true">
                         Your name
@@ -39,10 +41,13 @@
         {{-- Výběr časových termínů --}}
         <x-card>
             <x-slot:header>Time options</x-slot>
+            <x-slot:tooltip>
+                Select available dates and time slots for participants to vote on.
+            </x-slot:tooltip>
             <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4">
-                    <!-- Kalendář -->
-                    <div id='calendar' wire:ignore></div>
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Calendar</h3>
+                    <div id="js-calendar" class="w-100" wire:ignore></div>
                 </div>
                 <div class="col-lg-6 col-md-12 mb-4">
                     <h3 class="mb-4">Chosen dates</h3>
@@ -59,11 +64,16 @@
 
                 </div>
             </div>
+
+
         </x-card>
 
         {{-- Výběr doplňujících otázek --}}
         <x-card>
             <x-slot:header>Additional questions</x-slot>
+            <x-slot:tooltip>
+                Add additional questions to the poll. Questions are not required.
+            </x-slot:tooltip>
 
             @if (count($form->questions) == 0)
                 <div class="alert alert-secondary" role="alert">
@@ -93,31 +103,49 @@
 
             <!-- Komentáře -->
             <x-poll.form.checkbox id="comments" model="form.settings.comments">
+                <x-slot:tooltip>
+                    Allow participants to add comments to the poll.
+                </x-slot:tooltip>
                 Comments
             </x-poll.form.checkbox>
 
             {{-- Tajné hlasování --}}
             <x-poll.form.checkbox id="anonymous" model="form.settings.anonymous">
+                <x-slot:tooltip>
+                    Allow participants to vote anonymously.
+                </x-slot:tooltip>
                 Anonymous voting
             </x-poll.form.checkbox>
 
             {{-- Skrytí výsledků --}}
             <x-poll.form.checkbox id="hide_results" model="form.settings.hide_results">
+                <x-slot:tooltip>
+                    Hide the results of the poll until the deadline.
+                </x-slot:tooltip>
                 Hide results
             </x-poll.form.checkbox>
 
 
             {{-- Pouze pro pozvané --}}
             <x-poll.form.checkbox id="invite_only" model="form.settings.invite_only">
+                <x-slot:tooltip>
+                    Permit only invited users to access the poll.
+                </x-slot:tooltip>
                 Invite only
             </x-poll.form.checkbox>
 
             <x-poll.form.checkbox id="timeOptionsAdded" model="form.settings.time_options">
+                <x-slot:tooltip>
+                    Allow participants to add their own time options to the poll.
+                </x-slot:tooltip>
                 User can add time options
             </x-poll.form.checkbox>
 
             {{-- Heslo --}}
             <x-input id="password" model="form.settings.password" type="password">
+                <x-slot:tooltip>
+                    Set a password for the poll. Only users with the password can access the poll.
+                </x-slot:tooltip>
                 Password
             </x-input>
 
@@ -136,35 +164,26 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
 <script>
-    // Inicializace FullCalendar
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('test');
-        initCalendar();
+
+document.addEventListener("DOMContentLoaded", function() {
+    var calendar = new jsCalendar("#js-calendar");
+
+    calendar.onDateClick(function(event, date){
+        addDate(date);
+        console.log(date);
     });
+});
 
-    Livewire.hook('message.processed', (message, component) => {
-        initCalendar();
+
+function addDate(date) {
+    Livewire.dispatch('addDate', {
+        date: date
     });
+}
 
-    // Inicializace Kalendáře
-    function initCalendar() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            dateClick: function(info) {
-                //https://stackoverflow.com/questions/77012223/error-only-arrays-and-traversables-can-be-unpacked-when-using-ckeditor-5-with
-                Livewire.dispatch('addDate', {
-                    date: info.dateStr
-                });
-            }
 
-        });
-        calendar.render();
 
-    }
 </script>

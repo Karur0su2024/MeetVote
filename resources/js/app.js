@@ -14,5 +14,6 @@ import 'bootstrap';
 import '../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.js';
 
 
-
 import '../../public/js/app.js';
+
+

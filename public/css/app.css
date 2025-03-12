@@ -16,3 +16,32 @@
 }
 
 
+/* Kalendář bude zabírat 100 % dostupné šířky */
+.jsCalendar {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Tabulka uvnitř kalendáře se roztáhne */
+.jsCalendar table {
+    width: 100% !important;
+    table-layout: fixed !important;
+}
+
+.jsCalendar table th, .jsCalendar table td {
+    text-align: center;
+    color: #333; /* Barva textu */
+    width: 13% !important;
+}
+
+.jsCalendar table tr {
+    width: 100% !important;
+    table-layout: fixed !important;
+    display: block;
+}
+
+.jsCalendar table tr td {
+    font-weight: bold;
+
+}
+

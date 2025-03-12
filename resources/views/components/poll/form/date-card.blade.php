@@ -14,7 +14,7 @@
 
         <!-- Tlačítko pro odstranění celého data -->
         <button type="button" wire:click="removeDate('{{ $dateIndex }}')" class="btn btn-sm btn-danger">
-            <i class="bi bi-trash"></i>
+            <i class="bi bi-trash"></i> Delete
         </button>
     </div>
 
@@ -32,12 +32,12 @@
         @endforeach
 
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
-        <div class="d-flex align-items-center gap-2 mt-1">
-            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'time')">
+        <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-2 mt-1">
+            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'time')" class="w-100 w-md-auto">
                 <i class="bi bi-fonts"></i> Add time option
             </x-outline-button>
 
-            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'text')">
+            <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'text')" class="w-100 w-md-auto">
                 <i class="bi bi-fonts"></i> Add text option
             </x-outline-button>
         </div>

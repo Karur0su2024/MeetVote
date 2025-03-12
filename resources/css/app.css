@@ -5,3 +5,6 @@
 @import url('/public/css/app.css');
 @import 'bootstrap/dist/css/bootstrap.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+@import 'simple-jscalendar/source/jsCalendar.min.css';
