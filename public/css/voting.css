@@ -1,7 +1,11 @@
+.btn-outline-vote {
+    border-style: dashed !important;
+    border-width: 1px !important;
+    transition: all 0.3s ease-in-out;
+}
+
 .btn-outline-vote-yes {
     border-color: #4BA569 !important;
-    border-width: 3px !important;
-    transition: all 0.3s ease-in-out;
 }
 
 .btn-outline-vote-yes:hover {
@@ -11,8 +15,6 @@
 
 .btn-outline-vote-no {
     border-color: #D90000 !important;
-    border-width: 3px !important;
-    transition: all 0.3s ease-in-out;
 }
 
 .btn-outline-vote-no:hover {
@@ -22,8 +24,6 @@
 
 .btn-outline-vote-none {
     border-color: #696969 !important;
-    border-width: 3px !important;
-    transition: all 0.3s ease-in-out;
 }
 
 .btn-outline-vote-none:hover {
@@ -34,8 +34,6 @@
 
 .btn-outline-vote-maybe {
     border-color: #D2B74B !important;
-    border-width: 3px !important;
-    transition: all 0.3s ease-in-out;
 }
 
 .btn-outline-vote-maybe:hover {
@@ -48,6 +46,11 @@
     height: 120px !important;
     border-radius: 0 !important;
 }
+
+.voting-card-body {
+    background-color: transparent !important;
+}
+
 
 .voting-card-clickable {
     cursor: pointer;

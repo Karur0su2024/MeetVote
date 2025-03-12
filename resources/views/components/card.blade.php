@@ -1,6 +1,6 @@
 @props(['bodyPadding' => 4, 'tooltip' => null])
 
-<div class="card shadow-sm rounded-3 border-0 mb-5">
+<div class="card  shadow rounded-3 border-0 mb-5">
     <div class="card-header bg-secondary text-white py-3 text-start">
         <div class="d-flex align-items-center justify-content-between">
 

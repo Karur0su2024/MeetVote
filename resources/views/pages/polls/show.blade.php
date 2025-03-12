@@ -23,11 +23,12 @@
 
         <!-- Tohle přesunout do samostatné komponenty -->
         <!-- Panel s nastavením ankety -->
-        <div class="card mb-5 p-2 shadow-sm">
-            <div class="d-flex justify-content-end gap-2">
-                <a href="#" class="btn btn-outline-secondary">
-                    <i class="bi bi-bell-fill me-1"></i> Notifications </a>
-                @if ($isAdmin)
+        @if ($isAdmin)
+            <div class="card mb-5 p-2 shadow-sm">
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="#" class="btn btn-outline-secondary">
+                        <i class="bi bi-bell-fill me-1"></i> Notifications </a>
+
                     {{-- Dropdown pro správce --}}
                     <div class="dropdown">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button"
@@ -63,26 +64,30 @@
 
                         </ul>
                     </div>
-                @endif
+
+                </div>
+
             </div>
-
-        </div>
-
+        @endif
         {{-- Základní informace o anketě --}}
 
 
         <div class="row g-4 mb-5">
             {{-- Levá strana – základní informace o anketě --}}
             <div class="col-lg-8 d-flex">
-                <div class="card shadow-sm text-start mb-5 w-100 h-100 border-0">
+                <div class="card  shadow text-start mb-5 w-100 h-100 border-0">
                     <div class="card-body">
                         <h2>{{ $poll->title }}</h2>
                         <div class="d-flex align-items-center text-muted mb-2">
                             {{-- Doplnit avatar uživatele --}}
                             <span>{{ $poll->author_name }}</span>
                         </div>
-                        <p class="card-text text-muted">
-                            {{ $poll->description }}
+                        <p class="text-muted">
+                            @if ($poll->description == null || $poll->description == '')
+                                No description.
+                            @else
+                                {{ $poll->description }}
+                            @endif
                         </p>
                     </div>
                     <div class="card-footer">
@@ -108,7 +113,7 @@
             </div>
 
             {{-- Pravá strana – informace o události --}}
-            <livewire:poll.event-details :pollId="$poll->id" />
+            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin" />
 
         </div>
 

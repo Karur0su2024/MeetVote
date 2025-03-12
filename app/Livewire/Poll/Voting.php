@@ -35,7 +35,6 @@ class Voting extends Component
     {
         if($this->form->submit($this->voteService, $this->poll->id)) {
             $this->dispatch('updateVotes');
-            // Sem přidat odeslání notifikace
         }
     }
 

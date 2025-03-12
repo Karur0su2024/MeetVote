@@ -62,9 +62,11 @@
                     @if (!$poll->canAddOptions)
                         <div class="col-lg-6">
                             <div class="card voting-card voting-card-clickable text-center" wire:click="openAddNewTimeOptionModal()">
-                                <div class="card-body add-option-card">
-                                    <h4 class="card-title" style="vertical-align: middle;">Add new option</h4>
+                                <div class="card-body add-option-card d-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-plus-circle-fill text-muted fs-4"></i>
+                                    <h4 class="card-title mb-0">Add new option</h4>
                                 </div>
+
                             </div>
                         </div>
 
@@ -105,9 +107,6 @@
                 </x-poll.show.voting.collapse-section>
 
             @empty
-                <div class="text-center my-3">
-                    <p class="text-muted">No questions available</p>
-                </div>
             @endforelse
 
 

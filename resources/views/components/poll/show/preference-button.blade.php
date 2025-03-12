@@ -33,7 +33,7 @@
             ];
 
 @endphp
-<button class="btn btn-outline-vote-{{ $preferenceValues[$pickedPreference]['text'] }}
+<button class="btn btn-outline-vote btn-outline-vote-{{ $preferenceValues[$pickedPreference]['text'] }}
     d-flex align-items-center"
     type="button"
     wire:click="changePreference('{{ $questionIndex }}', '{{ $optionIndex }}', '{{ $preferenceValues[$pickedPreference]['next'] }}')">

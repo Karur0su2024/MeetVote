@@ -86,8 +86,6 @@ class EventService
             ->where('user_id', $user->id)
             ->first();
 
-        dd($calendarEvent);
-
         if($calendarEvent){
             try {
                 $calendar->events->get('primary', $calendarEvent->calendar_event_id); // Získání události z Google Kalendáře
