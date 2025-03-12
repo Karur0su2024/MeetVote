@@ -32,4 +32,20 @@
             @endforeach
         </div>
     @endif
+
+
+    <h2 class="my-3">Events</h2>
+
+    @if (count($events) == 0)
+        {{-- Upozornění pro žádné události --}}
+        <div class="alert alert-secondary" role="alert">
+            No events
+        </div>
+    @else
+        <div class="row text-start my-5">
+            @foreach ($events as $event)
+                <x-dashboard.event-card :event="$event" />
+            @endforeach
+        </div>
+    @endif
 </div>

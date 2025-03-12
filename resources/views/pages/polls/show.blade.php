@@ -17,7 +17,7 @@
         <div class="card mb-5 p-2 shadow-sm">
             <div class="d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-outline-secondary">
-                    <i class="bi bi-link-45deg"></i> Copy link </a>
+                    Notifications </a>
                 @if ($isAdmin)
                     {{-- Dropdown pro správce --}}
                     <div class="dropdown">
@@ -32,7 +32,7 @@
                                 </a>
                             </li>
 
-                            <x-poll.show.dropdown-item modalName="share" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
                                 <i class="bi bi-share"></i> Share poll
                             </x-poll.show.dropdown-item>
 

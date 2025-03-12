@@ -21,9 +21,15 @@
                             {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item" href="{{ route('settings') }}">Settings</a></li>
-                            <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
+                            <li class="py-1">
+                                <a class="dropdown-item" href="{{ route('dashboard') }}"><i class="bi bi-check2-square me-1"></i> Your polls</a>
+                            </li>
+                            <li class="py-1">
+                                <a class="dropdown-item" href="{{ route('settings') }}"><i class="bi bi-gear me-1"></i> Settings</a>
+                            </li>
+                            <li class="py-1">
+                                <a class="dropdown-item" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-1"></i> Logout</a>
+                            </li>
                         </ul>
                     </li>
                 @else

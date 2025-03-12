@@ -10,13 +10,18 @@ class Dashboard extends Component
 {
     public $polls;
 
+    public $events;
+
     public $search = '';
 
     public function mount()
     {
         $this->loadPolls();
+        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
-        $this->polls = Auth::user()->polls;
+
+        $this->events = Auth::user()->allPolls()->pluck('event')->unique('id');
+
     }
 
     // Vyhledávání
@@ -44,4 +49,5 @@ class Dashboard extends Component
         $this->polls = $this->polls->groupBy('status')->all();
 
     }
+
 }

@@ -23,7 +23,7 @@ class EventDetails extends Component
         if($pollId) {
             $this->event = $this->poll->event()->first();
             if(Auth::check() && $this->event) {
-                $this->syncGoogleCalendar = $this->poll->event->userEvents->where('user_id', Auth::user()->id)->isNotEmpty();
+                $this->syncGoogleCalendar = $this->poll->event->syncedEvents->where('user_id', Auth::user()->id)->isNotEmpty();
                 //dd($this->syncGoogleCalendar);
             }
         }
@@ -50,6 +50,9 @@ class EventDetails extends Component
 
         ]);
     }
+
+
+
 
 
 

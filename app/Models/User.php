@@ -50,11 +50,6 @@ class User extends Authenticatable
         ];
     }
 
-    // Vztah k anketám (1:N)
-    public function polls()
-    {
-        return $this->hasMany(Poll::class);
-    }
 
     // Vztah k hlasováním (1:N)
     public function comments()
@@ -68,9 +63,23 @@ class User extends Authenticatable
         return $this->hasMany(Vote::class);
     }
 
+    // Vztah k anketám (1:N)
+    public function polls()
+    {
+
+        return $this->hasMany(Poll::class);
+    }
+
+
     public function attendeePolls()
     {
         return $this->belongsToMany(Poll::class, 'votes');
+    }
+
+    public function allPolls()
+    {
+        $polls = $this->polls->merge($this->attendeePolls)->unique('id');
+        return $polls;
     }
 
     public function events()

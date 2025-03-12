@@ -38,7 +38,7 @@
             <button wire:click='openResultsModal()' class="btn btn-outline-secondary w-100">
                 <i class="bi bi-download"></i> Import from poll results
             </button>
-            <button class="btn btn-outline-danger w-100">
+            <button class="btn btn-outline-danger w-100" wire:click='deleteEvent'>
                 <i class="bi bi-calendar-plus"></i> Delete event
 
             <button wire:click='createEvent' class="btn btn-primary w-100">

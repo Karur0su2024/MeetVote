@@ -90,9 +90,6 @@ class CreateEvent extends Component
             dd($e->getMessage());
         }
 
-
-
-
     }
 
 
@@ -106,6 +103,12 @@ class CreateEvent extends Component
         ]);
     }
 
+    public function deleteEvent(){
+        $event = $this->poll->event()->first();
+        $this->eventService->deleteEvent($event);
+        return redirect()->route('polls.show', $this->poll);
+
+    }
 
     public function render()
     {

@@ -20,7 +20,7 @@ class Event extends Model
         return $this->belongsTo(Poll::class);
     }
 
-    public function userEvents()
+    public function syncedEvents()
     {
         return $this->hasMany(SyncedEvent::class);
     }
