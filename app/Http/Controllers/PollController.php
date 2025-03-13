@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Poll;
 use Illuminate\Http\Request;
+use App\Models\Invitation;
 
 class PollController extends Controller
 {
@@ -40,6 +41,24 @@ class PollController extends Controller
 
         return redirect()->back()->with('error', 'Špatné heslo');
     }
+
+
+    public function openPollWithInvitation($token)
+    {
+        $invitation = Invitation::where('key', $token)->firstOrFail();
+
+        $poll = Poll::where('id', $invitation->poll_id)->firstOrFail();
+
+        if($invitation->status === 'pending') {
+            $invitation->status = 'active';
+            $invitation->save();
+        }
+
+        session()->put('poll_'.$poll->public_id.'_invite', $token);
+
+        return redirect()->route('polls.show', $poll);
+    }
+
 
     public function addAdmin(Poll $poll, $admin_key)
     {

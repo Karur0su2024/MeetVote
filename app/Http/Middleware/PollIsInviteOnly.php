@@ -16,35 +16,41 @@ class PollIsInviteOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
+        //dd($request->get('isPollAdmin'));
 
-        if (session()->has('poll_'.$request->poll->public_id.'adminKey')) {
+        // Kontrola, zda má uživatel práva správce ankety, je kontrola přeskočena
+        if ($request->get('isPollAdmin')) {
             return $next($request);
         }
 
-        if ($request->poll->invite_only) {
-            // Kontrola, zda je v session uložen klíč pozvánky
-            if (! session()->has('poll_'.$request->poll->public_id.'_invite')) {
-                return redirect()->route('home', $request->poll);
-            } else {
+        //dd(session()->get('poll_' . $request->poll->public_id . '_invite'));
 
-                // Získání klíče pozvánky z session
-                $invite_key = session()->get('poll_'.$request->poll->public_id.'_invite');
-
-                // Získání pozvánky z databáze
-                $invitation = Invitation::where('poll_id', $request->poll->id)->where('key', $invite_key)->first();
-
-                // Kontrola, zda je pozvánka platná
-                if ($invitation === null) {
-                    return redirect()->route('home', $request->poll);
-                } else {
-                    // Kontrola, zda není pozvánka deaktivovaná
-                    if ($invitation->status === 'deactivated') {
-                        return redirect()->route('home', $request->poll);
-                    }
+        // Získání klíče pozvánky
+        if (session()->has('poll_' . $request->poll->public_id . '_invite')) {
+            $invite_key = session()->get('poll_' . $request->poll->public_id . '_invite');
+            $invitation = Invitation::where('poll_id', $request->poll->id)->where('key', $invite_key)->first();
+            if ($invitation) {
+                if ($invitation->status === 'active') {
+                    $this->setPermissions($request);
+                    return $next($request);
                 }
             }
         }
 
+        // Kontrola, zda je anketa nastavena jako "pouze na pozvání"
+        if ($request->poll->invite_only) {
+            dd($request->get('haveInvitation'));
+            if(!$request->has('haveInvitation')) {
+                // Vytvořit jinou stránku pro přesměrování
+                return redirect()->route('home', $request->poll);
+            }
+        }
+
         return $next($request);
+    }
+
+    private function setPermissions($request)
+    {
+        $request->attributes->add(['haveInvitation' => true]);
     }
 }

@@ -54,7 +54,7 @@
                                 @endif
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->public_id">
                                 <i class="bi bi-person-plus me-1"></i> Invitations
                             </x-poll.show.dropdown-item>
 

@@ -18,7 +18,7 @@ Route::get('polls/create', [PollController::class, 'create'])
 
 // Zobrazení ankety
 Route::get('polls/{poll}', [PollController::class, 'show'])
-    ->middleware(['inviteOnly', 'checkPassword', 'isPollAdmin'])
+    ->middleware(['isPollAdmin', 'inviteOnly', 'checkPassword'])
     ->name('polls.show');
 
 // Úprava ankety
@@ -48,6 +48,12 @@ Route::get('polls/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->nam
 //
 
 
+//Pozvánky
+Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
+    ->name('polls.invite');
+
+
+// Dark mode, možná přesunout do controlleru
 Route::get('/toggledarkmode', function () {
     if (session('darkmode')) {
         session()->forget('darkmode');

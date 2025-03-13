@@ -4,6 +4,7 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Invitation;
 use App\Models\Poll;
+use App\Services\NotificationService;
 use Illuminate\Support\Str;
 use Livewire\Component;
 
@@ -15,9 +16,17 @@ class Invitations extends Component
 
     public $email;
 
+    protected NotificationService $notificationService;
+
     protected $rules = [
         'email' => 'required|email',
     ];
+
+    // Konstruktor
+    public function __construct()
+    {
+        $this->notificationService = app(NotificationService::class);
+    }
 
     public function mount($publicIndex)
     {
@@ -55,15 +64,16 @@ class Invitations extends Component
             }
         }
 
-        $invitation = new Invitation;
-        $invitation->poll_id = $this->poll->id;
-        $invitation->email = $this->email;
-        $invitation->status = 'pending';
-        $invitation->key = Str::random(40);
-        $invitation->save();
+        $invitation = Invitation::create([
+            'poll_id' => $this->poll->id,
+            'email' => $this->email,
+            'status' => 'pending',
+            'key' => Str::random(40),
+        ]);
 
-        // Odeslat email
-        // Později přidat
+        // Odeslání pozvánky
+        $this->notificationService->sendInvitation($this->email, $this->poll, $invitation->key);
+
 
         $this->email = '';
 

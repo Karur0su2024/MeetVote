@@ -9,12 +9,12 @@ export default defineConfig({
         }),
     ],
     server: {
-        host: '0.0.0.0', // Povolení připojení z jiných zařízení
-        port: 5173,      // Výchozí port Vite
+        host: '0.0.0.0',
+        port: 5178,
         strictPort: true,
         cors: true,      // Povolení CORS
         hmr: {
-            host: '192.168.1.131', // Nahraď IP adresou svého PC
+            host: '192.168.1.131',
             protocol: 'ws',
         },
     },

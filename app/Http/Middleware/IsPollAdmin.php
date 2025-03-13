@@ -17,21 +17,22 @@ class IsPollAdmin
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (Auth::check() === false) {
-            if (session()->has('poll_'.$request->poll->public_id.'_adminKey')) {
-                // Porovnání klíče správce ankety z databáze s klíčem uloženým v session
-                if (session()->get('poll_'.$request->poll->public_id.'_adminKey') === $request->poll->admin_key) {
-                    $this->setPermissions($request);
-                }
-            }
-        } else {
-            if ($request->poll->user_id === Auth::id()) {
+
+        if(Auth::check() && $request->poll->user_id === Auth::id()) {
+            $this->setPermissions($request);
+        }
+
+        if (session()->has('poll_'.$request->poll->public_id.'_adminKey')) {
+            // Porovnání klíče správce ankety z databáze s klíčem uloženým v session
+            if (session()->get('poll_'.$request->poll->public_id.'_adminKey') === $request->poll->admin_key) {
                 $this->setPermissions($request);
             }
         }
 
+
         if (! $request->get('isPollAdmin')) {
-            // Pokud uživatel není správcem ankety, je přesměrován na stránku s anketou
+            // Pokud uživatel chce přistupovat např. na stránku editace ankety, ale není správce ankety
+            // je přesměrován na stránku ankety
             if (! $request->routeIs('polls.show')) {
                 return redirect()->route('polls.show', $request->poll);
             }
