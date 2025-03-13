@@ -3,28 +3,43 @@
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Mail\PollCreatedConfirmationEmail;
-use App\Models\Poll;
-use Illuminate\Support\Facades\Mail;
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
 
 // Domovská stránka
 Route::view('/', 'pages.home')->name('home');
 
-// Vytvoření ankety
-Route::get('polls/create', [PollController::class, 'create'])
-    ->name('polls.create');
+Route::prefix('polls')->group(function () {
 
-// Zobrazení ankety
-Route::get('polls/{poll}', [PollController::class, 'show'])
-    ->middleware(['isPollAdmin', 'inviteOnly', 'checkPassword'])
-    ->name('polls.show');
+    // Vytvoření ankety
+    Route::get('/create', [PollController::class, 'create'])
+        ->name('polls.create');
 
-// Úprava ankety
-Route::get('polls/{poll}/edit', [PollController::class, 'edit'])
-    ->middleware(['isPollAdmin'])
+
+    // Zobrazení ankety
+    Route::get('/{poll}', [PollController::class, 'show'])
+        ->middleware(['isPollAdmin', 'inviteOnly', 'checkPassword'])
+        ->name('polls.show');
+
+    // Úprava ankety
+    Route::get('/{poll}/edit', [PollController::class, 'edit'])
+    ->middleware(['poll.is_active', 'isPollAdmin'])
     ->name('polls.edit');
+
+
+    // Přidat práva správce ankety pomocí odkazu
+    Route::get('/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');
+    //
+
+    // Heslo
+    Route::get('/{poll}/authentification', [PollController::class, 'authentification'])
+        ->name('polls.authentification');
+
+    // Ověření hesla
+    Route::post('/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
+});
+
 
 // Dashboard
 Route::get('dashboard', [UserController::class, 'dashboard'])
@@ -36,16 +51,6 @@ Route::get('settings', [UserController::class, 'settings'])
     ->middleware(['auth', 'verified'])
     ->name('settings');
 
-// Heslo
-Route::get('polls/{poll}/authentification', [PollController::class, 'authentification'])
-    ->name('polls.authentification');
-
-// Ověření hesla
-Route::post('polls/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
-
-// Přidat práva správce ankety pomocí odkazu
-Route::get('polls/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');
-//
 
 
 //Pozvánky

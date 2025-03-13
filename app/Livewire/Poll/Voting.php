@@ -23,6 +23,12 @@ class Voting extends Component
         $this->voteService = app(VoteService::class);
     }
 
+    public function boot(VoteService $voteService)
+    {
+        $this->voteService = $voteService;
+    }
+
+
     public function mount(Poll $poll)
     {
         // Tohle nechat
@@ -33,6 +39,13 @@ class Voting extends Component
 
     public function submit()
     {
+
+        if($this->poll->status != 'active') {
+            session()->flash('error', 'Hlasování není aktivní.');
+            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
+        }
+
+
         if($this->form->submit($this->voteService, $this->poll->id)) {
             $this->dispatch('updateVotes');
         }
@@ -56,6 +69,12 @@ class Voting extends Component
     // Změna preference
     public function changePreference($questionIndex, $optionIndex, $value)
     {
+        if($this->poll->status != 'active') {
+            session()->flash('error', 'Voting is not active.');
+            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
+        }
+
+
         if ($questionIndex == null) {
             $this->changeTimeOptionPreference($optionIndex, $value);
         } else {

@@ -16,8 +16,6 @@ class IsPollAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-
         if(Auth::check() && $request->poll->user_id === Auth::id()) {
             $this->setPermissions($request);
         }
@@ -30,13 +28,14 @@ class IsPollAdmin
         }
 
 
-        if (! $request->get('isPollAdmin')) {
+        if (!$request->get('isPollAdmin')) {
             // Pokud uživatel chce přistupovat např. na stránku editace ankety, ale není správce ankety
             // je přesměrován na stránku ankety
             if (! $request->routeIs('polls.show')) {
                 return redirect()->route('polls.show', $request->poll);
             }
         }
+
 
         return $next($request);
     }

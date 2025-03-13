@@ -16,6 +16,12 @@ class Share extends Component
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
+
+        if(!$this->poll) {
+            session()->flash('error', 'Poll not found.');
+            return;
+        }
+
         $this->link = route('polls.show', ['poll' => $this->poll->public_id]);
         $this->adminLink = route('polls.show.admin', ['poll' => $this->poll->public_id, 'admin_key' => $this->poll->admin_key]);
     }

@@ -31,6 +31,12 @@ class Invitations extends Component
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
+
+        if (!$this->poll) {
+            session()->flash('error', 'Poll not found.');
+            return;
+        }
+
         $this->loadInvitations();
     }
 

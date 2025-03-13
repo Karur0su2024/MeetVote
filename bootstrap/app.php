@@ -4,9 +4,12 @@ use App\Http\Middleware\CheckPollPassword;
 use App\Http\Middleware\IsPollAdmin;
 use App\Http\Middleware\PollIsInviteOnly;
 use App\Http\Middleware\PollExists;
+use App\Http\Middleware\IsActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'isPollAdmin' => IsPollAdmin::class,
             'inviteOnly' => PollIsInviteOnly::class,
             'pollExists' => PollExists::class,
+            'poll.is_active' => IsActive::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -34,11 +34,11 @@ class CreateEvent extends Component
         'event.description' => 'nullable|string',
     ];
 
-    public function __construct()
-    {
-        $this->eventService = app(EventService::class);
-    }
 
+    public function boot(EventService $eventService)
+    {
+        $this->eventService = $eventService;
+    }
 
     public function mount($event = null)
     {

@@ -26,34 +26,38 @@ class ChooseFinalOptions extends Component
     protected TimeOptionService $timeOptionService;
     protected QuestionService $questionService;
 
-
-    public function __construct()
+    public function boot(TimeOptionService $timeOptionService, QuestionService $questionService)
     {
-        $this->timeOptionService = app(TimeOptionService::class);
-        $this->questionService = app(QuestionService::class);
+        $this->timeOptionService = $timeOptionService;
+        $this->questionService = $questionService;
     }
 
     public function mount($publicIndex)
     {
-        $this->poll = Poll::find($publicIndex);
 
-        $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
-        foreach ($this->timeOptions as &$timeOption) {
-            $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
+        try {
+            $this->poll = Poll::find($publicIndex);
+
+            $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
+            foreach ($this->timeOptions as &$timeOption) {
+                $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
+            }
+
+
+            $this->selected['time_option'] = 0;
+
+            $this->questions = $this->questionService->getPollQuestions($this->poll);
+
+            $this->selectedTimeOption = 0;
+
+            foreach ($this->questions as $questionIndex => $question) {
+                $this->selected['questions'][$questionIndex] = 0;
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', 'An error occurred while loading poll.');
+            return;
         }
 
-
-        $this->selected['time_option'] = 0;
-
-        $this->questions = $this->questionService->getPollQuestions($this->poll);
-
-        $this->selectedTimeOption = 0;
-
-        foreach ($this->questions as $questionIndex => $question) {
-            $this->selected['questions'][$questionIndex] = 0;
-        }
-
-        //dd($this->timeOptions, $this->questions);
 
     }
 
@@ -61,6 +65,7 @@ class ChooseFinalOptions extends Component
     {
 
         $timeOption = $this->timeOptions[$this->selected['time_option']];
+
 
         $text = 'Poll description: '.$this->poll->description."\n\n";
 
@@ -76,8 +81,8 @@ class ChooseFinalOptions extends Component
             'poll_id' => $this->poll->public_id,
             'title' => $this->poll->title,
             'all_day' => false,
-            'start_time' => $timeOption['date'] . ' ' . $timeOption['content']['start'],
-            'end_time' => $timeOption['date'] . ' ' . $timeOption['content']['end'],
+            'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? ''),
+            'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? ''),
             'description' => $text,
         ];
 

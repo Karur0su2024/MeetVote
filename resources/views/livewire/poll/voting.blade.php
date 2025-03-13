@@ -57,7 +57,7 @@
                     @endforeach
 
                     {{-- V případě, že možné přidat nové časové možnosti, zobrazí se tlačítko pro přidání --}}
-                    @if (!$poll->canAddOptions)
+                    @if ($poll->add_time_options)
                         <div class="col-lg-6">
                             <div class="card voting-card voting-card-clickable text-center" wire:click="openAddNewTimeOptionModal()">
                                 <div class="card-body add-option-card d-flex align-items-center justify-content-center gap-2">

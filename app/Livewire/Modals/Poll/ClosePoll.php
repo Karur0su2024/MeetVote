@@ -21,6 +21,11 @@ class ClosePoll extends Component
         $this->eventService = $eventService;
         $this->poll = Poll::where('public_id', $publicIndex)->first();
 
+        if (!$this->poll) {
+            session()->flash('error', 'Poll not found.');
+            return;
+        }
+
     }
 
 

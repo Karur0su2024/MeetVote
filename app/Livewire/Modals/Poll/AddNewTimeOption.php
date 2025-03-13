@@ -31,14 +31,20 @@ class AddNewTimeOption extends Component
 
     protected TimeOptionService $timeOptionService;
 
-    public function __construct()
+    public function boot(TimeOptionService $timeOptionService)
     {
-        $this->timeOptionService = app(TimeOptionService::class);
+        $this->timeOptionService = $timeOptionService;
     }
 
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
+
+        if (!$this->poll) {
+            session()->flash('error', 'Poll not found.');
+            return;
+        }
+
         $this->type = 'time';
         $this->date = now()->format('Y-m-d');
     }
@@ -67,16 +73,24 @@ class AddNewTimeOption extends Component
 
         if ($this->timeOptionService->checkDuplicity($timeOptions)) {
             $this->addError('error', 'Duplicity detected');
-
             return;
         }
 
-        $this->poll->timeOptions()->create([
-            'date' => $validatedData['date'],
-            'start' => $validatedData['type'] === 'time' ? $validatedData['content']['start'] : null,
-            'text' => $validatedData['type'] === 'text' ? $validatedData['content']['text'] : null,
-            'minutes' => $validatedData['type'] === 'time' ? Carbon::parse($validatedData['content']['start'])->diffInMinutes(Carbon::parse($validatedData['content']['end'])) : null,
-        ]);
+        try {
+
+            $this->poll->timeOptions()->create([
+                'date' => $validatedData['date'],
+                'start' => $validatedData['type'] === 'time' ? $validatedData['content']['start'] : null,
+                'text' => $validatedData['type'] === 'text' ? $validatedData['content']['text'] : null,
+                'minutes' => $validatedData['type'] === 'time' ? Carbon::parse($validatedData['content']['start'])->diffInMinutes(Carbon::parse($validatedData['content']['end'])) : null,
+            ]);
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'An error occurred while creating time option.');
+            return;
+        }
+
+
 
         $this->dispatch('updateTimeOptions');
         $this->dispatch('hideModal');

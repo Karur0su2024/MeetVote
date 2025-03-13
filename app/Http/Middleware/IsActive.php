@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Poll;
 
-class PollExists
+class isActive
 {
     /**
      * Handle an incoming request.
@@ -16,19 +15,10 @@ class PollExists
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        /*
-
-        $poll = Poll::where('public_id', $request->route('poll_id'))->first();
-
-
-        if (!$poll) {
-            return redirect()->route('home')->with('error', 'Poll not found.');
+        if ($request->poll->status !== "active") {
+            session()->flash('error', 'You can edit only active polls.');
+            return redirect()->route('polls.show', $request->poll);
         }
-
-        $request->attributes->set('poll', $poll);
-
-        $request->merge(['poll' => $request->get('poll')]);*/
 
         return $next($request);
     }

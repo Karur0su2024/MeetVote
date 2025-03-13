@@ -13,19 +13,24 @@ class DeletePoll extends Component
     public function mount($publicIndex)
     {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
+
+        if (!$this->poll) {
+            session()->flash('error', 'Poll not found.');
+            return;
+        }
     }
 
     // Smazání ankety
     public function deletePoll()
     {
-        $this->poll->delete();
-
-        if (Auth::check()) {
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->route('home');
+        try {
+            $this->poll->delete();
+        } catch (\Exception $e) {
+            session()->flash('error', 'An error occurred while deleting the poll.');
+            return;
         }
 
+        return redirect()->route('dashboard');
     }
 
     public function render()

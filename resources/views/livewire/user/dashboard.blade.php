@@ -23,7 +23,7 @@
             {{-- Skupiny skupin anket --}}
             @foreach ($polls as $pollGroupName => $pollsGroup)
                 <div class="row text-start my-5">
-                    <h3 class="my-3">{{ ucfirst($pollGroupName) }} polls</h3>
+                    <h4 class="my-3">{{ ucfirst($pollGroupName) }} polls</h4>
                     @foreach ($pollsGroup as $poll)
                         {{-- Karta ankety --}}
                         <x-dashboard.poll-card :poll="$poll" />

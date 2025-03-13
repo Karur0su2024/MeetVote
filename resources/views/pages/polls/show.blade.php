@@ -11,9 +11,9 @@
                     <i class="bi bi-info-circle me-1"></i> You are in admin mode!
                 </div>
             @endif
-            @if ($poll->status == 'closed')
+            @if(session('error'))
                 <div class="alert alert-danger shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-1"></i> Poll is closed!
+                    <i class="bi-exclamation-triangle-fill me-1"></i> {{ session('error') }}
                 </div>
             @endif
         </div>
@@ -24,50 +24,7 @@
         <!-- Tohle přesunout do samostatné komponenty -->
         <!-- Panel s nastavením ankety -->
         @if ($isAdmin)
-            <div class="card mb-5 p-2 shadow-sm">
-                <div class="d-flex justify-content-end gap-2">
-                    <a href="#" class="btn btn-outline-secondary">
-                        <i class="bi bi-bell-fill me-1"></i> Notifications </a>
-
-                    {{-- Dropdown pro správce --}}
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Options
-                        </button>
-                        <ul class="dropdown-menu">
-
-                            <li><a class="dropdown-item py-1" href="{{ route('polls.edit', $poll) }}">
-                                    <i class="bi bi-pencil-square me-1"></i> Edit poll
-                                </a>
-                            </li>
-
-                            <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
-                                <i class="bi bi-share me-1"></i> Share poll
-                            </x-poll.show.dropdown-item>
-
-                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->public_id">
-                                @if ($poll->status == 'active')
-                                    <i class="bi bi-lock me-1"></i> Close poll
-                                @else
-                                    <i class="bi bi-unlock me-1"></i> Reopen poll
-                                @endif
-                            </x-poll.show.dropdown-item>
-
-                            <x-poll.show.dropdown-item modalName="invitations" :id="$poll->public_id">
-                                <i class="bi bi-person-plus me-1"></i> Invitations
-                            </x-poll.show.dropdown-item>
-
-                            <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->id" type="danger">
-                                <i class="bi bi-trash me-1"></i> Delete poll
-                            </x-poll.show.dropdown-item>
-
-                        </ul>
-                    </div>
-
-                </div>
-
-            </div>
+            <x-poll.show.settings :poll="$poll" />
         @endif
         {{-- Základní informace o anketě --}}
 
@@ -134,22 +91,4 @@
 
     </div>
 
-
-
 </x-layouts.app>
-
-
-<script>
-    function openModal(alias, index) {
-        console.log(index);
-        Livewire.dispatch('showModal', {
-            data: {
-                alias: alias,
-                params: {
-                    publicIndex: index
-                }
-            },
-
-        });
-    }
-</script>
