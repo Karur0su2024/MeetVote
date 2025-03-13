@@ -1,8 +1,3 @@
-@props([
-    'dateIndex', // Index aktuálního data
-    'date', // Data obsahující možnosti (textové nebo časové)
-])
-
 @php
     $day = Carbon\Carbon::parse($dateIndex)->format('F d, Y');
 @endphp
@@ -34,11 +29,11 @@
         <!-- Tlačítka pro přidání nové možnosti (časové nebo textové) -->
         <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-2 mt-1">
             <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'time')" class="w-100 w-md-auto">
-                <i class="bi bi-fonts"></i> Add time option
+                <i class="bi bi-clock me-1"></i> Add time option
             </x-outline-button>
 
             <x-outline-button wireClick="addTimeOption('{{ $dateIndex }}', 'text')" class="w-100 w-md-auto">
-                <i class="bi bi-fonts"></i> Add text option
+                <i class="bi bi-fonts me-1"></i> Add text option
             </x-outline-button>
         </div>
 

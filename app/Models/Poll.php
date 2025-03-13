@@ -10,7 +10,10 @@ class Poll extends Model
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',
         'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status',
-        'deadline', 'password', 'public_id', 'admin_key'];
+        'deadline', 'password', 'public_id', 'admin_key',
+        'edit_votes', 'add_time_options'
+
+    ];
 
     // Vztah k uživateli (M:1)
     public function user()

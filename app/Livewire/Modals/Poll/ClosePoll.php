@@ -7,6 +7,7 @@ use App\Models\Poll;
 use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Exceptions\CriticalErrorException;
 
 
 class ClosePoll extends Component
@@ -18,7 +19,8 @@ class ClosePoll extends Component
 
     public function mount($publicIndex, EventService $eventService) {
         $this->eventService = $eventService;
-        $this->poll = Poll::where('public_id', $publicIndex)->firstOrFail();
+        $this->poll = Poll::where('public_id', $publicIndex)->first();
+
     }
 
 

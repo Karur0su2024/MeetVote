@@ -58,8 +58,8 @@ class QuestionService
             if (isset($question['id'])) {
                 $newQuestion = PollQuestion::find($question['id']);
 
-                if (! $newQuestion) {
-                    throw new \Exception('Questionnot found. Please try again.');
+                if (!$newQuestion) {
+                    throw new \Exception('Question not found. Please try again.');
                 } else {
                     $newQuestion->update([
                         'text' => $question['text'],

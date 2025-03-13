@@ -72,7 +72,7 @@
         {{-- Základní informace o anketě --}}
 
 
-        <div class="row g-4 mb-5">
+        <div class="row g-4 mb-4">
             {{-- Levá strana – základní informace o anketě --}}
             <div class="col-lg-8 d-flex">
                 <div class="card  shadow text-start mb-5 w-100 h-100 border-0">
@@ -102,6 +102,12 @@
                         @endif
                         @if ($poll->invite_only)
                             <span class="badge text-bg-secondary border-1 shadow-sm">Invite only</span>
+                        @endif
+                        @if ($poll->edit_votes)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Can edit votes</span>
+                        @endif
+                        @if ($poll->add_time_options)
+                            <span class="badge text-bg-secondary border-1 shadow-sm">Participants can add options</span>
                         @endif
                         @if ($poll->deadline)
                             <span class="badge text-bg-secondary border-1 shadow-sm">Ends in

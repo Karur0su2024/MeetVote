@@ -16,12 +16,10 @@ class Form extends Component
     public ?Poll $poll;
 
     // Služby
-    protected ?PollService $pollService;
+    protected PollService $pollService;
 
-    public function __construct()
-    {
-
-        $this->pollService = app(PollService::class);
+    public function boot(PollService $pollService) {
+        $this->pollService = $pollService;
     }
 
     // Konstruktor
@@ -50,7 +48,10 @@ class Form extends Component
     {
         $this->resetErrorBag('form.dates');
 
+        dd($date);
+
         $date = Carbon::parse($date)->format('Y-m-d');
+
 
         // Kontrola zda je datum již přidáno
         if (isset($this->form->dates[$date])) {
@@ -63,7 +64,6 @@ class Form extends Component
 
         if (! $isNotPast) {
             $this->addError('form.dates', 'You cannot add a date in the past.');
-
             return;
         }
 
@@ -82,15 +82,13 @@ class Form extends Component
     {
         $this->resetErrorBag('form.dates');
 
-        if (! isset($this->form->dates[$date])) {
+        if (!isset($this->form->dates[$date])) {
             $this->addError('form.dates', 'The selected date does not exist.');
-
             return false;
         }
 
         if (count($this->form->dates) < 2) {
             $this->addError('form.dates', 'You must have at least one date.');
-
             return false;
         }
 

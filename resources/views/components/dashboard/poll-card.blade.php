@@ -23,18 +23,19 @@
 
         <!-- Card Body -->
         <div class="card-body">
-            <p class="mb-2">Number of answers: <strong>{{ $poll->votes()->count() }}</strong></p>
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-bar-chart-fill me-2"></i>
+                <p class="mb-0">Responses: <strong>{{ $poll->votes()->count() }}</strong></p>
+            </div>
+            <div class="d-flex align-items-center mb-2">
+                <i class="bi bi-clock me-2"></i>
+                <p class="mb-0">Deadline: <strong>
 
-            @if ($poll->deadline)
-                @php
-                    $daysLeft = now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline));
-                @endphp
-                <span class="badge {{ $daysLeft > 3 ? 'bg-success' : 'bg-danger' }}">
-                    <i class="bi bi-clock"></i> Ends in {{ $daysLeft }} days
-                </span>
-            @else
-                <span class="badge bg-secondary"> No deadline</span>
-            @endif
+
+
+                </strong></p>
+            </div>
+
         </div>
     </div>
 

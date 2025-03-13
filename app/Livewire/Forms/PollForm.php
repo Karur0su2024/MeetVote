@@ -8,11 +8,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Form;
 use App\Services\NotificationService;
+use App\Exceptions\PollException;
 
 class PollForm extends Form
 {
-
-
     public ?int $pollIndex = null;
 
     // Název ankety
@@ -53,6 +52,8 @@ class PollForm extends Form
         'settings.hide_results' => 'boolean',
         'settings.password' => 'nullable|string',
         'settings.invite_only' => 'boolean',
+        'settings.add_time_options' => 'boolean',
+        'settings.edit_votes' => 'boolean',
         'user.name' => 'required|string|min:3|max:255',
         'user.email' => 'required|email',
         'dates' => 'required|array|min:1', // Pole různých dnů
@@ -134,7 +135,7 @@ class PollForm extends Form
         $this->deadline = $data['deadline'] ?? null;
         $this->settings = $data['settings'] ?? [];
         $this->user = $data['user'] ?? [];
-        $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
+        $this->dates = collect($data['time_options'])->groupBy('date')->toArray() ?? [];
         ksort($this->dates);
         $this->questions = $data['questions'] ?? [];
     }
@@ -142,46 +143,56 @@ class PollForm extends Form
     // Metoda po odelání formuláře
     public function submit(PollService $pollService): ?Poll
     {
-        // Validace
-        $this->validate();
-
-        $validatedData = $this->prepareValidatedDataArray($this->validate()); // Úprava dat pro lepší zpracování
-
+        $validatedData = $this->prepareValidatedDataArray($this->validate());
+        if(!$validatedData) {
+            $this->addError('error', 'An error occurred while validating the form.');
+            return null;
+        }
         if ($this->checkDuplicity($validatedData, $pollService)) {
             return null;
         }
 
-        return $this->savePoll($validatedData, $pollService);
+        $poll = $this->savePoll($validatedData, $pollService);
+
+        if($poll == null) {
+            return null;
+        }
+
+
+        if($poll->created_at == $poll->updated_at) {
+            $notificationService = app(NotificationService::class);
+            $notificationService->sendConfirmationEmail($poll);
+        }
+
+
+        return $poll;
     }
 
     // Úprava pole pro uložení do databáze
     private function prepareValidatedDataArray($validatedData): array
     {
-
         // Převod z dat do formátu pro uložení do databáze
         foreach ($validatedData['dates'] as $date) {
             foreach ($date as $option) {
                 $validatedData['time_options'][] = $option;
             }
         }
-
         unset($validatedData['dates']);
-
         return $validatedData;
     }
+
+
 
     // Kontrola duplicitních otázek a časových možností
     private function checkDuplicity($validatedData, PollService $pollService): bool
     {
         if ($pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
             $this->addError('form.dates', 'Duplicate time options are not allowed.');
-
             return true;
         }
 
         if ($pollService->getQuestionService()->checkDupliciteQuestions($validatedData['questions'])) {
             $this->addError('form.questions', 'Duplicate questions are not allowed.');
-
             return true;
         }
 
@@ -191,30 +202,29 @@ class PollForm extends Form
     // Metoda pro transakci a uložení ankety
     private function savePoll($validatedData, PollService $pollService): ?Poll
     {
+        DB::beginTransaction();
+
         try {
-            DB::beginTransaction();
-            $poll = Poll::find($this->pollIndex);
+
+            $poll = Poll::find($this->pollIndex); // Načtení ankety podle ID
 
             if ($poll) {
-                $poll = $pollService->updatePoll($poll, $validatedData);
+                $poll = $pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
             } else {
-                $poll = $pollService->createPoll($validatedData);
-
-                $notificationService = app()->make(NotificationService::class);
-
-
-
-                $notificationService->sendConfirmationEmail($poll);
+                $poll = $pollService->createPoll($validatedData); // Vytvoření nové ankety
             }
 
             DB::commit();
 
-
             return $poll;
-        } catch (\Throwable $e) {
+        } catch (PollException $e) {
             DB::rollBack();
-            $this->addError('form', $e);
+            $this->addError('error', $e->getMessage());
+            return null;
+        } catch (\Exception $e) {
+            $this->addError('error', 'An error occurred while saving the poll.');
             return null;
         }
+
     }
 }

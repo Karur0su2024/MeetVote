@@ -1,8 +1,3 @@
-@props([
-    'questionIndex', // Index otázky
-    'question', // Data otázky
-])
-
 <div class="card mb-3">
     <!-- Hlavička otázky -->
     <div class="card-header d-flex justify-content-between align-items-center gap-2">
@@ -14,7 +9,7 @@
 
         {{-- Tlačítko pro odstranění otázky --}}
         <button type="button" wire:click="removeQuestion('{{ $questionIndex }}')" class="btn btn-danger">
-            X
+            <i class="bi bi-trash"></i>
         </button>
     </div>
 
@@ -28,7 +23,7 @@
 
                 {{-- Tlačítko pro odstranění možnosti --}}
                 <button type="button" wire:click="removeQuestionOption('{{ $questionIndex }}', '{{ $optionIndex }}')"
-                    class="btn btn-danger">X
+                    class="btn btn-danger"><i class="bi bi-trash"></i>
                 </button>
             </div>
 
