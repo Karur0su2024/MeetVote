@@ -1,5 +1,5 @@
 <div>
-    <div class="modal-header bg-warning">
+    <div class="modal-header">
         <h5 class="modal-title">Results</h5>
         <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
@@ -12,6 +12,12 @@
             @foreach ($votes as $vote)
                 <x-poll.show.vote-card :vote="$vote" />
             @endforeach
+        @endif
+
+        @if (session()->has('error'))
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+            </div>
         @endif
     </div>
 </div>

@@ -62,3 +62,8 @@ Route::get('/toggledarkmode', function () {
     }
     return redirect()->back();
 })->name('toggleDarkMode');
+
+
+Route::get('/error', function () {
+    return view('pages.error');
+})->name('errors');

@@ -46,7 +46,7 @@
                                 <i class="bi bi-share me-1"></i> Share poll
                             </x-poll.show.dropdown-item>
 
-                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->id">
+                            <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->public_id">
                                 @if ($poll->status == 'active')
                                     <i class="bi bi-lock me-1"></i> Close poll
                                 @else

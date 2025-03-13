@@ -50,14 +50,7 @@ class AddNewTimeOption extends Component
 
     public function submit()
     {
-        try {
-            $validatedData = $this->validate();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Zde můžete zpracovat chybu validace
-            dd($e);
-
-            return;
-        }
+        $validatedData = $this->validate();
 
         $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
 

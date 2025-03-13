@@ -10,23 +10,24 @@ use App\Services\VoteService;
 class Results extends Component
 {
     public $votes;
-
     public $poll;
-
 
     protected VoteService $voteService;
 
-    public function __construct()
+    public function mount($publicIndex, VoteService $voteService)
     {
-        $this->voteService = app(VoteService::class);
-    }
+        $this->voteService = $voteService;
 
-    public function mount($publicIndex)
-    {
-        $this->poll = Poll::where('public_id', $publicIndex)->first();
 
-        //Převézt do pole pro lepší vypsání
-        $this->votes = $this->voteService->getPollResults($this->poll);
+        $this->poll = Poll::where('public_id', $publicIndex)->firstOrFail();
+
+        try {
+            $this->votes = $this->voteService->getPollResults($this->poll);
+        } catch (\Exception $e) {
+            session()->flash('error', 'An error occurred while loading poll results.');
+            return;
+        }
+
     }
 
     public function loadVote($voteIndex)

@@ -63,7 +63,7 @@
             @else
                 @if ($isAdmin)
                     <button class="btn btn-outline-secondary"
-                        onclick="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
+                        onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
                         <i class="bi bi-check2-square"></i> Close poll
                     </button>
                 @endif

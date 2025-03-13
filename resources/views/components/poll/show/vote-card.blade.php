@@ -4,6 +4,8 @@
     $hasPermission =
         request()->get('isPollAdmin', false) || (!is_null($vote['user_id']) && Auth::id() === $vote['user_id']);
 
+
+
     $preferenceValues = [
         '-1' => 'No',
         '0' => 'None',
@@ -34,12 +36,15 @@
     <div class="collapse" id="collapse-vote-{{ $vote['id'] }}">
         <div>
             @foreach ($vote['time_options'] as $timeOptionVote)
-                <div class="voting-card-{{ $timeOptionVote['picked_preference'] }} d-flex justify-content-between p-3">
-                    <div>{{ $timeOptionVote['date'] }} - {{ $timeOptionVote['content'] }}</div>
-                    <div><img class="p-1"
-                            src="{{ asset('icons/' . $preferenceValues[$timeOptionVote['picked_preference']] . '.svg') }}"
-                            alt="Preference"></div>
-                </div>
+            @if ($timeOptionVote['picked_preference'] !== 0)
+            <div class="voting-card-{{ $timeOptionVote['picked_preference'] }} d-flex justify-content-between p-3">
+                <div>{{ $timeOptionVote['date'] }} - {{ $timeOptionVote['content'] }}</div>
+                <div><img class="p-1"
+                        src="{{ asset('icons/' . $preferenceValues[$timeOptionVote['picked_preference']] . '.svg') }}"
+                        alt="Preference"></div>
+            </div>
+            @endif
+
             @endforeach
 
 

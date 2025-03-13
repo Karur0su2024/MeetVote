@@ -5,11 +5,9 @@
 <x-card bodyPadding="0">
 
     <x-slot:header>
-        <div class="d-flex justify-content-between">
-            Voting
-            <button class="btn btn-outline-light" wire:click='openResultsModal()'>Results ({{ count($poll->votes) }})
-            </button>
-        </div>
+        Voting
+        <button class="btn btn-outline-secondary" wire:click='openResultsModal()'>Results ({{ count($poll->votes) }})
+        </button>
     </x-slot:header>
 
     @if ($poll->status == 'closed')
