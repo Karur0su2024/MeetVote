@@ -19,10 +19,8 @@ body {
 }
 
 
-
-
 [data-bs-theme="light"] .app-background-overlay {
-    background-color: #f0f0f09d;
+    background-color: #f0f0f0ce;
     height: auto;
     display: block;
 }
@@ -33,6 +31,9 @@ body {
     display: block;
 }
 
+.card {
+    border: none !important;
+}
 
  .jsCalendar {
     width: 100%;

@@ -3,6 +3,10 @@
         <div class="card shadow p-4">
             <h2 class="text-center mb-4">Forgot Password</h2>
 
+            <p class="text-muted">
+                Please enter your email address to receive a password reset link.
+            </p>
+
             <form class="mt-3 text-start" wire:submit="sendPasswordResetLink">
 
                 <!-- Email -->
@@ -10,9 +14,13 @@
                     Email
                 </x-input>
 
-
                 <button class="btn btn-primary">Send password reset link</button>
 
+                @if (session()->has('status'))
+                <div class="alert alert-success mt-3" role="alert">
+                    {{ session('status') }}
+                </div>
+                @endif
             </form>
         </div>
     </div>

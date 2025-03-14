@@ -1,9 +1,5 @@
 <div>
-
     <form wire:submit.prevent="submit">
-
-
-
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
@@ -67,7 +63,6 @@
                 </div>
             </div>
 
-
         </x-card>
 
         <div class="row">
@@ -105,7 +100,6 @@
                 {{-- Nastavení ankety --}}
                 <x-card>
                     <x-slot:header>Poll settings</x-slot>
-
 
                     <!-- Komentáře -->
                     <x-poll.form.checkbox id="comments" model="form.settings.comments">
@@ -165,9 +159,6 @@
                 </x-card>
             </div>
         </div>
-
-
-
 
 
 

@@ -25,9 +25,12 @@ class ForgotPassword extends Component
             $this->only('email')
         );
 
+
+        // If the password broker returns a status that is not a success, we will
+        // add the error to the email field. Otherwise, we will reset the email
+        // field and flash a success message to the session.
         if ($status != Password::RESET_LINK_SENT) {
             $this->addError('email', __($status));
-
             return;
         }
 

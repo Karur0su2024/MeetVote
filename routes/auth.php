@@ -15,18 +15,23 @@ Route::middleware('guest')->group(function () {
     // login formulář
     Route::view('login', 'pages.auth.login')->name('login');
 
+    // reset hesla
     Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
 
+    Route::get('auth.reset-password', function() {
+        $token = request()->query('token');
+        $email = request()->query('email');
 
-
-    // Google OAuth
-
-
-
+        return view('pages.auth.reset-password', [
+            'token' => $token,
+            'email' => $email,
+        ]);
+    })->name('password.reset');
 
 });
 
 
+//
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
