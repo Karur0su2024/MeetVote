@@ -38,7 +38,7 @@ class VotingForm extends Form
         'timeOptions.*.id' => 'required|integer',
         'questions.*.id' => 'required|integer',
         'questions.*.options.*.id' => 'required|integer',
-        'questions.*.options.*.picked_preference' => 'required|integer|in:0,1',
+        'questions.*.options.*.picked_preference' => 'required|integer|in:0,2',
     ];
 
     public function loadData($data)
@@ -55,7 +55,7 @@ class VotingForm extends Form
 
         $this->timeOptions = $data['time_options'];
         $this->questions = $data['questions'];
-        $this->existingVote = null;
+        $this->existingVote = $data['vote_index'] ?? null;
     }
 
 
@@ -69,18 +69,20 @@ class VotingForm extends Form
 
     public function submit(VoteService $voteService, $pollId): bool
     {
-        $validatedData = $this->validate();
-
-        $validatedData['poll_id'] = $pollId;
-
-        return $this->saveVote($validatedData, $voteService) !== null;
-
+        try {
+            $validatedData = $this->validate();
+            $validatedData['poll_id'] = $pollId;
+            return $this->saveVote($validatedData, $voteService) !== null;
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->setErrorBag($e->validator->getMessageBag());
+            return false;
+        }
     }
 
     private function saveVote($validatedData, VoteService $voteService): ?Vote
     {
         DB::beginTransaction();
-        try{
+        try {
             if (!$voteService->atLeastOnePickedPreference($validatedData)) {
                 throw new \Exception('No option selected');
             }
@@ -103,12 +105,15 @@ class VotingForm extends Form
             $poll = Poll::find($validatedData['poll_id']);
             $this->loadData($voteService->getPollData($poll));
             return $vote;
-
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', $e->getMessage());
             return null;
         }
+    }
 
+    public function getErrors()
+    {
+        return $this->getErrorBag()->toArray();
     }
 }

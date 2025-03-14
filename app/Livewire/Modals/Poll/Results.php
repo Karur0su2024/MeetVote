@@ -33,7 +33,7 @@ class Results extends Component
     public function loadVote($voteIndex)
     {
         $this->dispatch('hideModal');
-        $this->dispatch('loadVote', $voteIndex);
+        $this->dispatch('refreshPoll', $voteIndex);
     }
 
     public function deleteVote($voteIndex)

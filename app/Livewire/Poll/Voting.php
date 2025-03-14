@@ -22,20 +22,16 @@ class Voting extends Component
         $this->voteService = $voteService;
     }
 
-
     public function mount(Poll $poll)
     {
         $this->poll = $poll;
         $this->form->loadData($this->voteService->getPollData($poll));
     }
 
-
     #[On('submitVote')]
     public function submitVote($voteData)
     {
         $this->form->handleSubmittedData($voteData);
-
-        dd($this->form);
 
         if ($this->poll->status != 'active') {
             session()->flash('error', 'Hlasování není aktivní.');
@@ -43,28 +39,22 @@ class Voting extends Component
         }
 
         if ($this->form->submit($this->voteService, $this->poll->id)) {
-            $this->dispatch('updateVotes');
+            $this->form->loadData($this->voteService->getPollData($this->poll));
+            $this->dispatch('vote-submitted');
+        } else {
+            dd($this->form->getErrors());
+            $this->dispatch('validation-failed', errors: $this->form->getErrors());
         }
     }
 
 
     #[On('refreshPoll')]
-    public function refreshPoll() {}
-
-    // Načtení hlasu
-    #[On('loadVote')]
-    public function loadVote($voteIndex)
+    public function refreshPoll($voteIndex = null)
     {
         $this->form->loadData($this->voteService->getPollData($this->poll, $voteIndex));
-        $this->form->existingVote = $voteIndex;
+        $this->dispatch('refresh-poll', formData: $this->form);
     }
 
-    #[On('removeVote')]
-    public function removeVote()
-    {
-        $this->form->loadData($this->voteService->getPollData($this->poll));
-        $this->form->existingVote = null;
-    }
 
 
     #[On('updateTimeOptions')]
@@ -74,34 +64,9 @@ class Voting extends Component
     }
 
 
-
     public function render()
     {
         return view('livewire.poll.voting');
     }
 
-
-    // Modální okna
-
-    // Zobrazení modálního okna s výsledky
-    public function openResultsModal()
-    {
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.results',
-            'params' => [
-                'publicIndex' => $this->poll->public_id,
-            ],
-        ]);
-    }
-
-    public function openAddNewTimeOptionModal()
-    {
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.add-new-time-option',
-            'params' => [
-                'publicIndex' => $this->poll->public_id,
-            ],
-
-        ]);
-    }
 }

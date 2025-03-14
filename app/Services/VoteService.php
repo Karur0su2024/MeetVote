@@ -35,6 +35,7 @@ class VoteService
             ],
             'time_options' => $this->getTimeOptionsData($this->timeOptionService->getPollTimeOptions($poll), $voteId),
             'questions' => $this->getQuestionData($this->questionService->getPollQuestions($poll), $voteId),
+            'vote_index' => $voteId,
         ];
 
         return $data;

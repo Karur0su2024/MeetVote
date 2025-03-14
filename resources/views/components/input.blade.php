@@ -21,7 +21,8 @@
         @if($alpine ?? null) x-model="{{ $alpine }}" @endif
         @if($model ?? null) wire:model="{{ $model }}" @endif
         class="form-control {{ $class ?? '' }}"
-        placeholder="{{ $placeholder ?? '' }}">
+        placeholder="{{ $placeholder ?? '' }}"
+        @if($required ?? null) required @endif>
 
     {{-- Zobrazení chybové hlášky --}}
 
