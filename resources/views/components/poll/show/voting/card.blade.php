@@ -5,7 +5,7 @@
     'button',
 ])
 
-<div class="card card-sharp voting-card  border-start-0 border-end-0 p-3 {{ $class }}">
+<div class="card card-sharp voting-card  border-start-0 border-end-0 p-3 voting-card-{{ $preference ?? 0 }}">
     <div class="card-body voting-card-body">
         <div class="d-flex justify-content-between align-items-center">
             {{-- Obsah možnosti --}}
@@ -20,7 +20,7 @@
 
             {{-- Výběr preference časové možnosti --}}
             <div>
-                {{ $button }}
+                {{ $button ?? '' }}
             </div>
         </div>
     </div>

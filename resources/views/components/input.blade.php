@@ -18,13 +18,20 @@
     {{-- Input pole --}}
     <input type="{{ $type ?? 'text' }}"
         id="{{ $id }}"
-        wire:model="{{ $model ?? '' }}"
-        class="form-control {{ $class ?? '' }} @error($model) is-invalid @enderror"
+        @if($alpine ?? null) x-model="{{ $alpine }}" @endif
+        @if($model ?? null) wire:model="{{ $model }}" @endif
+        class="form-control {{ $class ?? '' }}"
         placeholder="{{ $placeholder ?? '' }}">
 
     {{-- Zobrazení chybové hlášky --}}
-    @error($model)
-        <span class="text-danger">{{ $message }}</span>
-    @enderror
+
+    @if($model ?? null)
+
+        @error($model)
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+        @enderror
+    @endif
 
 </div>

@@ -4,39 +4,39 @@
     transition: all 0.3s ease-in-out;
 }
 
-.btn-outline-vote-yes {
+.btn-outline-vote-2 {
     border-color: #4BA569 !important;
 }
 
-.btn-outline-vote-yes:hover {
+.btn-outline-vote-2:hover {
     border-color: #4BA569 !important;
     background-color: #4ba56928 !important;
 }
 
-.btn-outline-vote-no {
+.btn-outline-vote--1 {
     border-color: #D90000 !important;
 }
 
-.btn-outline-vote-no:hover {
+.btn-outline-vote--1:hover {
     border-color: #D90000 !important;
     background-color: #d9000028 !important;
 }
 
-.btn-outline-vote-none {
+.btn-outline-vote-0 {
     border-color: #696969 !important;
 }
 
-.btn-outline-vote-none:hover {
+.btn-outline-vote-0:hover {
     border-color: #696969 !important;
     background-color: #69696928 !important;
 }
 
 
-.btn-outline-vote-maybe {
+.btn-outline-vote-1 {
     border-color: #D2B74B !important;
 }
 
-.btn-outline-vote-maybe:hover {
+.btn-outline-vote-1:hover {
     border-color: #D2B74B !important;
     background-color: #d2b74b28 !important;
 }

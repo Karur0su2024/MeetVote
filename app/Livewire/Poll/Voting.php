@@ -10,16 +10,10 @@ use Livewire\Component;
 
 class Voting extends Component
 {
-    //Předělat do alpine.js
-
-
-
     public Poll $poll;
 
     // Formulář pro hlasování
     public VotingForm $form;
-
-
 
     protected ?VoteService $voteService;
 
@@ -35,8 +29,14 @@ class Voting extends Component
         $this->form->loadData($this->voteService->getPollData($poll));
     }
 
-    public function submit()
+
+    #[On('submitVote')]
+    public function submitVote($voteData)
     {
+        $this->form->handleSubmittedData($voteData);
+
+        dd($this->form);
+
         if ($this->poll->status != 'active') {
             session()->flash('error', 'Hlasování není aktivní.');
             return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
@@ -65,48 +65,6 @@ class Voting extends Component
         $this->form->loadData($this->voteService->getPollData($this->poll));
         $this->form->existingVote = null;
     }
-
-
-    // Tohle přesunout na klientskou stranu
-    //
-    //
-    //
-
-    // Změna preference
-    public function changePreference($questionIndex, $optionIndex, $value)
-    {
-        if ($this->poll->status != 'active') {
-            session()->flash('error', 'Voting is not active.');
-            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
-        }
-
-
-        if ($questionIndex == null) {
-            $this->changeTimeOptionPreference($optionIndex, $value);
-        } else {
-            $this->changeQuestionOptionPreference($questionIndex, $optionIndex, $value);
-        }
-    }
-
-
-
-    // Změna preference pro časovou volbu
-    private function changeTimeOptionPreference($timeOptionIndex, $value)
-    {
-        $this->form->timeOptions[$timeOptionIndex]['picked_preference'] = $value;
-    }
-
-    // Změna preference pro otázku
-    private function changeQuestionOptionPreference($questionIndex, $optionIndex, $value)
-    {
-        $this->form->questions[$questionIndex]['options'][$optionIndex]['picked_preference'] = $value;
-    }
-
-
-    //
-    // ------------------------------------------------------------------------------------------
-    //
-
 
 
     #[On('updateTimeOptions')]

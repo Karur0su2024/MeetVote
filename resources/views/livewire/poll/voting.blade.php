@@ -5,18 +5,20 @@
 <script>
     function votingData() {
         return {
-            totalVotes: 1,
             poll: @json($poll),
             form: @json($form),
 
-
-            showResults() {
+            test() {
+                console.log(this.poll, this.form.timeOptions);
             },
 
-            submitForm() {},
+            showResults() {},
 
-            openAddNewTimeOptionModal() {},
-
+            submitVotes() {
+                Livewire.dispatch('submitVote', {
+                    voteData: this.form,
+                });
+            },
 
             openModal(alias) {
                 Livewire.dispatch('showModal', {
@@ -27,6 +29,37 @@
                         }
                     },
                 });
+            },
+
+            setPreference(type, questionIndex, optionIndex, preference) {
+                if (type == 'timeOption') {
+                    this.form.timeOptions[optionIndex].picked_preference = preference;
+                } else if (type == 'question') {
+                    this.form.questions[questionIndex].options[optionIndex].picked_preference = preference;
+                }
+            },
+
+            getNextPreference(type, currentPreference){
+                if(type == "timeOption"){
+                    switch (currentPreference) {
+                        case 0:
+                            return 2;
+                        case 2:
+                            return 1;
+                        case 1:
+                            return -1;
+                        case -1:
+                            return 0;
+                    }
+                }
+                else {
+                    switch (currentPreference) {
+                        case 0:
+                            return 2;
+                        case 2:
+                            return 0;
+                    }
+                }
             }
 
         }
@@ -48,7 +81,10 @@
         <x-slot:header>
             Voting
             <button class="btn btn-outline-secondary" @click="openModal('results')">
-                Results (<span x-text="totalVotes"></span>)
+                Results ?
+            </button>
+            <button class="btn btn-outline-secondary" @click="test">
+                Test
             </button>
         </x-slot:header>
 
@@ -65,33 +101,37 @@
                         <x-poll.show.voting.legend name="No" value="-1" />
                     </div>
                 </div>
-                <form wire:submit.prevent='submit'>
+                <form @submit.prevent='submitVotes'>
                     {{-- Časové možnosti --}}
                     <x-poll.show.voting.collapse-section id="timeOption">
                         <x:slot:header>
-                            <i class="bi bi-calendar"></i> Dates ({{ count($form->timeOptions) }})
+                            <i class="bi bi-calendar"></i> Dates (0)
                         </x:slot:header>
 
                         <div class="row g-0">
-                            @foreach ($form->timeOptions as $optionIndex => $option)
+                            {{-- alpine.js foreach --}}
+                            <template x-for="(timeOption, optionIndex) in form.timeOptions">
                                 <div class="col-lg-6">
-                                    <x-poll.show.voting.card class="voting-card-{{ $option['picked_preference'] }}">
+                                    <x-poll.show.voting.card x-bind:preference="(timeOption.picked_preference * 2)">
                                         <x-slot:content>
-                                            <p class="mb-0 fw-bold">
-                                                {{ Carbon::parse($option['date'])->format('F d, Y') }}
-                                            </p>
-                                            <p class="mb-0 text-muted d-flex align-items-center">
-                                                {{ $option['content'] }}
-                                                <i class="bi bi-exclamation-circle-fill ms-2 text-warning"></i>
-                                            </p>
+                                            <p class="mb-0 text-muted" x-text="timeOption.date"></p>
+                                            <p class="mb-0 text-muted" x-text="timeOption.content"></p>
                                         </x-slot:content>
-                                        <x-slot:score>{{ $option['score'] }}</x-slot:score>
+                                        <x-slot:score><span x-text="timeOption.score"></span></x-slot:score>
                                         <x-slot:button>
-                                            <x-poll.show.preference-button :optionIndex="$optionIndex" :pickedPreference="$option['picked_preference']" />
+                                        <button @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"
+                                            class="btn btn-outline-vote d-flex align-items-center"
+                                            :class="'btn-outline-vote-' + timeOption.picked_preference"
+                                            type="button">
+                                            <img class="p-1"
+                                                :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
+                                                :alt="timeOption.picked_preference" />
+
+                                        </button>
                                         </x-slot:button>
                                     </x-poll.show.voting.card>
                                 </div>
-                            @endforeach
+                            </template>
 
                             {{-- V případě, že možné přidat nové časové možnosti, zobrazí se tlačítko pro přidání --}}
                             @if ($poll->add_time_options)
@@ -156,13 +196,13 @@
                                     Your information
                                 </h3>
                                 <div class="col-md-6 mb-3">
-                                    <x-input id="name" model="form.user.name" type="text" required
+                                    <x-input id="name" alpine="form.user.name" type="text" required
                                         class="form-control-lg">
                                         Your name
                                     </x-input>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <x-input id="email" model="form.user.email" type="email" required
+                                    <x-input id="email" alpine="form.user.email" type="email" required
                                         class="form-control-lg">
                                         Your e-mail
                                     </x-input>

@@ -59,6 +59,14 @@ class VotingForm extends Form
     }
 
 
+    public function handleSubmittedData($data)
+    {
+        $this->user = $data['user'];
+        $this->timeOptions = $data['timeOptions'];
+        $this->questions = $data['questions'];
+    }
+
+
     public function submit(VoteService $voteService, $pollId): bool
     {
         $validatedData = $this->validate();
@@ -66,7 +74,6 @@ class VotingForm extends Form
         $validatedData['poll_id'] = $pollId;
 
         return $this->saveVote($validatedData, $voteService) !== null;
-
 
     }
 
