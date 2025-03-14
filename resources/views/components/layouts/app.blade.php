@@ -15,7 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
 
     <livewire:styles />
-
 </head>
 
 <body class="app-background">
@@ -30,6 +29,7 @@
         <!-- Obsah stránky -->
         <main class="container py-5 min-vh-100">
             {{ $slot }}
+
         </main>
 
 
@@ -41,6 +41,8 @@
 
     <livewire:scripts />
     <livewire:modals />
+
+    @stack('scripts')
 
 
 </body>

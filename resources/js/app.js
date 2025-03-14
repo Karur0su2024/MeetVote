@@ -1,7 +1,5 @@
 import './bootstrap';
 
-
-
 // popperjs
 import('@popperjs/core');
 
