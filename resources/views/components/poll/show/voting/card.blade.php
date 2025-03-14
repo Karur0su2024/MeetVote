@@ -10,17 +10,17 @@
         <div class="d-flex justify-content-between align-items-center">
             {{-- Obsah možnosti --}}
             <div>
-                {{ $content }}
+
             </div>
 
             {{-- Zobrazení hlasů --}}
             <div class="d-flex flex-column">
-                Total score: {{ $score }}
+
             </div>
 
             {{-- Výběr preference časové možnosti --}}
             <div>
-                {{ $button ?? '' }}
+
             </div>
         </div>
     </div>

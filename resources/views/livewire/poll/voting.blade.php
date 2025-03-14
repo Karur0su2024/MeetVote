@@ -122,7 +122,6 @@
 <div x-data="votingData()" @validation-failed.window="unsuccesfulVote($event.detail.errors)"
     @vote-submitted.window="succesfulVote()" @refresh-poll.window="refreshPoll($event.detail.formData)">
 
-
     <x-card bodyPadding="0">
 
         <x-slot:header>
@@ -151,129 +150,131 @@
                     </div>
                 </div>
                 <form @submit.prevent='submitVotes'>
-                    {{-- Časové možnosti --}}
-                    <x-poll.show.voting.collapse-section id="timeOption">
-                        <x:slot:header>
-                            <i class="bi bi-calendar"></i> Dates (<span x-text="form.timeOptions.length"></span>)
-                        </x:slot:header>
 
-                        <div class="row g-0">
-                            {{-- alpine.js foreach --}}
-                            <template x-for="(timeOption, optionIndex) in form.timeOptions">
-                                <div class="col-lg-6">
-                                    <div class="card card-sharp voting-card  border-start-0 border-end-0 p-3"
-                                        :class="'voting-card-' + timeOption.picked_preference">
-                                        {{-- Obsah možnosti --}}
-                                        <div class="card-body voting-card-body">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                {{-- Obsah možnosti --}}
-                                                <div>
-                                                    <p class="mb-0 text-muted" x-text="timeOption.date"></p>
-                                                    <p class="mb-0 text-muted" x-text="timeOption.content"></p>
-                                                </div>
-
-                                                {{-- Zobrazení hlasů --}}
-                                                <div class="d-flex flex-column">
-                                                    <span x-text="timeOption.score"></span>
-                                                </div>
-
-                                                {{-- Výběr preference časové možnosti --}}
-                                                <div>
-                                                    <button
-                                                        @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"
-                                                        class="btn btn-outline-vote d-flex align-items-center"
-                                                        :class="'btn-outline-vote-' + timeOption.picked_preference"
-                                                        type="button">
-                                                        <img class="p-1"
-                                                            :src="'{{ asset('icons/') }}/' + timeOption.picked_preference +
-                                                                '.svg'"
-                                                            :alt="timeOption.picked_preference" />
-
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="accordion" id="accordionPoll">
 
 
+                        {{-- Časové možnosti --}}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button p-4 fw-bold fs-4" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTimeOptions" aria-expanded="true" aria-controls="collapseTimeOptions">
+                                    <i class="bi bi-calendar-event me-2"></i> Time Options (<span
+                                        x-text="form.timeOptions.length"></span>)
+                                </button>
+                            </h2>
+                            <div id="collapseTimeOptions" class="accordion-collapse collapse show"
+                                data-bs-parent="#accordionPoll">
+                                <div class="accordion-body p-0">
+                                    <div class="row g-0">
+                                        <template x-for="(timeOption, optionIndex) in form.timeOptions">
+                                            <div class="col-lg-6">
+                                                <div class="card card-sharp voting-card border-start-0 border-end-0 p-3 transition-all"
+                                                    :class="'voting-card-' + timeOption.picked_preference">
+                                                    <div class="card-body voting-card-body">
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <!-- Option content -->
+                                                            <div class="me-2">
+                                                                <h6 class="mb-1 fw-bold" x-text="timeOption.date"></h6>
+                                                                <p class="mb-0 text-muted" x-text="timeOption.content"></p>
+                                                            </div>
 
+                                                            <!-- Vote count -->
+                                                            <div class="d-flex flex-column align-items-center badge bg-light text-dark px-2 py-1 me-2">
+                                                                <span x-text="timeOption.score" class="fw-bold"></span>
+                                                            </div>
 
-
-
-
-                            {{-- V případě, že možné přidat nové časové možnosti, zobrazí se tlačítko pro přidání --}}
-                            @if ($poll->add_time_options)
-                                <div class="col-lg-6">
-                                    <div class="card voting-card voting-card-clickable text-center"
-                                        @click="openModal('add-new-time-option')">
-                                        <div
-                                            class="card-body add-option-card d-flex align-items-center justify-content-center gap-2">
-                                            <i class="bi bi-plus-circle-fill text-muted fs-4"></i>
-                                            <h4 class="card-title mb-0">Add new option</h4>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            @endif
-
-                        </div>
-                    </x-poll.show.voting.collapse-section>
-
-
-                    {{-- Otázky ankety --}}
-
-                    <template x-for="(question, questionIndex) in form.questions">
-                        <x-poll.show.voting.collapse-section :id="'question-${questionIndex}-options'">
-                            <x-slot:header>
-                                <i class="bi bi-question-lg"></i>
-                                <span x-text="question.text"></span>
-                                (<span x-text="question.options.length"></span>)
-                            </x-slot:header>
-
-                            <div class="row g-0">
-                                <template x-for="(option, optionIndex) in question.options">
-                                    <div class="col-lg-6">
-                                        <div class="card card-sharp voting-card  border-start-0 border-end-0 p-3"
-                                            :class="'voting-card-' + option.picked_preference">
-                                            <div class="card-body voting-card-body">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    {{-- Obsah možnosti --}}
-                                                    <div>
-                                                        <p class="mb-0 text-muted" x-text="option.text"></p>
-                                                    </div>
-
-                                                    {{-- Zobrazení hlasů --}}
-                                                    <div>
-                                                        <span x-text="option.score"></span>
-                                                    </div>
-
-                                                    {{-- Výběr preference časové možnosti --}}
-                                                    <div>
-                                                        <button
-                                                        @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))"
-                                                        class="btn btn-outline-vote d-flex align-items-center"
-                                                        :class="'btn-outline-vote-' + option.picked_preference"
-                                                        type="button">
-                                                        <img class="p-1"
-                                                            :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
-                                                            :alt="option.picked_preference" />
-                                                    </button>
+                                                            <!-- Preference selection -->
+                                                            <div>
+                                                                <button
+                                                                    @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"
+                                                                    class="btn btn-outline-vote d-flex align-items-center"
+                                                                    :class="'btn-outline-vote-' + timeOption.picked_preference"
+                                                                    type="button">
+                                                                    <img class="p-1"
+                                                                        :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
+                                                                        :alt="timeOption.picked_preference" />
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </template>
 
-                                        </div>
-
+                                        @if ($poll->add_time_options)
+                                            <div class="col-lg-6">
+                                                <div class="card voting-card voting-card-clickable text-center hover-shadow transition-all"
+                                                    @click="openModal('add-new-time-option')">
+                                                    <div
+                                                        class="card-body add-option-card d-flex align-items-center justify-content-center gap-2 py-4">
+                                                        <i class="bi bi-plus-circle-fill text-primary fs-4"></i>
+                                                        <h5 class="card-title mb-0">Add new time option</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
-                                </template>
-
+                                </div>
                             </div>
+                        </div>
 
-                        </x-poll.show.voting.collapse-section>
-                    </template>
+
+                        {{-- Dodatečné otázky --}}
+                        <template x-for="(question, questionIndex) in form.questions">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button p-4 fw-bold fs-4" type="button" data-bs-toggle="collapse"
+                                        :data-bs-target="'#collapseQuestion' + questionIndex" aria-expanded="true"
+                                        :aria-controls="'collapseQuestion' + questionIndex">
+                                        <i class="bi bi-question-circle me-2"></i>
+                                        <span x-text="question.text"></span> (<span x-text="question.options.length"></span>)
+                                    </button>
+                                </h2>
+                                <div :id="'collapseQuestion' + questionIndex" class="accordion-collapse collapse show"
+                                    data-bs-parent="#accordionPoll">
+                                    <div class="accordion-body p-0">
+                                        <div class="row g-0">
+                                            <template x-for="(option, optionIndex) in question.options">
+                                                <div class="col-lg-6">
+                                                    <div class="card card-sharp voting-card border-start-0 border-end-0 p-3 transition-all"
+                                                        :class="'voting-card-' + option.picked_preference">
+                                                        <div class="card-body voting-card-body">
+                                                            <div class="d-flex justify-content-between align-items-center">
+                                                                <!-- Option content -->
+                                                                <div class="me-2">
+                                                                    <h6 class="mb-0" x-text="option.text"></h6>
+                                                                </div>
+
+                                                                <!-- Vote count -->
+                                                                <div class="badge bg-light text-dark px-2 py-1 me-2">
+                                                                    <span x-text="option.score" class="fw-bold"></span>
+                                                                </div>
+
+                                                                <!-- Preference selection -->
+                                                                <div>
+                                                                    <button
+                                                                        @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))"
+                                                                        class="btn btn-outline-vote d-flex align-items-center"
+                                                                        :class="'btn-outline-vote-' + option.picked_preference"
+                                                                        type="button">
+                                                                        <img class="p-1"
+                                                                            :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
+                                                                            :alt="option.picked_preference" />
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
 
 
 
