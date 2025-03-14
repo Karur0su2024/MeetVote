@@ -10,29 +10,15 @@ body {
     height: 100vh;
 }
 
-[data-bs-theme="light"] .app-background {
-    background-image: url('../images/app-background-light.png');
-}
-
 [data-bs-theme="dark"] .app-background {
     background-image: url('../images/app-background-dark.png');
 }
 
 
-[data-bs-theme="light"] .app-background-overlay {
-    background-color: #f0f0f0ce;
-    height: auto;
-    display: block;
-}
-
 [data-bs-theme="dark"] .app-background-overlay {
     background-color: #4b4b4b38;
     height: auto;
     display: block;
-}
-
-.card {
-    border: none !important;
 }
 
  .jsCalendar {
@@ -79,11 +65,3 @@ body {
 .btn-primary:hover {
     background-color: #66b3af !important;
 }
-
-
-.card .card-header {
-    /*background-color: #EFEFEF !important;*/
-    font-weight:  bold;
-}
-
-

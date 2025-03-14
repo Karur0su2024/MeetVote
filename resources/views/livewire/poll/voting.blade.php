@@ -110,34 +110,51 @@
 
 
             {{-- Formulář pro vyplnění jména a e-mailu --}}
-            <div class="p-3">
-                <h3 class="mb-3">Add new vote</h3>
-                <x-input id="name" model="form.user.name" type="text" mandatory="true">
-                    Your name
-                </x-input>
-                <x-input id="email" model="form.user.email" type="email" mandatory="true">
-                    Your e-mail
-                </x-input>
+            <div class="p-4">
 
-                <div class="d-flex align-items-center gap-3 mt-3">
-                    <button type="submit" class="btn btn-primary btn-lg me-1">Submit your vote</button>
+                @if (!$poll->anonymous_votes)
+                    <div class="row">
+                        <h3 class="mb-4 pb-2 fw-bold">
+                            Your information
+                        </h3>
+                        <div class="col-md-6 mb-3">
+                            <x-input id="name" model="form.user.name" type="text" required
+                                class="form-control-lg">
+                                Your name
+                            </x-input>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <x-input id="email" model="form.user.email" type="email" required
+                                class="form-control-lg">
+                                Your e-mail
+                            </x-input>
+                        </div>
+                    </div>
+                @endif
 
-                    <div class="d-flex align-items-center">
-
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
+                        <i class="bi bi-check-circle me-2"></i> Submit your vote
+                    </button>
+                    <div class="d-flex align-items-center ms-2">
                         @if (session()->has('error'))
                             <span class="text-danger">{{ session('error') }}</span>
                         @else
-                            <span class="text-dark" wire:loading>Saving...</span>
-                        @endif
 
+                        <span wire:loading wire:target="submit">
+                            <div class="spinner-border spinner-border-sm me-2" role="status">
+                            </div>
+                            Saving...
+                        </span>
+
+                        @endif
                         @if (session()->has('success'))
                             <span class="text-success">{{ session('success') }}</span>
                         @endif
                     </div>
+
+
                 </div>
-
-
-
             </div>
 
         </form>

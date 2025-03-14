@@ -17,8 +17,11 @@ class ClosePoll extends Component
     protected EventService $eventService;
 
 
-    public function mount($publicIndex, EventService $eventService) {
+    public function boot(EventService $eventService) {
         $this->eventService = $eventService;
+    }
+
+    public function mount($publicIndex) {
         $this->poll = Poll::where('public_id', $publicIndex)->first();
 
         if (!$this->poll) {

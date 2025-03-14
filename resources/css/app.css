@@ -6,6 +6,8 @@
 @import url('/public/css/voting.css');
 @import url('/public/css/app.css');
 
+@import url('/public/css/light-mode.css');
+
 @import 'bootstrap/dist/css/bootstrap.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 

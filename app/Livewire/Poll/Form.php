@@ -11,7 +11,7 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    public ?PollForm $form;
+    public PollForm $form;
 
     public ?Poll $poll;
 
@@ -28,6 +28,11 @@ class Form extends Component
         // Načtení dat ankety
         $this->poll = $poll;
         $this->form->loadForm($this->pollService->getPollData($poll));
+    }
+
+    public function updated($propertyName)
+    {
+
     }
 
     public function submit()
@@ -47,8 +52,6 @@ class Form extends Component
     public function addDate($date): void
     {
         $this->resetErrorBag('form.dates');
-
-        dd($date);
 
         $date = Carbon::parse($date)->format('Y-m-d');
 

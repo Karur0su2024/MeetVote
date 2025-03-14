@@ -18,7 +18,7 @@
                     <li class="nav-item dropdown">
                         <a class="btn btn-outline-secondary dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ Auth::user()->name }}
+                            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li class="py-1">

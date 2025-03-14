@@ -1,5 +1,6 @@
 <div>
     <form wire:submit.prevent="submit">
+
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
@@ -161,8 +162,6 @@
         </div>
 
 
-
-
         @error('form.error')
             <div class="alert alert-danger" role="alert">
                 {{ $message }}
@@ -174,7 +173,6 @@
     </form>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -185,7 +183,6 @@
             console.log(date);
         });
     });
-
 
     function addDate(date) {
         Livewire.dispatch('addDate', {

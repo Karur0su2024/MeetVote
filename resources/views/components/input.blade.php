@@ -1,26 +1,28 @@
-@props([
-    'id',
-    'label',
-    'model',
-    'type' => 'text',
-    'mandatory' => false,
-    'required' => false,
-    'placeholder' => '',
-    'tooltip' => null,
-])
-
 <div class="mb-3">
-    <label for="{{ $id }}" class="form-label">
+
+    {{-- Popisek pole --}}
+    <label for="{{ $id ?? '' }}" class="form-label">
         {{ $slot }}
-        <span class="text-danger">{{ $required ? '*' : '' }} </span>
-        @if ($tooltip)
+        <span class="text-danger">{{ $required ?? false ? '*' : '' }} </span>
+
+        {{-- Tooltip pro popis pole --}}
+        @if ($tooltip ?? null)
             <small class="ms-2">
                 <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top"
                     data-bs-title="{{ $tooltip }}"></i>
             </small>
         @endif
     </label>
-    <input type="{{ $type }}" id="{{ $id }}" wire:model="{{ $model }}" class="form-control">
+
+
+    {{-- Input pole --}}
+    <input type="{{ $type ?? 'text' }}"
+        id="{{ $id }}"
+        wire:model="{{ $model ?? '' }}"
+        class="form-control {{ $class ?? '' }} @error($model) is-invalid @enderror"
+        placeholder="{{ $placeholder ?? '' }}">
+
+    {{-- Zobrazení chybové hlášky --}}
     @error($model)
         <span class="text-danger">{{ $message }}</span>
     @enderror

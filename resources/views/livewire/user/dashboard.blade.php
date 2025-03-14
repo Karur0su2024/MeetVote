@@ -41,10 +41,13 @@
 
         @if (Auth::user()->google_id == null)
             {{-- Upozornění pro žádné události --}}
-            <div class="alert alert-secondary" role="alert">
-                You do not have a Google account linked to your profile. To sync with Google Calendar, please link your
-                account in the settings.
-            </div>
+            <x-alert type="info">
+                <i class="bi bi-info-circle-fill me-1"></i>
+                <div>
+                    You can sync your events with Google Calendar. To do this, please link your Google account in the
+                    <a href="{{ route('settings') }}" class="text-decoration-none">settings</a>.
+                </div>
+            </x-alert>
         @endif
 
 

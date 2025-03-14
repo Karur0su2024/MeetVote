@@ -1,0 +1,26 @@
+[data-bs-theme="light"] .app-background {
+    background-image: url('../images/app-background-light.png');
+}
+
+[data-bs-theme="light"] .app-background-overlay {
+    background-color: #f0f0f0ce;
+    height: auto;
+    display: block;
+}
+
+/*
+ * Styly pro karty
+ */
+
+[data-bs-theme="light"] .card {
+    border: none;
+    background-color: #f9fafb;
+    color: #212529;
+}
+
+
+[data-bs-theme="light"] .card-header {
+    background-color: #ebebeb;
+    border-radius: 5px;
+    border: none;
+}

@@ -5,17 +5,28 @@
 
     <div class="container text-start">
 
-        <div class="mb-5">
+        <div class="mb-5 alerts-container">
             @if ($isAdmin)
-                <div class="alert alert-info shadow-sm" role="alert">
-                    <i class="bi bi-info-circle me-1"></i> You are in admin mode!
-                </div>
+                <x-alert type="info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <div>You are in admin mode!</div>
+                </x-alert>
             @endif
-            @if(session('error'))
-                <div class="alert alert-danger shadow-sm" role="alert">
-                    <i class="bi-exclamation-triangle-fill me-1"></i> {{ session('error') }}
-                </div>
+
+            @if (session('error'))
+               <x-alert type="danger">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>{{ session('error') }}</div>
+                </x-alert>
             @endif
+
+            @if (session('success'))
+                <x-alert type="success">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div>{{ session('success') }}</div>
+                </x-alert>
+            @endif
+
         </div>
 
 
