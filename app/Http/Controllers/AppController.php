@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+
 
 class AppController extends Controller
 {
@@ -20,7 +22,10 @@ class AppController extends Controller
 
     public function changeLanguage(Request $request, $lang)
     {
-        session(['locale' => $lang]);
+        if (in_array($lang, ['en', 'cs'])) {
+            session(['language' => $lang]);
+        }
+
         return redirect()->back();
     }
 

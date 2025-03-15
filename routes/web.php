@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
+Route::middleware(['setLanguage'])->group(function () {
+
+
+
+
+
+
+
 // Domovská stránka
 Route::view('/', 'pages.home')->name('home');
 
@@ -69,3 +77,12 @@ Route::get('/changeLanguage/{lang}', [AppController::class, 'changeLanguage'])
 Route::get('/error', function () {
     return view('pages.error');
 })->name('errors');
+
+
+
+
+
+
+
+
+});

@@ -8,7 +8,7 @@ use App\Http\Middleware\IsActive;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use App\Http\Middleware\SetLanguage;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -24,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'inviteOnly' => PollIsInviteOnly::class,
             'pollExists' => PollExists::class,
             'poll.is_active' => IsActive::class,
+            'setLanguage' => SetLanguage::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -193,7 +193,9 @@
             </div>
         @enderror
 
-        <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">Submit</button>
+        <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">
+            {{ __('form.submit') }}
+        </button>
 
     </form>
 </div>
