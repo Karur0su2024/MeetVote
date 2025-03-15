@@ -26,6 +26,8 @@ class Voting extends Component
     {
         $this->poll = $poll;
         $this->form->loadData($this->voteService->getPollData($poll));
+
+        //dd($this->form, $this->poll);
     }
 
     #[On('submitVote')]

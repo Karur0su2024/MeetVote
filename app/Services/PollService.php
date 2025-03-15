@@ -41,6 +41,7 @@ class PollService
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
             'user' => [
+                'posted_anonymously' => (bool) $poll?->posted_anonymously ?? false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
                 'email' => $poll->author_email ?? Auth::user()?->email,
             ],
@@ -66,8 +67,8 @@ class PollService
                 'title' => $validatedData['title'],
                 'public_id' => Str::random(40),
                 'admin_key' => Str::random(40),
-                'author_name' => $validatedData['user']['name'],
-                'author_email' => $validatedData['user']['email'],
+                'author_name' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['name'],
+                'author_email' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['email'],
                 'user_id' => Auth::id(),
                 'deadline' => $validatedData['deadline'],
                 'description' => $validatedData['description'],

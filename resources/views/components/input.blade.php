@@ -14,25 +14,7 @@
         @endif
     </label>
 
-
     {{-- Input pole --}}
-    <input type="{{ $type ?? 'text' }}"
-        id="{{ $id }}"
-        @if($alpine ?? null) x-model="{{ $alpine }}" @endif
-        @if($model ?? null) wire:model="{{ $model }}" @endif
-        class="form-control {{ $class ?? '' }}"
-        placeholder="{{ $placeholder ?? '' }}"
-        @if($required ?? null) required @endif>
-
-    {{-- Zobrazení chybové hlášky --}}
-
-    @if($model ?? null)
-
-        @error($model)
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-        @enderror
-    @endif
-
+    <input type="{{ $type ?? 'text' }}" {{ $attributes }}
+        class="form-control {{ $dataClass ?? '' }}">
 </div>

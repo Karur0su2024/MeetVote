@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PollController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -59,14 +60,10 @@ Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
 
 
 // Dark mode, možná přesunout do controlleru
-Route::get('/toggledarkmode', function () {
-    if (session('darkmode')) {
-        session()->forget('darkmode');
-    } else {
-        session(['darkmode' => 'dark']);
-    }
-    return redirect()->back();
-})->name('toggleDarkMode');
+Route::get('/toggledarkmode', [AppController::class, 'toggleDarkMode'])->name('toggleDarkMode');
+
+Route::get('/changeLanguage/{lang}', [AppController::class, 'changeLanguage'])
+->name('changeLanguage');
 
 
 Route::get('/error', function () {

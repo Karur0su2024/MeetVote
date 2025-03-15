@@ -4,40 +4,57 @@
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
-            <x-input id="title" model="form.title" type="text" required
-                placeholder="Poll #1">
+            <x-input id="title" wire:model="form.title" type="text" required placeholder="Poll #1">
                 Poll Title
             </x-input>
+            @error('form.title')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
 
             <x-textbox id="description" model="form.description">
                 Poll description
             </x-textbox>
 
-            <x-input id="deadline" model="form.deadline" type="date">
+            <x-input id="deadline" wire:model="form.deadline" type="date">
                 <x-slot:tooltip>
                     Set the deadline for the poll. After this date, no new votes will be accepted. Deadline is not
                     required
                 </x-slot:tooltip>
                 Deadline
             </x-input>
+            @error('form.deadline')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
 
 
             {{-- Informace o autorovi --}}
             @if (!$poll->id)
-                <div x-data="{ show: @entangle('form.showUserInfo') }">
-                    <x-poll.form.checkbox id="show_user_info" model="form.showUserInfo">
-                        <x-slot:tooltip>
-                            Show your name and email to the participants of the poll.
-                        </x-slot:tooltip>
-                        Show my name and email
+                <div x-data="{ anonymous: @entangle('form.user.posted_anonymously') }">
+                    <x-poll.form.checkbox id="show.user-info" x-model="anonymous">
+                        Post poll anonymously
                     </x-poll.form.checkbox>
-                    <x-input id="user_name" model="form.user.name" type="text" mandatory="true">
-                        Your name
-                    </x-input>
-
-                    <x-input id="user_email" model="form.user.email" type="email" mandatory="true">
+                    <div x-show="!anonymous">
+                        <x-input id="user_name" wire:model="form.user.name" type="text" required>
+                            Your name
+                        </x-input>
+                        @error('form.user.name')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <x-input id="user_email" wire:model="form.user.email" type="email">
                         Your email
                     </x-input>
+                    @error('form.user.email')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
             @endif
 
@@ -73,6 +90,8 @@
 
         </x-card>
 
+
+        {{-- Možná přesunout do livewire --}}
         <div class="row">
             <div class="col-lg-6 col-md-12 mb-3">
                 {{-- Výběr doplňujících otázek --}}
@@ -94,8 +113,7 @@
                     @endif
 
                     <button type="button" type="button w-25" wire:click="addQuestion()"
-                        class="btn btn-outline-secondary">Add
-                        question</button>
+                        class="btn btn-outline-secondary">Add question</button>
 
                     @error('form.questions')
                         <div class="alert alert-danger" role="alert">
@@ -110,7 +128,7 @@
                     <x-slot:header>Poll settings</x-slot>
 
                     <!-- Komentáře -->
-                    <x-poll.form.checkbox id="comments" model="form.settings.comments">
+                    <x-poll.form.checkbox id="comments" wire:model="form.settings.comments">
                         <x-slot:tooltip>
                             Allow participants to add comments to the poll.
                         </x-slot:tooltip>
@@ -118,7 +136,7 @@
                     </x-poll.form.checkbox>
 
                     {{-- Tajné hlasování --}}
-                    <x-poll.form.checkbox id="anonymous" model="form.settings.anonymous">
+                    <x-poll.form.checkbox id="anonymous" wire:model="form.settings.anonymous">
                         <x-slot:tooltip>
                             Allow participants to vote anonymously.
                         </x-slot:tooltip>
@@ -126,7 +144,7 @@
                     </x-poll.form.checkbox>
 
                     {{-- Skrytí výsledků --}}
-                    <x-poll.form.checkbox id="hide_results" model="form.settings.hide_results">
+                    <x-poll.form.checkbox id="hide_results" wire:model="form.settings.hide_results">
                         <x-slot:tooltip>
                             Hide the results of the poll until the deadline.
                         </x-slot:tooltip>
@@ -134,7 +152,7 @@
                     </x-poll.form.checkbox>
 
                     {{-- Allow participants to edit their votes --}}
-                    <x-poll.form.checkbox id="edit_votes" model="form.settings.edit_votes">
+                    <x-poll.form.checkbox id="edit_votes" wire:model="form.settings.edit_votes">
                         <x-slot:tooltip>
                             Allow participants to edit their votes after submission.
                         </x-slot:tooltip>
@@ -142,14 +160,14 @@
                     </x-poll.form.checkbox>
 
                     {{-- Pouze pro pozvané --}}
-                    <x-poll.form.checkbox id="invite_only" model="form.settings.invite_only">
+                    <x-poll.form.checkbox id="invite_only" wire:model="form.settings.invite_only">
                         <x-slot:tooltip>
                             Permit only invited users to access the poll.
                         </x-slot:tooltip>
                         Invite only
                     </x-poll.form.checkbox>
 
-                    <x-poll.form.checkbox id="add_time_options" model="form.settings.add_time_options">
+                    <x-poll.form.checkbox id="add_time_options" wire:model="form.settings.add_time_options">
                         <x-slot:tooltip>
                             Allow participants to add their own time options to the poll.
                         </x-slot:tooltip>

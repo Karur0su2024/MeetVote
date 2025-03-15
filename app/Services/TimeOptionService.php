@@ -25,6 +25,7 @@ class TimeOptionService
             $timeOptions[] = [
                 'id' => $timeOption->id,
                 'date' => $timeOption->date,
+                'date_formatted' => Carbon::parse($timeOption->date)->format('l, F d, Y'),
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $timeOption->start ? [
                     'start' => Carbon::parse($timeOption->start)->format('H:i'),

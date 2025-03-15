@@ -66,6 +66,7 @@ class VoteService
             $timeOptions[] = [
                 'id' => $option['id'],
                 'date' => $option['date'],
+                'date_formatted' => $option['date_formatted'],
                 'content' => $content,
                 'score' => $option['score'],
                 'picked_preference' => $preference ?? 0,

@@ -56,6 +56,7 @@ class VotingForm extends Form
         $this->timeOptions = $data['time_options'];
         $this->questions = $data['questions'];
         $this->existingVote = $data['vote_index'] ?? null;
+
     }
 
 

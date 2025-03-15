@@ -1,9 +1,8 @@
 @props(['model', 'id', 'tooltip' => null])
 
 <div class="form-check form-switch mb-3">
-    <input type="checkbox" wire:model="{{ $model }}" id="{{ $id }}" class="form-check-input">
+    <input type="checkbox" {{ $attributes }} id="{{ $id }}" class="form-check-input">
     <label class="form-check-label" for="{{ $id }}">{{ $slot }}
-
 
         @if ($tooltip)
             <small class="ms-2">
@@ -12,7 +11,4 @@
             </small>
         @endif
     </label>
-    @error($model)
-        <span class="text-danger">{{ $message }}</span>
-    @enderror
 </div>

@@ -13,6 +13,8 @@
                 success: '',
             },
 
+
+
             submitVotes() {
                 this.isSubmitting = true;
                 this.messages.errors = {};
@@ -112,6 +114,12 @@
                 }
             },
 
+            test(){
+                console.log('test');
+                console.log(this.form);
+                console.log(this.poll);
+            }
+
         }
     }
 </script>
@@ -120,7 +128,8 @@
 {{-- https://github.com/livewire/livewire/issues/830 --}}
 {{-- Přidat ještě listener pro update hlasu --}}
 <div x-data="votingData()" @validation-failed.window="unsuccesfulVote($event.detail.errors)"
-    @vote-submitted.window="succesfulVote()" @refresh-poll.window="refreshPoll($event.detail.formData)">
+    @vote-submitted.window="succesfulVote()" @refresh-poll.window="refreshPoll($event.detail.formData)"
+    x-init="test">
 
     <x-card bodyPadding="0">
 
@@ -176,7 +185,7 @@
 
                                                             {{-- Obsah možnosti --}}
                                                             <div class="me-2">
-                                                                <h6 class="mb-1 fw-bold" x-text="timeOption.date"></h6>
+                                                                <h6 class="mb-1 fw-bold" x-text="timeOption.date_formatted"></h6>
                                                                 <p class="mb-0 text-muted" x-text="timeOption.content"></p>
                                                             </div>
 
@@ -290,8 +299,8 @@
                                     Your information
                                 </h3>
                                 <div class="col-md-6 mb-3">
-                                    <x-input id="name" alpine="form.user.name" type="text" required
-                                        class="form-control-lg">
+                                    <x-input id="name" x-model="form.user.name" required
+                                        data-class="form-control-lg">
                                         Your name
                                     </x-input>
                                     <div x-show="messages.errors['form.user.name']" class="text-danger">
@@ -299,8 +308,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <x-input id="email" alpine="form.user.email" type="email" required
-                                        class="form-control-lg">
+                                    <x-input id="email" x-model="form.user.email" type="email" required
+                                        data-class="form-control-lg">
                                         Your e-mail
                                     </x-input>
                                     <div x-show="messages.errors['form.user.email']" class="text-danger">
@@ -314,7 +323,7 @@
                             <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
                                 <i class="bi bi-check-circle me-2"></i> Submit your vote
                             </button>
-                            <span x-show="isSubmitting" wire:target="submit">
+                            <span x-show="isSubmitting">
                                 <div class="spinner-border spinner-border-sm me-2" role="status">
                                 </div>
                                 Saving...

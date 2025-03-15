@@ -54,8 +54,9 @@ class PollForm extends Form
         'settings.invite_only' => 'boolean',
         'settings.add_time_options' => 'boolean',
         'settings.edit_votes' => 'boolean',
-        'user.name' => 'required|string|min:3|max:255',
-        'user.email' => 'required|email',
+        'user.posted_anonymously' => 'boolean',
+        'user.name' => 'required_if:user.posted_anonymously,string|min:3|max:255',
+        'user.email' => 'required_if:user.posted_anonymously,email',
         'dates' => 'required|array|min:1', // Pole různých dnů
         'dates.*.*' => 'required|array|min:1', // Časové možnosti podle data
         'dates.*.*.id' => 'nullable|integer', // ID možnosti
@@ -160,8 +161,10 @@ class PollForm extends Form
 
 
         if($poll->created_at == $poll->updated_at) {
-            $notificationService = app(NotificationService::class);
-            $notificationService->sendConfirmationEmail($poll);
+            if($poll->email){
+                $notificationService = app(NotificationService::class);
+                $notificationService->sendConfirmationEmail($poll);
+            }
         }
 
 
@@ -205,7 +208,6 @@ class PollForm extends Form
         DB::beginTransaction();
 
         try {
-
             $poll = Poll::find($this->pollIndex); // Načtení ankety podle ID
 
             if ($poll) {
