@@ -7,4 +7,5 @@ return [
     'logout' => 'Logout',
     'dashboard' => 'Your polls',
     'settings' => 'Settings',
+    'language' => 'English',
 ];

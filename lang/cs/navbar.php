@@ -7,4 +7,5 @@ return [
     'logout' => 'Odhlásit se',
     'dashboard' => 'Vaše ankety',
     'settings' => 'Nastavení',
+    'language' => 'Čeština',
 ];
