@@ -151,20 +151,20 @@
                 </div>
                 <form @submit.prevent='submitVotes'>
 
-                    <div class="accordion" id="accordionPoll">
+                    <div class="accordion accordion-flush" id="accordionPoll">
 
 
                         {{-- Časové možnosti --}}
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button p-4 fw-bold fs-4" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTimeOptions" aria-expanded="true" aria-controls="collapseTimeOptions">
-                                    <i class="bi bi-calendar-event me-2"></i> Time Options (<span
-                                        x-text="form.timeOptions.length"></span>)
+                                    data-bs-target="#collapseTimeOptions" aria-expanded="false" aria-controls="collapseTimeOptions">
+                                    <i class="bi bi-calendar-event me-2"></i>
+                                    <span>Time Options</span>
+                                    <span class="badge text-bg-dark ms-2" x-text="form.timeOptions.length"></span>
                                 </button>
                             </h2>
-                            <div id="collapseTimeOptions" class="accordion-collapse collapse show"
-                                data-bs-parent="#accordionPoll">
+                            <div id="collapseTimeOptions" class="accordion-collapse collapse show">
                                 <div class="accordion-body p-0">
                                     <div class="row g-0">
                                         <template x-for="(timeOption, optionIndex) in form.timeOptions">
@@ -225,14 +225,14 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button p-4 fw-bold fs-4" type="button" data-bs-toggle="collapse"
-                                        :data-bs-target="'#collapseQuestion' + questionIndex" aria-expanded="true"
+                                        :data-bs-target="'#collapseQuestion' + questionIndex" aria-expanded="false"
                                         :aria-controls="'collapseQuestion' + questionIndex">
                                         <i class="bi bi-question-circle me-2"></i>
-                                        <span x-text="question.text"></span> (<span x-text="question.options.length"></span>)
+                                        <span x-text="question.text"></span>
+                                        <span class="badge text-bg-dark ms-2" x-text="question.options.length"></span>
                                     </button>
                                 </h2>
-                                <div :id="'collapseQuestion' + questionIndex" class="accordion-collapse collapse show"
-                                    data-bs-parent="#accordionPoll">
+                                <div :id="'collapseQuestion' + questionIndex" class="accordion-collapse collapse show">
                                     <div class="accordion-body p-0">
                                         <div class="row g-0">
                                             <template x-for="(option, optionIndex) in question.options">
@@ -338,3 +338,6 @@
     </x-card>
 
 </div>
+
+
+

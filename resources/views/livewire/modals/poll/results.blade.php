@@ -9,9 +9,13 @@
                 No votes yet
             </div>
         @else
-            @foreach ($votes as $vote)
-                <x-poll.show.vote-card :vote="$vote" />
-            @endforeach
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+
+
+                @foreach ($votes as $vote)
+                    <x-poll.show.vote-card :vote="$vote" />
+                @endforeach
+            </div>
         @endif
 
         @if (session()->has('error'))

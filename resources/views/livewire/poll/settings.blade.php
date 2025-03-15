@@ -1,4 +1,4 @@
-<div class="card mb-5 p-2 shadow-sm">
+<div class="card mb-3 p-2 shadow-sm">
     <div class="d-flex justify-content-end gap-2">
         <a href="#" class="btn btn-outline-secondary">
             <i class="bi bi-bell-fill me-1"></i> Notifications </a>
@@ -12,9 +12,9 @@
             <ul class="dropdown-menu">
 
                 <li><a class="dropdown-item py-1 {{ $poll->status == 'closed' ? 'disabled' : '' }}" href="{{ route('polls.edit', $poll) }}">
-                        <i class="bi bi-pencil-square me-1"></i> Edit poll
-                    </a>
-                </li>
+                    <i class="bi bi-pencil-square me-1"></i> Edit poll
+                </a>
+            </li>
 
                 <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
                     <i class="bi bi-share me-1"></i> Share poll

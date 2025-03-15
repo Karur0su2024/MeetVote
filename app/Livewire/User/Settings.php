@@ -86,19 +86,6 @@ class Settings extends Component
         session()->flash('settings.password.success', 'Password updated successfully.');
     }
 
-    // Metoda pro propojení s Googlem
-    public function connectToGoogle()
-    {
-        // Přidat propojení s Googlem
-        // Podmínka, zda uživatel není již propojený
-    }
-
-    // Metoda pro propojení s kalendářem
-    public function connectToCalendar()
-    {
-        // Přidat propojení s kalendářem
-    }
-
     // Metoda pro smazání účtu
     public function deleteAccount()
     {

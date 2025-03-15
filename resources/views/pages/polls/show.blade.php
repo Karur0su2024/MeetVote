@@ -5,16 +5,16 @@
 
     <div class="container text-start">
 
-        <div class="mb-5 alerts-container">
+        <div class="mb-3 alerts-container">
             @if ($isAdmin)
-                <x-alert type="info">
+                {{-- <x-alert type="info">
                     <i class="bi bi-info-circle me-2"></i>
                     <div>You are in admin mode!</div>
-                </x-alert>
+                </x-alert> --}}
             @endif
 
             @if (session('error'))
-               <x-alert type="danger">
+                <x-alert type="danger">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>{{ session('error') }}</div>
                 </x-alert>
@@ -35,7 +35,7 @@
         <!-- Tohle přesunout do samostatné komponenty -->
         <!-- Panel s nastavením ankety -->
         @if ($isAdmin)
-            <x-poll.show.settings :poll="$poll" />
+            <livewire:poll.settings :poll="$poll" />
         @endif
         {{-- Základní informace o anketě --}}
 

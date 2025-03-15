@@ -34,15 +34,17 @@ class Voting extends Component
         $this->form->handleSubmittedData($voteData);
 
         if ($this->poll->status != 'active') {
-            session()->flash('error', 'Hlasování není aktivní.');
-            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
+            $this->dispatch('validation-failed', errors: [
+                'form' => 'Poll is not active.',
+            ]);
+            return;
+            //return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
         }
 
         if ($this->form->submit($this->voteService, $this->poll->id)) {
             $this->form->loadData($this->voteService->getPollData($this->poll));
             $this->dispatch('vote-submitted');
         } else {
-            dd($this->form->getErrors());
             $this->dispatch('validation-failed', errors: $this->form->getErrors());
         }
     }
