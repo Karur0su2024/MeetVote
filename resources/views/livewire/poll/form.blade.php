@@ -4,7 +4,8 @@
         <!-- Obecné informace ankety -->
         <x-card>
             <x-slot:header>General information</x-slot>
-            <x-input id="title" model="form.title" type="text" required>
+            <x-input id="title" model="form.title" type="text" required
+                placeholder="Poll #1">
                 Poll Title
             </x-input>
 
@@ -23,7 +24,13 @@
 
             {{-- Informace o autorovi --}}
             @if (!$poll->id)
-                <div>
+                <div x-data="{ show: @entangle('form.showUserInfo') }">
+                    <x-poll.form.checkbox id="show_user_info" model="form.showUserInfo">
+                        <x-slot:tooltip>
+                            Show your name and email to the participants of the poll.
+                        </x-slot:tooltip>
+                        Show my name and email
+                    </x-poll.form.checkbox>
                     <x-input id="user_name" model="form.user.name" type="text" mandatory="true">
                         Your name
                     </x-input>

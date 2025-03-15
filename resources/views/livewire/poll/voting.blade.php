@@ -173,18 +173,21 @@
                                                     :class="'voting-card-' + timeOption.picked_preference">
                                                     <div class="card-body voting-card-body">
                                                         <div class="d-flex justify-content-between align-items-center">
-                                                            <!-- Option content -->
+
+                                                            {{-- Obsah možnosti --}}
                                                             <div class="me-2">
                                                                 <h6 class="mb-1 fw-bold" x-text="timeOption.date"></h6>
                                                                 <p class="mb-0 text-muted" x-text="timeOption.content"></p>
                                                             </div>
 
-                                                            <!-- Vote count -->
-                                                            <div class="d-flex flex-column align-items-center badge bg-light text-dark px-2 py-1 me-2">
-                                                                <span x-text="timeOption.score" class="fw-bold"></span>
+                                                            {{-- Skóre možnosti --}}
+                                                            <div class="d-flex flex-column align-items-center px-2 py-1 me-2">
+                                                                @if (!$poll->hide_results)
+                                                                    <span x-text="timeOption.score" class="fw-bold badge shadow-sm bg-light text-dark fs-6"></span>
+                                                                @endif
                                                             </div>
 
-                                                            <!-- Preference selection -->
+                                                            {{-- Výběr preference --}}
                                                             <div>
                                                                 <button
                                                                     @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"

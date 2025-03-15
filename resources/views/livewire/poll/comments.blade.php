@@ -1,7 +1,7 @@
 <x-card bodyPadding="0">
 
     <x-slot:header>
-        <i class="bi bi-chat-left me-3"></i>Comments
+        Comments <span class="badge bg-secondary ms-1 fs-4">{{ $comments->count() }}</span>
     </x-slot:header>
 
     @if (!$poll->comments)

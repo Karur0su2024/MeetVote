@@ -24,12 +24,9 @@
         <x-layouts.navbar />
 
 
-
-
         <!-- Obsah stránky -->
-        <main class="container py-5 min-vh-100">
+        <main class="container py-5 min-vh-100 px-0">
             {{ $slot }}
-
         </main>
 
 
@@ -41,10 +38,6 @@
 
     <livewire:scripts />
     <livewire:modals />
-
-    @stack('scripts')
-
-
 </body>
 
 </html>
