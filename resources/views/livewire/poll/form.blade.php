@@ -1,11 +1,11 @@
 <div>
     <form wire:submit.prevent="submit">
 
-        <!-- Obecné informace ankety -->
+        <!-- Základní informace o anketě -->
         <x-card>
-            <x-slot:header>General information</x-slot>
+            <x-slot:header>{{ __('form.section.title.basic_info') }}</x-slot>
             <x-input id="title" wire:model="form.title" type="text" required placeholder="Poll #1">
-                Poll Title
+                {{ __('form.label.title') }}
             </x-input>
             @error('form.title')
                 <div class="invalid-feedback">
@@ -14,15 +14,14 @@
             @enderror
 
             <x-textbox id="description" model="form.description">
-                Poll description
+                {{ __('form.label.description') }}
             </x-textbox>
 
             <x-input id="deadline" wire:model="form.deadline" type="date">
                 <x-slot:tooltip>
-                    Set the deadline for the poll. After this date, no new votes will be accepted. Deadline is not
-                    required
+                    {{ __('form.tooltip.deadline') }}
                 </x-slot:tooltip>
-                Deadline
+                {{ __('form.label.deadline') }}
             </x-input>
             @error('form.deadline')
                 <div class="invalid-feedback">
@@ -35,11 +34,11 @@
             @if (!$poll->id)
                 <div x-data="{ anonymous: @entangle('form.user.posted_anonymously') }">
                     <x-poll.form.checkbox id="show.user-info" x-model="anonymous">
-                        Post poll anonymously
+                        {{ __('form.label.post_anonymously') }}
                     </x-poll.form.checkbox>
                     <div x-show="!anonymous">
                         <x-input id="user_name" wire:model="form.user.name" type="text" required>
-                            Your name
+                            {{ __('form.label.user_name') }}
                         </x-input>
                         @error('form.user.name')
                             <div class="invalid-feedback">
@@ -48,7 +47,7 @@
                         @enderror
                     </div>
                     <x-input id="user_email" wire:model="form.user.email" type="email">
-                        Your email
+                        {{ __('form.label.user_email') }}
                     </x-input>
                     @error('form.user.email')
                         <div class="invalid-feedback">
@@ -62,12 +61,12 @@
 
         {{-- Výběr časových termínů --}}
         <x-card>
-            <x-slot:header>Time options</x-slot>
+            <x-slot:header>{{ __('form.section.title.time_options') }}</x-slot>
             <x-slot:tooltip>
-                Select available dates and time slots for participants to vote on.
+                {{ __('form.section.tooltip.time_options') }}
             </x-slot:tooltip>
             <div class="row">
-                <div class="col-lg-6 col-md-12 mb-3">
+                <x-layouts.col-6>
                     <h3 class="mb-4">Calendar</h3>
                     <div id="js-calendar" class="w-100" wire:ignore></div>
                     @error('form.dates')
@@ -75,19 +74,14 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
-                <div class="col-lg-6 col-md-12 mb-3">
+                </x-layouts.col-6>
+                <x-layouts.col-6>
                     <h3 class="mb-4">Chosen dates</h3>
-
-
                     @foreach ($form->dates as $dateIndex => $date)
                         <x-poll.form.date-card :dateIndex="$dateIndex" :date="$date" />
                     @endforeach
-
-
-                </div>
+                </x-layouts.col-6>
             </div>
-
         </x-card>
 
 
