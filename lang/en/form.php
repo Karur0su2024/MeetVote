@@ -31,6 +31,12 @@ return [
     'section.tooltip.questions' => 'Add additional questions to the poll. Questions are not required.',
 
 
+    'section.title.settings' => 'Settings',
+    'section.tooltip.settings' => 'Set the poll settings.',
+
+    'label.comments' => 'Comments',
+    'tooltip.comments' => 'Allow participants to add comments to the poll.',
+
     'submit' => 'Submit',
 
 ];

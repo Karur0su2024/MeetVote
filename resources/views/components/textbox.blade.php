@@ -12,14 +12,10 @@
     </label>
 
 
-    <textarea
-        id="{{ $id ?? '' }}"
-        wire:model="{{ $model }}"
-        class="form-control {{ $class ?? '' }} @error($model) is-invalid @enderror"
-        rows="{{ $rows ?? 5 }}"
+    <textarea  {{ $attributes }}
+        class="form-control {{ $dataClass ?? '' }} "
+        rows="5"
     ></textarea>
 
-    @error($model)
-        <span class="text-danger">{{ $message }}</span>
-    @enderror
+
 </div>

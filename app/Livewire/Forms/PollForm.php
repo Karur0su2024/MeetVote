@@ -67,10 +67,10 @@ class PollForm extends Form
         'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
         'questions' => 'nullable|array', // Pole otázek
         'questions.*.id' => 'nullable|integer', // ID otázky
-        'questions.*.text' => 'required|string|min:3|max:255', // Text otázky
+        'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
         'questions.*.options' => 'required|array|min:2', // Možnosti otázky
         'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
-        'questions.*.options.*.text' => 'required|string|min:3|max:255', // Text možnosti*/
+        'questions.*.options.*.text' => 'required|string|min:1|max:255', // Text možnosti*/
         'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
         'removed.questions' => 'nullable|array', // ID odstraněných otázek
         'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
