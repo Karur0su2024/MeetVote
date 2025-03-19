@@ -2,6 +2,8 @@ function getFormData() {
     return {
         form: this.$wire.entangle('form'),
 
+        // Initializace jskalendáře
+        // https://gramthanos.github.io/jsCalendar/docs.html#javascript-method-min-max
         initCalendar() {
             var calendar = new jsCalendar("#js-calendar");
             calendar.min("now");
@@ -11,17 +13,19 @@ function getFormData() {
             });
         },
 
+        // Funkce pro přidání data do formuláře
+        // https://momentjs.com/docs/
         addDate(date) {
-            formattedDate = moment(date).format('YYYY-MM-DD');
+            formattedDate = moment(date).format('YYYY-MM-DD'); // Formát (2025-03-01)
 
             if (moment(date).isBefore(moment(), 'day')) {
-                console.log(moment(date).isBefore(moment(), 'day'));
-                // Přidat error message
+                // Přidat error message pokud je datum před dnešním dnem
                 return;
             }
 
             if (this.form.dates[formattedDate] !== undefined) {
-                // Přidat error message
+                // Přidat error message pokud je datum již přidáno
+                // Nebo možná nepsat nic
                 return;
             }
 
@@ -35,15 +39,21 @@ function getFormData() {
             ];
         },
 
+        // Odstranění data z formuláře
         removeDate(date) {
-            if (this.form.dates.length <= 1) {
-                // Přidání error message
+
+            if(Object.keys(this.form.dates).length <= 1) {
+                // Přidat error message pokud se jedná o poslední datum
                 return;
             }
 
-
-            // Přidat odstranění pro všechny položky uvnitř data
-            // A přidat je do pole pro odstranění pokud obsahují ID
+            this.form.dates[date].forEach(option => {
+                if (option.id !== undefined) {
+                    this.form.removed['time_options'].push(option.id);
+                }
+                // Odstranění časové možnosti z pole pro dané datum
+                this.form.dates[date].splice(this.form.dates[date].indexOf(option), 1);
+            });
 
             // https://www.geeksforgeeks.org/remove-elements-from-a-javascript-array/
             delete this.form.dates[date];
@@ -58,8 +68,6 @@ function getFormData() {
             if (this.form.dates[date] === undefined) {
                 this.form.dates[date] = [];
             }
-
-
 
             // Kontrola typu možnosti
             if (type === 'time') {
@@ -81,7 +89,6 @@ function getFormData() {
                     },
                 });
             }
-
 
         },
 
