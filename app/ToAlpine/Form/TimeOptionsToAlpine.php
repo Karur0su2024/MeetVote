@@ -2,11 +2,20 @@
 
 namespace App\ToAlpine\Form;
 
+use App\Livewire\Forms\PollForm;
+use App\Models\Poll;
+use App\Services\PollService;
+use Livewire\Component;
+use App\Services\NotificationService;
+use App\Exceptions\PollException;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 trait TImeOptionsToAlpine
 {
     // Funkce pro přidání data
     // Volá se po výběru dne v kalendáři
-    #[On('addDate')]
+
     public function addDate($date): void
     {
         $this->resetErrorBag('form.dates');

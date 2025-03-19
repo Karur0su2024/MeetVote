@@ -5,17 +5,15 @@ namespace App\Livewire\Poll;
 use App\Livewire\Forms\PollForm;
 use App\Models\Poll;
 use App\Services\PollService;
-use Carbon\Carbon;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use App\ToAlpine\Form\TimeOptionsToAlpine;
 use App\ToAlpine\Form\QuestionsToAlpine;
+use App\Services\NotificationService;
+use App\Exceptions\PollException;
+use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
-    use TimeOptionsToAlpine;
-
-    use QuestionsToAlpine;
 
     public PollForm $form;
 
@@ -23,9 +21,11 @@ class Form extends Component
 
     // Služby
     protected PollService $pollService;
+    protected NotificationService $notificationService;
 
-    public function boot(PollService $pollService) {
+    public function boot(PollService $pollService, NotificationService $notificationService) {
         $this->pollService = $pollService;
+        $this->notificationService = $notificationService;
     }
 
     // Konstruktor
@@ -33,21 +33,33 @@ class Form extends Component
     {
         // Načtení dat ankety
         $this->poll = $poll;
+
         $this->form->loadForm($this->pollService->getPollData($poll));
+        //dd($this->form);
     }
 
     public function submit()
     {
+
+        try {
+            $this->form->validate();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            dd($e->validator->errors());
+            return null;
+        }
+
         $validatedData = $this->prepareValidatedDataArray($this->form->validate());
+
         if(!$validatedData) {
             $this->addError('error', 'An error occurred while validating the form.');
             return null;
         }
-        if ($this->checkDuplicity($validatedData, $pollService)) {
+        if ($this->checkDuplicity($validatedData, $this->pollService)) {
             return null;
         }
 
-        $poll = $this->savePoll($validatedData, $pollService);
+
+        $poll = $this->savePoll($validatedData);
 
         if($poll == null) {
             return null;
@@ -100,17 +112,21 @@ class Form extends Component
 
 
      // Metoda pro transakci a uložení ankety
-     private function savePoll($validatedData, PollService $pollService): ?Poll
+     private function savePoll($validatedData): ?Poll
      {
          DB::beginTransaction();
 
+
+
          try {
-             $poll = Poll::find($this->pollIndex); // Načtení ankety podle ID
+             $poll = Poll::find($this->form->pollIndex); // Načtení ankety podle ID
+
+
 
              if ($poll) {
-                 $poll = $pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
+                 $poll = $this->pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
              } else {
-                 $poll = $pollService->createPoll($validatedData); // Vytvoření nové ankety
+                 $poll = $this->pollService->createPoll($validatedData); // Vytvoření nové ankety
              }
 
              DB::commit();

@@ -27,6 +27,10 @@ return [
     'section.tooltip.time_options' => 'Select available dates and time slots for participants to vote on.',
 
 
+    'section.title.questions' => 'Additional questions',
+    'section.tooltip.questions' => 'Add additional questions to the poll. Questions are not required.',
+
+
     'submit' => 'Submit',
 
 ];

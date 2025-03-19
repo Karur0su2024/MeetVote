@@ -7,12 +7,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
-    <title>MeetVote - {{ $title ?? 'Aplikace' }}</title>
+    <title>{{ $title ?? 'Aplikace' }} - MeetVote</title>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
+
 
     <livewire:styles />
 </head>
@@ -38,6 +38,12 @@
 
     <livewire:scripts />
     <livewire:modals />
+
+    {{-- JS --}}
+    @stack('scripts')
+
+    {{-- JS pro Livewire --}}
+
 </body>
 
 </html>
