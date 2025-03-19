@@ -1,5 +1,14 @@
+<script>
+    function getFormData() {
+        return {
+            form: @entangle('form').defer,
+        }
+    }
+</script>
+
+
 <div>
-    <form wire:submit.prevent="submit">
+    <form wire:submit.prevent="submit" x-data="getFormData">
 
         <!-- Základní informace o anketě -->
         <x-card>
