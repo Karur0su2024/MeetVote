@@ -11,13 +11,13 @@
             <x-input id="title" x-model="form.title" type="text" required placeholder="New poll">
                 {{ __('form.label.title') }}
             </x-input>
-            <x-error for="form.title" />
+            <x-error for="form.title"/>
 
             {{-- Popis ankety --}}
             <x-textbox id="description" x-model="form.description">
                 {{ __('form.label.description') }}
             </x-textbox>
-            <x-error for="form.description" />
+            <x-error for="form.description"/>
 
             {{-- Deadline ankety --}}
             <x-input id="deadline" x-model="form.deadline" type="date">
@@ -26,7 +26,7 @@
                 </x-slot:tooltip>
                 {{ __('form.label.deadline') }}
             </x-input>
-            <x-error for="form.deadline" />
+            <x-error for="form.deadline"/>
 
 
             {{-- Informace o autorovi --}}
@@ -44,13 +44,13 @@
                         <x-input id="user_name" x-model="form.user.name" type="text" required>
                             {{ __('form.label.user_name') }}
                         </x-input>
-                        <x-error for="form.user.name" />
+                        <x-error for="form.user.name"/>
 
                         {{-- E-mail autora --}}
                         <x-input id="user_email" x-model="form.user.email" type="email">
                             {{ __('form.label.user_email') }}
                         </x-input>
-                        <x-error for="form.user.email" />
+                        <x-error for="form.user.email"/>
 
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                 <x-layouts.col-6>
                     <h3 class="mb-4">{{ __('form.subsection.title.calendar') }}</h3>
                     <div id="js-calendar" class="w-100" x-init="initCalendar()" x-data wire:ignore></div>
-                    <x-error for="form.dates" />
+                    <x-error for="form.dates"/>
                 </x-layouts.col-6>
 
                 {{-- Polovina časovými termíny --}}
@@ -91,12 +91,12 @@
 
                                     {{-- Zobrazení časového intervalu --}}
                                     <template x-if="option.type === 'time'">
-                                        <x-poll.form.date-options-time />
+                                        <x-poll.form.date-options-time/>
                                     </template>
 
                                     {{-- Zobrazení textové možnosti --}}
                                     <template x-if="option.type === 'text'">
-                                        <x-poll.form.date-options-text />
+                                        <x-poll.form.date-options-text/>
                                     </template>
 
                                 </div>
@@ -139,14 +139,14 @@
                         <template x-for="(question, questionIndex) in form.questions" :key="questionIndex">
                             <x-poll.form.question-card>
                                 <template x-for="(option, optionIndex) in question.options" :key="optionIndex">
-                                    <x-poll.form.question-card-option />
+                                    <x-poll.form.question-card-option/>
                                     {{-- Zobrazení chybové hlášky, pokud možnost není validní --}}
                                 </template>
 
                                 {{-- Tlačítko pro přidání další možnosti --}}
                                 <button type="button"
-                                    @click="form.questions[questionIndex].options.push({ text: '' })"
-                                    class="btn btn-outline-secondary">{{ __('form.button.add_option') }}</button>
+                                        @click="form.questions[questionIndex].options.push({ text: '' })"
+                                        class="btn btn-outline-secondary">{{ __('form.button.add_option') }}</button>
 
                             </x-poll.form.question-card>
                         </template>
@@ -155,8 +155,8 @@
 
                     {{-- Tlačítko pro přidání další otázky --}}
                     <button type="button"
-                        @click="addQuestion()"
-                        class="btn btn-outline-secondary w-25">{{ __('form.button.add_question') }}</button>
+                            @click="addQuestion()"
+                            class="btn btn-outline-secondary w-25">{{ __('form.button.add_question') }}</button>
 
                 </x-card>
 
@@ -232,13 +232,13 @@
                         {{ __('form.label.password') }}
 
                     </x-input>
-                    <x-error for="form.settings.password" />
+                    <x-error for="form.settings.password"/>
                 </x-card>
             </x-layouts.col-6>
         </div>
 
         {{-- Další Chybové hlášky --}}
-        <x-error-alert for="form.dates" />
+        <x-error-alert for="form.dates"/>
 
         <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">
             {{ __('form.button.submit') }}
