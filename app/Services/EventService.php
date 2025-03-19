@@ -11,26 +11,41 @@ use Google\Service\Calendar\Event;
 class EventService
 {
 
+    private $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+        $this->client->setApplicationName('MeetVote');
+        $this->client->setScopes(Calendar::CALENDAR); // Rozsah přístupu k Google Kalendáři
+        $this->client->setAuthConfig(storage_path('app/oauth-credentials.json')); // Cesta k souboru s oauth credentials
+        $this->client->setAccessType('offline');
+        $this->client->setPrompt('select_account consent');
+    }
+
     //https://ggomez.dev/blog/how-to-integrate-google-calendar-with-laravel
     // Metoda pro synchronizaci události s Google Kalendářem
     function synchronizeGoogleCalendar($users, $pollEvent)
     {
-        $client = $this->initializeClient(); // Inicializace Google klienta
-
         foreach ($users as $user) {
-            $this->refreshToken($user, $client); // Obnovení Google tokenu uživatele
-            $this->addEventToCalendar($pollEvent, $client, $user); // Přidání události do Google Kalendáře
+            try {
+                $this->refreshToken($user, $this->client); // Obnovení Google tokenu uživatele
+                $this->addEventToCalendar($pollEvent, $this->client, $user); // Přidání události do Google Kalendáře
+            }
+            catch (\Exception $e) {
+                continue; // Pokračování na dalšího uživatele
+            }
+
         }
     }
 
     public function deleteEvent($event){
         $syncEvents = $event->syncedEvents; // Získání všech synchronizovaných událostí
-        $client = $this->initializeClient(); // Inicializace Google klienta
         foreach($syncEvents as $syncEvent){
 
-            $this->refreshToken($syncEvent->user, $client); // Obnovení Google tokenu uživatele
+            $this->refreshToken($syncEvent->user, $this->client); // Obnovení Google tokenu uživatele
 
-            $calendar = new Calendar($client);
+            $calendar = new Calendar($this->client); // Inicializace Google Kalendáře
 
             try {
                 $calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
@@ -75,14 +90,10 @@ class EventService
 
     private function addEventToCalendar($pollEvent, $client, $user)
     {
-        $calendar = new Calendar($client);
+        $calendar = new Calendar($client); // Inicializace Google Kalendáře
+        $event = $this->buildEvent($pollEvent); // Vytvoření události
 
-        // Vytvoření události
-        $event = $this->buildEvent($pollEvent);
-
-
-        // Kontrola, zda synchronizovaná událost již existuje
-        $calendarEvent = SyncedEvent::where('event_id', $pollEvent->id)
+        $calendarEvent = SyncedEvent::where('event_id', $pollEvent->id) // Kontrola, zda synchronizovaná událost již existuje
             ->where('user_id', $user->id)
             ->first();
 
@@ -92,7 +103,6 @@ class EventService
                 $calendar->events->update('primary', $calendarEvent->calendar_event_id, $event); // Aktualizace události
             }
             catch (\Exception $e) {
-                dd('test');
                 $calendarEvent->delete(); // Smazání události z databáze, pokud již neexistuje v Google Kalendáři
                 $this->createNewEvent($event, $calendar, $user, $pollEvent);
             }
@@ -101,18 +111,6 @@ class EventService
             $this->createNewEvent($event, $calendar, $user, $pollEvent);
         }
 
-    }
-
-
-    private function initializeClient() : Client
-    {
-        $client = new Client();
-        $client->setApplicationName('MeetVote');
-        $client->setScopes(Calendar::CALENDAR); // Rozsah přístupu k Google Kalendáři
-        $client->setAuthConfig(storage_path('app/oauth-credentials.json')); // Cesta k souboru s oauth credentials
-        $client->setAccessType('offline');
-        $client->setPrompt('select_account consent');
-        return $client;
     }
 
     private function refreshToken($user, $client)
@@ -126,7 +124,11 @@ class EventService
                 $user->save();
                 $client->setAccessToken($user->google_token);
             }
+            else {
+                return false;
+            }
         }
+        return true;
 
     }
 
