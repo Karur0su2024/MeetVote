@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Vote;
 use App\Models\Poll;
 use App\Services\NotificationService;
+use App\Events\VoteSubmitted;
 
 class VotingForm extends Form
 {
@@ -97,8 +98,9 @@ class VotingForm extends Form
             } else {
                 session()->flash('success', 'Vote has been created successfully.');
 
-                $notificationService = app(NotificationService::class);
-                $notificationService->voteNotification($vote->poll, $vote);
+                // Přesunout do události
+                event(new VoteSubmitted($vote));
+
             }
 
 
