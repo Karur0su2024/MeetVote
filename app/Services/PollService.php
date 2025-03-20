@@ -4,27 +4,44 @@ namespace App\Services;
 
 use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Exceptions\PollException;
 
 class PollService
 {
+    /**
+     * @var TimeOptionService
+     */
     protected TimeOptionService $timeOptionService;
-
+    /**
+     * @var QuestionService
+     */
     protected QuestionService $questionService;
 
+    /**
+     * @return TimeOptionService
+     */
     public function getTimeOptionService(): TimeOptionService
     {
         return $this->timeOptionService;
     }
 
+    /**
+     * @return QuestionService
+     */
     public function getQuestionService(): QuestionService
     {
         return $this->questionService;
     }
 
     // Konstruktor
+
+    /**
+     * @param TimeOptionService $timeOptionService
+     * @param QuestionService $questionService
+     */
     public function __construct(TimeOptionService $timeOptionService, QuestionService $questionService)
     {
         // Inicializace služeb
@@ -33,6 +50,12 @@ class PollService
     }
 
     // Metoda pro načtení dat ankety
+
+    /**
+     * Načte data ankety a vrátí je jako pole.
+     * @param Poll|null $poll
+     * @return array
+     */
     public function getPollData(?Poll $poll): array
     {
         return [
@@ -41,7 +64,7 @@ class PollService
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
             'user' => [
-                'posted_anonymously' => (bool) $poll?->posted_anonymously ?? false,
+                'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
                 'email' => $poll->author_email ?? Auth::user()?->email,
             ],
@@ -59,17 +82,52 @@ class PollService
         ];
     }
 
+
+    public function savePoll($validatedData, $pollIndex = null): ?Poll
+    {
+        try {
+            DB::beginTransaction();
+
+            $poll = Poll::find($pollIndex, 'id'); // Načtení ankety podle ID
+
+            if ($poll) {
+                $poll = $this->updatePoll($poll, $validatedData); // Aktualizace ankety
+            } else {
+                $poll = $this->createPoll($validatedData); // Vytvoření nové ankety
+            }
+
+            DB::commit();
+            return $poll;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            // Vlastní zpracování výjimky
+            //$this->addError('error', 'An error occurred while saving the poll.');
+            return null;
+        }
+    }
+
+
+
+
+
+
+
+
+
     // Metoda pro vytvoření nové ankety
+
+    /**
+     * @param array $validatedData
+     * @return Poll
+     * @throws PollException
+     */
     public function createPoll(array $validatedData): Poll
     {
         try {
             $poll = Poll::create([
                 'title' => $validatedData['title'],
-                'public_id' => Str::random(40),
-                'admin_key' => Str::random(40),
                 'author_name' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['name'],
                 'author_email' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['email'],
-                'user_id' => Auth::id(),
                 'deadline' => $validatedData['deadline'],
                 'description' => $validatedData['description'],
                 'comments' => $validatedData['settings']['comments'],
@@ -79,11 +137,11 @@ class PollService
                 'password' => $validatedData['settings']['password'],
                 'edit_votes' => $validatedData['settings']['edit_votes'],
                 'add_time_options' => $validatedData['settings']['add_time_options'],
-                'status' => 'active',
             ]);
 
-            $this->questionService->saveQuestions($poll, $validatedData['questions'], []);
             $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
+            $this->questionService->saveQuestions($poll, $validatedData['questions'], []);
+
 
             return $poll;
         }
@@ -93,6 +151,13 @@ class PollService
     }
 
     // Metoda pro aktualizaci ankety
+
+    /**
+     * @param Poll $poll
+     * @param array $validatedData
+     * @return Poll
+     * @throws PollException
+     */
     public function updatePoll(Poll $poll, array $validatedData): Poll
     {
         if ($poll->status !== 'active') {

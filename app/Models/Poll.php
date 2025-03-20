@@ -19,15 +19,22 @@ class Poll extends Model
 
     protected $attributes = [
         'deadline' => null,
-        'anonymous_votes' => false,
-        'comments' => false,
-        'invite_only' => false,
-        'hide_results' => false,
-        'posted_anonymously' => false,
-        'edit_votes' => false,
-        'add_time_options' => false,
+        'description' => null,
         'status' => 'active'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'anonymous_votes' => 'boolean',
+            'comments' => 'boolean',
+            'invite_only' => 'boolean',
+            'hide_results' => 'boolean',
+            'edit_votes' => 'boolean',
+            'add_time_options' => 'boolean',
+            'deadline' => 'date:m/d/Y',
+        ];
+    }
 
     protected static function booted(): void
     {

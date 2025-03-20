@@ -14,20 +14,40 @@ use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
+    /**
+     * @var PollForm
+     */
     public PollForm $form;
 
+    /**
+     * @var Poll|null
+     */
     public ?Poll $poll;
 
-    // Služby
+    /**
+     * @var PollService
+     */
     protected PollService $pollService;
+    /**
+     * @var NotificationService
+     */
     protected NotificationService $notificationService;
 
+    /**
+     * @param PollService $pollService
+     * @param NotificationService $notificationService
+     * @return void
+     */
     public function boot(PollService $pollService, NotificationService $notificationService) {
         $this->pollService = $pollService;
         $this->notificationService = $notificationService;
     }
 
-    // Konstruktor
+
+    /**
+     * @param Poll|null $poll
+     * @return void
+     */
     public function mount(?Poll $poll)
     {
         // Načtení dat ankety
@@ -37,22 +57,19 @@ class Form extends Component
         //dd($this->form);
     }
 
+    /**
+     * @return \Illuminate\Http\RedirectResponse|void|null
+     */
     public function submit()
     {
-
-        try {
-            $this->form->validate();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->validator->errors());
-            return null;
-        }
-
-        $validatedData = $this->prepareValidatedDataArray($this->form->validate());
+        $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
 
         if(!$validatedData) {
             $this->addError('error', 'An error occurred while validating the form.');
             return null;
         }
+
+
         if ($this->checkDuplicity($validatedData, $this->pollService)) {
             return null;
         }
@@ -61,11 +78,12 @@ class Form extends Component
 
 
 
-        if($poll == null) {
-            dd("test");
-            return null;
-        }
+//        if($poll == null) {
+//            dd("test");
+//            return null;
+//        }
 
+        // Tohle přesunout možná do události nebo služby
         if($poll->created_at == $poll->updated_at) {
             if($poll->email){
                 $notificationService = app(NotificationService::class);
@@ -81,21 +99,16 @@ class Form extends Component
     }
 
     // Úprava pole pro uložení do databáze
-    private function prepareValidatedDataArray($validatedData): array
-    {
-        // Převod z dat do formátu pro uložení do databáze
-        foreach ($validatedData['dates'] as $date) {
-            foreach ($date as $option) {
-                $validatedData['time_options'][] = $option;
-            }
-        }
-        unset($validatedData['dates']);
-        return $validatedData;
-    }
+
 
         // Tohle taky přesunout do alpine.js
         // Kontrola duplicitních otázek a časových možností
-        private function checkDuplicity($validatedData, PollService $pollService): bool
+    /**
+     * @param $validatedData
+     * @param PollService $pollService
+     * @return bool
+     */
+    private function checkDuplicity($validatedData, PollService $pollService): bool
         {
             if ($pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
                 $this->addError('form.dates', 'Duplicate time options are not allowed.');
@@ -113,37 +126,47 @@ class Form extends Component
 
 
      // Metoda pro transakci a uložení ankety
-     private function savePoll($validatedData): ?Poll
-     {
-         DB::beginTransaction();
 
-         try {
-             $poll = Poll::find($this->form->pollIndex); // Načtení ankety podle ID
+    /**
+     * @param $validatedData
+     * @return Poll|null
+     * @throws \Throwable
+     */
+//    private function savePoll($validatedData): ?Poll
+//     {
+//         DB::beginTransaction();
+//
+//         try {
+//             $poll = Poll::find($this->form->pollIndex); // Načtení ankety podle ID
+//
+//             if ($poll) {
+//                 $poll = $this->pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
+//             } else {
+//                 $poll = $this->pollService->createPoll($validatedData); // Vytvoření nové ankety
+//             }
+//
+//             DB::commit();
+//
+//             return $poll;
+//         } catch (PollException $e) {
+//             DB::rollBack();
+//             $this->addError('error', $e->getMessage());
+//             return null;
+//         } catch (\Exception $e) {
+//             //$this->addError('error', 'An error occurred while saving the poll.');
+//             return null;
+//         }
+//
+//     }
 
 
-             if ($poll) {
-                 $poll = $this->pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
-             } else {
-                 $poll = $this->pollService->createPoll($validatedData); // Vytvoření nové ankety
-             }
 
-             DB::commit();
-
-             return $poll;
-         } catch (PollException $e) {
-             DB::rollBack();
-             $this->addError('error', $e->getMessage());
-             return null;
-         } catch (\Exception $e) {
-             dd($e);
-
-             //$this->addError('error', 'An error occurred while saving the poll.');
-             return null;
-         }
-
-     }
 
     // Renderování komponenty
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
+     */
     public function render()
     {
         return view('livewire.poll.form');

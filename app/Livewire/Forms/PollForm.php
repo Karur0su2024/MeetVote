@@ -128,6 +128,10 @@ class PollForm extends Form
         'questions.*.options.*.text.max' => 'The option text must not exceed 255 characters.',
     ];
 
+    /**
+     * @param $data
+     * @return void
+     */
     public function loadForm($data)
     {
         $this->pollIndex = $data['pollIndex'] ?? null;
@@ -142,6 +146,22 @@ class PollForm extends Form
     }
 
 
+    /**
+     * Převede časové možnosti do samostatných položek bez data
+     * @param $validatedData
+     * @return array
+     */
+    public function prepareValidatedDataArray($validatedData): array
+    {
+        // Převod z dat do formátu pro uložení do databáze
+        foreach ($validatedData['dates'] as $date) {
+            foreach ($date as $option) {
+                $validatedData['time_options'][] = $option;
+            }
+        }
+        unset($validatedData['dates']);
+        return $validatedData;
+    }
 
 
 
