@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('text')->nullable();
             $table->time('start')->nullable();
             $table->integer('minutes')->nullable();
-            // Později přidat atribut pro celodenní událost
             $table->timestamps();
         });
     }

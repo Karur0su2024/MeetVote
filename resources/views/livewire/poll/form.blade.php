@@ -28,7 +28,6 @@
             </x-input>
             <x-error for="form.deadline"/>
 
-
             {{-- Informace o autorovi --}}
             @if (!$poll->id)
                 <div x-data="{ anonymous: @entangle('form.user.posted_anonymously') }">

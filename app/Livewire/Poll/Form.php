@@ -38,11 +38,11 @@ class Form extends Component
      * @param NotificationService $notificationService
      * @return void
      */
-    public function boot(PollService $pollService, NotificationService $notificationService) {
+    public function boot(PollService $pollService, NotificationService $notificationService): void
+    {
         $this->pollService = $pollService;
         $this->notificationService = $notificationService;
     }
-
 
     /**
      * @param Poll|null $poll
@@ -52,9 +52,7 @@ class Form extends Component
     {
         // Načtení dat ankety
         $this->poll = $poll;
-
         $this->form->loadForm($this->pollService->getPollData($poll));
-        //dd($this->form);
     }
 
     /**
@@ -74,9 +72,7 @@ class Form extends Component
             return null;
         }
 
-        $poll = $this->savePoll($validatedData);
-
-
+        $poll = $this->pollService->savePoll($validatedData);
 
 //        if($poll == null) {
 //            dd("test");
@@ -84,12 +80,12 @@ class Form extends Component
 //        }
 
         // Tohle přesunout možná do události nebo služby
-        if($poll->created_at == $poll->updated_at) {
-            if($poll->email){
-                $notificationService = app(NotificationService::class);
-                $notificationService->sendConfirmationEmail($poll);
-            }
-        }
+//        if($poll->created_at == $poll->updated_at) {
+//            if($poll->email){
+//                $notificationService = app(NotificationService::class);
+//                $notificationService->sendConfirmationEmail($poll);
+//            }
+//        }
 
         if ($poll) {
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);

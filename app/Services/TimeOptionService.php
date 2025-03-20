@@ -8,19 +8,27 @@ use Carbon\Carbon;
 
 class TimeOptionService
 {
-    // Metoda pro načtení časových možností ankety
-    // Pokud není anketa nastavena, vrátí dvě časové možnosti
-    // Pokud je anketa nastavena, vrátí pole časových možností ankety
+    /**
+     * Metoda pro načtení časových možností ankety.
+     * Pokud není anketa nastavena, vrátí jednu časovou možnost.
+     * Pokud je anketa nastavena, vrátí pole časových možností ankety.
+     * @param Poll|null $poll
+     * @return array
+     */
     public function getPollTimeOptions(?Poll $poll): array
     {
-        $timeOptions = [];
-
-        if (! Poll::where('id', $poll->id)->first()) {
-            $timeOptions[] = $this->addNewOption(Carbon::today()->format('Y-m-d'), 'time', null);
-
-            return $timeOptions;
+        if (!isset($poll->id)) {
+            return [[
+                'type' => 'time',
+                'date' => Carbon::today()->format('Y-m-d'),
+                'content' => [
+                    'start' => Carbon::now()->format('H:i'),
+                    'end' => Carbon::now()->addMinutes(60)->format('H:i'),
+                ],
+            ]];
         }
 
+        $timeOptions = [];
         foreach ($poll->timeOptions as $timeOption) {
             $timeOptions[] = [
                 'id' => $timeOption->id,
@@ -29,49 +37,32 @@ class TimeOptionService
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $timeOption->start ? [
                     'start' => Carbon::parse($timeOption->start)->format('H:i'),
-                    'end' => Carbon::parse($timeOption->start)->addMinutes($timeOption->minutes)->format('H:i'),
+                    'end' => Carbon::parse($timeOption->end)->format('H:i'),
                 ] : [
                     'text' => $timeOption->text,
                 ],
                 'score' => $this->getOptionScore($timeOption),
             ];
         }
-
         return $timeOptions;
+
     }
 
-    private function getOptionScore(TimeOption $option): int
-    {
-        $score = 0;
-        foreach ($option->votes as $vote) {
-            $score += $vote->preference;
-        }
-
-        return $score;
-    }
-
-    // Metoda pro smazání existujících časových možností
-    public function deleteTimeOptions(array $deletedOptions): void
-    {
-        TimeOption::whereIn('id', $deletedOptions)->delete();
-    }
-
-    // Metoda pro uložení časových možností do databáze
-    // Pokud časová možnost již existuje, aktualizuje ji
-    // Pokud časová možnost neexistuje, vytvoří ji
+    /**
+     * Metoda pro uložení a aktualizaci časových možností.
+     * @param Poll $poll
+     * @param array $timeOptions
+     * @return bool
+     */
     public function saveTimeOptions(Poll $poll, array $timeOptions): bool
     {
         foreach ($timeOptions as $option) {
-
-            $minutes = isset($option['content']['start']) && isset($option['content']['end'])
-                ? Carbon::parse($option['content']['start'])->diffInMinutes($option['content']['end'])
-                : null;
 
             $optionToAdd = [
                 'date' => $option['date'],
                 'text' => $option['content']['text'] ?? null,
                 'start' => $option['content']['start'] ?? null,
-                'minutes' => $minutes,
+                'end' => $option['content']['end'] ?? null,
             ];
 
             if (isset($option['id'])) {
@@ -79,47 +70,46 @@ class TimeOptionService
             } else {
                 $poll->timeOptions()->create($optionToAdd);
             }
+
         }
 
         return true;
     }
 
-    // Metoda pro přidání nové možnosti do pole
-    public function addNewOption(string $date, string $type, ?string $lastEnd): array
-    {
-        if ($type === 'text') {
-            $content = [
-                'text' => '',
-            ];
-        } else {
-            $content = $this->addNewTimeOption($lastEnd);
-        }
 
-        return [
-            'type' => $type,
-            'date' => $date,
-            'content' => $content,
-        ];
+    /**
+     * @param TimeOption $option
+     * @return int
+     */
+    private function getOptionScore(TimeOption $option): int
+    {
+        $score = 0;
+        foreach ($option->votes as $vote) {
+            $score += $vote->preference;
+        }
+        return $score;
     }
 
-    // Metoda pro přidání nové možnosti do pole typu čas
-    public function addNewTimeOption(?string $lastEnd): array
+
+    /**
+     * @param array $deletedOptions
+     * @return void
+     */
+    public function deleteTimeOptions(array $deletedOptions): void
     {
-        if ($lastEnd) {
-            return [
-                'start' => $lastEnd,
-                'end' => $this->getEndOfTimeOption($lastEnd, 60),
-            ];
-        } else {
-            return [
-                'start' => Carbon::now()->format('H:i'),
-                'end' => Carbon::now()->addHour()->format('H:i'),
-            ];
-        }
+        TimeOption::whereIn('id', $deletedOptions)->delete();
     }
 
-    // Kontrola, zda nejsou v časových možnostech duplicity
-    // Pokud ano, vrátí true
+
+
+
+    /**
+     * Metoda pro kontrolu duplicity časových možností.
+     *
+     * Kontroluje se i na server-side, tato metoda však bude v budoucnu pravděpodobně přesunuta jinam.
+     * @param array $options
+     * @return bool
+     */
     public function checkDuplicity(array $options): bool
     {
         $toCheck = array_map(function ($item) {
@@ -129,30 +119,15 @@ class TimeOptionService
         return count($options) !== count(array_unique($toCheck));
     }
 
-    // Metoda pro převod konce časové možnosti
-    private function getEndOfTimeOption(string $start, int $minutes)
-    {
-        return Carbon::parse($start)->addMinutes($minutes)->format('H:i');
-    }
 
-    // Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
+
+    /**
+     * Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
+     * @param $option
+     * @return string
+     */
     private function convertContentToText($option): string
     {
         return $option['date'].' '.strtolower(implode('-', $option['content']));
-    }
-
-    // Přesunout do služby
-    public function getLastEnd(array $date): ?string
-    {
-        $endTime = null;
-        if (isset($date)) {
-            foreach ($date as $options) {
-                if (isset($options['content']['end'])) {
-                    $endTime = $options['content']['end'];
-                }
-            }
-        }
-
-        return $endTime;
     }
 }

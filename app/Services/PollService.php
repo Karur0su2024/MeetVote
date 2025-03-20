@@ -62,7 +62,7 @@ class PollService
             'pollIndex' => $poll->id ?? null,
             'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
-            'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
+            'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null, // Potřeba udělat automaticky
             'user' => [
                 'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
@@ -77,8 +77,8 @@ class PollService
                 'add_time_options' => (bool) $poll?->add_time_options,
                 'edit_votes' => (bool) $poll?->edit_votes,
             ],
-            'questions' => $this->questionService->getPollQuestions($poll),
             'time_options' => $this->timeOptionService->getPollTimeOptions($poll),
+            'questions' => $this->questionService->getPollQuestions($poll),
         ];
     }
 
@@ -89,6 +89,7 @@ class PollService
             DB::beginTransaction();
 
             $poll = Poll::find($pollIndex, 'id'); // Načtení ankety podle ID
+
 
             if ($poll) {
                 $poll = $this->updatePoll($poll, $validatedData); // Aktualizace ankety
@@ -139,9 +140,10 @@ class PollService
                 'add_time_options' => $validatedData['settings']['add_time_options'],
             ]);
 
-            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
-            $this->questionService->saveQuestions($poll, $validatedData['questions'], []);
 
+            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
+            //$this->questionService->saveQuestions($poll, $validatedData['questions'], []);
+            
 
             return $poll;
         }

@@ -2,21 +2,20 @@ function getFormData() {
     return {
         form: this.$wire.entangle('form'),
 
-        // Initializace jskalendáře
+        // Inicializace jskalendáře
         // https://gramthanos.github.io/jsCalendar/docs.html#javascript-method-min-max
-        initCalendar() {
-            var calendar = new jsCalendar("#js-calendar");
+        initCalendar: function () {
+            let calendar = new jsCalendar("#js-calendar");
             calendar.min("now");
             calendar.onDateClick((event, date) => {
-                this.addDate(date);
-                console.log(this.form.dates);
+                this.addDate(date); // Přidání data do formuláře
             });
         },
 
         // Funkce pro přidání data do formuláře
         // https://momentjs.com/docs/
         addDate(date) {
-            formattedDate = moment(date).format('YYYY-MM-DD'); // Formát (2025-03-01)
+            let formattedDate = moment(date).format('YYYY-MM-DD'); // Formát (2025-03-01)
 
             if (moment(date).isBefore(moment(), 'day')) {
                 // Přidat error message pokud je datum před dnešním dnem
@@ -132,9 +131,9 @@ function getFormData() {
                 options: [{
                     text: '',
                 },
-                {
-                    text: '',
-                }
+                    {
+                        text: '',
+                    }
                 ],
             });
         },

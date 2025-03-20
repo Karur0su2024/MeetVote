@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TimeOption extends Model
 {
     // Později přidat celodenní možnost
-    protected $fillable = ['poll_id', 'date', 'start', 'text', 'minutes'];
+    protected $fillable = ['poll_id', 'date', 'start', 'end', 'text'];
 
     public function poll()
     {
