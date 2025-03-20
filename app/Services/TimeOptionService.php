@@ -15,7 +15,7 @@ class TimeOptionService
      * @param Poll|null $poll
      * @return array
      */
-    public function getPollTimeOptions(?Poll $poll): array
+    public function getPollTimeOptions(Poll $poll): array
     {
         if (!isset($poll->id)) {
             return [[
@@ -44,6 +44,7 @@ class TimeOptionService
                 'score' => $this->getOptionScore($timeOption),
             ];
         }
+
         return $timeOptions;
 
     }
@@ -77,18 +78,7 @@ class TimeOptionService
     }
 
 
-    /**
-     * @param TimeOption $option
-     * @return int
-     */
-    private function getOptionScore(TimeOption $option): int
-    {
-        $score = 0;
-        foreach ($option->votes as $vote) {
-            $score += $vote->preference;
-        }
-        return $score;
-    }
+
 
 
     /**
@@ -130,4 +120,19 @@ class TimeOptionService
     {
         return $option['date'].' '.strtolower(implode('-', $option['content']));
     }
+
+    /**
+     * Metoda pro získání celkového skóre časové možnosti.
+     * @param TimeOption $option
+     * @return int
+     */
+    private function getOptionScore(TimeOption $option): int
+    {
+        $score = 0;
+        foreach ($option->votes as $vote) {
+            $score += $vote->preference;
+        }
+        return $score;
+    }
+
 }

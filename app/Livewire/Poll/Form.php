@@ -72,20 +72,10 @@ class Form extends Component
             return null;
         }
 
-        $poll = $this->pollService->savePoll($validatedData);
+        $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
 
-//        if($poll == null) {
-//            dd("test");
-//            return null;
-//        }
 
-        // Tohle přesunout možná do události nebo služby
-//        if($poll->created_at == $poll->updated_at) {
-//            if($poll->email){
-//                $notificationService = app(NotificationService::class);
-//                $notificationService->sendConfirmationEmail($poll);
-//            }
-//        }
+
 
         if ($poll) {
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
@@ -111,7 +101,7 @@ class Form extends Component
                 return true;
             }
 
-            if ($pollService->getQuestionService()->checkDupliciteQuestions($validatedData['questions'])) {
+            if ($pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions'])) {
                 $this->addError('form.questions', 'Duplicate questions are not allowed.');
                 return true;
             }

@@ -5,24 +5,27 @@ namespace App\Services;
 use App\Models\Poll;
 use App\Models\PollQuestion;
 use App\Models\QuestionOption;
+use App\Exceptions\PollException;
 
 class QuestionService
 {
-    // Metoda pro načtení otázek ankety
-    // Pokud není anketa nastavena, vrátí prázdné pole
-    // Pokud je anketa nastavena, vrátí pole otázek s možnostmi
-    public function getPollQuestions(?Poll $poll): array
+    /**
+     * Metoda pro načtení otázek ankety
+     * @param Poll $poll
+     * @return array
+     */
+    public function getPollQuestions(Poll $poll): array
     {
         $questions = [];
 
-        if (! Poll::where('id', $poll->id)->first()) {
+        if (!isset($poll->id)) {
             return $questions;
         }
 
         foreach ($poll->questions as $question) {
-            $options = [];
+            $questionOptions = [];
             foreach ($question->options as $option) {
-                $options[] = [
+                $questionOptions[] = [
                     'id' => $option->id,
                     'text' => $option->text,
                     'score' => $this->getOptionScore($option),
@@ -32,26 +35,21 @@ class QuestionService
             $questions[] = [
                 'id' => $question->id,
                 'text' => $question->text,
-                'options' => $options,
+                'options' => $questionOptions,
             ];
         }
 
         return $questions;
     }
 
-    private function getOptionScore(QuestionOption $option): int
-    {
-        $score = 0;
-        foreach ($option->votes as $vote) {
-            $score += $vote->preference;
-        }
 
-        return $score;
-    }
-
-    // Metoda pro uložení otázek do databáze
-    // Pokud otázka již existuje, aktualizuje ji
-    // Pokud otázka neexistuje, vytvoří ji
+    /**
+     * Metoda pro uložení otázek do databáze
+     * @param Poll $poll
+     * @param array $questions
+     * @return void
+     * @throws \Exception
+     */
     public function saveQuestions(Poll $poll, array $questions): void
     {
         foreach ($questions as $question) {
@@ -59,7 +57,7 @@ class QuestionService
                 $newQuestion = PollQuestion::find($question['id']);
 
                 if (!$newQuestion) {
-                    throw new \Exception('Question not found. Please try again.');
+                    throw new PollException('Question not found. Please try again.');
                 } else {
                     $newQuestion->update([
                         'text' => $question['text'],
@@ -75,22 +73,26 @@ class QuestionService
         }
     }
 
-    // Metoda pro uložení možností otázky do databáze
-    // Pokud možnost otázky již existuje, aktualizuje ji
-    // Pokud možnost otázky neexistuje, vytvoří ji
+    /**
+     * Metoda pro uložení možností otázky do databáze.
+     * Pokud možnost otázky již existuje, aktualizuje ji.
+     * Pokud možnost otázky neexistuje, vytvoří ji.
+     * @param PollQuestion $question
+     * @param array $options
+     * @return void
+     * @throws \Exception
+     */
     public function saveQuestionOptions(PollQuestion $question, array $options): void
     {
         foreach ($options as $option) {
             if (isset($option['id'])) {
                 $newOption = QuestionOption::find($option['id']);
-
-                if (! $newOption) {
-                    throw new \Exception('Question option not found. Please try again.');
-                } else {
-                    $newOption->update([
-                        'text' => $option['text'],
-                    ]);
+                if (!$newOption) {
+                    throw new PollException('Question option not found. Please try again.');
                 }
+                $newOption->update([
+                    'text' => $option['text'],
+                ]);
             } else {
                 $question->options()->create([
                     'text' => $option['text'],
@@ -99,26 +101,37 @@ class QuestionService
         }
     }
 
-    // Metoda pro odstranění otázek a jejich možností
+    /**
+     * Metoda pro odstranění otázek a jejich možností
+     * @param array $removedQuestions
+     * @return void
+     */
     public function deleteQuestions(array $removedQuestions): void
     {
         PollQuestion::whereIn('id', $removedQuestions)->delete();
     }
 
-    // Metoda pro odstranění možností otázek
+    /**
+     * Metoda pro odstranění možností otázek
+     * @param array $removedQuestionOptions
+     * @return void
+     */
     public function deleteQuestionOptions(array $removedQuestionOptions): void
     {
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();
     }
 
-    // Metoda pro kontrolu duplicitních otázek
-    // Pokud otázka již existuje, vrátí true
-    public function checkDupliciteQuestions(array $questions): bool
+    /**
+     * Metoda pro kontrolu duplicitních otázek
+     * @param array $questions
+     * @return bool
+     */
+    public function checkDuplicateQuestions(array $questions): bool
     {
         $questionText = [];
         // Kontrola duplicitních otázek
         foreach ($questions as $question) {
-            if ($this->checkDupliciteOptions($question['options'])) {
+            if ($this->checkDuplicateOptions($question['options'])) {
                 return true;
             }
             $questionText[] = strtolower($question['text']);
@@ -127,15 +140,32 @@ class QuestionService
         return count($questionText) !== count(array_unique($questionText));
     }
 
-    // Metoda pro kontrolu duplicitních možností
-    // Pokud možnost již existuje, vrátí true
-    private function checkDupliciteOptions(array $options): bool
+    /**
+     * Metoda pro kontrolu duplicitních možností
+     * @param array $options
+     * @return bool
+     */
+    private function checkDuplicateOptions(array $options): bool
     {
         $optionText = [];
         foreach ($options as $option) {
             $optionText[] = strtolower($option['text']);
         }
-
         return count($optionText) !== count(array_unique($optionText));
+    }
+
+
+    /**
+     * Metoda pro získání celkového skóre možnosti otázky.
+     * @param QuestionOption $option
+     * @return int
+     */
+    private function getOptionScore(QuestionOption $option): int
+    {
+        $score = 0;
+        foreach ($option->votes as $vote) {
+            $score += $vote->preference;
+        }
+        return $score;
     }
 }

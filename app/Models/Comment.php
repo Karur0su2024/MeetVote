@@ -11,6 +11,13 @@ class Comment extends Model
 
     protected $fillable = ['poll_id', 'user_id', 'author_name', 'content'];
 
+    protected $casts = [
+        'poll_id' => 'integer',
+        'user_id' => 'integer',
+        'author_name' => 'string',
+        'content' => 'string',
+    ];
+
     public function poll()
     {
         return $this->belongsTo(Poll::class);

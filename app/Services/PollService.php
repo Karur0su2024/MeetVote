@@ -6,6 +6,7 @@ use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Events\PollCreated;
 use Carbon\Carbon;
 use App\Exceptions\PollException;
 
@@ -36,7 +37,6 @@ class PollService
         return $this->questionService;
     }
 
-    // Konstruktor
 
     /**
      * @param TimeOptionService $timeOptionService
@@ -49,20 +49,19 @@ class PollService
         $this->questionService = $questionService;
     }
 
-    // Metoda pro načtení dat ankety
 
     /**
      * Načte data ankety a vrátí je jako pole.
      * @param Poll|null $poll
      * @return array
      */
-    public function getPollData(?Poll $poll): array
+    public function getPollData(Poll $poll): array
     {
         return [
             'pollIndex' => $poll->id ?? null,
             'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
-            'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null, // Potřeba udělat automaticky
+            'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
             'user' => [
                 'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
@@ -83,41 +82,35 @@ class PollService
     }
 
 
+    /**
+     * @param $validatedData
+     * @param $pollIndex
+     * @return Poll|null
+     * @throws \Throwable
+     */
     public function savePoll($validatedData, $pollIndex = null): ?Poll
     {
         try {
             DB::beginTransaction();
-
-            $poll = Poll::find($pollIndex, 'id'); // Načtení ankety podle ID
-
-
+            $poll = Poll::find($pollIndex); // Načtení ankety podle ID
             if ($poll) {
                 $poll = $this->updatePoll($poll, $validatedData); // Aktualizace ankety
             } else {
-                $poll = $this->createPoll($validatedData); // Vytvoření nové ankety
+                $poll = $this->createPoll($validatedData);
+                event(new PollCreated($poll));
             }
-
             DB::commit();
             return $poll;
         } catch (\Throwable $e) {
             DB::rollBack();
-            // Vlastní zpracování výjimky
             //$this->addError('error', 'An error occurred while saving the poll.');
             return null;
         }
     }
 
 
-
-
-
-
-
-
-
-    // Metoda pro vytvoření nové ankety
-
     /**
+     * Metoda pro vytvoření nové ankety
      * @param array $validatedData
      * @return Poll
      * @throws PollException
@@ -142,8 +135,8 @@ class PollService
 
 
             $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
-            //$this->questionService->saveQuestions($poll, $validatedData['questions'], []);
-            
+            $this->questionService->saveQuestions($poll, $validatedData['questions']);
+
 
             return $poll;
         }
@@ -152,9 +145,8 @@ class PollService
         }
     }
 
-    // Metoda pro aktualizaci ankety
-
     /**
+     * Metoda pro aktualizaci ankety
      * @param Poll $poll
      * @param array $validatedData
      * @return Poll
@@ -183,7 +175,6 @@ class PollService
         } catch (\Exception $e) {
             throw new PollException('An error occurred while updating the poll');
         }
-
 
         // Zde se provede vytvoření/aktualizace časových možností a otázek
         try {

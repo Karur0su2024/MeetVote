@@ -141,7 +141,6 @@ class PollForm extends Form
         $this->settings = $data['settings'] ?? [];
         $this->user = $data['user'] ?? [];
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray() ?? [];
-        ksort($this->dates);
         $this->questions = $data['questions'] ?? [];
     }
 

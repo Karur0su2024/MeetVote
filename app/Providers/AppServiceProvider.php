@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\PollCreated;
+use App\Listeners\SendPollConfirmationEmail;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +45,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            PollCreated::class,
+            SendPollConfirmationEmail::class,
+        );
     }
 }
