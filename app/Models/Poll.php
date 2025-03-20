@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Poll extends Model
 {
@@ -14,6 +16,27 @@ class Poll extends Model
         'edit_votes', 'add_time_options'
 
     ];
+
+    protected $attributes = [
+        'deadline' => null,
+        'anonymous_votes' => false,
+        'comments' => false,
+        'invite_only' => false,
+        'hide_results' => false,
+        'posted_anonymously' => false,
+        'edit_votes' => false,
+        'add_time_options' => false,
+        'status' => 'active'
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(static function (Poll $poll) {
+            $poll->public_id = Str::random(40);
+            $poll->admin_key = Str::random(40);
+            $poll->user_id = Auth::id();
+        });
+    }
 
     // Vztah k uživateli (M:1)
     public function user()

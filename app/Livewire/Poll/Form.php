@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
-
     public PollForm $form;
 
     public ?Poll $poll;
@@ -58,10 +57,12 @@ class Form extends Component
             return null;
         }
 
-
         $poll = $this->savePoll($validatedData);
 
+
+
         if($poll == null) {
+            dd("test");
             return null;
         }
 
@@ -116,11 +117,8 @@ class Form extends Component
      {
          DB::beginTransaction();
 
-
-
          try {
              $poll = Poll::find($this->form->pollIndex); // Načtení ankety podle ID
-
 
 
              if ($poll) {
@@ -137,7 +135,9 @@ class Form extends Component
              $this->addError('error', $e->getMessage());
              return null;
          } catch (\Exception $e) {
-             $this->addError('error', 'An error occurred while saving the poll.');
+             dd($e);
+
+             //$this->addError('error', 'An error occurred while saving the poll.');
              return null;
          }
 

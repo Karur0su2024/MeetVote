@@ -7,61 +7,94 @@ use App\Models\Vote;
 use App\Models\VoteQuestionOption;
 use App\Models\VoteTimeOption;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
+/**
+ *
+ */
 class VoteService
 {
+    /**
+     * @var TimeOptionService
+     */
     protected TimeOptionService $timeOptionService;
-
+    /**
+     * @var QuestionService
+     */
     protected QuestionService $questionService;
 
     // Konstruktor pro inicializaci služeb
-    public function __construct()
+
+    /**
+     * @param TimeOptionService $timeOptionService
+     * @param QuestionService $questionService
+     */
+    public function __construct(TimeOptionService $timeOptionService, QuestionService $questionService)
     {
-        $this->timeOptionService = app(TimeOptionService::class);
-        $this->questionService = app(QuestionService::class);
+        $this->timeOptionService = $timeOptionService;
+        $this->questionService = $questionService;
     }
 
-    // Metoda pro získání dat o hlasování
-    // Vratí data o hlasování pro daný dotazník
-    // Vratí pole s daty o uživateli, časových možnostech a otázkách
+    /**
+     * Metoda pro získaní dat pro hlasování.
+     * @param Poll $poll Anketa, pro kterou se získávají data.
+     * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
+     * @return array Pole s daty o hlasu.
+     */
     public function getPollData(Poll $poll, $voteId = null): array
     {
-
-
-        $data = [
+        return [
             'user' => [
                 'name' => Auth::user()->name ?? '',
                 'email' => Auth::user()->email ?? '',
             ],
-            'time_options' => $this->getTimeOptionsData($this->timeOptionService->getPollTimeOptions($poll), $voteId),
-            'questions' => $this->getQuestionData($this->questionService->getPollQuestions($poll), $voteId),
-            'vote_index' => $voteId,
+            'time_options' => $this->transformTimeOptionData($this->timeOptionService->getPollTimeOptions($poll), $voteId), // Pole časových možností
+            'questions' => $this->transformQuestionData($this->questionService->getPollQuestions($poll), $voteId), // Pole otázek
+            'vote_index' => $voteId, // Id existujícího hlasu pro případnou její změnu
         ];
-
-        return $data;
     }
 
-    // Metoda pro získání dat o časových možnostech pro hlasování
-    // Vratí pole s daty o časových možnostech
-    private function getTimeOptionsData($data, $voteIndex = null): array
+
+    /**
+     * Metoda pro získání výsledků hlasování.
+     *
+     * @param Poll $poll Anketa, pro kterou se získávají výsledky
+     * @return array Pole s výsledky hlasování
+     */
+    public function getPollResults(Poll $poll)
+    {
+        $votes = $poll->votes;
+
+        $pollResults = [];
+
+        foreach ($votes as $voteIndex => $vote) {
+            $pollResults[$voteIndex]['id'] = $vote->id;
+            $pollResults[$voteIndex]['user_id'] = $vote->user_id;
+            $pollResults[$voteIndex]['voter_name'] = $vote->voter_name;
+            $pollResults[$voteIndex]['updated_at'] = $vote->updated_at;
+            $pollResults[$voteIndex]['time_options'] = $this->transformTimeOptionData($this->timeOptionService->getPollTimeOptions($poll), $vote->id);
+            $pollResults[$voteIndex]['questions'] = $this->transformQuestionData($this->questionService->getPollQuestions($poll), $vote->id);
+        }
+
+        return $pollResults;
+    }
+
+    /**
+     * Metoda pro získání dat o časových možnostech pro hlasování.
+     * Vratí pole s daty s časovými možnostmi.
+     * @param array $options
+     * @param $voteIndex
+     * @return array
+     */
+    private function transformTimeOptionData(array $options, $voteIndex = null): array
     {
         $timeOptions = [];
 
-        foreach ($data as $option) {
-            $preference = 0;
-            $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['end'].')';
-            if ($voteIndex) {
+        foreach ($options as $option) {
+            $content = $option['content']['text'] ?? '('.$option['content']['start'].' - '.$option['content']['end'].')'; // Obsah časové možnosti, pro lepší zpracování
 
-                $preferenceOption = VoteTimeOption::where('vote_id', $voteIndex)
-                    ->where('time_option_id', $option['id'])
-                    ->first();
-
-                if ($preferenceOption !== null) {
-                    $preference = $preferenceOption->preference;
-
-                }
-
-            }
+            $preference = 0; // Výchozí preference
+            if ($voteIndex) $preference = $this->getTimeOptionPreference($voteIndex, $option['id']); //Pokud je hlasování již uloženo, získá preference pro danou možnost
 
             $timeOptions[] = [
                 'id' => $option['id'],
@@ -76,23 +109,23 @@ class VoteService
         return $timeOptions;
     }
 
-    // Metoda pro získání dat o otázkách pro hlasování
-    // Vratí pole s daty s otázkami
-    private function getQuestionData($data, $voteIndex = null): array
+
+    /**
+     * Metoda pro získání dat o otázkách pro hlasování
+     * Vratí pole s daty s otázkami
+     * @param $data
+     * @param $voteIndex
+     * @return array
+     */
+    private function transformQuestionData($data, $voteIndex = null): array
     {
         $questions = [];
 
         foreach ($data as $question) {
             $options = [];
             foreach ($question['options'] as $option) {
-                if ($voteIndex) {
-                    $preferenceOption = VoteQuestionOption::where('vote_id', $voteIndex)
-                        ->where('question_option_id', $option['id'])
-                        ->first();
-                    if ($preferenceOption) {
-                        $preference = $preferenceOption->preference;
-                    }
-                }
+                $preference = 0; // Výchozí preference
+                if ($voteIndex) $preference = $this->getQuestionOptionPreference($voteIndex, $option['id']);
 
                 $options[] = [
                     'id' => $option['id'],
@@ -114,84 +147,99 @@ class VoteService
 
 
 
-    // -------------------------------------------------
-    // Metody pro uložení
-    //
-    //
-    //
-    // Metoda pro uložení hlasu do databáze
-    // V případě, že je hlas již uložen, aktualizuje se
-    // V případě, že je hlas nový, vytvoří se nový záznam
-    public function saveVote($data): Vote
+    /**
+     * Metoda pro uložení hlasu do databáze
+     * V případě, že je hlas již uložen, aktualizuje se
+     * V případě, že je hlas nový, vytvoří se nový záznam
+     * @param $validatedVoteData
+     * @return Vote|null
+     * @throws \Throwable
+     */
+    public function saveVote($validatedVoteData): ?Vote
     {
-        if (! isset($data['existingVote'])) {
-            $vote = Vote::create(
-                [
-                    'poll_id' => $data['poll_id'],
-                    'user_id' => Auth::user()->id ?? null,
-                    'voter_name' => $data['user']['name'],
-                    'voter_email' => $data['user']['email'],
-                ]
-            );
-        } else {
-            $vote = Vote::find($data['existingVote']);
-            if (! $vote) {
-                throw new \Exception('Vote not found');
-            }
-            $vote->update(
-                [
-                    'voter_name' => $data['user']['name'],
-                    'voter_email' => $data['user']['email'],
-                ]
-            );
-        }
+        try {
+            DB::beginTransaction();
 
-        $this->saveTimeOptionsVotes($vote, $data);
-
-        $this->saveQuestionOptionsVotes($vote, $data);
-
-        return $vote;
-    }
-
-    // Metoda pro uložení hlasů pro časové možnosti
-    private function saveTimeOptionsVotes($vote, $data)
-    {
-
-        $vote->timeOptions()->delete();
-
-        if (isset($data['timeOptions'])) {
-
-            foreach ($data['timeOptions'] as $option) {
-
-                if ($option['picked_preference'] == 0) {
-                    continue;
+            if (! isset($validatedVoteData['existingVote'])) {
+                $vote = Vote::create([
+                        'poll_id' => $validatedVoteData['poll_id'],
+                        'user_id' => Auth::user()->id ?? null,
+                        'voter_name' => $validatedVoteData['user']['name'],
+                        'voter_email' => $validatedVoteData['user']['email'],
+                    ]);
+            } else {
+                $vote = Vote::find($validatedVoteData['existingVote']);
+                if (! $vote) {
+                    throw new \Exception('Vote not found');
                 }
-
-                VoteTimeOption::Create(
+                $vote->update(
                     [
-                        'vote_id' => $vote->id,
-                        'time_option_id' => $option['id'],
-                        'preference' => $option['picked_preference'],
+                        'voter_name' => $validatedVoteData['user']['name'],
+                        'voter_email' => $validatedVoteData['user']['email'],
                     ]
                 );
             }
+
+            $this->saveTimeOptionsVotes($vote, $validatedVoteData);
+
+            $this->saveQuestionOptionsVotes($vote, $validatedVoteData);
+
+            DB::commit();
+
+            return $vote;
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Error saving vote: ' . $e->getMessage());
+        }
+
+    }
+
+    /**
+     * Metoda pro uložení hlasů pro časové možnosti
+     * @param $vote
+     * @param $data
+     * @return void
+     */
+    private function saveTimeOptionsVotes($vote, $data)
+    {
+        $vote->timeOptions()->delete(); // Smazání předchozích hlasů pro časové možnosti, protože nejsou potřeba
+
+        if (isset($data['timeOptions'])) {
+            $timeOptionsVotes = [];
+            foreach ($data['timeOptions'] as $option) {
+                if ($option['picked_preference'] == 0) continue;
+
+                $timeOptionsVotes[] = New VoteTimeOption([
+                    'vote_id' => $vote->id,
+                    'time_option_id' => $option['id'],
+                    'preference' => $option['picked_preference'],
+                ]);
+            }
+            $vote->timeOptions()->saveMany($timeOptionsVotes);
         }
     }
 
-    // Metoda pro uložení hlasů pro otázky
+
+
+    /**
+     * Metoda pro uložení hlasů pro otázky.
+     * @param $vote
+     * @param $data
+     * @return void
+     */
     private function saveQuestionOptionsVotes($vote, $data)
     {
-        $vote->questionOptions()->delete();
+        $vote->questionOptions()->delete(); // Smazání předchozích hlasů pro otázky, protože nejsou potřeba
 
         if (isset($data['questions'])) {
-
+            $questionOptions = [];
             foreach ($data['questions'] as $question) {
                 foreach ($question['options'] as $option) {
-                    if ($option['picked_preference'] == 0) {
-                        continue;
-                    }
 
-                    VoteQuestionOption::create([
+                    if ($option['picked_preference'] === 0) continue; // Pokud není preference vybrána, je tato možnost přeskočena
+
+                    $questionOptions[] = New VoteQuestionOption([
                         'vote_id' => $vote->id,
                         'poll_question_id' => $question['id'],
                         'question_option_id' => $option['id'],
@@ -199,25 +247,30 @@ class VoteService
                     ]);
                 }
             }
+
+            $vote->questionOptions()->saveMany($questionOptions); // Uložení hlasů pro otázky
         }
     }
 
-
-    // Metoda pro kontrolu, zda je alespoň jedna preference vybrána
-    public function atLeastOnePickedPreference($data)
+    /**
+     * Metoda pro kontrolu, zda je alespoň jedna preference vybrána.
+     * @param $data
+     * @return bool
+     */
+    public function atLeastOnePickedPreference($data): bool
     {
         $timeOptions = $data['timeOptions'] ?? [];
         $questions = $data['questions'] ?? [];
 
         foreach ($timeOptions as $option) {
-            if ($option['picked_preference'] != 0) {
+            if ($option['picked_preference'] !== 0) {
                 return true;
             }
         }
 
         foreach ($questions as $question) {
             foreach ($question['options'] as $option) {
-                if ($option['picked_preference'] != 0) {
+                if ($option['picked_preference'] !== 0) {
                     return true;
                 }
             }
@@ -227,21 +280,34 @@ class VoteService
     }
 
 
-    public function getPollResults(Poll $poll)
+    /**
+     * Metoda pro získání preference pro časovou možnost
+     * @param $voteIndex
+     * @param $optionId
+     * @return int Hodnota preference
+     */
+    private function getTimeOptionPreference($voteIndex, $optionId)
     {
-        $votes = $poll->votes;
+        $preferenceOption = VoteTimeOption::where('vote_id', $voteIndex)
+            ->where('time_option_id', $optionId)
+            ->first();
 
-        $data = [];
-
-        foreach ($votes as $voteIndex => $vote) {
-            $data[$voteIndex]['id'] = $vote->id;
-            $data[$voteIndex]['user_id'] = $vote->user_id;
-            $data[$voteIndex]['voter_name'] = $vote->voter_name;
-            $data[$voteIndex]['updated_at'] = $vote->updated_at;
-            $data[$voteIndex]['time_options'] = $this->getTimeOptionsData($this->timeOptionService->getPollTimeOptions($poll), $vote->id);
-            $data[$voteIndex]['questions'] = $this->getQuestionData($this->questionService->getPollQuestions($poll), $vote->id);
-        }
-
-        return $data;
+        return $preferenceOption ? $preferenceOption->preference : 0;
     }
+
+    /**
+     * Metoda pro získání preference pro možnost otázky
+     * @param $voteIndex
+     * @param $optionId
+     * @return int
+     */
+    private function getQuestionOptionPreference($voteIndex, $optionId)
+    {
+        $preferenceOption = VoteQuestionOption::where('vote_id', $voteIndex)
+            ->where('question_option_id', $optionId)
+            ->first();
+
+        return $preferenceOption ? $preferenceOption->preference : 0;
+    }
+
 }
