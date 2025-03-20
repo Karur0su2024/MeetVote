@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Exceptions\VoteException;
 use App\Services\VoteService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
@@ -11,26 +12,45 @@ use App\Models\Poll;
 use App\Services\NotificationService;
 use App\Events\VoteSubmitted;
 
+/**
+ *
+ */
 class VotingForm extends Form
 {
+    /**
+     * @var null
+     */
     public $pollIndex = null;
 
-    // Uživatelské jméno a email
+    /**
+     * @var string[]
+     */
     public $user = [
         'name' => '',
         'email' => '',
     ];
 
-    // Časové možnosti
+    /**
+     * Časové možnosti
+     * @var array
+     */
     public $timeOptions = [];
 
-    // Možnosti otázek
+    /**
+     * Možnosti otázek
+     * @var array
+     */
     public $questions = [];
 
-    //
+    /**
+     * @var
+     */
     public $existingVote;
 
-    // Definice validací
+    /**
+     * Definice validací
+     * @var string[]
+     */
     protected $rules = [
         'user.name' => 'required|string|min:3|max:255',
         'user.email' => 'required|email',
@@ -42,6 +62,24 @@ class VotingForm extends Form
         'questions.*.options.*.picked_preference' => 'required|integer|in:0,2',
     ];
 
+    /**
+     * @var string[]
+     */
+    protected $messages = [
+        'user.name.required' => 'Name is required.',
+        'user.email.required' => 'Email is required.',
+        'timeOptions.*.picked_preference.required' => 'Preference is required.',
+        'timeOptions.*.picked_preference.min' => 'Invalid preference value.',
+        'timeOptions.*.picked_preference.max' => 'Invalid preference value.',
+        'questions.*.options.*.id.required' => 'Option ID is required.',
+        'questions.*.options.*.picked_preference.in' => 'Invalid preference value.',
+    ];
+
+    /**
+     * Funkce pro inicializaci komponenty
+     * @param $data
+     * @return void
+     */
     public function loadData($data)
     {
         $this->pollIndex = $data['poll_index'] ?? null;
@@ -60,63 +98,10 @@ class VotingForm extends Form
 
     }
 
-
     public function handleSubmittedData($data)
     {
         $this->user = $data['user'];
         $this->timeOptions = $data['timeOptions'];
         $this->questions = $data['questions'];
-    }
-
-
-    public function submit(VoteService $voteService, $pollId): bool
-    {
-        try {
-            $validatedData = $this->validate();
-            $validatedData['poll_id'] = $pollId;
-            return $this->saveVote($validatedData, $voteService) !== null;
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->setErrorBag($e->validator->getMessageBag());
-            return false;
-        }
-    }
-
-    private function saveVote($validatedData, VoteService $voteService): ?Vote
-    {
-        DB::beginTransaction();
-        try {
-            if (!$voteService->atLeastOnePickedPreference($validatedData)) {
-                throw new \Exception('No option selected');
-            }
-
-            $vote = $voteService->saveVote($validatedData);
-
-            DB::commit();
-
-            if (isset($validatedData['existingVote'])) {
-                session()->flash('success', 'Vote has been updated successfully.');
-            } else {
-                session()->flash('success', 'Vote has been created successfully.');
-
-                // Přesunout do události
-                event(new VoteSubmitted($vote));
-
-            }
-
-
-
-            $poll = Poll::find($validatedData['poll_id']);
-            $this->loadData($voteService->getPollData($poll));
-            return $vote;
-        } catch (\Exception $e) {
-            DB::rollBack();
-            session()->flash('error', $e->getMessage());
-            return null;
-        }
-    }
-
-    public function getErrors()
-    {
-        return $this->getErrorBag()->toArray();
     }
 }

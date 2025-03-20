@@ -50,7 +50,6 @@ class Form extends Component
      */
     public function mount(?Poll $poll)
     {
-        // Načtení dat ankety
         $this->poll = $poll;
         $this->form->loadForm($this->pollService->getPollData($poll));
     }
@@ -72,16 +71,17 @@ class Form extends Component
             return null;
         }
 
-        $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
-
-
-
-
-        if ($poll) {
+        try {
+            $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
             return redirect()->route('polls.show', $poll);
+        } catch (PollException $e) {
+            $this->addError('error', $e->getMessage());
+            return null;
+        } catch (\Exception $e) {
+            $this->addError('error', 'An error occurred while saving the poll.');
+            return null;
         }
-
     }
 
     // Úprava pole pro uložení do databáze

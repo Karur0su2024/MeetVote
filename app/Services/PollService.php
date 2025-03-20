@@ -88,7 +88,7 @@ class PollService
      * @return Poll|null
      * @throws \Throwable
      */
-    public function savePoll($validatedData, $pollIndex = null): ?Poll
+    public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
             DB::beginTransaction();
@@ -101,13 +101,14 @@ class PollService
             }
             DB::commit();
             return $poll;
+        } catch (PollException $e) {
+            DB::rollBack();
+            throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
-            //$this->addError('error', 'An error occurred while saving the poll.');
-            return null;
+            throw new PollException('An error occurred while saving the poll.');
         }
     }
-
 
     /**
      * Metoda pro vytvoření nové ankety

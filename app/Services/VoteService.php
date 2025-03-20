@@ -8,6 +8,7 @@ use App\Models\VoteQuestionOption;
 use App\Models\VoteTimeOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Exceptions\VoteException;
 
 /**
  *
@@ -23,9 +24,8 @@ class VoteService
      */
     protected QuestionService $questionService;
 
-    // Konstruktor pro inicializaci služeb
-
     /**
+     * Konstruktor pro inicializaci služeb
      * @param TimeOptionService $timeOptionService
      * @param QuestionService $questionService
      */
@@ -57,7 +57,6 @@ class VoteService
 
     /**
      * Metoda pro získání výsledků hlasování.
-     *
      * @param Poll $poll Anketa, pro kterou se získávají výsledky
      * @return array Pole s výsledky hlasování
      */
@@ -148,9 +147,9 @@ class VoteService
 
 
     /**
-     * Metoda pro uložení hlasu do databáze
-     * V případě, že je hlas již uložen, aktualizuje se
-     * V případě, že je hlas nový, vytvoří se nový záznam
+     * Metoda pro uložení hlasu do databáze.
+     * V případě, že je hlas již uložen, aktualizuje se.
+     * V případě, že je hlas nový, vytvoří se nový záznam.
      * @param $validatedVoteData
      * @return Vote|null
      * @throws \Throwable
@@ -160,17 +159,19 @@ class VoteService
         try {
             DB::beginTransaction();
 
-            if (! isset($validatedVoteData['existingVote'])) {
+            if (!isset($validatedVoteData['existingVote'])) {
+
                 $vote = Vote::create([
-                        'poll_id' => $validatedVoteData['poll_id'],
-                        'user_id' => Auth::user()->id ?? null,
-                        'voter_name' => $validatedVoteData['user']['name'],
-                        'voter_email' => $validatedVoteData['user']['email'],
-                    ]);
+                    'poll_id' => $validatedVoteData['poll_id'],
+                    'voter_name' => $validatedVoteData['user']['name'],
+                    'voter_email' => $validatedVoteData['user']['email'],
+                ]);
+
             } else {
+
                 $vote = Vote::find($validatedVoteData['existingVote']);
-                if (! $vote) {
-                    throw new \Exception('Vote not found');
+                if (!$vote) {
+                    throw new VoteException('Vote not found');
                 }
                 $vote->update(
                     [
@@ -190,7 +191,7 @@ class VoteService
 
         } catch (\Exception $e) {
             DB::rollBack();
-            throw new \Exception('Error saving vote: ' . $e->getMessage());
+            throw new VoteException('Error saving vote: ' . $e->getMessage());
         }
 
     }
@@ -219,8 +220,6 @@ class VoteService
             $vote->timeOptions()->saveMany($timeOptionsVotes);
         }
     }
-
-
 
     /**
      * Metoda pro uložení hlasů pro otázky.
