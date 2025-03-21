@@ -7,6 +7,11 @@
     </div>
     <div class="modal-body text-start mb-0">
 
+        @if (session()->has('error'))
+            <span class="text-danger">
+                    {{ session('error') }}
+                </span>
+        @else
             @if ($poll->status == 'active')
                 @if (count($poll->votes) == 0)
                     <div class="alert alert-danger" role="alert">
@@ -15,9 +20,10 @@
                         there is at least one vote.
                     </div>
                 @else
-                <p> This poll has {{ count($poll->votes) }} votes. Closing the poll will prevent any further voting.</p>
+                    <p> This poll has {{ count($poll->votes) }} votes. Closing the poll will prevent any further
+                        voting.</p>
+                    <p>Are you sure you want to close this poll? Once closed, no further votes will be accepted.</p>
                 @endif
-                <p>Are you sure you want to close this poll? Once closed, no further votes will be accepted.</p>
             @else
                 <p>Do you want to reopen this poll? Users will be able to vote again.</p>
                 <div class="alert alert-warning" role="alert">
@@ -25,14 +31,7 @@
                     deleted.
                 </div>
             @endif
-
-            @if (session()->has('error'))
-                <span class="text-danger">
-                    {{ session('error') }}
-                </span>
-            @endif
-
-        </p>
+        @endif
     </div>
     <div class="modal-footer d-flex justify-content-between">
         <button type="button" class="btn btn-secondary" wire:click="$dispatch('hideModal')">Cancel</button>

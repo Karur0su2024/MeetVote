@@ -20,7 +20,7 @@
                 @endisset
             @else
                 <div class="text-center">
-                    @if ($poll->status == 'closed')
+                    @if ($poll->status === 'closed')
                         <i class="bi bi-calendar-x text-muted fs-1"></i>
                         <p class="text-muted mt-2">No event was created for this poll yet.</p>
                     @else
@@ -41,7 +41,7 @@
 
 
         <div class="card-footer d-grid gap-2">
-            @if ($poll->status == 'closed')
+            @if ($poll->status === 'closed')
                 @if ($poll->event)
                     <button wire:click='importToGoogleCalendar' class="btn btn-primary">
                         <i class="bi bi-calendar-plus"></i> Import to Google Calendar
@@ -63,7 +63,7 @@
             @else
                 @if ($isAdmin)
                     <button class="btn btn-outline-secondary"
-                        onclick="openModal('modals.poll.close-poll', '{{ $poll->public_id }}')">
+                        onclick="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
                         <i class="bi bi-check2-square"></i> Close poll
                     </button>
                 @endif
@@ -80,7 +80,7 @@
             data: {
                 alias: alias,
                 params: {
-                    publicIndex: index
+                    pollId: index
                 }
             },
         });

@@ -32,11 +32,11 @@ class ChooseFinalOptions extends Component
         $this->questionService = $questionService;
     }
 
-    public function mount($publicIndex)
+    public function mount($pollId)
     {
 
         try {
-            $this->poll = Poll::find($publicIndex);
+            $this->poll = Poll::find($pollId, ['*']);
 
             $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
             foreach ($this->timeOptions as &$timeOption) {

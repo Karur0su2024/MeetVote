@@ -14,20 +14,15 @@ class Results extends Component
 
     protected VoteService $voteService;
 
-    public function mount($publicIndex, VoteService $voteService)
+    public function boot(VoteService $voteService): void
     {
         $this->voteService = $voteService;
+    }
 
-
-        $this->poll = Poll::where('public_id', $publicIndex)->firstOrFail();
-
-        try {
-            $this->votes = $this->voteService->getPollResults($this->poll);
-        } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while loading poll results.');
-            return;
-        }
-
+    public function mount($pollId)
+    {
+        $this->poll = Poll::with('votes')->findOrFail($pollId);
+        $this->votes = $this->voteService->getPollResults($this->poll);
     }
 
     public function loadVote($voteIndex)

@@ -4,14 +4,15 @@
         <button type="button" class="btn-close" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        @if (count($invitations) == 0)
-            <div class="alert alert-secondary" role="alert">
-                No invitations added yet
-            </div>
-        @else
-            <div class="table">
-                <table class="table">
-                    <thead>
+        @if($poll->status === 'active')
+            @if (count($invitations) == 0)
+                <div class="alert alert-secondary" role="alert">
+                    No invitations added yet
+                </div>
+            @else
+                <div class="table">
+                    <table class="table">
+                        <thead>
                         <tr>
                             <th>E-mail</th>
                             <th>Status</th>
@@ -19,8 +20,8 @@
                             <th>Send again</th>
                             <th>Remove</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         @foreach ($invitations as $invitation)
                             <tr>
                                 <td>{{ $invitation['email'] }}</td>
@@ -36,44 +37,53 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-danger"
-                                        wire:click='removeInvitation({{ $invitation['id'] }})'>
+                                            wire:click='removeInvitation({{ $invitation['id'] }})'>
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+                <form wire:submit.prevent="addInvitation" wire:key='{{ now() }}' class="mt-4">
+                    <h3>Send new invitation</h3>
+                    <x-input id="email" wire:model="email" type="email" required placeholder="example@email.com">
+                        E-mail
+                    </x-input>
 
-        <form wire:submit.prevent="addInvitation" wire:key='{{ now() }}' class="mt-4">
-            <h3>Send new invitation</h3>
-            <x-input id="email" wire:model="email" type="email" required placeholder="example@email.com">
-                E-mail
-            </x-input>
-
-            <div class="d-flex flex-wrap align-items-center gap-3">
-                <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
-                    Send invitation
-                </button>
-                <span wire:loading>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
+                            Send invitation
+                        </button>
+                        <span wire:loading>
                     <div class="spinner-border spinner-border-sm me-2" role="status">
                     </div>
                     Processing...
                 </span>
 
-                @if (session()->has('error'))
-                    <div class="text-danger ms-2">
-                        {{ session('error') }}
+                        @if (session()->has('error'))
+                            <div class="text-danger ms-2">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        @if (session()->has('success'))
+                            <div class="text-success ms-2">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </div>
-                @endif
-                @if (session()->has('success'))
-                    <div class="text-success ms-2">
-                        {{ session('success') }}
-                    </div>
-                @endif
-            </div>
-        </form>
+                </form>
+        @else
+
+            <x-alert type="danger">
+                This poll is closed. You can't send invitations.
+            </x-alert>
+        @endif
+
+
+
+
     </div>
 </div>

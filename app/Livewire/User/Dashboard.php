@@ -19,6 +19,8 @@ class Dashboard extends Component
         $this->loadPolls();
         //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
+        $this->polls = Poll::where('user_id', Auth::id())
+            ->where('title', 'like', '%'.$this->search.'%')->get();
 
         $this->events = Auth::user()->allPolls()->pluck('event')->unique('id')->filter();
         //dd($this->events);
@@ -27,13 +29,12 @@ class Dashboard extends Component
     // Vyhledávání
     public function updatingSearch()
     {
-        $this->render();
+
     }
 
     public function render()
     {
         $this->loadPolls();
-
         return view('livewire.user.dashboard');
     }
 

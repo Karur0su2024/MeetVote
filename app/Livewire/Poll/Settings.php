@@ -16,18 +16,12 @@ class Settings extends Component
         $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'admin_key']);
     }
 
-    public function openModal($modalName, $publicId)
+    public function openModal($modalName, $pollId)
     {
-        $poll = Poll::exists($this->poll->id);
-        if (!$poll) {
-            return abort(404);
-        }
-
-
         $this->dispatch('showModal', [
             'alias' => $modalName,
             'params' => [
-                'publicIndex' => $this->poll->public_id,
+                'pollId' => $pollId,
             ],
         ]);
 

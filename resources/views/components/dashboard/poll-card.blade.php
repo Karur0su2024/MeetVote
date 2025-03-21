@@ -1,4 +1,4 @@
-<div class="col-md-4 col-lg-3 mb-3">
+<div class="col-md-6 col-lg-3 mb-3">
     <div class="card shadow-sm border-0">
         <!-- Card Header -->
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -17,11 +17,6 @@
                     <li>
                         <a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">
                             <i class="bi bi-pencil"></i> Edit
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ route('polls.edit', $poll) }}">
-                            <i class="bi bi-pencil"></i> Close poll
                         </a>
                     </li>
                 </ul>

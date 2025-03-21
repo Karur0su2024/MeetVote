@@ -10,14 +10,9 @@ class DeletePoll extends Component
 {
     public $poll;
 
-    public function mount($publicIndex)
+    public function mount($pollId)
     {
-        $this->poll = Poll::where('public_id', $publicIndex)->first();
-
-        if (!$this->poll) {
-            session()->flash('error', 'Poll not found.');
-            return;
-        }
+        $this->poll = Poll::find($pollId, ['id', 'user_id']);
     }
 
     // Smazání ankety

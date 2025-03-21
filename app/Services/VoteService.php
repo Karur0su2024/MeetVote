@@ -41,8 +41,10 @@ class VoteService
      * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
      * @return array Pole s daty o hlasu.
      */
-    public function getPollData(Poll $poll, $voteId = null): array
+    public function getPollData(int $pollId, $voteId = null): array
     {
+
+        $poll = Poll::find($pollId);
         return [
             'user' => [
                 'name' => Auth::user()->name ?? '',

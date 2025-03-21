@@ -81,7 +81,7 @@
         </div>
 
         <!-- Hlasovací formulář -->
-        <livewire:poll.voting :poll="$poll"/>
+        <livewire:poll.voting :poll-id="$poll->id"/>
 
         {{-- Komentáře --}}
         @if ($poll->comments)
@@ -91,3 +91,4 @@
     </div>
 
 </x-layouts.app>
+

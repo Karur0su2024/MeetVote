@@ -39,13 +39,13 @@ class Voting extends Component
     }
 
     /**
-     * @param Poll $poll
+     * @param Poll $pollId
      * @return void
      */
-    public function mount(Poll $poll): void
+    public function mount(int $pollId): void
     {
-        $this->poll = $poll;
-        $this->form->loadData($this->voteService->getPollData($poll));
+        $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'add_time_options']);
+        $this->form->loadData($this->voteService->getPollData($this->poll->id));
     }
 
     /**
@@ -76,8 +76,10 @@ class Voting extends Component
 
         $vote = $this->saveVote($validatedData);
 
+
+
         if ($vote) {
-            $this->form->loadData($this->voteService->getPollData($this->poll));
+            $this->form->loadData($this->voteService->getPollData($this->poll->id));
             $this->dispatch('vote-submitted');
         } else {
             $this->dispatch('validation-failed', errors: $this->getErrors());
@@ -98,7 +100,7 @@ class Voting extends Component
             if (!$this->voteService->atLeastOnePickedPreference($validatedData)) {
                 throw new VoteException('No option selected.');
             }
-            $vote = this->saveVote($validatedData);
+            $vote = $this->voteService->saveVote($validatedData);
 
             if (isset($validatedData['existingVote'])) {
                 session()->flash('success', 'Vote has been updated successfully.');
@@ -107,7 +109,7 @@ class Voting extends Component
                 event(new VoteSubmitted($vote));
             }
 
-            $this->form->loadData($this->voteService->getPollData($this->poll));
+            $this->form->loadData($this->voteService->getPollData($this->poll->id));
             return $vote;
         } catch (VoteException $e) {
             session()->flash('error', $e->getMessage());

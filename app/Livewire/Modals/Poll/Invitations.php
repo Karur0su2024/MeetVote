@@ -54,18 +54,12 @@ class Invitations extends Component
     }
 
     /**
-     * @param $publicIndex
+     * @param $pollId
      * @return void
      */
     public function mount($pollId): void
     {
-        $this->poll = Poll::find($pollId);
-
-        if (!$this->poll) {
-            session()->flash('error', 'Poll not found.');
-            return;
-        }
-
+        $this->poll = Poll::with('invitations')->find($pollId);
         $this->loadInvitations();
     }
 
@@ -77,7 +71,6 @@ class Invitations extends Component
     private function loadInvitations()
     {
         $this->invitations = [];
-        //$this->poll->load('invitations');
 
         foreach ($this->poll->invitations as $invitation) {
             $this->invitations[] = [
@@ -97,9 +90,8 @@ class Invitations extends Component
      */
     public function addInvitation()
     {
-        // Kontrola, zda je uživatel přihlášen
-        if (!Auth::check()) {
-            session()->flash('error', 'You must be logged in to send invitations.');
+        if($this->poll->status !== 'active') {
+            session()->flash('error', 'You can send invitations only to active polls.');
             return;
         }
 
@@ -122,7 +114,7 @@ class Invitations extends Component
 
 
         $this->email = '';
-
+        $this->poll->refresh();
         $this->loadInvitations();
 
     }

@@ -20,14 +20,7 @@ class TimeOptionService
 
         // Pokud není anketa nastavena, vrátí jednu časovou možnost.
         if (!isset($poll->id)) {
-            return [[
-                'type' => 'time',
-                'date' => Carbon::today()->format('Y-m-d'),
-                'content' => [
-                    'start' => Carbon::now()->format('H:i'),
-                    'end' => Carbon::now()->addMinutes(60)->format('H:i'),
-                ],
-            ]];
+            return $this->initialTimeOption();
         }
 
         $timeOptions = [];
@@ -45,6 +38,10 @@ class TimeOptionService
                 ],
                 'score' => $this->getOptionScore($timeOption),
             ];
+        }
+
+        if(count($timeOptions) === 0) {
+            return $this->initialTimeOption();
         }
 
         return $timeOptions;
@@ -152,6 +149,18 @@ class TimeOptionService
             $score += $vote->preference;
         }
         return $score;
+    }
+
+    private function initialTimeOption(): array
+    {
+        return [[
+            'type' => 'time',
+            'date' => Carbon::today()->format('Y-m-d'),
+            'content' => [
+                'start' => Carbon::now()->format('H:i'),
+                'end' => Carbon::now()->addMinutes(60)->format('H:i'),
+            ],
+        ]];
     }
 
 }

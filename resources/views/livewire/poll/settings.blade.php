@@ -14,23 +14,25 @@
                 <li><a class="dropdown-item py-1 {{ $poll->status == 'closed' ? 'disabled' : '' }}" href="{{ route('polls.edit', $poll) }}">
                     <i class="bi bi-pencil-square me-1"></i> Edit poll
                 </a>
-            </li>
+                </li>
 
-                <x-poll.show.dropdown-item modalName="share" :id="$poll->public_id">
+                <x-poll.show.dropdown-item modalName="invitations" :id="$poll->id" class="{{ $poll->status == 'closed' ? 'disabled' : '' }}">
+                    <i class="bi bi-person-plus me-1"></i> Invitations
+                </x-poll.show.dropdown-item>
+
+                <x-poll.show.dropdown-item modalName="share" :id="$poll->id">
                     <i class="bi bi-share me-1"></i> Share poll
                 </x-poll.show.dropdown-item>
 
-                <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->public_id">
-                    @if ($poll->status == 'active')
+                <x-poll.show.dropdown-item modalName="close-poll" :id="$poll->id">
+                    @if ($poll->status === 'active')
                         <i class="bi bi-lock me-1"></i> Close poll
                     @else
                         <i class="bi bi-unlock me-1"></i> Reopen poll
                     @endif
                 </x-poll.show.dropdown-item>
 
-                <x-poll.show.dropdown-item modalName="invitations" :id="$poll->public_id">
-                    <i class="bi bi-person-plus me-1"></i> Invitations
-                </x-poll.show.dropdown-item>
+
 
                 <x-poll.show.dropdown-item modalName="delete-poll" :id="$poll->public_id" type="danger">
                     <i class="bi bi-trash me-1"></i> Delete poll

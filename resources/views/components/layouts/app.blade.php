@@ -31,13 +31,21 @@
     {{-- Footer --}}
     <x-layouts.footer/>
 
+    <livewire:modals/>
+    <livewire:scripts/>
+    @stack('scripts')
+
+
+
+
 </div>
 
 
-<livewire:scripts/>
-<livewire:modals/>
 
-@stack('scripts')
+
+
+
+
 
 </body>
 

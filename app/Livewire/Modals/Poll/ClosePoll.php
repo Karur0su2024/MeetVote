@@ -13,68 +13,83 @@ use App\Exceptions\CriticalErrorException;
 class ClosePoll extends Component
 {
     public $poll;
-
+    public $status;
     protected EventService $eventService;
 
-
-    public function boot(EventService $eventService) {
+    public function boot(EventService $eventService): void
+    {
         $this->eventService = $eventService;
     }
 
-    public function mount($publicIndex) {
-        $this->poll = Poll::where('public_id', $publicIndex)->first();
-
-        if (!$this->poll) {
-            session()->flash('error', 'Poll not found.');
-            return;
-        }
-
+    /**
+     * @param $pollId
+     * @return void
+     */
+    public function mount($pollId): void
+    {
+        $this->poll = Poll::find($pollId, ['id', 'status']);
+        $this->status = $this->poll->status;
     }
 
-
-
-    // Metoda pro zavření hlasování
-    // Následně se načte stránka
+    /**
+     * Metoda pro zavření hlasování
+     *
+     * @return \Illuminate\Http\RedirectResponse|void
+     * @throws \Throwable
+     */
     public function closePoll()
     {
+        if($this->checkPollStatus()) {
+            return;
+        }
         try {
             DB::beginTransaction();
-
-            $currentPoll = Poll::where('public_id', $this->poll->public_id)->first();
-
-            if ($currentPoll->status !== $this->poll->status) {
-                session()->flash('error', 'The poll status has changed. Please refresh the page.');
-                return;
-            }
-
-            if($this->poll->votes()->count() === 0) {
-                session()->flash('error', 'You cannot close a poll without any votes.');
-                return;
-            }
-
-            if($this->poll->status === 'active') {
-                $this->poll->update(['status' => 'closed']);
-            }
-            else {
-                $this->poll->update(['status' => 'active']);
-                if($this->poll->event) {
-                    $this->eventService->deleteEvent($this->poll->event);
-                }
-            }
-
+            $this->updateStatus();
+            DB::commit();
+            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
         } catch (\Exception $e) {
             session()->flash('error', 'An error occurred while closing poll.');
             DB::rollBack();
             return;
         }
 
-        DB::commit();
-        return redirect()->route('polls.show', ['poll' => $this->poll->public_id]); // Aktualizace stránky
+    }
+
+    private function checkPollStatus() {
+        if ($this->poll->status !== $this->status) {
+            session()->flash('error', 'The poll status has changed. Please refresh the page.');
+            return true;
+        }
+
+        if($this->poll->votes()->count() === 0) {
+            session()->flash('error', 'You cannot close a poll without any votes.');
+            return true;
+        }
+
+        return false;
 
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
+     */
     public function render()
     {
         return view('livewire.modals.poll.close-poll');
+    }
+
+    /**
+     * @return void
+     */
+    private function updateStatus(): void
+    {
+        if ($this->poll->status === 'active') {
+            $this->poll->update(['status' => 'closed']);
+        } else {
+            $this->poll->update(['status' => 'active']);
+            if ($this->poll->event) {
+                $this->eventService->deleteEvent($this->poll->event);
+            }
+        }
     }
 }
