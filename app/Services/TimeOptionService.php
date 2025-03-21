@@ -17,6 +17,8 @@ class TimeOptionService
      */
     public function getPollTimeOptions(Poll $poll): array
     {
+
+        // Pokud není anketa nastavena, vrátí jednu časovou možnost.
         if (!isset($poll->id)) {
             return [[
                 'type' => 'time',
@@ -107,6 +109,23 @@ class TimeOptionService
         }, $options);
 
         return count($options) !== count(array_unique($toCheck));
+    }
+
+    public function checkDuplicityByDates(array $dates): array
+    {
+        $duplicatesDates = [];
+
+        foreach ($dates as $dateIndex => $date) {
+            $optionArray = [];
+            foreach($date as $option) {
+                $optionArray[] = $this->convertContentToText($option);
+            }
+
+            if(count($optionArray) !== count(array_unique($optionArray))) {
+                $duplicatesDates[] = $dateIndex;
+            }
+        }
+        return $duplicatesDates;
     }
 
 

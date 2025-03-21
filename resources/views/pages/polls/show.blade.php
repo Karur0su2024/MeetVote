@@ -6,13 +6,6 @@
     <div class="container text-start">
 
         <div class="mb-3 alerts-container">
-            @if ($isAdmin)
-                {{-- <x-alert type="info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    <div>You are in admin mode!</div>
-                </x-alert> --}}
-            @endif
-
             @if (session('error'))
                 <x-alert type="danger">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -55,27 +48,27 @@
                         </p>
                     </div>
                     <div class="card-footer">
+                        <x-badge>Open poll</x-badge>
                         @if ($poll->comments)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Comments</span>
+                            <x-badge>Comments</x-badge>
                         @endif
                         @if ($poll->anonymous_votes)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Anonymous votes</span>
+                            <x-badge>Anonymous voting</x-badge>
                         @endif
                         @if ($poll->password)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Password set</span>
+                            <x-badge>Password set</x-badge>
                         @endif
                         @if ($poll->invite_only)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Invite only</span>
+                            <x-badge>Invite only</x-badge>
                         @endif
                         @if ($poll->edit_votes)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Can edit votes</span>
+                            <x-badge>Participants can edit votes</x-badge>
                         @endif
                         @if ($poll->add_time_options)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Participants can add options</span>
+                            <x-badge>Participants can add time options</x-badge>
                         @endif
                         @if ($poll->deadline)
-                            <span class="badge text-bg-secondary border-1 shadow-sm">Ends in
-                                {{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</span>
+                            <x-badge>Ends in{{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</x-badge>
                         @endif
                     </div>
 

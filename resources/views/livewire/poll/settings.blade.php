@@ -5,15 +5,6 @@
 
         {{-- Dropdown pro správce --}}
         <div class="dropdown">
-            <form action="{{ route('polls.destroy', $poll) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger">
-                    <i class="bi bi-trash me-1"></i> Delete poll
-                </button>
-            </form>
-
-
             <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Options

@@ -9,12 +9,23 @@
         @if ($tooltip ?? null)
             <small class="ms-2">
                 <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top"
-                    data-bs-title="{{ $tooltip }}"></i>
+                   data-bs-title="{{ $tooltip }}"></i>
             </small>
         @endif
     </label>
 
     {{-- Input pole --}}
     <input type="{{ $type ?? 'text' }}" {{ $attributes }}
-        class="form-control {{ $dataClass ?? '' }}">
+    class="form-control {{ $dataClass ?? '' }} @error($error ?? null) is-invalid @enderror"
+
+    >
+
+    @error($error ?? null)
+        {{-- Chybová hláška --}}
+        <span class="text-danger pt-3">
+            {{ $message }}
+        </span>
+    @enderror
+
+
 </div>

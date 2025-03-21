@@ -152,15 +152,19 @@ class PollForm extends Form
      */
     public function prepareValidatedDataArray($validatedData): array
     {
+
         // Převod z dat do formátu pro uložení do databáze
         foreach ($validatedData['dates'] as $date) {
             foreach ($date as $option) {
                 $validatedData['time_options'][] = $option;
             }
         }
-        unset($validatedData['dates']);
+
         return $validatedData;
     }
+
+
+
 
 
 

@@ -36,6 +36,8 @@ return [
     'section.title.questions' => 'Additional questions',
     'section.tooltip.questions' => 'Add additional questions to the poll. Questions are not required.',
 
+    'alert.no_questions' => 'No questions added yet.',
+
     'button.add_option' => 'Add option',
     'button.add_question' => 'Add question',
 

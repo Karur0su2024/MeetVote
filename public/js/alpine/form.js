@@ -1,6 +1,9 @@
 function getFormData() {
     return {
         form: this.$wire.entangle('form'),
+        messages: {
+            errors: {},
+        },
 
         // Inicializace jskalendáře
         // https://gramthanos.github.io/jsCalendar/docs.html#javascript-method-min-max
@@ -28,14 +31,7 @@ function getFormData() {
                 return;
             }
 
-            this.form.dates[formattedDate] = [{
-                type: 'time',
-                content: {
-                    start: moment().format('HH:mm'),
-                    end: moment().add(1, 'hour').format('HH:mm'),
-                }
-            }
-            ];
+            this.addTimeOption(formattedDate, 'time');
         },
 
         // Odstranění data z formuláře
@@ -168,5 +164,11 @@ function getFormData() {
 
             this.form.questions[questionIndex].options.splice(optionIndex, 1);
         },
+
+
+        duplicateError(errors) {
+            this.messages.errors = errors;
+            console.log(this.messages);
+        }
     }
 }

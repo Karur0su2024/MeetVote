@@ -2,12 +2,16 @@
 
     {{-- Input pole pro text možnosti --}}
     <input type="text"
-        :id="'question_' + questionIndex + '_option_' + optionIndex"
-        x-model="form.questions[questionIndex].options[optionIndex].text"
-        :placeholder="'Option ' + (optionIndex + 1)" class="form-control" required>
+           :id="'question_' + questionIndex + '_option_' + optionIndex"
+           x-model="form.questions[questionIndex].options[optionIndex].text"
+           :placeholder="'Option ' + (optionIndex + 1)" class="form-control" required
+           :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.options.' + [optionIndex] + '.text'] }"
+    >
 
     {{-- Tlačítko pro odstranění možnosti --}}
     <button type="button" @click="removeQuestionOption(questionIndex, optionIndex)"
-        class="btn btn-danger"><i class="bi bi-trash"></i>
+            class="btn btn-danger"><i class="bi bi-trash"></i>
     </button>
+
+    <span
 </div>

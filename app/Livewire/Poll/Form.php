@@ -6,11 +6,8 @@ use App\Livewire\Forms\PollForm;
 use App\Models\Poll;
 use App\Services\PollService;
 use Livewire\Component;
-use App\ToAlpine\Form\TimeOptionsToAlpine;
-use App\ToAlpine\Form\QuestionsToAlpine;
 use App\Services\NotificationService;
 use App\Exceptions\PollException;
-use Illuminate\Support\Facades\DB;
 
 class Form extends Component
 {
@@ -59,28 +56,45 @@ class Form extends Component
      */
     public function submit()
     {
-        $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
+        try {
+            $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->addError('error', 'Došlo k chybě při validaci formuláře.');
+            $this->dispatch('validation-failed', errors: $e->errors());
+            throw $e;
+        }
+
+
+
 
         if(!$validatedData) {
             $this->addError('error', 'An error occurred while validating the form.');
-            return null;
+            $this->dispatch('validation-failed', errors: $this->getErrors());
         }
 
-
-        if ($this->checkDuplicity($validatedData, $this->pollService)) {
+        if($this->checkDuplicity($validatedData)){
+            $this->dispatch('validation-failed', errors: $this->getErrors());
             return null;
         }
+        unset($validatedData['dates']);
+
 
         try {
+            // Uložení do databáze
             $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
             return redirect()->route('polls.show', $poll);
+
         } catch (PollException $e) {
+            // Pokud nastane výjimka PollException
             $this->addError('error', $e->getMessage());
             return null;
+
         } catch (\Exception $e) {
+            // Pokud nastane jiná výjimka
             $this->addError('error', 'An error occurred while saving the poll.');
             return null;
+
         }
     }
 
@@ -94,61 +108,62 @@ class Form extends Component
      * @param PollService $pollService
      * @return bool
      */
-    private function checkDuplicity($validatedData, PollService $pollService): bool
-        {
-            if ($pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
-                $this->addError('form.dates', 'Duplicate time options are not allowed.');
-                return true;
-            }
+//    private function checkDuplicity($validatedData): bool
+//    {
+//        if ($this->pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
+//            $this->addError('form.dates', 'Duplicate time options are not allowed.');
+//            return true;
+//        }
+//
+//        if ($this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions'])) {
+//            $this->addError('form.questions', 'Duplicate questions or options are not allowed.');
+//            return true;
+//        }
+//
+//
+//        return false;
+//    }
 
-            if ($pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions'])) {
-                $this->addError('form.questions', 'Duplicate questions are not allowed.');
-                return true;
-            }
-
-            return false;
-        }
-
-
-
-     // Metoda pro transakci a uložení ankety
 
     /**
+     * Kontrola duplicitních otázek a časových možností
      * @param $validatedData
-     * @return Poll|null
-     * @throws \Throwable
+     * @param PollService $pollService
+     * @return bool
      */
-//    private function savePoll($validatedData): ?Poll
-//     {
-//         DB::beginTransaction();
-//
-//         try {
-//             $poll = Poll::find($this->form->pollIndex); // Načtení ankety podle ID
-//
-//             if ($poll) {
-//                 $poll = $this->pollService->updatePoll($poll, $validatedData); // Aktualizace ankety
-//             } else {
-//                 $poll = $this->pollService->createPoll($validatedData); // Vytvoření nové ankety
-//             }
-//
-//             DB::commit();
-//
-//             return $poll;
-//         } catch (PollException $e) {
-//             DB::rollBack();
-//             $this->addError('error', $e->getMessage());
-//             return null;
-//         } catch (\Exception $e) {
-//             //$this->addError('error', 'An error occurred while saving the poll.');
-//             return null;
-//         }
-//
-//     }
+    public function checkDuplicity($validatedData): bool
+    {
+        $duplicatesDates = $this->pollService->getTimeOptionService()->checkDuplicityByDates($validatedData['dates']);
+        $duplicatesQuestions = $this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions']);
+
+        foreach ($duplicatesDates as $dateIndex) {
+            $this->addError('form.dates.' . $dateIndex, 'Duplicate time options are not allowed.');
+        }
+
+        foreach ($duplicatesQuestions['each_question'] as $questionIndex) {
+            $this->addError('form.questions.' . $questionIndex, 'Duplicate options are not allowed.');
+        }
+
+        if ($duplicatesQuestions['all_questions']) {
+            $this->addError('form.questions', 'Duplicate questions titles are not allowed.');
+        }
+
+        return $duplicatesDates || $duplicatesQuestions['all_questions'] || $duplicatesQuestions['each_question'];
+
+    }
 
 
 
 
-    // Renderování komponenty
+
+
+
+
+    public function getErrors(): array
+    {
+        return $this->getErrorBag()->toArray();
+    }
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object

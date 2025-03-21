@@ -1,32 +1,34 @@
 <div>
-    <form wire:submit.prevent="submit" x-data="getFormData">
+    <form wire:submit.prevent="submit" x-data="getFormData"
+          @validation-failed.window="duplicateError($event.detail.errors)">
+
+        {{-- Záhlaví --}}
 
         {{-- Základní informace o anketě --}}
         <x-card>
 
             {{-- Hlavička --}}
-            <x-slot:header>{{ __('form.section.title.basic_info') }}</x-slot>
+            <x-slot:header>{{ __('form.section.title.basic_info') }}</x-slot:header>
+
+            {{-- Tooltip --}}
 
             {{-- Název ankety --}}
-            <x-input id="title" x-model="form.title" type="text" required placeholder="New poll">
+            <x-input id="title" x-model="form.title" type="text" placeholder="New poll" error="form.title">
                 {{ __('form.label.title') }}
             </x-input>
-            <x-error for="form.title"/>
 
             {{-- Popis ankety --}}
-            <x-textbox id="description" x-model="form.description">
+            <x-textbox id="description" x-model="form.description" error="form.description">
                 {{ __('form.label.description') }}
             </x-textbox>
-            <x-error for="form.description"/>
 
             {{-- Deadline ankety --}}
-            <x-input id="deadline" x-model="form.deadline" type="date">
+            <x-input id="deadline" x-model="form.deadline" type="date" error="form.deadline">
                 <x-slot:tooltip>
                     {{ __('form.tooltip.deadline') }}
                 </x-slot:tooltip>
                 {{ __('form.label.deadline') }}
             </x-input>
-            <x-error for="form.deadline"/>
 
 
             {{-- Informace o autorovi --}}
@@ -41,13 +43,13 @@
                     <div x-show="!anonymous">
 
                         {{-- Jméno autora --}}
-                        <x-input id="user_name" x-model="form.user.name" type="text" required>
+                        <x-input id="user_name" x-model="form.user.name" type="text" required error="form.user.name">
                             {{ __('form.label.user_name') }}
                         </x-input>
                         <x-error for="form.user.name"/>
 
                         {{-- E-mail autora --}}
-                        <x-input id="user_email" x-model="form.user.email" type="email">
+                        <x-input id="user_email" x-model="form.user.email" type="email" required error="form.user.email">
                             {{ __('form.label.user_email') }}
                         </x-input>
                         <x-error for="form.user.email"/>
@@ -103,17 +105,7 @@
                             </template>
 
                             {{-- Tlačítka pro přídání časové/textové možnosti --}}
-                            <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-2 mt-1">
 
-                                <x-outline-button class="w-100 w-md-auto" @click="addTimeOption(dateIndex, 'time')">
-                                    <i class="bi bi-clock me-1"></i>{{ __('form.button.time_option_time') }}
-                                </x-outline-button>
-
-                                <x-outline-button class="w-100 w-md-auto" @click="addTimeOption(dateIndex, 'text')">
-                                    <i class="bi bi-fonts me-1"></i>{{ __('form.button.time_option_text') }}
-                                </x-outline-button>
-
-                            </div>
 
                         </x-poll.form.date-card>
 
@@ -144,19 +136,29 @@
                                 </template>
 
                                 {{-- Tlačítko pro přidání další možnosti --}}
-                                <button type="button"
-                                        @click="form.questions[questionIndex].options.push({ text: '' })"
-                                        class="btn btn-outline-secondary">{{ __('form.button.add_option') }}</button>
+
+
 
                             </x-poll.form.question-card>
                         </template>
 
                     </template>
 
+                    <template x-if="form.questions.length == 0">
+                        <x-alert>
+                            {{  __('form.alert.no_questions') }}
+                        </x-alert>
+                    </template>
+
                     {{-- Tlačítko pro přidání další otázky --}}
                     <button type="button"
                             @click="addQuestion()"
                             class="btn btn-outline-secondary w-25">{{ __('form.button.add_question') }}</button>
+
+                    @error('form.questions')
+                    <span
+                        class="text-danger ms-2">{{ $message }}</span>
+                    @enderror
 
                 </x-card>
 
@@ -224,7 +226,7 @@
                     </x-poll.form.checkbox>
 
                     {{-- Heslo --}}
-                    <x-input id="password" x-model="form.settings.password" type="password">
+                    <x-input id="password" x-model="form.settings.password" type="password" error="form.settings.password">
                         <x-slot:tooltip>
                             {{ __('form.tooltip.password') }}
 
@@ -237,12 +239,13 @@
             </x-layouts.col-6>
         </div>
 
-        {{-- Další Chybové hlášky --}}
-        <x-error-alert for="form.dates"/>
 
+        <x-error-alert for="error"/>
         <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">
             {{ __('form.button.submit') }}
         </button>
+
+
     </form>
 </div>
 

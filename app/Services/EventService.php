@@ -13,9 +13,9 @@ class EventService
 
     private $client;
 
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->client = $client;
+        $this->client = new Client;
         $this->client->setApplicationName('MeetVote');
         $this->client->setScopes(Calendar::CALENDAR); // Rozsah přístupu k Google Kalendáři
         $this->client->setAuthConfig(storage_path('app/oauth-credentials.json')); // Cesta k souboru s oauth credentials

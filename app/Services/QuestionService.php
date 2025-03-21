@@ -121,12 +121,15 @@ class QuestionService
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();
     }
 
+
+
+
     /**
      * Metoda pro kontrolu duplicitních otázek
      * @param array $questions
      * @return bool
      */
-    public function checkDuplicateQuestions(array $questions): bool
+    public function checkDuplicateQuestionsOld(array $questions): bool
     {
         $questionText = [];
         // Kontrola duplicitních otázek
@@ -138,6 +141,36 @@ class QuestionService
         }
 
         return count($questionText) !== count(array_unique($questionText));
+    }
+
+
+
+
+    public function checkDuplicateQuestions(array $questions): array
+    {
+
+        $duplicatesQuestions = [
+            'all_questions' => false,
+            'each_question' => [],
+        ];
+
+        $questionArray = [];
+        foreach ($questions as $questionIndex => $question) {
+            $optionArray = [];
+
+            foreach ($question['options'] as $option) {
+                $optionArray[] = strtolower($option['text']);
+            }
+
+            // Kontrola duplicitních možností
+            if(count($optionArray) !== count(array_unique($optionArray))) {
+                $duplicatesQuestions['each_question'][] = $questionIndex;
+            }
+            $questionArray[] = strtolower($question['text']);
+        }
+        $duplicatesQuestions['all_questions'] = count($questionArray) !== count(array_unique($questionArray));
+
+        return $duplicatesQuestions;
     }
 
     /**
