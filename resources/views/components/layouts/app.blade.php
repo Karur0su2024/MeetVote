@@ -12,37 +12,32 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-
-
-    <livewire:styles />
+    <livewire:styles/>
 </head>
 
 <body class="app-background">
-    <div class="app-background-overlay">
+<div class="app-background-overlay">
 
-        {{-- Navbar --}}
-        <x-layouts.navbar />
-
-
-        <!-- Obsah stránky -->
-        <main class="container py-5 min-vh-100 px-0">
-            {{ $slot }}
-        </main>
+    {{-- Navbar --}}
+    <x-layouts.navbar/>
 
 
-        {{-- Footer --}}
-        <x-layouts.footer />
+    <!-- Obsah stránky -->
+    <main class="container py-5 min-vh-100 px-0">
+        {{ $slot }}
+    </main>
 
-    </div>
+
+    {{-- Footer --}}
+    <x-layouts.footer/>
+
+</div>
 
 
-    <livewire:scripts />
-    <livewire:modals />
+<livewire:scripts/>
+<livewire:modals/>
 
-    {{-- JS --}}
-    @stack('scripts')
-
-    {{-- JS pro Livewire --}}
+@stack('scripts')
 
 </body>
 

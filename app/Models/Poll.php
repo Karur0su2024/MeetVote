@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Poll extends Model
 {
+
+    use SoftDeletes;
+
     // Atributy, které lze přiřadit
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',

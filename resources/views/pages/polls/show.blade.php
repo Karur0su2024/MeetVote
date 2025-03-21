@@ -29,17 +29,13 @@
 
         </div>
 
-
-
-
-        <!-- Tohle přesunout do samostatné komponenty -->
-        <!-- Panel s nastavením ankety -->
+        {{-- Panel s nastavením ankety --}}
         @if ($isAdmin)
-            <livewire:poll.settings :poll="$poll" />
+            <livewire:poll.settings :poll-id="$poll->id"/>
         @endif
+
+
         {{-- Základní informace o anketě --}}
-
-
         <div class="row g-4 mb-4">
             {{-- Levá strana – základní informace o anketě --}}
             <div class="col-lg-8 d-flex">
@@ -87,18 +83,17 @@
             </div>
 
             {{-- Pravá strana – informace o události --}}
-            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin" />
+            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin"/>
 
         </div>
 
         <!-- Hlasovací formulář -->
-        <livewire:poll.voting :poll="$poll" />
+        <livewire:poll.voting :poll="$poll"/>
 
         {{-- Komentáře --}}
         @if ($poll->comments)
-            <livewire:poll.comments :poll="$poll" />
+            <livewire:poll.comments :poll="$poll"/>
         @endif
-
 
     </div>
 

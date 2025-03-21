@@ -25,6 +25,12 @@ class PollController extends Controller
         return view('pages.polls.edit', ['poll' => $poll]);
     }
 
+    public function destroy(Poll $poll)
+    {
+        $poll->delete();
+        return redirect()->route('dashboard')->with('success', 'Anketa byla úspěšně smazána.');
+    }
+
     public function authentification(Poll $poll)
     {
         return view('pages.polls.authentification', ['poll' => $poll]);

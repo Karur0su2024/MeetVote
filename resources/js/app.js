@@ -15,3 +15,19 @@ import '../../vendor/aliqasemzadeh/livewire-bootstrap-modal/resources/js/modals.
 import '../../public/js/app.js';
 import '../../public/js/modal.js';
 
+// https://srwiez.com/posts/improved-handling-of-404-errors-with-livewire
+document.addEventListener('livewire:init', () => {
+    Livewire.hook('request', ({ fail }) => {
+        fail(({ status, preventDefault }) => {
+            if (status === 404) {
+
+
+                window.location.reload();
+
+
+                // Prevent Livewire default behaviour
+                preventDefault()
+            }
+        })
+    })
+})

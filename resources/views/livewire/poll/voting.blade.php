@@ -10,11 +10,6 @@
     <x-card bodyPadding="0">
 
         <x-slot:header>
-            <i class="bi bi-check-circle"></i>
-            {{ $poll->title }}
-        </x-slot:header>
-
-        <x-slot:header>
             Voting
             <button class="btn btn-outline-secondary" @click="openModal('results')">
                 Results ({{ count($poll->votes) }})

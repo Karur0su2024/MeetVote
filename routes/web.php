@@ -17,6 +17,8 @@ Route::middleware(['setLanguage'])->group(function () {
     // Všechny routy pro ankety
     Route::prefix('polls')->group(function () {
 
+
+
         // Vytvoření ankety
         Route::get('/create', [PollController::class, 'create'])
             ->name('polls.create');
@@ -41,6 +43,11 @@ Route::middleware(['setLanguage'])->group(function () {
 
         // Ověření hesla
         Route::post('/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
+
+        // Smazání ankety
+        Route::delete('/{poll}', [PollController::class, 'destroy'])
+            ->name('polls.destroy');
+
     });
 
 

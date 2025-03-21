@@ -7,10 +7,10 @@
         <div class="card-body">
             <h1>MeetVote</h1>
             <p>
-                MeetVote is a web application designed to facilitate the process of creating and managing polls for
-                meetings, events, and group discussions. It allows users to create polls, share them with participants,
-                and collect responses in real-time. The platform aims to streamline decision-making processes and
-                enhance collaboration among team members.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
         </div>
     </div>

@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ $errorMessage}}
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ $errorMessage ?? 'An error occurred' }}
         </div>
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-primary" wire:click="$dispatch('hideModal')">OK</button>

@@ -8,48 +8,63 @@ use App\Models\Poll;
 class Settings extends Component
 {
 
-
     public Poll $poll;
 
-    public function mount(Poll $poll)
+    public function mount(int $pollId)
     {
-        $this->poll = $poll;
+        // Notifikace přidat dodatečně
+        $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'admin_key']);
     }
+
+    public function openModal($modalName, $publicId)
+    {
+        $poll = Poll::exists($this->poll->id);
+        if (!$poll) {
+            return abort(404);
+        }
+
+
+        $this->dispatch('showModal', [
+            'alias' => $modalName,
+            'params' => [
+                'publicIndex' => $this->poll->public_id,
+            ],
+        ]);
+
+        // Tohle opravit později
+        return ;
+
+        if (session()->has('poll_' . $this->poll->public_id . '_adminKey')) {
+            if (session()->get('poll_' . $this->poll->public_id . '_adminKey') === $this->poll->admin_key) {
+                $this->dispatch('showModal', [
+                    'alias' => $modalName,
+                    'params' => [
+                        'publicIndex' => $this->poll->public_id,
+                    ],
+                ]);
+                return null;
+            }
+            else {
+                $this->openErrorModal('You don\'t have permission to access this window. Please check the admin key.');
+            }
+        } else {
+            $this->openErrorModal('You don\'t have permission to access this window. Please check the admin key.');
+        }
+    }
+
+    private function openErrorModal($errorMessage)
+    {
+        $this->dispatch('showModal', [
+            'alias' => 'modals.error',
+            'params' => [
+                'errorMessage' => $errorMessage
+            ],
+        ]);
+    }
+
 
     public function render()
     {
         return view('livewire.poll.settings');
-    }
-
-
-    public function openModal($modalName, $publicId)
-    {
-        if (session()->has('poll_' . $publicId . '_adminKey')) {
-            $poll = Poll::where('public_id', $publicId)->first();
-            if (!$poll) {
-                $this->dispatch('showModal', [
-                    'alias' => 'modals.error',
-                    'params' => [
-                        'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.'
-                    ],
-                ]);
-                return;
-            }
-            if (session()->get('poll_' . $publicId . '_adminKey') === $poll->admin_key) {
-                $this->dispatch('showModal', [
-                    'alias' => $modalName,
-                    'params' => [
-                        'publicIndex' => $publicId,
-                    ],
-                ]);
-                return;
-            }
-        }
-        $this->dispatch('showModal', [
-            'alias' => 'modals.error',
-            'params' => [
-                'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.'
-            ],
-        ]);
     }
 }
