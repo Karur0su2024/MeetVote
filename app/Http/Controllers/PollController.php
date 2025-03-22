@@ -33,7 +33,7 @@ class PollController extends Controller
 
     public function authentification(Poll $poll)
     {
-        return view('pages.polls.authentification', ['poll' => $poll]);
+        return view('pages.polls.authenticate', ['poll' => $poll]);
     }
 
     public function checkPassword(Request $request, Poll $poll)

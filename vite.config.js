@@ -10,7 +10,7 @@ export default defineConfig({
     ],
     server: {
         host: '0.0.0.0',
-        port: 5184,
+        port: 5190,
         strictPort: true,
         cors: true,      // Povolení CORS
         hmr: {

@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layout.app>
 
     <!-- Název stránky -->
     <x-slot:title>Registration</x-slot>
@@ -12,4 +12,4 @@
 
 
 
-</x-layouts.app>
+</x-layout.app>

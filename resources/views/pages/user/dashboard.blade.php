@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layout.app>
 
     {{-- Název stránky --}}
     <x-slot:title>Dashboard</x-slot>
@@ -7,4 +7,4 @@
         <livewire:user.dashboard />
     </div>
 
-</x-layouts.app>
+</x-layout.app>

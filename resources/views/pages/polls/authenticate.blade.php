@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layout.app>
 
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
@@ -27,4 +27,4 @@
 
 
 
-</x-layouts.app>
+</x-layout.app>

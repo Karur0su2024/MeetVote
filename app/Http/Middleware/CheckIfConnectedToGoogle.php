@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsActive
+class CheckIfConnectedToGoogle
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,12 @@ class IsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->poll->status !== "active") {
-            session()->flash('error', 'You can edit only active polls.');
-            return redirect()->route('polls.show', $request->poll);
+        $user = $request->user();
+
+        if(!$user->google_id) {
+            return redirect()->back()->withErrors(['error' => 'You are not connected to Google.']);
         }
+
 
         return $next($request);
     }

@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x-layout.app>
 
     <!-- Název stránky -->
     <x-slot:title>Homepage</x-slot>
@@ -14,4 +14,4 @@
             </p>
         </div>
     </div>
-</x-layouts.app>
+</x-layout.app>

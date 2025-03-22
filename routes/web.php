@@ -50,19 +50,6 @@ Route::middleware(['setLanguage'])->group(function () {
 
     });
 
-
-    Route::middleware(['auth', 'verified'])->group(function (){
-
-        // Dashboard
-        Route::get('dashboard', [UserController::class, 'dashboard'])
-            ->name('dashboard');
-
-        // Nastavení uživatele
-        Route::get('settings', [UserController::class, 'settings'])
-            ->name('settings');
-    });
-
-
     //Pozvánky
     Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
         ->name('polls.invite');

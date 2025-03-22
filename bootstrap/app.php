@@ -9,6 +9,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\SetLanguage;
+use App\Http\Middleware\CheckIfConnectedToGoogle;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -25,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'pollExists' => PollExists::class,
             'poll.is_active' => IsActive::class,
             'setLanguage' => SetLanguage::class,
+            'checkIfConnectedToGoogle' => CheckIfConnectedToGoogle::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

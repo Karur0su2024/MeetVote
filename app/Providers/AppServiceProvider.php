@@ -49,5 +49,7 @@ class AppServiceProvider extends ServiceProvider
             PollCreated::class,
             SendPollConfirmationEmail::class,
         );
+
+        //Sem doplnit další eventy
     }
 }
