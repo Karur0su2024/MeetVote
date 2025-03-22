@@ -113,9 +113,9 @@
                                 <i class="bi bi-check-circle me-2"></i> Submit your vote
                             </button>
                             <span x-show="isSubmitting">
-                                <div class="spinner-border spinner-border-sm me-2" role="status">
-                                </div>
-                                Saving...
+                                <x-ui.saving>
+                                        Saving...
+                                </x-ui.saving>
                             </span>
                             <span class="text-danger" x-show="messages.errors.form" x-text="messages.errors.form"
                                   class="text-danger me-2"></span>

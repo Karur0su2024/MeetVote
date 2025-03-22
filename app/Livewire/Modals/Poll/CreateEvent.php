@@ -87,7 +87,7 @@ class CreateEvent extends Component
             return redirect()->route('polls.show', $this->poll);
         }
         catch (\Exception $e) {
-            dd($e->getMessage());
+            //Doplnit logování chyby
         }
 
     }

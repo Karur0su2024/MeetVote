@@ -23,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'checkPassword' => CheckPollPassword::class,
             'isPollAdmin' => IsPollAdmin::class,
             'inviteOnly' => PollIsInviteOnly::class,
-            'pollExists' => PollExists::class,
             'poll.is_active' => IsActive::class,
             'setLanguage' => SetLanguage::class,
             'checkIfConnectedToGoogle' => CheckIfConnectedToGoogle::class,

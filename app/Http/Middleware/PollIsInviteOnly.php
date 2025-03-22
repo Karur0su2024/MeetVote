@@ -39,7 +39,6 @@ class PollIsInviteOnly
 
         // Kontrola, zda je anketa nastavena jako "pouze na pozvání"
         if ($request->poll->invite_only) {
-            dd($request->get('haveInvitation'));
             if(!$request->has('haveInvitation')) {
                 // Vytvořit jinou stránku pro přesměrování
                 return redirect()->route('home', $request->poll);

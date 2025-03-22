@@ -14,10 +14,10 @@
         </x-dropdown-item>
     </x-dropdown>
 @else
-    <x-nav-link href="{{ route('login') }}">
+    <x-ui.navbar.nav-link href="{{ route('login') }}">
         {{ __('navbar.login') }}
-    </x-nav-link>
-    <x-nav-link href="{{ route('register') }}">
+    </x-ui.navbar.nav-link>
+    <x-ui.navbar.nav-link href="{{ route('register') }}">
         {{ __('navbar.register') }}
-    </x-nav-link>
+    </x-ui.navbar.nav-link>
 @endauth

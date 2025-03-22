@@ -7,7 +7,7 @@
             class="form-check-input">
 
         <label
-            class="form-check-label"
+            class="form-check-label ms-1"
             for="{{ $id }}">
             {{ $slot }}
         </label>

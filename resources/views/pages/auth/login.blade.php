@@ -1,7 +1,7 @@
 <x-layout.app>
 
     <!-- Název stránky -->
-    <x-slot:title>Login</x-slot>
+    <x-slot:title>{{ __('pages/auth.login.title') }}</x-slot>
 
     <div class="container text-center">
 

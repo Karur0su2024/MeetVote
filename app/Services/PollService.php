@@ -129,7 +129,7 @@ class PollService
                 'anonymous_votes' => $validatedData['settings']['anonymous'],
                 'hide_results' => $validatedData['settings']['hide_results'],
                 'invite_only' => $validatedData['settings']['invite_only'],
-                'password' => $validatedData['settings']['password'],
+                'password' => bcrypt($validatedData['settings']['password']),
                 'edit_votes' => $validatedData['settings']['edit_votes'],
                 'add_time_options' => $validatedData['settings']['add_time_options'],
             ]);

@@ -2,23 +2,33 @@
 
     {{-- Sekce pro nastavení jména a emailové adresy --}}
     <x-card>
-        <x-slot:header>Profile Information</x-slot>
+        <x-slot:header>{{ __('pages/user-settings.profile_settings.title') }}</x-slot>
 
         <form wire:submit.prevent='updateProfile'>
             {{-- Přezdívka --}}
 
-            <x-input id="name" model="name" type="text" required>
-                Your name
-            </x-input>
+            <x-ui.form.input
+                id="name"
+                model="name"
+                type="text"
+                required
+                error="name">
+                {{ __('pages/user-settings.profile_settings.labels.name') }}
+            </x-ui.form.input>
 
             {{-- Email --}}
-            <x-input id="email" model="email" type="email" required>
-                Your email
-            </x-input>
+            <x-ui.form.input
+                id="email"
+                model="email"
+                type="email"
+                required
+                error="email">
+                {{ __('pages/user-settings.profile_settings.labels.email') }}
+            </x-ui.form.input>
 
-            <button type="submit" class="btn btn-primary">
-                Save Changes
-            </button>
+            <x-ui.button type="submit">
+                {{ __('pages/user-settings.profile_settings.buttons.save') }}
+            </x-ui.button>
 
             {{-- Zpráva v případě úspěšného uložení --}}
             @if (session()->has('settings.profile.success'))
@@ -30,27 +40,27 @@
 
     {{-- Sekce pro nastavení hesla --}}
     <x-card>
-        <x-slot:header>Password</x-slot>
+        <x-slot:header>{{ __('pages/user-settings.password.title') }}</x-slot>
 
         <form wire:submit.prevent='updatePassword'>
             {{-- Současné heslo --}}
-            <x-input id="current_password" model="current_password" type="password" required>
-                Current password
-            </x-input>
+            <x-ui.form.input id="current_password" model="current_password" type="password" required error="current_password">
+                {{ __('pages/user-settings.password.labels.old_password') }}
+            </x-ui.form.input>
 
             {{-- Nové heslo --}}
-            <x-input id="new_password" model="new_password" type="password" required>
-                New password
-            </x-input>
+            <x-ui.form.input id="new_password" model="new_password" type="password" required error="new_password">
+                {{ __('pages/user-settings.password.labels.new_password') }}
+            </x-ui.form.input>
 
             {{-- Potvrzení nového hesla --}}
-            <x-input id="password_confirmation" model="new_password_confirmation" type="password" required>
-                Confirm new password
-            </x-input>
+            <x-ui.form.input id="password_confirmation" model="new_password_confirmation" type="password" required error="new_password_confirmation">
+                {{ __('pages/user-settings.password.labels.new_password_confirmation') }}
+            </x-ui.form.input>
 
-            <button type="submit" class="btn btn-primary">
-                Save Changes
-            </button>
+            <x-ui.button type="submit">
+                {{ __('pages/user-settings.password.buttons.save') }}
+            </x-ui.button>
 
             {{-- Zpráva v případě úspěšného uložení --}}
             @if (session()->has('settings.password.success'))
@@ -61,17 +71,17 @@
 
     {{-- Sekce pro nastavení  --}}
     <x-card>
-        <x-slot:header>Google & Calendar</x-slot>
+        <x-slot:header>{{ __('pages/user-settings.google.title') }}r</x-slot>
 
 
 
         @if ($user->google_id)
             <a href="{{ route('google.disconnect') }}" class="btn btn-outline-danger">
-                <i class="bi bi-google"></i> Disconnect from Google
+                <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect') }}
             </a>
         @else
             <a href="{{ route('google.login') }}" class="btn btn-outline-primary">
-                <i class="bi bi-google"></i> Connect with Google
+                <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
             </a>
         @endif
 
@@ -84,11 +94,13 @@
     </x-card>
 
     <x-card>
-        <x-slot:header>Delete account</x-slot>
-
+        <x-slot:header>{{ __('pages/user-settings.delete_account.title') }}</x-slot>
+        <p class="text-muted">
+            {{ __('pages/user-settings.delete_account.description') }}
+        </p>
         {{-- Přidat modal pro potvrzení --}}
-        <button class="btn btn-danger" wire:click="deleteAccount">
-            Delete account
-        </button>
+        <x-ui.button color="danger" wire:click="deleteAccount">
+            {{ __('pages/user-settings.delete_account.buttons.delete_account') }}
+        </x-ui.button>
     </x-card>
 </div>

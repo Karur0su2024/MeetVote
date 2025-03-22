@@ -1,26 +1,32 @@
 <div class="container d-flex justify-content-center align-items-center text-start pt-5">
     <div class="col-md-6">
+        @if (session()->has('status'))
+            <x-ui.alert type="info">
+                {{ session('status') }}
+            </x-ui.alert>
+        @endif
         <div class="card shadow p-4">
-            <h2 class="text-center mb-4">Forgot Password</h2>
+            <h2 class="text-center mb-4">{{ __('pages/auth.forgot_password.title') }}</h2>
 
             <p class="text-muted">
-                Please enter your email address to receive a password reset link.
+                {{ __('pages/auth.forgot_password.description') }}
             </p>
 
-            <form class="mt-3 text-start" wire:submit="sendPasswordResetLink">
+            <form class="mt-3 text-start" wire:submit.prevent="sendPasswordResetLink">
 
                 <!-- Email -->
-                <x-input id="email" model="email" type="email" label="Email" required>
-                    Email
-                </x-input>
+                <x-ui.form.input id="email" model="email" type="email" label="Email" required>
+                    {{ __('pages/auth.forgot_password.labels.password') }}
+                </x-ui.form.input>
 
-                <button class="btn btn-primary">Send password reset link</button>
+                <button class="btn btn-primary">{{ __('pages/auth.forgot_password.buttons.send') }}</button>
 
-                @if (session()->has('status'))
-                <div class="alert alert-success mt-3" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
+                <x-ui.saving wire:loading>
+                    {{ __('pages/auth.forgot_password.loading') }}
+                </x-ui.saving>
+
+
+
             </form>
         </div>
     </div>
