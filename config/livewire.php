@@ -33,7 +33,7 @@ return [
     | Layout
     |---------------------------------------------------------------------------
     | The view that will be used as the layout when rendering a single component
-    | as an entire page via `Route::get('/post/create', CreatePost::class);`.
+    | as an entire pages via `Route::get('/post/create', CreatePost::class);`.
     | In this case, the view returned by CreatePost will render into $slot.
     |
     */
@@ -45,7 +45,7 @@ return [
     | Lazy Loading Placeholder
     |---------------------------------------------------------------------------
     | Livewire allows you to lazy load components that would otherwise slow down
-    | the initial page load. Every component can have a custom placeholder or
+    | the initial pages load. Every component can have a custom placeholder or
     | you can define the default placeholder view for all components below.
     |
     */
@@ -152,7 +152,7 @@ return [
     |
     | When enabling Livewire's pagination feature by using the `WithPagination`
     | trait, Livewire will use Tailwind templates to render pagination views
-    | on the page. If you want Bootstrap CSS, you can specify: "bootstrap"
+    | on the pages. If you want Bootstrap CSS, you can specify: "bootstrap"
     |
     */
 

@@ -2,28 +2,31 @@
 
     <label for="{{ $id ?? '' }}" class="form-label">
         {{ $slot }}
-        <span class="text-danger">{{ $required ?? false ? '*' : '' }} </span>
+        <x-ui.red-text>
+            {{ $attributes->has('required') ? '*' : '' }}
+        </x-ui.red-text>
+
         @if ($tooltip ?? null)
             <small class="ms-2">
-                <i class="bi bi-question-circle-fill" data-bs-toggle="tooltip" data-bs-placement="top"
-                   data-bs-title="{{ $tooltip }}"></i>
+                <x-ui.tooltip :tooltip="$tooltip" />
             </small>
         @endif
     </label>
 
 
-    <textarea {{ $attributes }}
-              class="form-control {{ $dataClass ?? '' }} "
-              rows="5">
-
+    <textarea
+        {{ $attributes }}
+        class="form-control {{ $dataClass ?? '' }} "
+        rows="5"
+        aria-label="{{ $slot }}"
+        aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}">
     </textarea>
 
     @if($error ?? null)
         @error($error)
-        <span class="text-danger mt-2">
-            {{ $message }}
-        </span>
+            <x-ui.red-text>
+                {{ $message }}
+            </x-ui.red-text>
         @enderror
     @endif
-
 </div>

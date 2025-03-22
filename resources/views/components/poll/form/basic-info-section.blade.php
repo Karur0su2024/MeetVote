@@ -1,32 +1,31 @@
 @props([
-    /** @var \null */
-    'poll'
+    'poll',
+    'label'
 ])
 
 <x-card>
 
     {{-- Hlavička --}}
-    <x-slot:header>{{ __('form.section.title.basic_info') }}</x-slot:header>
-
-    {{-- Tooltip --}}
+    <x-slot:header>{{ __('pages/poll-editor.basic_info.title') }}</x-slot:header>
 
     {{-- Název ankety --}}
     <x-ui.form.input
         id="title"
         x-model="form.title"
         type="text"
-        placeholder="New poll"
+        placeholder="{{ __('pages/poll-editor.basic_info.poll_title.placeholder') }}"
+        required
         error="form.title">
-        {{ __('form.label.title') }}
+        {{ __('pages/poll-editor.basic_info.poll_title.label') }}
     </x-ui.form.input>
 
     {{-- Popis ankety --}}
     <x-ui.form.textbox
         id="description"
         x-model="form.description"
-        placeholder="Your poll's description..."
+        placeholder="{{ __('pages/poll-editor.basic_info.poll_description.placeholder') }}"
         error="form.description">
-        {{ __('form.label.description') }}
+        {{ __('pages/poll-editor.basic_info.poll_description.label') }}
     </x-ui.form.textbox>
 
     {{-- Deadline ankety --}}
@@ -36,9 +35,9 @@
         type="date"
         error="form.deadline">
         <x-slot:tooltip>
-            {{ __('form.tooltip.deadline') }}
+            {{ __('pages/poll-editor.basic_info.poll_deadline.tooltip') }}
         </x-slot:tooltip>
-        {{ __('form.label.deadline') }}
+        {{ __('pages/poll-editor.basic_info.poll_deadline.label') }}
     </x-ui.form.input>
 
     {{-- Informace o autorovi --}}

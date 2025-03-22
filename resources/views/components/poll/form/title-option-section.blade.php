@@ -2,7 +2,6 @@
 
     {{-- Hlavička --}}
     <x-slot:header>{{ __('form.section.title.time_options') }}</x-slot>
-
     {{-- Tooltip --}}
     <x-slot:tooltip>
         {{ __('form.section.tooltip.time_options') }}

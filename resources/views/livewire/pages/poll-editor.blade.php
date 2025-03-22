@@ -21,7 +21,6 @@
             </x-layout.col-6>
         </div>
 
-
         <x-error-alert for="error"/>
         <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">
             {{ __('form.button.submit') }}

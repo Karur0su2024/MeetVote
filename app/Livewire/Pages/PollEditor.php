@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Pages;
 
 use App\Livewire\Forms\PollForm;
 use App\Models\Poll;
@@ -9,7 +9,7 @@ use Livewire\Component;
 use App\Services\NotificationService;
 use App\Exceptions\PollException;
 
-class Form extends Component
+class PollEditor extends Component
 {
     /**
      * @var PollForm
@@ -144,6 +144,6 @@ class Form extends Component
      */
     public function render()
     {
-        return view('livewire.poll.form');
+        return view('livewire.pages.poll-editor');
     }
 }

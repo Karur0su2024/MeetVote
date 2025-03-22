@@ -4,7 +4,6 @@
         {{ __('form.section.tooltip.questions') }}
     </x-slot:tooltip>
 
-
     <template x-if="form.questions.length > 0">
         <template x-for="(question, questionIndex) in form.questions" :key="questionIndex">
             <x-poll.form.question-card>
@@ -14,7 +13,6 @@
                 </template>
             </x-poll.form.question-card>
         </template>
-
     </template>
 
     <template x-if="form.questions.length == 0">
@@ -22,7 +20,6 @@
             {{  __('form.alert.no_questions') }}
         </x-alert>
     </template>
-
     {{-- Tlačítko pro přidání další otázky --}}
     <button type="button"
             @click="addQuestion()"
@@ -32,5 +29,4 @@
     <span
             class="text-danger ms-2">{{ $message }}</span>
     @enderror
-
 </x-card>

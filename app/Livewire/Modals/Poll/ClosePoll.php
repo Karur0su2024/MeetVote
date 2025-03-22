@@ -57,7 +57,7 @@ class ClosePoll extends Component
 
     private function checkPollStatus() {
         if ($this->poll->status !== $this->status) {
-            session()->flash('error', 'The poll status has changed. Please refresh the page.');
+            session()->flash('error', 'The poll status has changed. Please refresh the pages.');
             return true;
         }
 

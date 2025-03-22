@@ -3,18 +3,15 @@
     <label for="{{ $id ?? '' }}"
            class="form-label">
         {{ $slot }}
+
         <x-ui.red-text>
-            {{ $required ?? false ? '*' : '' }}
+            {{ $attributes->has('required') ? '*' : '' }}
         </x-ui.red-text>
 
         {{-- Tooltip pro popis pole --}}
         @if ($tooltip ?? null)
             <small class="ms-2">
-                <i class="bi bi-question-circle-fill"
-                   data-bs-toggle="tooltip"
-                   data-bs-placement="top"
-                   data-bs-title="{{ $tooltip }}">
-                </i>
+                <x-ui.tooltip :tooltip="$tooltip" />
             </small>
         @endif
     </label>
@@ -24,6 +21,8 @@
         type="{{ $type ?? 'text' }}"
         {{ $attributes }}
         class="form-control {{ $dataClass ?? '' }} @error($error ?? null) is-invalid @enderror"
+        aria-label="{{ $slot }}"
+        aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
     />
 
     @error($error ?? null)

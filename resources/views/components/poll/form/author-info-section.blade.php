@@ -4,7 +4,10 @@
     <x-ui.form.checkbox
         id="show.user-info"
         x-model="anonymous">
-        {{ __('form.label.post_anonymously') }}
+        <x-slot:tooltip>
+            {{ __('pages/poll-editor.basic_info.post_anonymously.tooltip') }}
+        </x-slot:tooltip>
+        {{ __('pages/poll-editor.basic_info.post_anonymously.label') }}
     </x-ui.form.checkbox>
 
     <div x-show="!anonymous">
@@ -15,8 +18,9 @@
             x-model="form.user.name"
             type="text"
             required
+            placeholder="{{ __('pages/poll-editor.basic_info.user_name.placeholder') }}"
             error="form.user.name">
-            {{ __('form.label.user_name') }}
+            {{ __('pages/poll-editor.basic_info.user_name.label') }}
         </x-ui.form.input>
 
         {{-- E-mail autora --}}
@@ -25,8 +29,9 @@
             x-model="form.user.email"
             type="email"
             required
+            placeholder="{{ __('pages/poll-editor.basic_info.user_email.placeholder') }}"
             error="form.user.email">
-            {{ __('form.label.user_email') }}
+            {{ __('pages/poll-editor.basic_info.user_email.label') }}
         </x-ui.form.input>
     </div>
 </div>

@@ -1,6 +1,38 @@
 <?php
 
 return [
+
+    // Základní informace o anketě
+    'basic_info' => [
+        'title' => 'Basic information',
+        'poll_title' => [
+            'label' => 'Poll title',
+            'placeholder' => 'Poll #1',
+        ],
+        'poll_description' => [
+            'label' => 'Poll description',
+            'placeholder' => 'Your poll description...',
+        ],
+        'poll_deadline' => [
+            'label' => 'Deadline',
+            'placeholder' => 'Enter the deadline for the poll',
+            'tooltip' => 'Set the deadline for the poll. After this date, no new votes will be accepted. Deadline is not
+                    required.',
+        ],
+        'post_anonymously' => [
+            'label' => 'Post poll anonymously',
+            'tooltip' => 'If you want to post the poll anonymously, you can do so by checking this option. This will hide your name and email from the poll.',
+        ],
+        'user_name' => [
+            'label' => 'Your name',
+            'placeholder' => 'John Doe',
+        ],
+        'user_email' => [
+            'label' => 'Your email',
+            'placeholder' => 'example@email.com',
+        ],
+    ],
+
     // Nastavení časových termínů
     'section.title.time_options' => 'Time options',
     'section.tooltip.time_options' => 'Select available dates and time slots for participants to vote on.',
