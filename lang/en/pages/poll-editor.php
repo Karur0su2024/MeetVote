@@ -50,6 +50,10 @@ return [
         'alert' => [
             'no_questions' => 'No questions added yet.',
         ],
+        'label' => [
+            'question' => 'Question',
+            'option' => 'Option',
+        ],
         'button' => [
             'add_option' => 'Add option',
             'add_question' => 'Add question',

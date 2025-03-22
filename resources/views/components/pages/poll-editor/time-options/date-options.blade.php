@@ -1,6 +1,6 @@
 <div
     class="p-2 mb-2 rounded border"
-    :class="{ 'bg-warning': form.dates[dateIndex][optionIndex].id }">
+    :class="{ 'bg-warning': option.id }">
     <!-- Zobrazení časového intervalu -->
     <div
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">
@@ -22,22 +22,22 @@
             </div>
         </template>
         <template x-if="option.type === 'text'">
-                <input type="text"
-                       x-model="form.dates[dateIndex][optionIndex].content.text"
-                       :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
-                       :placeholder="'Option ' + (optionIndex + 1)"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
+            <input type="text"
+                   x-model="form.dates[dateIndex][optionIndex].content.text"
+                   :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
+                   :placeholder="'Option ' + (optionIndex + 1)"
+                   :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
         </template>
 
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-        <button type="button" @click="removeTimeOption(dateIndex, optionIndex)"
-                class="btn btn-danger mx-auto">
-            <i class
-                :class="{ 'bi bi-exclamation-triangle': form.dates[dateIndex][optionIndex].score > 0, 'bi bi-trash': !form.dates[dateIndex][optionIndex].score }">
+        <x-ui.button @click="removeQuestionOption(questionIndex, optionIndex)"
+                     color="danger">
+            <i :class="{ 'bi bi-exclamation-triangle': form.dates[dateIndex][optionIndex].score > 0,
+                         'bi bi-trash': !form.dates[dateIndex][optionIndex].score }">
                 <span class="d-md-none ms-1">Delete</span>
             </i>
-        </button>
+        </x-ui.button>
 
 
     </div>

@@ -135,8 +135,6 @@ function getFormData() {
         },
 
         removeQuestion(index) {
-
-
             if (this.form.questions[index].id !== undefined) {
                 this.form.removed['questions'].push(this.form.questions[index].id);
             }
@@ -159,7 +157,7 @@ function getFormData() {
             }
 
             if (this.form.questions[questionIndex].options[optionIndex].id !== undefined) {
-                this.form.removed['questions_options'].push(this.form.questions[questionIndex].options[optionIndex].id);
+                this.form.removed['question_options'].push(this.form.questions[questionIndex].options[optionIndex].id);
             }
 
             this.form.questions[questionIndex].options.splice(optionIndex, 1);

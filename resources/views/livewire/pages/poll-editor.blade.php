@@ -13,7 +13,7 @@
         <div class="row">
             {{-- Výběr doplňujících otázek --}}
             <x-layout.col-6>
-                <x-pages.poll-editor.questions-section/>
+                <x-pages.poll-editor.questions.section/>
             </x-layout.col-6>
             {{-- Nastavení ankety --}}
             <x-layout.col-6>
@@ -22,7 +22,7 @@
         </div>
 
         <x-error-alert for="error"/>
-        <x-ui.button type="submit" size="lg">
+        <x-ui.button type="submit" size="lg" class="w-50 mx-auto">
             {{ __('form.button.submit') }}
         </x-ui.button>
 

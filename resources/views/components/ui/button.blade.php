@@ -6,7 +6,7 @@
 
 
 <button type="{{  $type  }}"
-        class="btn btn-{{ $color }} btn-{{ $size }} w-50 mx-auto {{ $attributes->get('class') }}"
+        class="btn btn-{{ $color }} btn-{{ $size }} {{ $attributes->get('class') }}"
         {{ $attributes }}>
     {{ $slot }}
 </button>
