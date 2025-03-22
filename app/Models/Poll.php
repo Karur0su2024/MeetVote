@@ -46,7 +46,6 @@ class Poll extends Model
             $poll->public_id = Str::random(40);
             $poll->admin_key = Str::random(40);
             $poll->user_id = Auth::id();
-            $poll->expires_at = now()->addDays(90);
         });
     }
 

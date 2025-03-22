@@ -56,22 +56,13 @@ class PollEditor extends Component
      */
     public function submit()
     {
-        $validatedData = null;
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
-            if($this->checkDuplicity($validatedData)){
-                $this->dispatch('validation-failed', errors: $this->getErrors());
-                return null;
-            }
         } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->addError('error', 'Došlo k chybě při validaci formuláře.');
-            $this->checkDuplicity($validatedData);
+            $this->addError('error', 'Test.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
         }
-
-
-
 
         if(!$validatedData) {
             $this->addError('error', 'An error occurred while validating the form.');
@@ -84,7 +75,12 @@ class PollEditor extends Component
         }
         unset($validatedData['dates']);
 
+        $this->saveToDatabase($validatedData);
 
+    }
+
+    private function saveToDatabase(array $validatedData)
+    {
         try {
             // Uložení do databáze
             $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);

@@ -42,7 +42,7 @@
 
     {{-- Informace o autorovi --}}
     @if (!$poll->id)
-        <x-poll.form.author-info-section />
+        <x-pages.poll-editor.author-info-section />
     @endif
 
 </x-card>

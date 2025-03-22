@@ -16,7 +16,6 @@
                :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }"
         >
 
-
         {{-- Tlačítko pro odstranění časové možnosti --}}
         <button type="button" @click="removeTimeOption(dateIndex, optionIndex)"
                 class="btn btn-danger mx-auto">

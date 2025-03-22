@@ -5,26 +5,26 @@
     >
 
         {{-- Základní informace o anketě --}}
-        <x-poll.form.basic-info-section :poll="$poll"/>
+        <x-pages.poll-editor.basic-info-section :poll="$poll"/>
 
         {{-- Výběr časových termínů --}}
-        <x-poll.form.title-option-section/>
+        <x-pages.poll-editor.time-options.section/>
 
         <div class="row">
+            {{-- Výběr doplňujících otázek --}}
             <x-layout.col-6>
-                {{-- Výběr doplňujících otázek --}}
-                <x-poll.form.questions-section/>
+                <x-pages.poll-editor.questions-section/>
             </x-layout.col-6>
+            {{-- Nastavení ankety --}}
             <x-layout.col-6>
-                {{-- Nastavení ankety --}}
-                <x-poll.form.settings-section/>
+                <x-pages.poll-editor.settings-section/>
             </x-layout.col-6>
         </div>
 
         <x-error-alert for="error"/>
-        <button type="submit" class="btn btn-primary btn-lg w-75 mx-auto">
+        <x-ui.button type="submit" size="lg">
             {{ __('form.button.submit') }}
-        </button>
+        </x-ui.button>
 
 
     </form>

@@ -32,53 +32,63 @@ return [
             'placeholder' => 'example@email.com',
         ],
     ],
+    'time_options' => [
+        'title' => 'Time options',
+        'tooltip' => 'Select available dates and time slots for participants to vote on.',
+        'calendar' => [
+            'title' => 'Calendar',
+            'dates' => 'Chosen dates',
+        ],
+        'button' => [
+            'add_time_option' => 'Add time option',
+            'add_text_option' => 'Add text option',
+        ],
+    ],
+    'questions' => [
+        'title' => 'Additional questions',
+        'tooltip' => 'Add additional questions to the poll. Questions are not required.',
+        'alert' => [
+            'no_questions' => 'No questions added yet.',
+        ],
+        'button' => [
+            'add_option' => 'Add option',
+            'add_question' => 'Add question',
+        ],
 
-    // Nastavení časových termínů
-    'section.title.time_options' => 'Time options',
-    'section.tooltip.time_options' => 'Select available dates and time slots for participants to vote on.',
-
-    'subsection.title.calendar' => 'Calendar',
-    'subsection.title.dates' => 'Chosen dates',
-
-    'button.time_option_time' => 'Add time option',
-    'button.time_option_text' => 'Add text option',
-
-    // Otázky ankety
-    'section.title.questions' => 'Additional questions',
-    'section.tooltip.questions' => 'Add additional questions to the poll. Questions are not required.',
-
-    'alert.no_questions' => 'No questions added yet.',
-
-    'button.add_option' => 'Add option',
-    'button.add_question' => 'Add question',
-
-    // Nastavení ankety
-    'section.title.settings' => 'Settings',
-    'section.tooltip.settings' => 'Set the poll settings.',
-
-    'label.comments' => 'Comments',
-    'tooltip.comments' => 'Allow participants to add comments to the poll.',
-
-    'label.anonymous' => 'Anonymous voting',
-    'tooltip.anonymous' => 'Allow participants to vote anonymously.',
-
-    'label.hide_results' => 'Hide results',
-    'tooltip.hide_results' => 'Hide the results of the poll until the deadline.',
-
-    'label.edit_votes' => 'Allow vote editing',
-    'tooltip.edit_votes' => 'Allow participants to edit their votes after submission.',
-
-    'label.invite_only' => 'Invite only',
-    'tooltip.invite_only' => 'Permit only invited users to access the poll.',
-
-    'label.add_time_options' => 'Users can add time options',
-    'tooltip.add_time_options' => 'Allow participants to add their own time options to the poll.',
-
-    'label.password' => 'Password',
-    'tooltip.password' => 'Set a password for the poll. Only users with the password can access the poll.',
-
-
-    // Odeslání ankety
-    'button.submit' => 'Submit',
-
+    ],
+    'settings' => [
+        'title' => 'Settings',
+        'tooltip' => 'Set the poll settings.',
+        'comments' => [
+            'label' => 'Comments',
+            'tooltip' => 'Allow participants to add comments to the poll.',
+        ],
+        'anonymous' => [
+            'label' => 'Anonymous voting',
+            'tooltip' => 'Allow participants to vote anonymously.',
+        ],
+        'hide_results' => [
+            'label' => 'Hide results',
+            'tooltip' => 'Hide the results of the poll until the deadline.',
+        ],
+        'edit_votes' => [
+            'label' => 'Allow vote editing',
+            'tooltip' => 'Allow participants to edit their votes after submission.',
+        ],
+        'invite_only' => [
+            'label' => 'Invite only',
+            'tooltip' => 'Permit only invited users to access the poll.',
+        ],
+        'add_time_options' => [
+            'label' => 'Users can add time options',
+            'tooltip' => 'Allow participants to add their own time options to the poll.',
+        ],
+        'password' => [
+            'label' => 'Password',
+            'tooltip' => 'Set a password for the poll. Only users with the password can access the poll.',
+        ],
+    ],
+    'button' => [
+        'submit' => 'Submit',
+    ],
 ];

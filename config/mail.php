@@ -14,6 +14,7 @@ return [
     |
     */
 
+    'mail_allowed' => env('MAIL_ALLOWED', false),
     'default' => env('MAIL_MAILER', 'log'),
 
     /*

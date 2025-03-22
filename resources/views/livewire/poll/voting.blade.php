@@ -105,29 +105,7 @@
                     <div class="p-4">
 
                         @if (!$poll->anonymous_votes)
-                            <div class="row">
-                                <h3 class="mb-4 pb-2 fw-bold">
-                                    Your information
-                                </h3>
-                                <div class="col-md-6 mb-3">
-                                    <x-input id="name" x-model="form.user.name" required
-                                             data-class="form-control-lg">
-                                        Your name
-                                    </x-input>
-                                    <div x-show="messages.errors['form.user.name']" class="text-danger">
-                                        <span x-text="messages.errors['form.user.name']"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <x-input id="email" x-model="form.user.email" type="email" required
-                                             data-class="form-control-lg">
-                                        Your e-mail
-                                    </x-input>
-                                    <div x-show="messages.errors['form.user.email']" class="text-danger">
-                                        <span x-text="messages.errors['form.user.email']"></span>
-                                    </div>
-                                </div>
-                            </div>
+                            <x-pages.poll-show.voting.form/>
                         @endif
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
