@@ -4,7 +4,7 @@
         <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        @if (count($votes) == 0)
+        @if (count($votes) === 0)
             <div class="alert alert-secondary" role="alert">
                 No votes yet
             </div>

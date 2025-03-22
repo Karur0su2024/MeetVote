@@ -91,7 +91,6 @@ class TimeOptionService
 
 
 
-
     /**
      * Metoda pro kontrolu duplicity časových možností.
      *
@@ -108,6 +107,11 @@ class TimeOptionService
         return count($options) !== count(array_unique($toCheck));
     }
 
+    /**
+     * Metoda pro kontrolu duplicity časových možností podle data.
+     * @param array $dates
+     * @return array
+     */
     public function checkDuplicityByDates(array $dates): array
     {
         $duplicatesDates = [];
@@ -151,6 +155,10 @@ class TimeOptionService
         return $score;
     }
 
+    /**
+     * Metoda pro inicializaci časové možnosti.
+     * @return array
+     */
     private function initialTimeOption(): array
     {
         return [[

@@ -56,11 +56,17 @@ class Form extends Component
      */
     public function submit()
     {
+        $validatedData = null;
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
+            if($this->checkDuplicity($validatedData)){
+                $this->dispatch('validation-failed', errors: $this->getErrors());
+                return null;
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->addError('error', 'Došlo k chybě při validaci formuláře.');
-            $this->dispatch('validation-failed', errors: $e->errors());
+            $this->checkDuplicity($validatedData);
+            $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
         }
 
@@ -98,40 +104,13 @@ class Form extends Component
         }
     }
 
-    // Úprava pole pro uložení do databáze
-
-
-        // Tohle taky přesunout do alpine.js
-        // Kontrola duplicitních otázek a časových možností
-    /**
-     * @param $validatedData
-     * @param PollService $pollService
-     * @return bool
-     */
-//    private function checkDuplicity($validatedData): bool
-//    {
-//        if ($this->pollService->getTimeOptionService()->checkDuplicity($validatedData['time_options'])) {
-//            $this->addError('form.dates', 'Duplicate time options are not allowed.');
-//            return true;
-//        }
-//
-//        if ($this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions'])) {
-//            $this->addError('form.questions', 'Duplicate questions or options are not allowed.');
-//            return true;
-//        }
-//
-//
-//        return false;
-//    }
-
-
     /**
      * Kontrola duplicitních otázek a časových možností
      * @param $validatedData
      * @param PollService $pollService
      * @return bool
      */
-    public function checkDuplicity($validatedData): bool
+    private function checkDuplicity($validatedData): bool
     {
         $duplicatesDates = $this->pollService->getTimeOptionService()->checkDuplicityByDates($validatedData['dates']);
         $duplicatesQuestions = $this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions']);
@@ -154,12 +133,7 @@ class Form extends Component
 
 
 
-
-
-
-
-
-    public function getErrors(): array
+    private function getErrors(): array
     {
         return $this->getErrorBag()->toArray();
     }

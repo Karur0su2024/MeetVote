@@ -7,6 +7,9 @@ use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Livewire\Component;
 
+/**
+ *
+ */
 class AddNewTimeOption extends Component
 {
     public $poll;
@@ -31,35 +34,45 @@ class AddNewTimeOption extends Component
 
     protected TimeOptionService $timeOptionService;
 
+    /**
+     * @param TimeOptionService $timeOptionService
+     * @return void
+     */
     public function boot(TimeOptionService $timeOptionService)
     {
         $this->timeOptionService = $timeOptionService;
     }
 
-    public function mount($publicIndex)
+    /**
+     * @param $pollIndex
+     * @return void
+     */
+    public function mount($pollIndex)
     {
-        $this->poll = Poll::where('public_id', $publicIndex)->first();
 
-        if (!$this->poll) {
-            session()->flash('error', 'Poll not found.');
-            return;
-        }
+        $this->poll = Poll::find($pollIndex);
 
         $this->type = 'time';
         $this->date = now()->format('Y-m-d');
     }
 
+    /**
+     * Metoda pro změnu typu časové možnosti.
+     * @param $type
+     * @return void
+     */
     public function changeType($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * Metoda pro zpracování události odeslání formuláře.
+     * @return void
+     */
     public function submit()
     {
         $validatedData = $this->validate();
-
-        $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
-
         $timeOptions[] = [
             'date' => $validatedData['date'],
             'type' => $validatedData['type'],
@@ -70,6 +83,9 @@ class AddNewTimeOption extends Component
                 'text' => $validatedData['content']['text'],
             ],
         ];
+
+        $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
+
 
         if ($this->timeOptionService->checkDuplicity($timeOptions)) {
             $this->addError('error', 'Duplicity detected');
@@ -91,11 +107,14 @@ class AddNewTimeOption extends Component
         }
 
 
-
         $this->dispatch('updateTimeOptions');
         $this->dispatch('hideModal');
     }
 
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
+     */
     public function render()
     {
         return view('livewire.modals.poll.add-new-time-option');

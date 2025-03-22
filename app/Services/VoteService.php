@@ -64,17 +64,28 @@ class VoteService
      */
     public function getPollResults(Poll $poll)
     {
+        $isAdmin = session()->get('poll_' . $poll->public_id . '_adminKey') === $poll->admin_key;
+
+
         $votes = $poll->votes;
 
         $pollResults = [];
 
         foreach ($votes as $voteIndex => $vote) {
+            if($poll->anonymous_votes) {
+                if(!$isAdmin && !($vote->user_id === Auth::id())) {
+                    continue;
+                }
+            }
+
             $pollResults[$voteIndex]['id'] = $vote->id;
             $pollResults[$voteIndex]['user_id'] = $vote->user_id;
             $pollResults[$voteIndex]['voter_name'] = $vote->voter_name;
             $pollResults[$voteIndex]['updated_at'] = $vote->updated_at;
             $pollResults[$voteIndex]['time_options'] = $this->transformTimeOptionData($this->timeOptionService->getPollTimeOptions($poll), $vote->id);
             $pollResults[$voteIndex]['questions'] = $this->transformQuestionData($this->questionService->getPollQuestions($poll), $vote->id);
+            $pollResults[$voteIndex]['permission'] = $isAdmin || ($vote->user_id === Auth::id());
+            $pollResults[$voteIndex]['edit_votes'] = $poll->edit_votes;
         }
 
         return $pollResults;

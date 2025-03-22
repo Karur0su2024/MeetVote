@@ -11,21 +11,21 @@
             <form wire:submit="register">
 
                 <!-- Name -->
-                <x-input id="name" model="form.name" type="text" required>
+                <x-input id="name" wire:model="form.name" type="text" required error="form.name">
                     Name
                 </x-input>
 
                 <!-- Email -->
-                <x-input id="email" model="form.email" type="email" required>
+                <x-input id="email" wire:model="form.email" type="email" required error="form.email">
                     Email
                 </x-input>
                 <!-- Password -->
-                <x-input id="password" model="form.password" type="password" required>
+                <x-input id="password" wire:model="form.password" type="password" required error="form.password">
                     Password
                 </x-input>
 
                 <!-- Confirm Password -->
-                <x-input id="password_confirmation" model="form.password_confirmation" type="password" required>
+                <x-input id="password_confirmation" wire:model="form.password_confirmation" type="password" required  error="form.password_confirmation">
                     Confirm password
                 </x-input>
 

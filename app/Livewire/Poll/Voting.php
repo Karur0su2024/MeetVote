@@ -108,7 +108,6 @@ class Voting extends Component
                 session()->flash('success', 'Vote has been created successfully.');
                 event(new VoteSubmitted($vote));
             }
-
             $this->form->loadData($this->voteService->getPollData($this->poll->id));
             return $vote;
         } catch (VoteException $e) {
