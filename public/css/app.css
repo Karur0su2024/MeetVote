@@ -65,3 +65,7 @@ body {
 .btn-primary:hover {
     background-color: #66b3af !important;
 }
+
+.pointer-cursor {
+    cursor: pointer !important;
+}

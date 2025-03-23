@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+/**
+ *
+ */
 class Poll extends Model
 {
 
@@ -49,50 +53,87 @@ class Poll extends Model
         });
     }
 
-    // Vztah k uživateli (M:1)
+
+    /**
+     * Vztah k uživateli (M:1)
+     * @return BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Vztah k časovým možnostem (1:N)
+    /**
+     * Vztah k časovým možnostem (1:N)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function timeOptions()
     {
         return $this->hasMany(TimeOption::class);
     }
 
-    // Vztah k odpovědím (1:N)
+    /**
+     * Vztah k odpovědím (1:N)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function votes()
     {
         return $this->hasMany(Vote::class);
     }
 
-    // Vztah k události (1:1)
+    /**
+     * Vztah k události (1:1)
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function event()
     {
         return $this->hasOne(Event::class);
     }
 
-    // Vztah k otázkám (1:N)
+
+    /**
+     * Vztah k otázkám (1:N)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function questions()
     {
         return $this->hasMany(PollQuestion::class);
     }
 
-    // Vztah ke komentářům (1:N)
+    /**
+     * Vztah ke komentářům (1:N)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    // Vztah k pozvánkám (1:N)
+
+
+    /**
+     * // Vztah k pozvánkám (1:N)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function invitations()
     {
         return $this->hasMany(Invitation::class);
     }
 
+    /**
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'public_id';
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->status === 'active' && ($this->deadline > now() || $this->deadline === null);
+    }
+
 }

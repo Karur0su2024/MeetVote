@@ -7,24 +7,22 @@
 
         <div class="mb-3 alerts-container">
             @if (session('error'))
-                <x-alert type="danger">
+                <x-ui.alert type="danger">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>{{ session('error') }}</div>
-                </x-alert>
+                </x-ui.alert>
             @endif
-
             @if (session('success'))
-                <x-alert type="success">
+                <x-ui.alert type="success">
                     <i class="bi bi-check-circle-fill me-2"></i>
                     <div>{{ session('success') }}</div>
-                </x-alert>
+                </x-ui.alert>
             @endif
-
         </div>
 
         {{-- Panel s nastavením ankety --}}
         @if ($isAdmin)
-            <livewire:poll.settings :poll-id="$poll->id"/>
+            <livewire:pages.poll-show.settings-section :poll-id="$poll->id"/>
         @endif
 
 

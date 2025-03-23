@@ -1,20 +1,22 @@
 <div class="mb-3">
     {{-- Popisek pole --}}
-    <label for="{{ $id ?? '' }}"
-           class="form-label">
-        {{ $slot }}
+    <div class="d-flex">
+        <label for="{{ $id ?? '' }}"
+               class="form-label">
+            {{ $slot }}
 
-        <x-ui.red-text>
-            {{ $attributes->has('required') ? '*' : '' }}
-        </x-ui.red-text>
-
+            <x-ui.red-text>
+                {{ $attributes->has('required') ? '*' : '' }}
+            </x-ui.red-text>
+        </label>
         {{-- Tooltip pro popis pole --}}
         @if ($tooltip ?? null)
             <small class="ms-2">
                 <x-ui.tooltip :tooltip="$tooltip" />
             </small>
         @endif
-    </label>
+    </div>
+
 
     {{-- Input pole --}}
     <input

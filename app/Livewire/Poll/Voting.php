@@ -39,7 +39,7 @@ class Voting extends Component
     }
 
     /**
-     * @param Poll $pollId
+     * @param int $pollId
      * @return void
      */
     public function mount(int $pollId): void
@@ -90,7 +90,6 @@ class Voting extends Component
     /**
      * Metoda pro uložení hlasu do databáze.
      * @param $validatedData
-     * @param VoteService $voteService
      * @return Vote|null
      * @throws \Throwable
      */

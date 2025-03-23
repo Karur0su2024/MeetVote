@@ -59,6 +59,6 @@ class Settings extends Component
 
     public function render()
     {
-        return view('livewire.poll.settings');
+        return view('livewire.pages.poll-show.settings-section');
     }
 }

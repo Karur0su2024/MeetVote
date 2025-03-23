@@ -16,7 +16,7 @@
             </button>
         </x-slot:header>
 
-        @if ($poll->status == 'closed')
+        @if (!$poll->isActive())
             <div class="alert alert-warning mb-0">
                 <i class="bi bi-exclamation-triangle-fill"></i> Poll is closed. You can no longer vote.
             </div>
