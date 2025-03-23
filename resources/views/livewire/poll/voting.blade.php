@@ -19,7 +19,7 @@
             </button>
         </x-slot:header>
 
-        @can('canVote', $poll)
+        @if($poll->isActive())
             <div>
                 <div class="p-4 w-100">
                     <div class="mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
@@ -134,7 +134,7 @@
             <div class="alert alert-warning mb-0">
                 <i class="bi bi-exclamation-triangle-fill"></i> Poll is closed. You can no longer vote.
             </div>
-        @endcan
+        @endif
 
 
     </x-card>

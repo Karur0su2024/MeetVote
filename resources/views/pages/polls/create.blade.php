@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layouts.app>
 
     <!-- Název stránky -->
     <x-slot:title>Create a New Poll</x-slot>

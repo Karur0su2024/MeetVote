@@ -58,16 +58,12 @@ class Voting extends Component
     public function submitVote($voteData): void
     {
         $this->form->handleSubmittedData($voteData);
-
-        if(Gate::allows('canVote', $this->poll))
-        {
+        if(!Gate::allows('canVote', $this->poll)) {
             $this->dispatch('validation-failed', errors: [
                 'form' => 'You do not have permission to vote.',
             ]);
             return;
         }
-
-
 
         try {
             $validatedData = $this->form->validate();
@@ -78,8 +74,6 @@ class Voting extends Component
         }
 
         $vote = $this->saveVote($validatedData);
-
-
 
         if ($vote) {
             $this->form->loadData($this->voteService->getPollData($this->poll->id));

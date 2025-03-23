@@ -17,32 +17,28 @@ Route::middleware(['setLanguage'])->group(function () {
     // Všechny routy pro ankety
     Route::prefix('polls')->group(function () {
 
-
-
         // Vytvoření ankety
         Route::get('/create', [PollController::class, 'create'])
             ->name('polls.create');
 
         // Zobrazení ankety
         Route::get('/{poll}', [PollController::class, 'show'])
-            ->middleware(['isPollAdmin', 'inviteOnly', 'checkPassword'])
+            ->middleware(['poll.is_invite_only', 'poll.has_password'])
             ->name('polls.show');
 
         // Úprava ankety
         Route::get('/{poll}/edit', [PollController::class, 'edit'])
-        ->middleware(['poll.is_active', 'isPollAdmin'])
+        ->middleware(['poll.is_active', 'poll.has_access'])
         ->name('polls.edit');
+
+        // Formulář pro ověření hesla ankety
+        Route::get('/{poll}/authentication', [PollController::class, 'authentication'])->name('polls.authentication');
 
         // Přidat práva správce ankety pomocí odkazu
         Route::get('/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');
-        //
-
-        // Heslo ankety
-        Route::get('/{poll}/authentification', [PollController::class, 'authentification'])
-            ->name('polls.authentification');
 
         // Ověření hesla
-        Route::post('/{poll}/authentification', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
+        Route::post('/{poll}/authentication', [PollController::class, 'checkPassword'])->name('polls.checkPassword');
 
         // Smazání ankety
         Route::delete('/{poll}', [PollController::class, 'destroy'])

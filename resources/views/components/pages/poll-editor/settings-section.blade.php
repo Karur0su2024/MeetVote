@@ -1,5 +1,5 @@
 <x-card>
-    <x-slot:header>{{ __('form.section.title.settings') }}</x-slot>
+    <x-slot:header>{{ __('pages/poll-editor.settings.title') }}</x-slot>
 
     {{-- Komentáře --}}
     <x-ui.form.checkbox id="comments" x-model="form.settings.comments">

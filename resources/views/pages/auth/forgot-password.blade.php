@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layouts.app>
 
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/auth.forgot_password.title') }}d</x-slot>
@@ -10,4 +10,4 @@
 
 
 
-</x-layout.app>
+</x-layouts.app>

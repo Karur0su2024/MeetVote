@@ -1,4 +1,4 @@
-<x-layout.app>
+<x-layouts.app>
 
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/user-settings.title') }}</x-slot>
@@ -8,4 +8,4 @@
         <livewire:user.settings />
     </div>
 
-</x-layout.app>
+</x-layouts.app>

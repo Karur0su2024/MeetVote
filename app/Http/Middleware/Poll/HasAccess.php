@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Http\Middleware\Poll;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsActive
+class HasAccess
 {
     /**
      * Handle an incoming request.
@@ -15,11 +16,10 @@ class IsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->poll->status !== "active") {
-            session()->flash('error', 'You can edit only active polls.');
-            return redirect()->route('polls.show', $request->poll);
+        if(Gate::allows('isAdmin', $request->poll)){
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect()->route('polls.show', $request->poll)->with('error', 'You don\'t have permission to access this page.');
     }
 }

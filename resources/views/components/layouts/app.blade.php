@@ -19,7 +19,7 @@
 <div class="app-background-overlay">
 
     <!-- Navbar -->
-    <x-layout.navbar />
+    <x-layouts.navbar />
 
     <!-- Obsah stránky -->
     <main class="container py-5 min-vh-100 px-0">
@@ -27,7 +27,7 @@
     </main>
 
     <!-- Footer -->
-    <x-layout.footer/>
+    <x-layouts.footer/>
 
     <livewire:modals/>
     <livewire:scripts/>

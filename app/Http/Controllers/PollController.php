@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Poll;
 use Illuminate\Http\Request;
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Hash;
+
 
 class PollController extends Controller
 {
@@ -29,7 +31,7 @@ class PollController extends Controller
         return redirect()->route('dashboard')->with('success', 'Anketa byla úspěšně smazána.');
     }
 
-    public function authentification(Poll $poll)
+    public function authentication(Poll $poll)
     {
         return view('pages.polls.authenticate', ['poll' => $poll]);
     }

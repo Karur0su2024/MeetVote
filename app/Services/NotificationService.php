@@ -30,7 +30,7 @@ class NotificationService
     {
         if(!$this->isEmailConfigured()) return;
         // Odeslání e-mailu uživateli
-        Mail::to($email)->send(new InvitationEmail($poll, $key));
+        //Mail::to($email)->send(new InvitationEmail($poll, $key));
     }
 
     private function isEmailConfigured(): bool

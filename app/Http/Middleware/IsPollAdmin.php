@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Gate;
 
 class IsPollAdmin
 {
@@ -17,9 +18,10 @@ class IsPollAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check() && $request->poll->user_id === Auth::id()) {
-            $this->setPermissions($request);
+        if(Gate::allows('isAdmin', $request->poll)){
+            return $next($request);
         }
+
 
         if (session()->has('poll_'.$request->poll->public_id.'_adminKey')) {
             // Porovnání klíče správce ankety z databáze s klíčem uloženým v session

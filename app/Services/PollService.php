@@ -9,16 +9,11 @@ use Illuminate\Support\Str;
 use App\Events\PollCreated;
 use Carbon\Carbon;
 use App\Exceptions\PollException;
+use Illuminate\Support\Facades\Hash;
 
 class PollService
 {
-    /**
-     * @var TimeOptionService
-     */
     protected TimeOptionService $timeOptionService;
-    /**
-     * @var QuestionService
-     */
     protected QuestionService $questionService;
 
     /**
@@ -72,7 +67,10 @@ class PollService
                 'comments' => (bool) $poll?->comments,
                 'hide_results' => (bool) $poll?->hide_results,
                 'invite_only' => (bool) $poll?->invite_only,
-                'password' => $poll?->password ?? '',
+                'password' => [
+                    'set' => $poll?->password ?? false,
+                    'value' => '',
+                ],
                 'add_time_options' => (bool) $poll?->add_time_options,
                 'edit_votes' => (bool) $poll?->edit_votes,
             ],
@@ -168,7 +166,7 @@ class PollService
                 'comments' => $validatedData['settings']['comments'],
                 'hide_results' => $validatedData['settings']['hide_results'],
                 'invite_only' => $validatedData['settings']['invite_only'],
-                'password' => $validatedData['settings']['password'],
+                //'password' => bcrypt($validatedData['settings']['password']),
                 'edit_votes' => $validatedData['settings']['edit_votes'],
                 'add_time_options' => $validatedData['settings']['add_time_options'],
             ]);
