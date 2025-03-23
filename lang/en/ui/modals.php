@@ -39,7 +39,19 @@ return [
         ],
         'loading' => 'Adding...',
     ],
-    'results' => [],
+    'results' => [
+        'title' => 'Poll results',
+        'alert' => [
+            'no_votes' => 'No votes yet.',
+        ],
+        'buttons' => [
+            'delete_vote' => 'Delete vote',
+            'load_vote' => 'Load vote',
+        ],
+        'messages' => [
+            'error' => 'An error occurred while processing your request.',
+        ],
+    ],
     'create_event' => [
         'buttons' => [
             'import_from_results' => 'Import from poll results',
@@ -103,7 +115,35 @@ return [
             ],
         ],
     ],
-    'close_poll' => [],
+    'close_poll' => [
+        'title' => [
+            'close' => 'Close poll',
+            'reopen' => 'Reopen poll',
+        ],
+        'text' => [
+            'reopen' => 'Do you want to reopen this poll? Users will be able to vote again.',
+            'poll_count' => 'This poll has :count_poll_votes votes. Closing the poll will prevent any further
+                        voting.',
+            'is_user_sure' => 'Are you sure you want to close this poll? Once closed, no further votes will be accepted.',
+        ],
+        'buttons' => [
+            'close' => 'Close poll',
+            'reopen' => 'Reopen poll',
+            'cancel' => 'Cancel',
+        ],
+        'alerts' => [
+            'no_votes' =>   'This poll has no votes.
+                            Poll can be closed only if
+                            there is at least one vote.',
+            'event_will_be_deleted' => 'Warning: If you created event, it will be
+                    deleted.'
+        ],
+        'messages' => [
+            'success' => [],
+            'error' => [],
+        ],
+
+    ],
     'choose_final_options' => [
         'title' => 'Close Poll',
         'description' => 'Best options are already selected. You can choose different options if you want.

@@ -1,20 +1,22 @@
 @props(['vote'])
 @php
     $preferenceValues = [
-        '-1' => 'No',
-        '0' => 'None',
-        '1' => 'Maybe',
-        '2' => 'Yes',
+        '-1' => 'no',
+        '0' => 'none',
+        '1' => 'maybe',
+        '2' => 'yes',
     ];
 
 @endphp
 
 <div class="accordion-item">
     <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#accordion-collapse-vote-{{ $vote['id'] }}" aria-expanded="true"
+        <button class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#accordion-collapse-vote-{{ $vote['id'] }}"
+                aria-expanded="true"
                 aria-controls="accordion-collapse-vote-{{ $vote['id'] }}">
-
             <div class="d-flex w-100">
                 <div class="d-flex flex-column">
                     <div class="fw-bold fs-5">{{ $vote['voter_name'] ?? 'anonymous' }}
@@ -32,49 +34,40 @@
     <div id="accordion-collapse-vote-{{ $vote['id'] }}" class="accordion-collapse collapse">
         <div class="accordion-body p-0">
             @if ($vote['permission'])
-            <div class="d-flex justify-content-center gap-2 py-2 my-2">
-                <button class="btn btn-outline-danger" wire:click="deleteVote({{ $vote['id'] }})" type="button">
-                    <i class="bi bi-trash"></i> Delete vote
-                </button>
-                @if($vote['edit_votes'])
-                <button class="btn btn-outline-warning" wire:click="loadVote({{ $vote['id'] }})" type="button">
-                    <i class="bi bi-pencil"></i> Edit vote
-                </button>
-                @endif
-            </div>
+                <div class="d-flex justify-content-center gap-2 p-2 my-2">
+                    <x-ui.button color="outline-danger"
+                                 class="w-100"
+                                 wire:click="deleteVote({{ $vote['id'] }})">
+                        <x-ui.icon name="trash"/>
+                        {{ __('ui/modals.results.buttons.delete_vote') }}
+                    </x-ui.button>
+                    @if($vote['edit_votes'])
+                        <x-ui.button color="outline-warning"
+                                     class="w-100"
+                                     wire:click="loadVote({{ $vote['id'] }})">
+                            <x-ui.icon name="pencil"/>
+                            {{ __('ui/modals.results.buttons.load_vote') }}
+                        </x-ui.button>
+                    @endif
+                </div>
             @endif
             <div>
                 @foreach ($vote['time_options'] as $timeOptionVote)
                     @if ($timeOptionVote['picked_preference'] !== 0)
-                        <div
-                            class="voting-card-{{ $timeOptionVote['picked_preference'] }} d-flex justify-content-between p-3">
-                            <div>{{ Carbon\Carbon::parse($timeOptionVote['date'])->format('j. n. Y') }} -
-                                {{ $timeOptionVote['content'] }}</div>
-                            <div><img class="p-1"
-                                      src="{{ asset('icons/' . $timeOptionVote['picked_preference'] . '.svg') }}"
-                                      alt="{{ $preferenceValues[$timeOptionVote['picked_preference']] }}">
-                            </div>
-                        </div>
+                        <x-ui.modal.results.vote-item :pref="$preferenceValues[$timeOptionVote['picked_preference']]">
+                            {{ $timeOptionVote['date_formatted'] }}
+                        </x-ui.modal.results.vote-item>
                     @endif
                 @endforeach
                 @foreach ($vote['questions'] as $question)
                     @foreach ($question['options'] as $option)
                         @if ($option['picked_preference'] !== 0)
-                            <div
-                                class="voting-card-{{ $option['picked_preference'] }} d-flex justify-content-between p-3">
-                                <div>{{ $question['text']}} -
-                                    {{ $option['text'] }}</div>
-                                <div><img class="p-1"
-                                          src="{{ asset('icons/' . $timeOptionVote['picked_preference'] . '.svg') }}"
-                                          alt="{{ $preferenceValues[$timeOptionVote['picked_preference']] }}">
-                                </div>
-                            </div>
+                            <x-ui.modal.results.vote-item :pref="$preferenceValues[$option['picked_preference']]">
+                                {{ $question['text']}} -
+                                {{ $option['text'] }}
+                            </x-ui.modal.results.vote-item>
                         @endif
-
                     @endforeach
-
-                    @if ($timeOptionVote['picked_preference'] !== 0)
-                    @endif
                 @endforeach
             </div>
         </div>

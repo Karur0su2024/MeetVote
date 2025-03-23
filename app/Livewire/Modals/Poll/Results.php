@@ -19,9 +19,9 @@ class Results extends Component
         $this->voteService = $voteService;
     }
 
-    public function mount($pollId)
+    public function mount($pollIndex)
     {
-        $this->poll = Poll::with('votes')->findOrFail($pollId, ['id', 'anonymous_votes', 'edit_votes', 'public_id', 'admin_key']);
+        $this->poll = Poll::with('votes')->findOrFail($pollIndex, ['id', 'anonymous_votes', 'edit_votes', 'public_id', 'admin_key']);
         $this->votes = $this->voteService->getPollResults($this->poll);
     }
 

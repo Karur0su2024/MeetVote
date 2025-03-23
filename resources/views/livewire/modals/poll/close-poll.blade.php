@@ -1,43 +1,49 @@
 <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title">
-            {{ $poll->status == 'active' ? 'Close Poll' : 'Reopen Poll' }}
-        </h5>
-        <button type="button" class="btn-close" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
-    </div>
+    <x-ui.modal.header>
+        @if($poll->isActive())
+            {{ __('ui/modals.close_poll.title.close') }}
+        @else
+            {{ __('ui/modals.close_poll.title.reopen') }}
+        @endif
+    </x-ui.modal.header>
     <div class="modal-body text-start mb-0">
-
         @if (session()->has('error'))
             <span class="text-danger">
                     {{ session('error') }}
                 </span>
         @else
-            @if ($poll->status == 'active')
-                @if (count($poll->votes) == 0)
-                    <div class="alert alert-danger" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> This poll has no votes. Poll can be closed
-                        only if
-                        there is at least one vote.
-                    </div>
+            @if ($poll->isActive())
+                @if (count($poll->votes) === 0)
+                    <x-ui.alert type="danger">
+                        <x-ui.icon name="exclamation-triangle-fill" />
+                        {{ __('ui/modals.close_poll.alerts.no_votes') }}
+                    </x-ui.alert>
                 @else
-                    <p> This poll has {{ count($poll->votes) }} votes. Closing the poll will prevent any further
-                        voting.</p>
-                    <p>Are you sure you want to close this poll? Once closed, no further votes will be accepted.</p>
+                    <p>{{ __('ui/modals.close_poll.text.poll_count', ['count_poll_votes' => count($poll->votes)]) }}</p>
+                    <p>{{ __('ui/modals.close_poll.text.is_user_sure') }}</p>
                 @endif
             @else
-                <p>Do you want to reopen this poll? Users will be able to vote again.</p>
-                <div class="alert alert-warning" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Warning: If you created event, it will be
-                    deleted.
-                </div>
+                <p>{{ __('ui/modals.close_poll.text.reopen') }}</p>
+                <x-ui.alert type="warning">
+                    <x-ui.icon name="exclamation-triangle-fill" />
+                    {{ __('ui/modals.close_poll.alerts.reopen_warning') }}
+                </x-ui.alert>
             @endif
         @endif
     </div>
-    <div class="modal-footer d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary" wire:click="$dispatch('hideModal')">Cancel</button>
-        <button type="button" class="btn btn-danger" wire:click="closePoll"
-            {{ count($poll->votes) == 0 ? 'disabled' : '' }}>
-            {{ $poll->status == 'active' ? 'Close Poll' : 'Reopen Poll' }}
-        </button>
-    </div>
+    <x-ui.modal.footer>
+        <x-ui.button color="secondary"
+                     wire:click="$dispatch('hideModal')">
+            {{ __('ui/modals.close_poll.buttons.cancel') }}
+        </x-ui.button>
+        <x-ui.button color="danger"
+                     :disabled="count($poll->votes) === 0"
+                     wire:click="closePoll()">
+            @if($poll->isActive())
+                {{ __('ui/modals.close_poll.buttons.close') }}
+            @else
+                {{ __('ui/modals.close_poll.buttons.reopen') }}
+            @endif
+        </x-ui.button>
+    </x-ui.modal.footer>
 </div>

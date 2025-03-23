@@ -1,26 +1,19 @@
 <div>
-    <div class="modal-header">
-        <h5 class="modal-title">Results</h5>
-        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
-    </div>
+    <x-ui.modal.header>
+        {{ __('ui/modals.results.title') }}
+    </x-ui.modal.header>
     <div class="modal-body">
         @if (count($votes) === 0)
-            <div class="alert alert-secondary" role="alert">
-                No votes yet
-            </div>
+            <x-ui.alert type="info"
+                        class="mb-3">
+                <x-ui.icon class="exclamation-triangle-fill me-2" />
+                {{ __('ui/modals.results.alert.no_votes')}}
+            </x-ui.alert>
         @else
-            <div class="accordion" id="accordionPanelsStayOpenExample">
-
-
+            <div class="accordion" id="resultsAccordion">
                 @foreach ($votes as $vote)
                     <x-poll.show.vote-card :vote="$vote" />
                 @endforeach
-            </div>
-        @endif
-
-        @if (session()->has('error'))
-            <div class="alert alert-danger" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
             </div>
         @endif
     </div>

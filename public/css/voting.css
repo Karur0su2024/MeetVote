@@ -70,18 +70,18 @@
 
 
 /* Vzhled pozadí karet */
-.voting-card-0 {
+.voting-card-none {
     background-color: #69696920 !important;
 }
 
-.voting-card-2 {
+.voting-card-yes {
     background-color: #4ba56920 !important;
 }
 
-.voting-card-1 {
+.voting-card-maybe {
     background-color: #d2b74b20 !important;
 }
 
-.voting-card--1 {
+.voting-card-no {
     background-color: #d9000020 !important;
 }
