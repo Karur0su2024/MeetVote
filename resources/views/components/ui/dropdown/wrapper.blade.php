@@ -1,7 +1,7 @@
 @props([
     'id' => 'dropdown',
     'size' => 'sm',
-    'element' => 'li',
+    'element' => 'div',
 ])
 
 <{{ $element }} class="dropdown {{ $class ?? '' }}">

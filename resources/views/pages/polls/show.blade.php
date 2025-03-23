@@ -26,6 +26,8 @@
             <livewire:pages.poll-show.settings-section :pollId="$poll->id"/>
         @endcan
 
+
+
         {{-- Základní informace o anketě --}}
         <div class="row g-4 mb-4">
             {{-- Levá strana – základní informace o anketě --}}

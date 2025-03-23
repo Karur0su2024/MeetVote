@@ -19,6 +19,7 @@
 
 
     {{-- Input pole --}}
+    <div class="input-group">
     <input
         type="{{ $type ?? 'text' }}"
         {{ $attributes }}
@@ -26,6 +27,9 @@
         aria-label="{{ $slot }}"
         aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
     />
+        {{ $inputGroup ?? null }}
+    </div>
+
 
     @error($error ?? null)
         {{-- Chybová hláška --}}

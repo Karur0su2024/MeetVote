@@ -66,7 +66,43 @@ return [
             'placeholder' => 'Enter event description...',
         ],
     ],
-    'invitations' => [],
+    'invitations' => [
+        'title' => 'Invite participants',
+        'text' => 'Send new invitation',
+        'email' => [
+            'label' => 'E-mail',
+        ],
+        'table' => [
+            'headers' => [
+                'email' => 'E-mail',
+                'status' => 'Status',
+                'sent_at' => 'Sent at',
+                'actions' => 'Actions',
+            ],
+            'status' => [
+                'pending' => 'Pending',
+                'sent' => 'Sent',
+                'failed' => 'Failed',
+            ],
+            'actions' => [
+                'resend' => 'Resend',
+                'delete' => 'Delete',
+            ],
+        ],
+        'buttons' => [
+            'send' => 'Send invitation',
+        ],
+        'loading' => 'Sending...',
+        'message' => [
+            'success' => 'Invitation sent successfully.',
+            'error' => 'An error occurred while sending the invitation.',
+        ],
+        'alerts' => [
+            'error' => [
+                'closed' => 'This poll is closed. You can\'t send invitations.',
+            ],
+        ],
+    ],
     'close_poll' => [],
     'choose_final_options' => [
         'title' => 'Close Poll',

@@ -1,7 +1,7 @@
 <div class="card mb-3 p-2 shadow">
     <div class="d-flex justify-content-end gap-2">
         {{-- Dropdown pro správce --}}
-        <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" wrapper="div">
+        <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" element="div">
             <x-slot:header>
                 <x-ui.icon class="gear me-1"/>
                 {{ __('pages/poll-show.settings.dropdown.options') }}

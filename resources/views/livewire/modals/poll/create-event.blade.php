@@ -47,7 +47,7 @@
             </x-ui.form.textbox>
         </div>
     </div>
-    <div class="modal-footer d-flex gap-2 flex-wrap flex-md-nowrap align-items-between text-center">
+    <x-ui.modal.footer>
         <x-ui.button wire:click="openResultsModal()"
                      color="outline-secondary"
                      class="mx-auto w-100">
@@ -69,5 +69,5 @@
             {{ $update ? __('ui/modals.create_event.buttons.update_event') :
                          __('ui/modals.create_event.buttons.create_event') }}
         </x-ui.button>
-    </div>
+    </x-ui.modal.footer>
 </div>
