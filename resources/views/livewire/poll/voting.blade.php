@@ -4,23 +4,22 @@
 
 {{-- https://github.com/livewire/livewire/issues/830 --}}
 {{-- Přidat ještě listener pro update hlasu --}}
-<div x-data="votingData()" @validation-failed.window="unsuccessfulVote($event.detail.errors)"
-     @vote-submitted.window="successfulVote()" @refresh-poll.window="refreshPoll($event.detail.formData)">
+<div x-data="votingData()"
+     @validation-failed.window="unsuccessfulVote($event.detail.errors)"
+     @vote-submitted.window="successfulVote()"
+     @refresh-poll.window="refreshPoll($event.detail.formData)">
 
     <x-card bodyPadding="0">
 
         <x-slot:header>
             Voting
-            <button class="btn btn-outline-secondary" @click="openModal('results')">
+            <button class="btn btn-outline-secondary"
+                    @click="openModal('results')">
                 Results ({{ count($poll->votes) }})
             </button>
         </x-slot:header>
 
-        @if (!$poll->isActive())
-            <div class="alert alert-warning mb-0">
-                <i class="bi bi-exclamation-triangle-fill"></i> Poll is closed. You can no longer vote.
-            </div>
-        @else
+        @can('canVote', $poll)
             <div>
                 <div class="p-4 w-100">
                     <div class="mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
@@ -109,9 +108,9 @@
                         @endif
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
-                            <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
-                                <i class="bi bi-check-circle me-2"></i> Submit your vote
-                            </button>
+                            <x-ui.button type="submit" size="lg">
+                                Submit your vote
+                            </x-ui.button>
                             <span x-show="isSubmitting">
                                 <x-ui.saving>
                                         Saving...
@@ -131,8 +130,11 @@
 
                 </form>
             </div>
-
-        @endif
+        @else
+            <div class="alert alert-warning mb-0">
+                <i class="bi bi-exclamation-triangle-fill"></i> Poll is closed. You can no longer vote.
+            </div>
+        @endcan
 
 
     </x-card>

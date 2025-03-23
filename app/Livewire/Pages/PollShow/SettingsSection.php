@@ -1,61 +1,40 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Pages\PollShow;
 
 use Livewire\Component;
 use App\Models\Poll;
+use Illuminate\Support\Facades\Gate;
 
-class Settings extends Component
+class SettingsSection extends Component
 {
 
     public Poll $poll;
 
-    public function mount(int $pollId)
+    public function mount($pollId): void
     {
-        // Notifikace přidat dodatečně
         $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'admin_key']);
     }
 
     public function openModal($modalName, $pollId)
     {
-        $this->dispatch('showModal', [
-            'alias' => $modalName,
-            'params' => [
-                'pollId' => $pollId,
-            ],
-        ]);
-
-        // Tohle opravit později
-        return ;
-
-        if (session()->has('poll_' . $this->poll->public_id . '_adminKey')) {
-            if (session()->get('poll_' . $this->poll->public_id . '_adminKey') === $this->poll->admin_key) {
-                $this->dispatch('showModal', [
-                    'alias' => $modalName,
-                    'params' => [
-                        'publicIndex' => $this->poll->public_id,
-                    ],
-                ]);
-                return null;
-            }
-            else {
-                $this->openErrorModal('You don\'t have permission to access this window. Please check the admin key.');
-            }
-        } else {
-            $this->openErrorModal('You don\'t have permission to access this window. Please check the admin key.');
+        if(Gate::allows('isAdmin', $this->poll)) {
+            $this->dispatch('showModal', [
+                'alias' => $modalName,
+                'params' => [
+                    'pollId' => $pollId,
+                ],
+            ]);
+        }
+        else {
+            $this->dispatch('showModal', [
+                'alias' => 'modals.error',
+                'params' => [
+                    'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.'
+                ],
+            ]);
         }
     }
-
-    private function openErrorModal($errorMessage)
-    {
-        $this->dispatch('showModal', [
-            'alias' => 'modals.error',
-            'params' => [
-                'errorMessage' => $errorMessage
-            ],
-        ]);
-    }
-
 
     public function render()
     {

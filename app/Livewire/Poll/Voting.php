@@ -10,6 +10,7 @@ use App\Models\Vote;
 use App\Services\VoteService;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Support\Facades\Gate;
 
 class Voting extends Component
 {
@@ -58,13 +59,15 @@ class Voting extends Component
     {
         $this->form->handleSubmittedData($voteData);
 
-        // V případě, že je anketa uzavřena, je stránka aktualizována
-        if ($this->poll->status !== 'active') {
+        if(Gate::allows('canVote', $this->poll))
+        {
             $this->dispatch('validation-failed', errors: [
-                'form' => 'Poll is not active.',
+                'form' => 'You do not have permission to vote.',
             ]);
             return;
         }
+
+
 
         try {
             $validatedData = $this->form->validate();

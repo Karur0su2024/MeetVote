@@ -20,11 +20,13 @@
             @endif
         </div>
 
-        {{-- Panel s nastavením ankety --}}
-        @if ($isAdmin)
-            <livewire:pages.poll-show.settings-section :poll-id="$poll->id"/>
-        @endif
 
+
+
+        @can('isAdmin', $poll)
+            {{-- Panel s nastavením ankety --}}
+            <livewire:pages.poll-show.settings-section :pollId="$poll->id"  />
+        @endcan
 
         {{-- Základní informace o anketě --}}
         <div class="row g-4 mb-4">
@@ -74,7 +76,7 @@
             </div>
 
             {{-- Pravá strana – informace o události --}}
-            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin"/>
+{{--            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin"/>--}}
 
         </div>
 

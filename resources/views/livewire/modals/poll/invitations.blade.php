@@ -49,9 +49,9 @@
             @endif
                 <form wire:submit.prevent="addInvitation" wire:key='{{ now() }}' class="mt-4">
                     <h3>Send new invitation</h3>
-                    <x-input id="email" wire:model="email" type="email" required placeholder="example@email.com">
+                    <x-ui.form.input id="email" wire:model="email" type="email" required placeholder="example@email.com">
                         E-mail
-                    </x-input>
+                    </x-ui.form.input>
 
                     <div class="d-flex flex-wrap align-items-center gap-3">
                         <button type="submit" class="btn btn-primary btn-lg px-4 py-2 d-flex align-items-center">
@@ -77,9 +77,9 @@
                 </form>
         @else
 
-            <x-alert type="danger">
+            <x-ui.alert type="danger">
                 This poll is closed. You can't send invitations.
-            </x-alert>
+            </x-ui.alert>
         @endif
 
 

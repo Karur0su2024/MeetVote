@@ -15,9 +15,7 @@ class PollController extends Controller
 
     public function show(Poll $poll)
     {
-        $isAdmin = request()->get('isPollAdmin', false);
-
-        return view('pages.polls.show', compact('poll', 'isAdmin'));
+        return view('pages.polls.show', compact('poll'));
     }
 
     public function edit(Poll $poll)

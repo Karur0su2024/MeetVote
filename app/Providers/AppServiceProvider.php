@@ -3,9 +3,14 @@
 namespace App\Providers;
 
 use App\Events\PollCreated;
+use App\Events\VoteSubmitted;
 use App\Listeners\SendPollConfirmationEmail;
+use App\Listeners\SendVoteNotificationEmail;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Poll;
+use App\Policies\PollPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,7 +54,11 @@ class AppServiceProvider extends ServiceProvider
             PollCreated::class,
             SendPollConfirmationEmail::class,
         );
+        Event::listen(
+            VoteSubmitted::class,
+            SendVoteNotificationEmail::class,
+        );
 
-        //Sem doplnit další eventy
+        Gate::policy(Poll::class, PollPolicy::class);
     }
 }
