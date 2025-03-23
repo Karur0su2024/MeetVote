@@ -11,9 +11,9 @@ class SettingsSection extends Component
 
     public Poll $poll;
 
-    public function mount($pollId): void
+    public function mount($pollIndex): void
     {
-        $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'admin_key']);
+        $this->poll = Poll::findOrFail($pollIndex, ['id', 'status', 'public_id', 'admin_key']);
     }
 
     public function openModal($modalName, $pollId)
