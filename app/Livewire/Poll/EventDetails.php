@@ -17,9 +17,8 @@ class EventDetails extends Component
 
     public $syncGoogleCalendar = false;
 
-    public function mount($pollId, $isAdmin)
+    public function mount($pollId)
     {
-        $this->isAdmin = $isAdmin;
         $this->poll = Poll::find($pollId);
 
         if($pollId) {

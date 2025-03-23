@@ -1,77 +1,82 @@
 <div class="col-lg-4 d-flex">
-    <div class="card shadow border-0 w-100 h-100">
-        <div class="card-header">
-            <h3 class="mb-0">Event Details</h3>
-        </div>
-        <div class="card-body d-flex flex-column h-100">
+    <x-ui.card header-size="h3" class="w-100 h-100">
+        <x-slot:header>
+            Event Details
+        </x-slot:header>
+        <x-slot:header-right>
             @if ($event)
-                <p><strong>Title:</strong> {{ $event->title }}</p>
-
-                @if ($syncGoogleCalendar)
-                    <p class="text-success"><i class="bi bi-check-circle"></i> <strong>Synced with Google Calendar</strong></p>
-                @endif
-
-                <p><strong>Start Time:</strong> {{ Carbon\Carbon::parse($event->start_time)->format('d.m.Y H:i') }}
-                </p>
-                <p><strong>End Time:</strong> {{ Carbon\Carbon::parse($event->end_time)->format('d.m.Y H:i') }}</p>
-
-                @isset($event->description)
-                    <p><pre>{{ $event->description }}</pre></p>
-                @endisset
-            @else
-                <div class="text-center">
-                    @if ($poll->status === 'closed')
-                        <i class="bi bi-calendar-x text-muted fs-1"></i>
-                        <p class="text-muted mt-2">No event was created for this poll yet.</p>
-                    @else
-                        <i class="bi bi-clock text-muted fs-1"></i>
-                        @if ($isAdmin)
-                            <p class="text-muted mt-2">Poll is still open. You can create an event only for closed polls.</p>
-                        @else
-                            <p class="text-muted mt-2">Poll is still open. Event will be created when the poll
-                                is closed by owner.
-                            </p>
-                        @endif
-
-                    @endif
-                </div>
+                <x-ui.dropdown.wrapper element="div" size="md">
+                    <x-slot:header>
+                        import
+                    </x-slot:header>
+                    <x-slot:dropdown-items>
+                        <x-ui.dropdown.item wire:click='importToGoogleCalendar'>
+                            <x-ui.icon class="google me-1"/>
+                            Import to Google Calendar
+                        </x-ui.dropdown.item>
+                    </x-slot:dropdown-items>
+                </x-ui.dropdown.wrapper>
             @endif
-        </div>
+        </x-slot:header-right>
+        @if ($event)
+            <p><strong>Title:</strong> {{ $event->title }}</p>
 
+            @if ($syncGoogleCalendar)
+                <p class="text-success"><i class="bi bi-check-circle"></i> <strong>Synced with Google Calendar</strong>
+                </p>
+            @endif
 
+            <p><strong>Start Time:</strong> {{ Carbon\Carbon::parse($event->start_time)->format('d.m.Y H:i') }}
+            </p>
+            <p><strong>End Time:</strong> {{ Carbon\Carbon::parse($event->end_time)->format('d.m.Y H:i') }}</p>
 
-        <div class="card-footer d-grid gap-2">
-            @if ($poll->status === 'closed')
-                @if ($poll->event)
-                    <button wire:click='importToGoogleCalendar' class="btn btn-primary">
-                        <i class="bi bi-calendar-plus"></i> Import to Google Calendar
-                    </button>
+            @isset($event->description)
+                <p>
+                <pre>{{ $event->description }}</pre></p>
+            @endisset
+        @else
+            <div class="text-center">
+                @if (!$poll->isActive())
+                    <i class="bi bi-calendar-x text-muted fs-1"></i>
+                    <p class="text-muted mt-2">No event was created for this poll yet.</p>
+                @else
+                    <i class="bi bi-clock text-muted fs-1"></i>
                     @if ($isAdmin)
+                        <p class="text-muted mt-2">Poll is still open. You can create an event only for closed
+                            polls.</p>
+                    @else
+                        <p class="text-muted mt-2">Poll is still open. Event will be created when the poll
+                            is closed by owner.
+                        </p>
+                    @endif
+
+                @endif
+            </div>
+        @endif
+
+        @can('isAdmin', $poll)
+            <x-slot:footer>
+                @if (!$poll->isActive())
+                    @if ($poll->event)
                         <button wire:click='openEventModal(false)' class="btn btn-warning">
                             <i class="bi bi-pencil-square"></i> Update event
                         </button>
-                    @endif
-                @else
-                    @if ($isAdmin)
+                    @else
                         <button class="btn btn-outline-secondary"
-                            onclick="openModal('modals.poll.choose-final-options', '{{ $poll->id }}')">
+                                onclick="openModal('modals.poll.choose-final-options', '{{ $poll->id }}')">
                             <i class="bi bi-check2-square"></i> Pick from results
                         </button>
                     @endif
-
-                @endif
-            @else
-                @if ($isAdmin)
+                @else
                     <button class="btn btn-outline-secondary"
-                        onclick="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
+                            onclick="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
                         <i class="bi bi-check2-square"></i> Close poll
                     </button>
                 @endif
+            </x-slot:footer>
+        @endcan
+    </x-ui.card>
 
-            @endif
-        </div>
-
-    </div>
 </div>
 
 <script>

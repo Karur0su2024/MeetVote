@@ -7,7 +7,7 @@
     <h2 class="accordion-header">
         <button class="accordion-button fs-3" type="button" data-bs-toggle="collapse"
                 data-bs-target="#time-results" aria-expanded="true" aria-controls="time-results">
-            <i class="bi bi-clock me-2"></i> Dates
+            <i class="bi bi-clock me-2"></i> {{ __('ui/modals.choose_final_options.accordion.poll_options') }}
         </button>
     </h2>
     <div id="time-results" class="accordion-collapse collapse show">
@@ -15,9 +15,12 @@
             <table class="table table-striped table-hover mb-0">
                 <thead>
                 <tr>
-                    <th class="w-75 py-3">Option</th>
-                    <th class="text-center py-3">Score</th>
-                    <th class="text-center py-3">Select</th>
+                    <th class="w-75 py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.option') }}</th>
+                    <th class="text-center py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.score') }}</th>
+                    <th class="text-center py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.select') }}</th>
                 </tr>
                 </thead>
                 <tbody>

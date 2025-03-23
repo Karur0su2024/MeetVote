@@ -1,6 +1,6 @@
 <div>
     <x-ui.modal.header :poll="$poll">
-        {{ __('modals.add_new_time_option.title', ['poll_title' => $poll->title]) }}
+        {{ __('ui.modals.add_new_time_option.title', ['poll_title' => $poll->title]) }}
     </x-ui.modal.header>
     <div class="modal-body" x-data="{ type: @entangle('type') }">
         <form wire:submit.prevent="submit">
@@ -13,7 +13,7 @@
                                  color=""
                                  x-bind:class="{ 'active': type === 'time' }"
                                  @click="type= 'time'">
-                        {{ __('modals.add_new_time_option.buttons.time_option') }}
+                        {{ __('ui.modals.add_new_time_option.buttons.time_option') }}
                     </x-ui.button>
                 </li>
                 <li class="nav-item">
@@ -21,7 +21,7 @@
                                  color=""
                                  x-bind:class="{ 'active': type === 'text' }"
                                  @click="type= 'text'">
-                        {{ __('modals.add_new_time_option.buttons.text_option') }}
+                        {{ __('ui.modals.add_new_time_option.buttons.text_option') }}
                     </x-ui.button>
                 </li>
             </ul>
@@ -44,8 +44,8 @@
                                      wire:model="content.start"
                                      type="time"
                                      required
-                                     placeholder="{{ __('modals.add_new_time_option.start_time.placeholder') }}">
-                        {{ __('modals.add_new_time_option.start_time.label') }}
+                                     placeholder="{{ __('ui.modals.add_new_time_option.start_time.placeholder') }}">
+                        {{ __('ui.modals.add_new_time_option.start_time.label') }}
                     </x-ui.form.input>
 
                     {{-- Pole pro zadání konce časového intervalu --}}
@@ -53,8 +53,8 @@
                                      wire:model="content.end"
                                      type="time"
                                      required
-                                     placeholder="__('modals.add_new_time_option.end_time.placeholder')">
-                        {{ __('modals.add_new_time_option.end_time.label') }}
+                                     placeholder="__('ui.modals.add_new_time_option.end_time.placeholder')">
+                        {{ __('ui.modals.add_new_time_option.end_time.label') }}
                     </x-ui.form.input>
 
                 </div>
@@ -65,18 +65,18 @@
                                      wire:model="content.text"
                                      type="text"
                                      required
-                                     placeholder="{{ __('modals.add_new_time_option.text.placeholder') }}">
-                        {{ __('modals.add_new_time_option.text.label') }}
+                                     placeholder="{{ __('ui.modals.add_new_time_option.text.placeholder') }}">
+                        {{ __('ui.modals.add_new_time_option.text.label') }}
                     </x-ui.form.input>
                 </div>
             </template>
 
             <x-ui.button type="submit">
-                {{ __('modals.add_new_time_option.buttons.add_option') }}
+                {{ __('ui.modals.add_new_time_option.buttons.add_option') }}
             </x-ui.button>
 
             <x-ui.saving wire:loading>
-                {{ __('modals.add_new_time_option.loading') }}
+                {{ __('ui.modals.add_new_time_option.loading') }}
             </x-ui.saving>
 
             {{-- Chybové hlášky --}}

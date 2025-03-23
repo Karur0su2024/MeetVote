@@ -21,11 +21,9 @@
         </div>
 
 
-
-
         @can('isAdmin', $poll)
             {{-- Panel s nastavením ankety --}}
-            <livewire:pages.poll-show.settings-section :pollId="$poll->id"  />
+            <livewire:pages.poll-show.settings-section :pollId="$poll->id"/>
         @endcan
 
         {{-- Základní informace o anketě --}}
@@ -68,15 +66,18 @@
                             <x-badge>Participants can add time options</x-badge>
                         @endif
                         @if ($poll->deadline)
-                            <x-badge>Ends in{{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }} days</x-badge>
+                            <x-badge>Ends in{{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }}
+                                days
+                            </x-badge>
                         @endif
                     </div>
 
                 </div>
             </div>
 
-            {{-- Pravá strana – informace o události --}}
-{{--            <livewire:poll.event-details :pollId="$poll->id" :isAdmin="$isAdmin"/>--}}
+            {{--Pravá strana – informace o události--}}
+            <livewire:poll.event-details :pollId="$poll->id"/>
+
 
         </div>
 
@@ -90,5 +91,5 @@
 
     </div>
 
-</x-layout.app>
+    </x-layouts.app>
 

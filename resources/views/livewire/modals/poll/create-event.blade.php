@@ -1,51 +1,73 @@
 <div>
-    <div class="modal-header">
-        <h5 class="modal-title">Create event for poll {{ $poll->title }}</h5>
-        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
-    </div>
+    <x-ui.modal.header>
+        {{ __('ui/modals.create_event.title', ['poll_title' => $poll->title]) }}
+    </x-ui.modal.header>
     <div class="modal-body">
-
         <p class="text-muted">
-            Fill in the details below to create an event and optionally import final options from the poll results.
+            {{ __('ui/modals.create_event.description') }}
         </p>
-            <div class="mb-3">
-                <x-input id="title" model="event.title" type="text" mandatory="true">
-                    Event title
-                </x-input>
-            </div>
+        <div class="mb-3">
+            <x-ui.form.input id="title"
+                             wire:model="event.title"
+                             required
+                             placeholder="{{ __('ui/modals.create_event.event_title.placeholder') }}"
+                             error="event.title">
+                {{ __('ui/modals.create_event.event_title.label') }}
+            </x-ui.form.input>
+        </div>
 
-            <div class="mb-3">
-                <x-input id="start" model="event.start_time" type="datetime-local" label="Start">
-                    Start
-                </x-input>
-            </div>
+        <div class="mb-3">
+            <x-ui.form.input id="start"
+                             wire:model="event.start_time"
+                             type="datetime-local"
+                             required
+                             placeholder="{{ __('ui/modals.create_event.start_time.placeholder') }}"
+                             error="event.start_time">
+                {{ __('ui/modals.create_event.start_time.label') }}
+            </x-ui.form.input>
+        </div>
 
-            <div class="mb-3">
-                <x-input id="end" model="event.end_time" type="datetime-local" label="End">
-                    End
-                </x-input>
-            </div>
+        <div class="mb-3">
+            <x-ui.form.input id="end"
+                             wire:model="event.end_time"
+                             type="datetime-local"
+                             required
+                             placeholder="{{ __('ui/modals.create_event.end_time.placeholder') }}"
+                             error="event.end_time">
+                {{ __('ui/modals.create_event.end_time.label') }}
+            </x-ui.form.input>
+        </div>
 
-            <div class="mb-3">
-                <x-textbox id="description" model="event.description">
-                    Event Description
-                </x-textbox>
-            </div>
-
-
-
-        <div class="d-flex justify-content-center gap-2">
-            <button wire:click='openResultsModal()' class="btn btn-outline-secondary w-100">
-                <i class="bi bi-download"></i> Import from poll results
-            </button>
-            <button class="btn btn-outline-danger w-100" wire:click='deleteEvent'>
-                <i class="bi bi-calendar-plus"></i> Delete event
-
-            <button wire:click='createEvent' class="btn btn-primary w-100">
-                <i class="bi bi-calendar-plus"></i> {{ $update ? 'Update' : 'Create' }}
-                event
-            </button>
+        <div class="mb-3">
+            <x-ui.form.textbox id="description"
+                               wire:model="event.description"
+                               placeholder="{{ __('ui/modals.create_event.event_description.placeholder') }}"
+                               error="event.description">
+                {{ __('ui/modals.create_event.event_description.label') }}
+            </x-ui.form.textbox>
         </div>
     </div>
-
+    <div class="modal-footer d-flex gap-2 flex-wrap flex-md-nowrap align-items-between text-center">
+        <x-ui.button wire:click="openResultsModal()"
+                     color="outline-secondary"
+                     class="mx-auto w-100">
+            <x-ui.icon class="download"/>
+            {{ __('ui/modals.create_event.buttons.import_from_results') }}
+        </x-ui.button>
+        @if($update)
+            <x-ui.button wire:click="deleteEvent()"
+                         color="outline-danger"
+                         class="mx-auto w-100">
+                <x-ui.icon class="trash"/>
+                {{ __('ui/modals.create_event.buttons.delete_event') }}
+            </x-ui.button>
+        @endif
+        <x-ui.button wire:click="createEvent()"
+                     color="outline-primary"
+                     class="mx-auto w-100">
+            <x-ui.icon class="calendar-plus"/>
+            {{ $update ? __('ui/modals.create_event.buttons.update_event') :
+                         __('ui/modals.create_event.buttons.create_event') }}
+        </x-ui.button>
+    </div>
 </div>

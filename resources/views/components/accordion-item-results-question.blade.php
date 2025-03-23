@@ -17,9 +17,12 @@
             <table class="table table-striped table-hover mb-0">
                 <thead>
                 <tr>
-                    <th class="w-75 py-3">Option</th>
-                    <th class="text-center py-3">Score</th>
-                    <th class="text-center py-3">Select</th>
+                    <th class="w-75 py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.option') }}</th>
+                    <th class="text-center py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.score') }}</th>
+                    <th class="text-center py-3">
+                        {{ __('ui/modals.choose_final_options.accordion.table_headers.select') }}</th>
                 </tr>
                 </thead>
                 <tbody>
