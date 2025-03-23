@@ -19,35 +19,49 @@
                 </div>
                 <p class="text-muted">
                     @if ($poll->description == null || $poll->description == '')
-                        No description.
+                        {{ __('pages/poll-show.info.text.no_description') }}
                     @else
                         {{ $poll->description }}
                     @endif
                 </p>
             </div>
             <div class="card-footer">
-                <x-badge>Open poll</x-badge>
+                <x-badge>
+                    {{ __('pages/poll-show.info.badges.status.' . $poll->status) }}
+                </x-badge>
                 @if ($poll->comments)
-                    <x-badge>Comments</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.comments') }}
+                    </x-badge>
                 @endif
                 @if ($poll->anonymous_votes)
-                    <x-badge>Anonymous voting</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.anonymous_voting') }}
+                    </x-badge>
                 @endif
                 @if ($poll->password)
-                    <x-badge>Password set</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.password_protected') }}
+                    </x-badge>
                 @endif
                 @if ($poll->invite_only)
-                    <x-badge>Invite only</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.invite_only') }}
+                    </x-badge>
                 @endif
                 @if ($poll->edit_votes)
-                    <x-badge>Participants can edit votes</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.edit_votes') }}
+                    </x-badge>
                 @endif
                 @if ($poll->add_time_options)
-                    <x-badge>Participants can add time options</x-badge>
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.add_time_options') }}
+                    </x-badge>
                 @endif
                 @if ($poll->deadline)
-                    <x-badge>Ends in{{ now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline)) }}
-                        days
+                    <x-badge>
+                        {{ __('pages/poll-show.info.badges.deadline_in', ['parse_poll_deadline' => now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline))]) }}
                     </x-badge>
                 @endif
             </div>

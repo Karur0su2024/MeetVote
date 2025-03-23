@@ -31,16 +31,15 @@ class Poll extends Model
         'status' => 'active'
     ];
 
-    protected function casts(): array
+    protected function settings(): array
     {
         return [
-            'anonymous_votes' => 'boolean',
-            'comments' => 'boolean',
-            'invite_only' => 'boolean',
-            'hide_results' => 'boolean',
-            'edit_votes' => 'boolean',
-            'add_time_options' => 'boolean',
-            'deadline' => 'date:m/d/Y',
+            'anonymous_votes' => $this->anonymous_votes,
+            'comments' => $this->comments,
+            'invite_only' => $this->invite_only,
+            'hide_results' => $this->hide_results,
+            'edit_votes' => $this->edit_votes,
+            'add_time_options' => $this->add_time_options,
         ];
     }
 
