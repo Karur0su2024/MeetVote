@@ -1,65 +1,87 @@
 <div>
-    <div class="modal-header">
-        <h5 class="modal-title">Add new time option to {{ $poll->title }}</h5>
-        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
+    <x-ui.modal.header :poll="$poll">
+        {{ __('modals.add_new_time_option.title', ['poll_title' => $poll->title]) }}
+    </x-ui.modal.header>
+    <div class="modal-body" x-data="{ type: @entangle('type') }">
         <form wire:submit.prevent="submit">
-
 
             {{-- Přepínání časového a textového typu --}}
             <ul class="nav nav-pills mb-3">
-
                 <li class="nav-item">
-                    <button type="button" class="nav-link {{ $type == 'time' ? 'active' : '' }}"
-                        wire:click="changeType('time')">Time
-                        option</a>
+
+                    <x-ui.button class="nav-link"
+                                 color=""
+                                 x-bind:class="{ 'active': type === 'time' }"
+                                 @click="type= 'time'">
+                        {{ __('modals.add_new_time_option.buttons.time_option') }}
+                    </x-ui.button>
                 </li>
-
                 <li class="nav-item">
-                    <button type="button" class="nav-link {{ $type == 'text' ? 'active' : '' }}"
-                        wire:click="changeType('text')">Text
-                        option</a>
+                    <x-ui.button class="nav-link"
+                                 color=""
+                                 x-bind:class="{ 'active': type === 'text' }"
+                                 @click="type= 'text'">
+                        {{ __('modals.add_new_time_option.buttons.text_option') }}
+                    </x-ui.button>
                 </li>
             </ul>
 
             {{-- Zobrazení data --}}
-            <x-input id="date" model="date" type="date" placeholder="Date" mandatory="true">
-                Date
-            </x-input>
+            <x-ui.form.input id="date"
+                             wire:model="date"
+                             type="date"
+                             required
+                             placeholder="{{ __('modals.add_new_time_option.date.placeholder') }}">
+                {{ __('modals.add_new_time_option.date.label') }}
+            </x-ui.form.input>
 
-
-            @if ($type == 'time')
-                {{-- Zobrazeno pouze v případě nastaveného typu na time --}}
+            {{-- Zobrazeno pouze v případě nastaveného typu na time --}}
+            <template x-if="type === 'time'">
                 <div class="mb-3">
 
                     {{-- Pole pro zadání začátku časového intervalu  --}}
-                    <x-input id="start" model="content.start" type="time" placeholder="Start">
-                        Start
-                    </x-input>
+                    <x-ui.form.input id="start"
+                                     wire:model="content.start"
+                                     type="time"
+                                     required
+                                     placeholder="{{ __('modals.add_new_time_option.start_time.placeholder') }}">
+                        {{ __('modals.add_new_time_option.start_time.label') }}
+                    </x-ui.form.input>
 
                     {{-- Pole pro zadání konce časového intervalu --}}
-                    <x-input id="end" model="content.end" type="time" placeholder="End">
-                        End
-                    </x-input>
+                    <x-ui.form.input id="end"
+                                     wire:model="content.end"
+                                     type="time"
+                                     required
+                                     placeholder="__('modals.add_new_time_option.end_time.placeholder')">
+                        {{ __('modals.add_new_time_option.end_time.label') }}
+                    </x-ui.form.input>
 
                 </div>
-            @else
-                {{-- Zobrazeno pouze v případě nastaveného typu na text --}}
-                <x-input id="text" model="content.text" type="text" placeholder="Text">
-                    Text
-                </x-input>
-            @endif
+            </template>
+            <template x-if="type === 'text'">
+                <div class="mb-3" x-show="type === 'text'">
+                    <x-ui.form.input id="text"
+                                     wire:model="content.text"
+                                     type="text"
+                                     required
+                                     placeholder="{{ __('modals.add_new_time_option.text.placeholder') }}">
+                        {{ __('modals.add_new_time_option.text.label') }}
+                    </x-ui.form.input>
+                </div>
+            </template>
 
+            <x-ui.button type="submit">
+                {{ __('modals.add_new_time_option.buttons.add_option') }}
+            </x-ui.button>
 
+            <x-ui.saving wire:loading>
+                {{ __('modals.add_new_time_option.loading') }}
+            </x-ui.saving>
 
-
-
-
-            <button type="submit" class="btn btn-primary">Add</button>
             {{-- Chybové hlášky --}}
             @error('error')
-                <span class="text-danger ms-3">{{ $message }}</span>
+            <span class="text-danger ms-3">{{ $message }}</span>
             @enderror
 
         </form>

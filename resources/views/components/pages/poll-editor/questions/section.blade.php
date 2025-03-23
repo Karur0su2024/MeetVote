@@ -11,9 +11,9 @@
     </template>
 
     <template x-if="form.questions.length == 0">
-        <x-alert>
+        <x-ui.alert>
             {{ __('pages/poll-editor.questions.alert.no_questions') }}
-        </x-alert>
+        </x-ui.alert>
     </template>
     {{-- Tlačítko pro přidání další otázky --}}
     <x-ui.button @click="addQuestion()"

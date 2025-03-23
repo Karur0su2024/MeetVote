@@ -31,7 +31,7 @@ function votingData() {
                 data: {
                     alias: 'modals.poll.' + alias,
                     params: {
-                        publicIndex: this.poll.public_id
+                        pollIndex: this.poll.id
                     }
                 },
             });

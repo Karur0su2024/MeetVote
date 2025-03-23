@@ -175,7 +175,7 @@
                         data: {
                             alias: 'modals.poll.' + alias,
                             params: {
-                                pollId: this.poll.id,
+                                pollIndex: this.poll.id,
                             }
                         },
                     });

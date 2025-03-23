@@ -51,7 +51,6 @@ class AddNewTimeOption extends Component
     {
 
         $this->poll = Poll::find($pollIndex);
-
         $this->type = 'time';
         $this->date = now()->format('Y-m-d');
     }
@@ -73,15 +72,19 @@ class AddNewTimeOption extends Component
     public function submit()
     {
         $validatedData = $this->validate();
-        $timeOptions[] = [
-            'date' => $validatedData['date'],
-            'type' => $validatedData['type'],
-            'content' => $validatedData['type'] === 'time' ? [
+
+        $content = $this->type === 'time' ?
+            [
                 'start' => $validatedData['content']['start'],
                 'end' => $validatedData['content']['end'],
             ] : [
                 'text' => $validatedData['content']['text'],
-            ],
+            ];
+
+        $timeOptions[] = [
+            'date' => $validatedData['date'],
+            'type' => $validatedData['type'],
+            'content' => $content,
         ];
 
         $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
@@ -107,8 +110,7 @@ class AddNewTimeOption extends Component
         }
 
 
-        $this->dispatch('updateTimeOptions');
-        $this->dispatch('hideModal');
+        return redirect()->route('polls.show', $this->poll);
     }
 
 
