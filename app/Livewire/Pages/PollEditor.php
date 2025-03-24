@@ -45,10 +45,10 @@ class PollEditor extends Component
      * @param Poll|null $poll
      * @return void
      */
-    public function mount(?Poll $poll)
+    public function mount(?Poll $poll): void
     {
         $this->poll = $poll;
-        $this->form->loadForm($this->pollService->getPollData($poll));
+        $this->form->loadForm($this->pollService->getPollData($this->poll));
     }
 
     /**
@@ -59,7 +59,6 @@ class PollEditor extends Component
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            dd($e->validator->errors()->toArray());
             $this->addError('error', 'Test.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
@@ -69,12 +68,6 @@ class PollEditor extends Component
             $this->addError('error', 'An error occurred while validating the form.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
         }
-
-        if($this->checkDuplicity($validatedData)){
-            $this->dispatch('validation-failed', errors: $this->getErrors());
-            return null;
-        }
-        unset($validatedData['dates']);
 
         $this->saveToDatabase($validatedData);
 
@@ -100,32 +93,6 @@ class PollEditor extends Component
 
         }
     }
-
-    /**
-     * Kontrola duplicitních otázek a časových možností
-     * @param $validatedData
-     * @param PollService $pollService
-     * @return bool
-     */
-    private function checkDuplicity($validatedData): bool
-    {
-        $duplicatesDates = $this->pollService->getTimeOptionService()->checkDuplicityByDates($validatedData['dates']);
-        $duplicatesQuestions = $this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions']);
-
-
-        foreach ($duplicatesQuestions['each_question'] as $questionIndex) {
-            $this->addError('form.questions.' . $questionIndex, 'Duplicate options are not allowed.');
-        }
-
-        if ($duplicatesQuestions['all_questions']) {
-            $this->addError('form.questions', 'Duplicate questions titles are not allowed.');
-        }
-
-        return $duplicatesDates || $duplicatesQuestions['all_questions'] || $duplicatesQuestions['each_question'];
-
-    }
-
-
 
     private function getErrors(): array
     {

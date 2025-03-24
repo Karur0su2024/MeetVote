@@ -77,9 +77,6 @@ class TimeOptionService
     }
 
 
-
-
-
     /**
      * @param array $deletedOptions
      * @return void
@@ -89,57 +86,6 @@ class TimeOptionService
         TimeOption::whereIn('id', $deletedOptions)->delete();
     }
 
-
-
-    /**
-     * Metoda pro kontrolu duplicity časových možností.
-     *
-     * Kontroluje se i na server-side, tato metoda však bude v budoucnu pravděpodobně přesunuta jinam.
-     * @param array $options
-     * @return bool
-     */
-    public function checkDuplicity(array $options): bool
-    {
-        $toCheck = array_map(function ($item) {
-            return $this->convertContentToText($item);
-        }, $options);
-
-        return count($options) !== count(array_unique($toCheck));
-    }
-
-    /**
-     * Metoda pro kontrolu duplicity časových možností podle data.
-     * @param array $dates
-     * @return array
-     */
-    public function checkDuplicityByDates(array $dates): array
-    {
-        $duplicatesDates = [];
-
-        foreach ($dates as $dateIndex => $date) {
-            $optionArray = [];
-            foreach($date as $option) {
-                $optionArray[] = $this->convertContentToText($option);
-            }
-
-            if(count($optionArray) !== count(array_unique($optionArray))) {
-                $duplicatesDates[] = $dateIndex;
-            }
-        }
-        return $duplicatesDates;
-    }
-
-
-
-    /**
-     * Metoda pro převod časové možnosti na textovou podobu pro kontrolu duplicity
-     * @param $option
-     * @return string
-     */
-    private function convertContentToText($option): string
-    {
-        return $option['date'].' '.strtolower(implode('-', $option['content']));
-    }
 
     /**
      * Metoda pro získání celkového skóre časové možnosti.

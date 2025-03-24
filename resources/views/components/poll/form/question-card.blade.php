@@ -4,8 +4,10 @@
     <div class="card-header d-flex justify-content-between align-items-center gap-2"
          :class="{ 'bg-warning': question.id }">
         {{-- Input pole pro text otázky --}}
-        <input type="text" :id="'question_' + questionIndex" x-model="form.questions[questionIndex].text"
-               class="form-control" :placeholder="'{{ __('pages/poll-editor.questions.label.question') }} ' + (questionIndex + 1)"
+        <input type="text" :id="'question_' + questionIndex"
+               x-model="form.questions[questionIndex].text"
+               class="form-control"
+               :placeholder="'{{ __('pages/poll-editor.questions.label.question') }} ' + (questionIndex + 1)"
                :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.text'] }">
 
         {{-- Tlačítko pro odstranění otázky --}}
@@ -38,8 +40,8 @@
 
         <span
             class="text-danger ms-2"
-            x-show="messages.errors['form.questions.' + questionIndex]"
-            x-text="messages.errors['form.questions.' + questionIndex]">
+            x-show="messages.errors['form.questions.' + questionIndex + '.options']"
+            x-text="messages.errors['form.questions.' + questionIndex + '.options']">
         </span>
 
 

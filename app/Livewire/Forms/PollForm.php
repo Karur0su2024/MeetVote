@@ -10,6 +10,8 @@ use Livewire\Form;
 use App\Services\NotificationService;
 use App\Exceptions\PollException;
 use App\Rules\NoDateDuplicates;
+use App\Rules\NoQuestionDuplicates;
+use App\Rules\NoQuestionOptionDuplicates;
 
 class PollForm extends Form
 {
@@ -67,10 +69,10 @@ class PollForm extends Form
             'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
             'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
             'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
-            'questions' => 'nullable|array', // Pole otázek
+            'questions' => ['nullable', 'array', new NoQuestionDuplicates()], // Pole otázek
             'questions.*.id' => 'nullable|integer', // ID otázky
             'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
-            'questions.*.options' => 'required|array|min:2', // Možnosti otázky
+            'questions.*.options' => ['required', 'array', 'min:2', new NoQuestionOptionDuplicates()], // Možnosti otázky
             'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
             'questions.*.options.*.text' => 'required|string|min:1|max:255', // Text možnosti*/
             'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
@@ -162,6 +164,8 @@ class PollForm extends Form
                 $validatedData['time_options'][] = $option;
             }
         }
+
+        unset($validatedData['dates']);
 
         return $validatedData;
     }

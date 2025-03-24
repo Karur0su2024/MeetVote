@@ -166,7 +166,7 @@ class PollService
                 'comments' => $validatedData['settings']['comments'],
                 'hide_results' => $validatedData['settings']['hide_results'],
                 'invite_only' => $validatedData['settings']['invite_only'],
-                //'password' => bcrypt($validatedData['settings']['password']),
+                'password' => bcrypt($validatedData['settings']['password']['value']),
                 'edit_votes' => $validatedData['settings']['edit_votes'],
                 'add_time_options' => $validatedData['settings']['add_time_options'],
             ]);

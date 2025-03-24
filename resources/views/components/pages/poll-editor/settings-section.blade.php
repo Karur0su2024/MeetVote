@@ -50,7 +50,7 @@
     </x-ui.form.checkbox>
 
     {{-- Heslo --}}
-    <x-ui.form.input id="password" x-model="form.settings.password" type="password" error="form.settings.password" error="form.settings.password">
+    <x-ui.form.input id="password" x-model="form.settings.password.value" type="password" error="form.settings.password" error="form.settings.password">
         <x-slot:tooltip>
             {{ __('pages/poll-editor.settings.password.tooltip') }}
         </x-slot:tooltip>
