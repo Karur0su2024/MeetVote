@@ -3,6 +3,10 @@
 return [
     'share' => [
         'title' => 'Share the poll',
+        'labels' => [
+            'link' => 'Link',
+            'admin_link' => 'Admin link',
+        ],
         'text' => [
             'link' => 'Share this link with participants so they can vote in the poll.',
             'admin_link' => 'This link is for administrators. It allows managing the poll and finalizing

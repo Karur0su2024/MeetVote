@@ -1,45 +1,52 @@
-<x-card bodyPadding="0">
-
+<x-ui.card bodyPadding="0">
     <x-slot:header>
-        Comments <span class="badge bg-secondary ms-1 fs-4">{{ $comments->count() }}</span>
+        {{ __('pages/poll-show.comments.title') }}
+        <span class="badge bg-secondary ms-1 fs-4">{{ $comments->count() }}</span>
     </x-slot:header>
 
-    @if (!$poll->comments)
-        <div class="alert alert-warning mb-0">
-            <i class="bi bi-exclamation-triangle-fill"></i> Comments are disabled for this poll.
+    @if ($poll->comments)
+        <div>
+            <div class="list-group">
+                @foreach ($comments as $commentIndex => $comment)
+                    <x-poll.show.comment-card :comment="$comment" wire:key="commentIndex"/>
+                @endforeach
+            </div>
+
+            <div class="p-3">
+
+                {{-- Formulář pro přidání komentáře --}}
+                <h3>{{ __('pages/poll-show.comments.form.title') }}</h3>
+                <form wire:submit.prevent='addComment' wire:key='{{ now() }}'>
+
+                    <x-ui.form.input id="username"
+                                     wire:model="username"
+                                     placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
+                        {{ __('pages/poll-show.comments.form.username.label') }}
+                    </x-ui.form.input>
+                    <x-ui.form.textbox id="content"
+                                       wire:model="content"
+                                       required
+                                       placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
+                        {{ __('pages/poll-show.comments.form.content.label') }}
+                    </x-ui.form.textbox>
+
+                    <x-ui.button type="submit">
+                        {{ __('pages/poll-show.comments.buttons.submit') }}
+                    </x-ui.button>
+                    <x-ui.saving wire:loading wire:target="addComment">
+                        {{ __('pages/poll-show.comments.form.loading') }}
+                    </x-ui.saving>
+                    <x-ui.form.error-text error="error" />
+                </form>
+            </div>
         </div>
     @else
-    <div>
 
-        <div class="list-group">
-
-            @foreach ($comments as $comment)
-                <x-poll.show.comment-card :comment="$comment" />
-            @endforeach
-        </div>
-
-
-        <div class="p-3">
-
-            {{-- Formulář pro přidání komentáře --}}
-            <h3>Add new comments</h3>
-            <form wire:submit.prevent='addComment' wire:key='{{ now() }}'>
-
-                <x-input id="username" model="username" type="text">
-                    Your name
-                </x-input>
-                <x-textbox id="content" model="content" mandatory="true">
-                    Your message
-                </x-textbox>
-
-                <button type="submit" class="btn btn-primary btn-lg">Add comment</button>
-            </form>
-        </div>
-    </div>
+        <x-ui.alert type="warning">
+            <x-ui.icon name="exclamation-triangle-fill"/>
+            {{ __('pages/poll-show.comments.alert.disabled') }}
+        </x-ui.alert>
     @endif
 
 
-
-
-
-</x-card>
+</x-ui.card>

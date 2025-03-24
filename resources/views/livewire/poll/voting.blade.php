@@ -12,10 +12,10 @@
     <x-card bodyPadding="0">
 
         <x-slot:header>
-            Voting
+            {{ __('pages/poll-show.voting.title') }}
             <button class="btn btn-outline-secondary"
                     @click="openModal('results')">
-                Results ({{ count($poll->votes) }})
+                {{ __('pages/poll-show.voting.buttons.results') }} ({{ count($poll->votes) }})
             </button>
         </x-slot:header>
 
@@ -39,7 +39,7 @@
                                         data-bs-target="#collapseTimeOptions" aria-expanded="false"
                                         aria-controls="collapseTimeOptions">
                                     <i class="bi bi-calendar-event me-2"></i>
-                                    <span>Time Options</span>
+                                    <span>{{ __('pages/poll-show.voting.accordion.time_options') }}</span>
                                     <span class="badge text-bg-dark ms-2" x-text="form.timeOptions.length"></span>
                                 </button>
                             </h2>
@@ -75,13 +75,15 @@
                         <template x-for="(question, questionIndex) in form.questions">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
-                                    <button class="accordion-button p-4 fw-bold fs-4" type="button"
+                                    <button class="accordion-button p-4 fw-bold fs-4"
+                                            type="button"
                                             data-bs-toggle="collapse"
                                             :data-bs-target="'#collapseQuestion' + questionIndex" aria-expanded="false"
                                             :aria-controls="'collapseQuestion' + questionIndex">
                                         <i class="bi bi-question-circle me-2"></i>
                                         <span x-text="question.text"></span>
-                                        <span class="badge text-bg-dark ms-2" x-text="question.options.length"></span>
+                                        <span class="badge text-bg-dark ms-2" x
+                                              -text="question.options.length"></span>
                                     </button>
                                 </h2>
                                 <div :id="'collapseQuestion' + questionIndex" class="accordion-collapse collapse show">
@@ -89,7 +91,7 @@
                                         <div class="row g-0">
                                             <template x-for="(option, optionIndex) in question.options">
                                                 <div class="col-lg-6">
-                                                    <x-poll.voting.question-option-card :poll="$poll" />
+                                                    <x-poll.voting.question-option-card :poll="$poll"/>
                                                 </div>
                                             </template>
                                         </div>
@@ -109,11 +111,11 @@
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
                             <x-ui.button type="submit" size="lg">
-                                Submit your vote
+                                {{ __('pages/poll-show.voting.buttons.submit_vote') }}
                             </x-ui.button>
                             <span x-show="isSubmitting">
                                 <x-ui.saving>
-                                        Saving...
+                                        {{ __('pages/poll-show.voting.buttons.form.loading') }}
                                 </x-ui.saving>
                             </span>
                             <span class="text-danger" x-show="messages.errors.form" x-text="messages.errors.form"
@@ -131,12 +133,10 @@
                 </form>
             </div>
         @else
-            <div class="alert alert-warning mb-0">
-                <i class="bi bi-exclamation-triangle-fill"></i> Poll is closed. You can no longer vote.
-            </div>
+            <x-ui.alert type="warning">
+                <x-ui.icon name="exclamation-triangle-fill"/>{{ __('pages/poll-show.voting.alert.poll_closed') }}
+            </x-ui.alert>
         @endif
-
-
     </x-card>
 
 </div>

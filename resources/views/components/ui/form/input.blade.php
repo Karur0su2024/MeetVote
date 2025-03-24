@@ -23,13 +23,17 @@
     <input
         type="{{ $type ?? 'text' }}"
         {{ $attributes }}
-        class="form-control {{ $dataClass ?? '' }} @error($error ?? null) is-invalid @enderror"
+        class="form-control {{ $attributes->get['class'] ?? '' }}
+                {{ $dataClass ?? '' }} @error($attributes->get['wire:model'] ?? null) is-invalid @enderror"
         aria-label="{{ $slot }}"
         aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
     />
         {{ $inputGroup ?? null }}
     </div>
 
+    <x-ui.form.error-text :error="$attributes->get['wire:model'] ?? 'error'" />
+
+    {{-- Chybová hláška --}}
 
     @error($error ?? null)
         {{-- Chybová hláška --}}

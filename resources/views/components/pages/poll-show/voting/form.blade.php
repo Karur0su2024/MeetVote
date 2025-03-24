@@ -1,14 +1,14 @@
 <div class="row">
     <h3 class="mb-4 pb-2 fw-bold">
-        Your information
+        {{ __('pages/poll-show.voting.form.title') }}
     </h3>
     <div class="col-md-6 mb-3">
         <x-ui.form.input
                 id="name"
                 x-model="form.user.name"
-                required
-                data-class="form-control-lg">
-            Your name
+                data-class="form-control-lg"
+                placeholder="{{ __('pages/poll-show.voting.form.username.placeholder') }}">
+            {{ __('pages/poll-show.voting.form.username.label') }}
         </x-ui.form.input>
         <div x-show="messages.errors['form.user.name']" class="text-danger">
             <span x-text="messages.errors['form.user.name']"></span>
@@ -19,9 +19,9 @@
                 id="email"
                 x-model="form.user.email"
                 type="email"
-                required
-                data-class="form-control-lg">
-            Your e-mail
+                data-class="form-control-lg"
+                placeholder="{{ __('pages/poll-show.voting.form.email.placeholder') }}">
+            {{ __('pages/poll-show.voting.form.email.label') }}
         </x-ui.form.input>
         <div x-show="messages.errors['form.user.email']" class="text-danger">
             <span x-text="messages.errors['form.user.email']"></span>

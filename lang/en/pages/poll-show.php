@@ -52,5 +52,54 @@ return [
             'close_poll' => 'Close poll',
         ],
     ],
+    'voting' => [
+        'title' => 'Voting',
+        'accordion' => [
+          'time_options' => 'Time options',
+        ],
+        'form' => [
+            'title' => 'Your information',
+            'username' => [
+                'label' => 'Username',
+                'placeholder' => 'Enter your username',
+            ],
+            'email' => [
+                'label' => 'Email',
+                'placeholder' => 'Enter your email',
+            ],
+            'loading' => 'Submitting...',
+        ],
+        'buttons' => [
+            'results' => 'Results',
+            'submit_vote' => 'Submit vote',
+        ],
+        'alert' => [
+            'poll_closed' => 'Poll is closed. You can no longer vote.',
+        ],
+    ],
+    'comments' => [
+    'title' => 'Comments',
+    'form' => [
+        'title' => 'Leave a comment',
+        'username' => [
+            'label' => 'Username',
+            'placeholder' => 'Enter your username',
+        ],
+        'content' => [
+            'label' => 'Comment',
+            'placeholder' => 'Write a comment...',
+        ],
+        'loading' => 'Submitting...',
+    ],
+    'buttons' => [
+        'submit' => 'Submit comment',
+        'delete_comment' => 'Delete comment',
+    ],
+
+    'alert' => [
+        'disabled' => 'Comments are disabled for this poll.',
+        'no_comments_yet' => 'No comments yet.',
+    ],
+],
 ];
 

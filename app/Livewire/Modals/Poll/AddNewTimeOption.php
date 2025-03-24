@@ -6,6 +6,7 @@ use App\Models\Poll;
 use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Livewire\Component;
+use App\Rules\CheckIfTimeOptionExists;
 
 /**
  *
@@ -14,23 +15,28 @@ class AddNewTimeOption extends Component
 {
     public $poll;
 
-    public $type;
-
-    public $date;
-
-    public $content = [
-        'start' => '',
-        'end' => '',
-        'text' => '',
+    public $option = [
+        'type' => 'time',
+        'date' => '',
+        'content' => [
+            'start' => '',
+            'end' => '',
+            'text' => '',
+        ],
     ];
 
-    protected $rules = [
-        'type' => 'required|in:time,text',
-        'date' => 'required|date',
-        'content.start' => 'required_if:type,time|date_format:H:i',
-        'content.end' => 'required_if:type,time|date_format:H:i|after:content.start',
-        'content.text' => 'required_if:type,text|string',
-    ];
+    public function rules(): array
+    {
+        return [
+            'option' => ['required', 'array', new CheckIfTimeOptionExists($this->poll->id, $this->timeOptionService)],
+            'option.type' => 'required|in:time,text',
+            'option.date' => 'required|date',
+            'option.content.start' => 'required_if:type,time|date_format:H:i',
+            'option.content.end' => 'required_if:type,time|date_format:H:i|after:content.start',
+            'option.content.text' => 'required_if:type,text|string',
+        ];
+    }
+
 
     protected TimeOptionService $timeOptionService;
 
@@ -49,10 +55,9 @@ class AddNewTimeOption extends Component
      */
     public function mount($pollIndex)
     {
-
         $this->poll = Poll::find($pollIndex);
-        $this->type = 'time';
-        $this->date = now()->format('Y-m-d');
+        $this->option['type'] = 'time';
+        $this->option['date'] = now()->format('Y-m-d');
     }
 
     /**
@@ -62,7 +67,7 @@ class AddNewTimeOption extends Component
      */
     public function changeType($type)
     {
-        $this->type = $type;
+        $this->poll['type'] = $type;
     }
 
     /**
@@ -73,43 +78,17 @@ class AddNewTimeOption extends Component
     {
         $validatedData = $this->validate();
 
-        $content = $this->type === 'time' ?
-            [
-                'start' => $validatedData['content']['start'],
-                'end' => $validatedData['content']['end'],
-            ] : [
-                'text' => $validatedData['content']['text'],
-            ];
-
-        $timeOptions[] = [
-            'date' => $validatedData['date'],
-            'type' => $validatedData['type'],
-            'content' => $content,
-        ];
-
-        $timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
-
-
-        if ($this->timeOptionService->checkDuplicity($timeOptions)) {
-            $this->addError('error', 'Duplicity detected');
-            return;
-        }
-
         try {
-
             $this->poll->timeOptions()->create([
-                'date' => $validatedData['date'],
-                'start' => $validatedData['type'] === 'time' ? $validatedData['content']['start'] : null,
-                'text' => $validatedData['type'] === 'text' ? $validatedData['content']['text'] : null,
-                'minutes' => $validatedData['type'] === 'time' ? Carbon::parse($validatedData['content']['start'])->diffInMinutes(Carbon::parse($validatedData['content']['end'])) : null,
+                'date' => $validatedData['option']['date'],
+                'start' => $validatedData['option']['type'] === 'time' ? $validatedData['option']['content']['start'] : null,
+                'end' => $validatedData['option']['type'] === 'time' ? $validatedData['option']['content']['end'] : null,
+                'text' => $validatedData['option']['type'] === 'text' ? $validatedData['option']['content']['text'] : null,
             ]);
-
         } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while creating time option.');
+            $this->addError('error', $e);
             return;
         }
-
-
         return redirect()->route('polls.show', $this->poll);
     }
 
@@ -121,4 +100,5 @@ class AddNewTimeOption extends Component
     {
         return view('livewire.modals.poll.add-new-time-option');
     }
+
 }

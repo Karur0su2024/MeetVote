@@ -1,8 +1,7 @@
 <div>
-    <div class="modal-header">
-        <h5 class="modal-title">{{ __('ui/modals.choose_final_options.title') }}</h5>
-        <button type="button" class="btn-close text-white" wire:click="$dispatch('hideModal')" aria-label="Close"></button>
-    </div>
+    <x-ui.modal.header>
+        {{ __('ui/modals.choose_final_options.title') }}
+    </x-ui.modal.header>
     <div class="modal-body">
         <p class="text-muted">
             {{ __('ui/modals.choose_final_options.description') }}

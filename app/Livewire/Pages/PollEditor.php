@@ -64,9 +64,7 @@ class PollEditor extends Component
             $this->addError('error', 'An error occurred while validating the form.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
         }
-
         $this->saveToDatabase($validatedData);
-
     }
 
     private function saveToDatabase(array $validatedData)
@@ -76,17 +74,14 @@ class PollEditor extends Component
             $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
             return redirect()->route('polls.show', $poll);
-
         } catch (PollException $e) {
             // Pokud nastane výjimka PollException
             $this->addError('error', $e->getMessage());
             return null;
-
         } catch (\Exception $e) {
             // Pokud nastane jiná výjimka
             $this->addError('error', 'An error occurred while saving the poll.');
             return null;
-
         }
     }
 
