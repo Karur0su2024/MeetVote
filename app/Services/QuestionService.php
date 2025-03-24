@@ -50,8 +50,12 @@ class QuestionService
      * @return void
      * @throws \Exception
      */
-    public function saveQuestions(Poll $poll, array $questions): void
+    public function saveQuestions(Poll $poll, array $questions, array $removedQuestions, array $removedQuestionOptions): void
     {
+        $this->deleteQuestions($removedQuestions);
+        $this->deleteQuestionOptions($removedQuestionOptions);
+
+
         foreach ($questions as $question) {
             if (isset($question['id'])) {
                 $newQuestion = PollQuestion::find($question['id']);

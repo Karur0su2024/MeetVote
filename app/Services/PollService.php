@@ -17,23 +17,6 @@ class PollService
     protected QuestionService $questionService;
 
     /**
-     * @return TimeOptionService
-     */
-    public function getTimeOptionService(): TimeOptionService
-    {
-        return $this->timeOptionService;
-    }
-
-    /**
-     * @return QuestionService
-     */
-    public function getQuestionService(): QuestionService
-    {
-        return $this->questionService;
-    }
-
-
-    /**
      * @param TimeOptionService $timeOptionService
      * @param QuestionService $questionService
      */
@@ -89,103 +72,56 @@ class PollService
     public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
+            $newPoll = false;
             DB::beginTransaction();
-            $poll = Poll::find($pollIndex); // Načtení ankety podle ID
+
+            $poll = Poll::find($pollIndex);
+            $builtPoll = $this->buildPoll($validatedData, $poll);
+
             if ($poll) {
-                $poll = $this->updatePoll($poll, $validatedData); // Aktualizace ankety
+                $poll->update($builtPoll);
             } else {
-                $poll = $this->createPoll($validatedData);
+                $poll = Poll::create($builtPoll);
+                $newPoll = true;
+            }
+
+            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
+            $this->questionService->saveQuestions($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
+
+            DB::commit();
+
+            if($newPoll) {
                 event(new PollCreated($poll));
             }
-            DB::commit();
+
             return $poll;
         } catch (PollException $e) {
             DB::rollBack();
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
+            dd($e);
             DB::rollBack();
             throw new PollException('An error occurred while saving the poll.');
         }
     }
 
-    /**
-     * Metoda pro vytvoření nové ankety
-     * @param array $validatedData
-     * @return Poll
-     * @throws PollException
-     */
-    public function createPoll(array $validatedData): Poll
+    private function buildPoll(array $validatedData, ?Poll $poll): array
     {
-        try {
-            $poll = Poll::create([
-                'title' => $validatedData['title'],
-                'author_name' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['name'],
-                'author_email' => $validatedData['user']['posted_anonymously'] ? null : $validatedData['user']['email'],
-                'deadline' => $validatedData['deadline'],
-                'description' => $validatedData['description'],
-                'comments' => $validatedData['settings']['comments'],
-                'anonymous_votes' => $validatedData['settings']['anonymous'],
-                'hide_results' => $validatedData['settings']['hide_results'],
-                'invite_only' => $validatedData['settings']['invite_only'],
-                'password' => bcrypt($validatedData['settings']['password']),
-                'edit_votes' => $validatedData['settings']['edit_votes'],
-                'add_time_options' => $validatedData['settings']['add_time_options'],
-            ]);
+        return [
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'deadline' => $validatedData['deadline'],
+            'anonymous_votes' => $validatedData['settings']['anonymous'],
+            'comments' => $validatedData['settings']['comments'],
+            'hide_results' => $validatedData['settings']['hide_results'],
+            'invite_only' => $validatedData['settings']['invite_only'],
+            'password' => bcrypt($validatedData['settings']['password']['value']),
+            'edit_votes' => $validatedData['settings']['edit_votes'],
+            'add_time_options' => $validatedData['settings']['add_time_options'],
 
-
-            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
-            $this->questionService->saveQuestions($poll, $validatedData['questions']);
-
-
-            return $poll;
-        }
-        catch (\Exception $e) {
-            throw new PollException('An error occurred while creating the poll.');
-        }
-    }
-
-    /**
-     * Metoda pro aktualizaci ankety
-     * @param Poll $poll
-     * @param array $validatedData
-     * @return Poll
-     * @throws PollException
-     */
-    public function updatePoll(Poll $poll, array $validatedData): Poll
-    {
-        if ($poll->status !== 'active') {
-            throw new PollException('You cannot edit a closed poll.');
-        }
-
-        try {
-            $poll->update([
-                'title' => $validatedData['title'],
-                'description' => $validatedData['description'],
-                'deadline' => $validatedData['deadline'],
-                'anonymous_votes' => $validatedData['settings']['anonymous'],
-                'comments' => $validatedData['settings']['comments'],
-                'hide_results' => $validatedData['settings']['hide_results'],
-                'invite_only' => $validatedData['settings']['invite_only'],
-                'password' => bcrypt($validatedData['settings']['password']['value']),
-                'edit_votes' => $validatedData['settings']['edit_votes'],
-                'add_time_options' => $validatedData['settings']['add_time_options'],
-            ]);
-
-        } catch (\Exception $e) {
-            throw new PollException('An error occurred while updating the poll');
-        }
-
-        // Zde se provede vytvoření/aktualizace časových možností a otázek
-        try {
-            $this->timeOptionService->deleteTimeOptions($validatedData['removed']['time_options']);
-            $this->questionService->deleteQuestions($validatedData['removed']['questions']);
-            $this->questionService->deleteQuestionOptions($validatedData['removed']['question_options']);
-            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options']);
-            $this->questionService->saveQuestions($poll, $validatedData['questions']);
-        } catch (\Exception $e) {
-            throw new PollException($e);
-        }
-
-        return $poll;
+            // Pro nové ankety
+            'author_name' => ($poll->author_name ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['name'],
+            'author_email' => ($poll->author_email ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['email'],
+        ];
     }
 }

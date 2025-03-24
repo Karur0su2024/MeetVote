@@ -54,7 +54,7 @@ class PollForm extends Form
             'settings.comments' => 'boolean',
             'settings.anonymous' => 'boolean',
             'settings.hide_results' => 'boolean',
-            'settings.password' => 'nullable|string',
+            'settings.password.value' => 'nullable|string',
             'settings.invite_only' => 'boolean',
             'settings.add_time_options' => 'boolean',
             'settings.edit_votes' => 'boolean',

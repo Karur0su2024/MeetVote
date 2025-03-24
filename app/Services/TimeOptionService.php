@@ -54,8 +54,10 @@ class TimeOptionService
      * @param array $timeOptions
      * @return bool
      */
-    public function saveTimeOptions(Poll $poll, array $timeOptions): bool
+    public function saveTimeOptions(Poll $poll, array $timeOptions, array $removedTimeOptions): bool
     {
+        $this->deleteTimeOptions($removedTimeOptions);
+
         foreach ($timeOptions as $option) {
 
             $optionToAdd = [

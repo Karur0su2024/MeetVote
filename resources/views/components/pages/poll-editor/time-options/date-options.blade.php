@@ -31,7 +31,7 @@
 
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-        <x-ui.button @click="removeQuestionOption(questionIndex, optionIndex)"
+        <x-ui.button @click="removeTimeOption(dateIndex, optionIndex)"
                      color="danger">
             <i :class="{ 'bi bi-exclamation-triangle': form.dates[dateIndex][optionIndex].score > 0,
                          'bi bi-trash': !form.dates[dateIndex][optionIndex].score }">

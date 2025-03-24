@@ -25,20 +25,16 @@ class PollEditor extends Component
      * @var PollService
      */
     protected PollService $pollService;
-    /**
-     * @var NotificationService
-     */
-    protected NotificationService $notificationService;
+
 
     /**
      * @param PollService $pollService
      * @param NotificationService $notificationService
      * @return void
      */
-    public function boot(PollService $pollService, NotificationService $notificationService): void
+    public function boot(PollService $pollService): void
     {
         $this->pollService = $pollService;
-        $this->notificationService = $notificationService;
     }
 
     /**
