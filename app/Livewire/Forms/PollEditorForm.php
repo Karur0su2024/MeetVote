@@ -13,7 +13,7 @@ use App\Rules\NoDateDuplicates;
 use App\Rules\NoQuestionDuplicates;
 use App\Rules\NoQuestionOptionDuplicates;
 
-class PollForm extends Form
+class PollEditorForm extends Form
 {
     public ?int $pollIndex = null;
 

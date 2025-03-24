@@ -41,18 +41,17 @@ class VoteService
      * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
      * @return array Pole s daty o hlasu.
      */
-    public function getPollData(int $pollId, $voteId = null): array
+    public function getPollData(int $pollIndex, $voteIndex = null): array
     {
-
-        $poll = Poll::find($pollId);
+        $poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->find($pollIndex);
         return [
             'user' => [
                 'name' => Auth::user()->name ?? '',
                 'email' => Auth::user()->email ?? '',
             ],
-            'time_options' => $this->transformTimeOptionData($this->timeOptionService->getPollTimeOptions($poll), $voteId), // Pole časových možností
-            'questions' => $this->transformQuestionData($this->questionService->getPollQuestions($poll), $voteId), // Pole otázek
-            'vote_index' => $voteId, // Id existujícího hlasu pro případnou její změnu
+            'time_options' => $this->transformTimeOptionData($this->timeOptionService->getPollTimeOptions($poll), $voteIndex), // Pole časových možností
+            'questions' => $this->transformQuestionData($this->questionService->getPollQuestions($poll), $voteIndex), // Pole otázek
+            'vote_index' => $voteIndex, // Id existujícího hlasu pro případnou její změnu
         ];
     }
 

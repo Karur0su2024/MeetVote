@@ -112,6 +112,9 @@ class QuestionService
      */
     public function deleteQuestions(array $removedQuestions): void
     {
+        if(count($removedQuestions) === 0) {
+            return;
+        }
         PollQuestion::whereIn('id', $removedQuestions)->delete();
     }
 
@@ -122,6 +125,9 @@ class QuestionService
      */
     public function deleteQuestionOptions(array $removedQuestionOptions): void
     {
+        if(count($removedQuestionOptions) === 0) {
+            return;
+        }
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();
     }
 

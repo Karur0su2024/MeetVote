@@ -12,6 +12,7 @@ class TimeOptionService
      * Metoda pro načtení časových možností ankety.
      * Pokud není anketa nastavena, vrátí jednu časovou možnost.
      * Pokud je anketa nastavena, vrátí pole časových možností ankety.
+     * Je vhodné použít eager loading pro načtení časových možností.
      * @param Poll|null $poll
      * @return array
      */
@@ -19,7 +20,7 @@ class TimeOptionService
     {
 
         // Pokud není anketa nastavena, vrátí jednu časovou možnost.
-        if (!isset($poll->id)) {
+        if ($poll->id === null) {
             return $this->initialTimeOption();
         }
 
@@ -58,21 +59,18 @@ class TimeOptionService
     {
         $this->deleteTimeOptions($removedTimeOptions);
 
+
         foreach ($timeOptions as $option) {
 
-            $optionToAdd = [
-                'date' => $option['date'],
-                'text' => $option['content']['text'] ?? null,
-                'start' => $option['content']['start'] ?? null,
-                'end' => $option['content']['end'] ?? null,
-            ];
+            $optionToAdd = $this->builtTimeOption($option);
+
+
 
             if (isset($option['id'])) {
-                $poll->timeOptions()->where('id', $option['id'])->update($optionToAdd);
+                TimeOption::where('id', $option['id'])->update($optionToAdd);
             } else {
                 $poll->timeOptions()->create($optionToAdd);
             }
-
         }
 
         return true;
@@ -85,6 +83,9 @@ class TimeOptionService
      */
     public function deleteTimeOptions(array $deletedOptions): void
     {
+        if(count($deletedOptions) === 0) {
+            return;
+        }
         TimeOption::whereIn('id', $deletedOptions)->delete();
     }
 
@@ -119,4 +120,14 @@ class TimeOptionService
         ]];
     }
 
+
+    private function builtTimeOption(array $validatedData): array
+    {
+        return [
+            'date' => $validatedData['date'],
+            'text' => $validatedData['content']['text'] ?? null,
+            'start' => $validatedData['content']['start'] ?? null,
+            'end' => $validatedData['content']['end'] ?? null,
+        ];
+    }
 }

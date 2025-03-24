@@ -34,8 +34,10 @@ class PollService
      * @param Poll|null $poll
      * @return array
      */
-    public function getPollData(Poll $poll): array
+    public function getPollData($pollIndex = null): array
     {
+        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['*']) ?? new Poll();
+
         return [
             'pollIndex' => $poll->id ?? null,
             'title' => $poll->title ?? '',
@@ -76,7 +78,9 @@ class PollService
             $newPoll = false;
             DB::beginTransaction();
 
-            $poll = Poll::find($pollIndex);
+            $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
+
+
             $builtPoll = $this->buildPoll($validatedData, $poll);
 
             if ($poll) {
@@ -85,9 +89,9 @@ class PollService
                 $poll = Poll::create($builtPoll);
                 $newPoll = true;
             }
-
             $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
             $this->questionService->saveQuestions($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
+
 
             DB::commit();
 
@@ -95,6 +99,7 @@ class PollService
                 event(new PollCreated($poll));
             }
 
+            session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
             return $poll;
         } catch (PollException $e) {
             DB::rollBack();

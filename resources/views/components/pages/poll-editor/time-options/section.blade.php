@@ -1,20 +1,17 @@
-{{-- Komponenta pro zobrazení sekce s časovými možnostmi v editoru ankety --}}
-{{-- Obsahuje kalendář a seznam časových termínů --}}
-
-<x-card>
+<x-ui.card collapsable>
 
     {{-- Hlavička --}}
     <x-slot:header>
         {{ __('pages/poll-editor.time_options.title') }}
     </x-slot:header>
 
-    {{-- Tooltip --}}
     <x-slot:tooltip>
         {{ __('pages/poll-editor.time_options.tooltip') }}
     </x-slot:tooltip>
 
-    <div class="row">
 
+
+    <div class="row">
         {{-- Polovina s kalendářem --}}
         <x-layouts.col-6>
             <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.title') }}</h3>
@@ -37,4 +34,4 @@
 
         </x-layouts.col-6>
     </div>
-</x-card>
+</x-ui.card>

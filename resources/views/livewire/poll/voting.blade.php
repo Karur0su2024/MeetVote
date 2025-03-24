@@ -9,15 +9,18 @@
      @vote-submitted.window="successfulVote()"
      @refresh-poll.window="refreshPoll($event.detail.formData)">
 
-    <x-card bodyPadding="0">
+    <x-ui.card body-padding="0" collapsable>
 
         <x-slot:header>
             {{ __('pages/poll-show.voting.title') }}
+        </x-slot:header>
+
+        <x-slot:headerRight>
             <button class="btn btn-outline-secondary"
                     @click="openModal('results')">
                 {{ __('pages/poll-show.voting.buttons.results') }} ({{ count($poll->votes) }})
             </button>
-        </x-slot:header>
+        </x-slot:headerRight>
 
         @if($poll->isActive())
             <div>
@@ -137,7 +140,7 @@
                 <x-ui.icon name="exclamation-triangle-fill"/>{{ __('pages/poll-show.voting.alert.poll_closed') }}
             </x-ui.alert>
         @endif
-    </x-card>
+    </x-ui.card>
 
 </div>
 

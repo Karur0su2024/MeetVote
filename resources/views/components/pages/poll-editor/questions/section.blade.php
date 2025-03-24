@@ -1,4 +1,4 @@
-<x-card>
+<x-ui.card collapsable>
     <x-slot:header>{{ __('pages/poll-editor.questions.title') }}</x-slot>
     <x-slot:tooltip>
         {{ __('pages/poll-editor.questions.tooltip') }}
@@ -26,4 +26,4 @@
     <span
             class="text-danger ms-2">{{ $message }}</span>
     @enderror
-</x-card>
+</x-ui.card>

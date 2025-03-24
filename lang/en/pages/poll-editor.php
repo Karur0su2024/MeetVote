@@ -95,4 +95,6 @@ return [
     'button' => [
         'submit' => 'Submit',
     ],
+
+    'loading' => 'Saving...',
 ];

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Pages;
 
-use App\Livewire\Forms\PollForm;
+use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\PollService;
 use Livewire\Component;
@@ -11,25 +11,14 @@ use App\Exceptions\PollException;
 
 class PollEditor extends Component
 {
-    /**
-     * @var PollForm
-     */
-    public PollForm $form;
 
-    /**
-     * @var Poll|null
-     */
-    public ?Poll $poll;
-
-    /**
-     * @var PollService
-     */
+    public PollEditorForm $form;
+    public $pollIndex;
     protected PollService $pollService;
 
 
     /**
      * @param PollService $pollService
-     * @param NotificationService $notificationService
      * @return void
      */
     public function boot(PollService $pollService): void
@@ -41,49 +30,48 @@ class PollEditor extends Component
      * @param Poll|null $poll
      * @return void
      */
-    public function mount(?Poll $poll): void
+    public function mount($pollIndex = null): void
     {
-        $this->poll = $poll;
-        $this->form->loadForm($this->pollService->getPollData($this->poll));
+        $this->pollIndex = $pollIndex;
+        $this->form->loadForm($this->pollService->getPollData($this->pollIndex));
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse|void|null
+     * @return void
      */
     public function submit()
     {
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
+            $this->saveToDatabase($validatedData);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->addError('error', 'Test.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
         }
-
-        if(!$validatedData) {
-            $this->addError('error', 'An error occurred while validating the form.');
-            $this->dispatch('validation-failed', errors: $this->getErrors());
-        }
-        $this->saveToDatabase($validatedData);
     }
 
+    /**
+     * Uloží data do databáze
+     *
+     * @param array $validatedData
+     * @return \Illuminate\Http\RedirectResponse|null
+     */
     private function saveToDatabase(array $validatedData)
     {
         try {
-            // Uložení do databáze
-            $poll = $this->pollService->savePoll($validatedData, $this->poll->id ?? null);
-            session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
-            return redirect()->route('polls.show', $poll);
+            $poll = $this->pollService->savePoll($validatedData, $this->pollIndex ?? null);
+            return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (PollException $e) {
-            // Pokud nastane výjimka PollException
             $this->addError('error', $e->getMessage());
             return null;
-        } catch (\Exception $e) {
-            // Pokud nastane jiná výjimka
+        } catch (\Exception $e) {;
             $this->addError('error', 'An error occurred while saving the poll.');
             return null;
         }
     }
+
+
+
 
     private function getErrors(): array
     {

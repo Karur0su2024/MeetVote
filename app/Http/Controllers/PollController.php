@@ -22,13 +22,15 @@ class PollController extends Controller
 
     public function edit(Poll $poll)
     {
-        return view('pages.polls.edit', ['poll' => $poll]);
+        $pollIndex = $poll->id;
+        $pollTitle = $poll->title;
+        return view('pages.polls.edit', compact('pollIndex', 'pollTitle'));
     }
 
     public function destroy(Poll $poll)
     {
         $poll->delete();
-        return redirect()->route('dashboard')->with('success', 'Anketa byla úspěšně smazána.');
+        return redirect()->route('dashboard')->with('success', 'Poll deleted successfully');
     }
 
     public function authentication(Poll $poll)

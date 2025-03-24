@@ -1,4 +1,4 @@
-<x-card>
+<x-ui.card collapsable>
     <x-slot:header>{{ __('pages/poll-editor.settings.title') }}</x-slot>
 
     {{-- Komentáře --}}
@@ -56,4 +56,4 @@
         </x-slot:tooltip>
         {{ __('pages/poll-editor.settings.password.label') }}
     </x-ui.form.input>
-</x-card>
+</x-ui.card>

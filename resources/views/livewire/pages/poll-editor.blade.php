@@ -1,11 +1,10 @@
 <div>
     <form wire:submit.prevent="submit"
           x-data="getFormData"
-          @validation-failed.window="duplicateError($event.detail.errors)"
-    >
+          @validation-failed.window="duplicateError($event.detail.errors)">
 
         {{-- Základní informace o anketě --}}
-        <x-pages.poll-editor.basic-info-section :poll="$poll"/>
+        <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex"/>
 
         {{-- Výběr časových termínů --}}
         <x-pages.poll-editor.time-options.section/>
@@ -22,8 +21,13 @@
         </div>
 
         <x-error-alert for="error"/>
+        <div class="mb-3">
+            <x-ui.saving wire:loading wire:target="submit">
+                {{ __('pages/poll-editor.loading') }}
+            </x-ui.saving>
+        </div>
         <x-ui.button type="submit" size="lg" class="w-50 mx-auto">
-            {{ __('form.button.submit') }}
+            {{ __('pages/poll-editor.button.submit') }}
         </x-ui.button>
 
 
