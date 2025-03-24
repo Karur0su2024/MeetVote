@@ -14,7 +14,7 @@
         x-model="form.title"
         type="text"
         placeholder="{{ __('pages/poll-editor.basic_info.poll_title.placeholder') }}"
-        required
+
         error="form.title">
         {{ __('pages/poll-editor.basic_info.poll_title.label') }}
     </x-ui.form.input>

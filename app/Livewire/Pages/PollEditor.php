@@ -59,6 +59,7 @@ class PollEditor extends Component
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
         } catch (\Illuminate\Validation\ValidationException $e) {
+            dd($e->validator->errors()->toArray());
             $this->addError('error', 'Test.');
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
@@ -111,9 +112,6 @@ class PollEditor extends Component
         $duplicatesDates = $this->pollService->getTimeOptionService()->checkDuplicityByDates($validatedData['dates']);
         $duplicatesQuestions = $this->pollService->getQuestionService()->checkDuplicateQuestions($validatedData['questions']);
 
-        foreach ($duplicatesDates as $dateIndex) {
-            $this->addError('form.dates.' . $dateIndex, 'Duplicate time options are not allowed.');
-        }
 
         foreach ($duplicatesQuestions['each_question'] as $questionIndex) {
             $this->addError('form.questions.' . $questionIndex, 'Duplicate options are not allowed.');

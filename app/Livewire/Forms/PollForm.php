@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Form;
 use App\Services\NotificationService;
 use App\Exceptions\PollException;
+use App\Rules\NoDateDuplicates;
 
 class PollForm extends Form
 {
@@ -41,40 +42,42 @@ class PollForm extends Form
         'question_options' => [],
     ];
 
-    // Validace
-    protected $rules = [
-        'pollIndex' => 'nullable|integer',
-        'title' => 'required|string|min:3|max:255',
-        'description' => 'nullable|max:1000',
-        'deadline' => 'nullable|date|after:today',
-        'settings.comments' => 'boolean',
-        'settings.anonymous' => 'boolean',
-        'settings.hide_results' => 'boolean',
-        'settings.password' => 'nullable|string',
-        'settings.invite_only' => 'boolean',
-        'settings.add_time_options' => 'boolean',
-        'settings.edit_votes' => 'boolean',
-        'user.posted_anonymously' => 'boolean',
-        'user.name' => 'required_if:user.posted_anonymously,string|min:3|max:255',
-        'user.email' => 'required_if:user.posted_anonymously,email',
-        'dates' => 'required|array|min:1', // Pole různých dnů
-        'dates.*.*' => 'required|array|min:1', // Časové možnosti podle data
-        'dates.*.*.id' => 'nullable|integer', // ID možnosti
-        'dates.*.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
-        'dates.*.*.date' => 'required', // Obsah možnosti
-        'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
-        'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
-        'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
-        'questions' => 'nullable|array', // Pole otázek
-        'questions.*.id' => 'nullable|integer', // ID otázky
-        'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
-        'questions.*.options' => 'required|array|min:2', // Možnosti otázky
-        'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
-        'questions.*.options.*.text' => 'required|string|min:1|max:255', // Text možnosti*/
-        'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
-        'removed.questions' => 'nullable|array', // ID odstraněných otázek
-        'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
-    ];
+    public function rules(): array
+    {
+        return [
+            'pollIndex' => 'nullable|integer',
+            'title' => 'required|string|min:3|max:255',
+            'description' => 'nullable|max:1000',
+            'deadline' => 'nullable|date|after:today',
+            'settings.comments' => 'boolean',
+            'settings.anonymous' => 'boolean',
+            'settings.hide_results' => 'boolean',
+            'settings.password' => 'nullable|string',
+            'settings.invite_only' => 'boolean',
+            'settings.add_time_options' => 'boolean',
+            'settings.edit_votes' => 'boolean',
+            'user.posted_anonymously' => 'boolean',
+            'user.name' => 'required_if:user.posted_anonymously,string|min:3|max:255',
+            'user.email' => 'required_if:user.posted_anonymously,email',
+            'dates' => 'required|array|min:1', // Pole různých dnů
+            'dates.*' => ['nullable', 'array', 'min:1', new NoDateDuplicates()], // Pole časových možností podle data
+            'dates.*.*.id' => 'nullable|integer', // ID možnosti
+            'dates.*.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
+            'dates.*.*.date' => 'required', // Obsah možnosti
+            'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
+            'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
+            'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
+            'questions' => 'nullable|array', // Pole otázek
+            'questions.*.id' => 'nullable|integer', // ID otázky
+            'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
+            'questions.*.options' => 'required|array|min:2', // Možnosti otázky
+            'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
+            'questions.*.options.*.text' => 'required|string|min:1|max:255', // Text možnosti*/
+            'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
+            'removed.questions' => 'nullable|array', // ID odstraněných otázek
+            'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
+        ];
+    }
 
     // Bylo použité AI pro generování všech chybových zpráv
     protected $messages = [
