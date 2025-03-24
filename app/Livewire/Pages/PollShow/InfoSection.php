@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\PollShow;
 
 use App\Models\Poll;
 use App\Traits\Traits\CanOpenModals;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
@@ -57,12 +58,24 @@ class InfoSection extends Component
     // https://github.com/spatie/calendar-links
     public function importToGoogleCalendar()
     {
+        $link = $this->buildLink();
+        return redirect()->away($link->google());
+    }
+
+    public function importToOutlookCalendar()
+    {
+        $link = $this->buildLink();
+        return redirect()->away($link->webOutlook());
+    }
+
+
+    private function buildLink()
+    {
         $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time']);
         $to = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['end_time']);
-        $link = Link::create($this->event['title'], $from, $to)->description($this->event['description']);
-        return redirect()->away($link->google());
-
+        return Link::create($this->event['title'], $from, $to)->description($this->event['description']);
     }
+
 
     public function render()
     {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Middleware\CheckIfConnectedToGoogle;
 use App\Http\Middleware\CheckPollPassword;
 use App\Http\Middleware\IsPollAdmin;
 use App\Http\Middleware\PollIsInviteOnly;

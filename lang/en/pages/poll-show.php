@@ -1,5 +1,7 @@
 <?php
 
+// resources/views/pages/polls/show.blade.php
+
 return [
 
     'settings' => [
@@ -36,6 +38,7 @@ return [
         'dropdown' => [
             'header' => 'Import',
             'import_to_google' => 'Import to Google Calendar',
+            'import_to_outlook' => 'Import to Outlook Calendar',
         ],
         'text' => [
             'synced_with_google' => 'Synced with Google Calendar',

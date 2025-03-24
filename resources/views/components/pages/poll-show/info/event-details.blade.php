@@ -16,8 +16,10 @@
                 </x-slot:header>
                 <x-slot:dropdown-items>
                     <x-ui.dropdown.item wire:click='importToGoogleCalendar()'>
-                        <x-ui.icon class="google me-1"/>
                         {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
+                    </x-ui.dropdown.item>
+                    <x-ui.dropdown.item wire:click='importToOutlookCalendar()'>
+                        {{ __('pages/poll-show.event_details.dropdown.import_to_outlook') }}
                     </x-ui.dropdown.item>
                 </x-slot:dropdown-items>
             </x-ui.dropdown.wrapper>

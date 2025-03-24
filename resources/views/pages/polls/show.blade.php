@@ -29,7 +29,7 @@
         <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
 
         <!-- Hlasovací formulář -->
-        <livewire:poll.voting :poll-id="$poll->id"/>
+        <livewire:pages.poll-show.voting-section :poll-index="$poll->id"/>
 
         {{-- Komentáře --}}
         @if ($poll->comments)

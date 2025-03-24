@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Pages\PollShow;
 
 use App\Events\VoteSubmitted;
 use App\Exceptions\VoteException;
@@ -13,9 +13,10 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
 
-class Voting extends Component
+class VotingSection extends Component
 {
 
+    use CanOpenModals;
     /**
      * @var Poll
      */
@@ -45,9 +46,9 @@ class Voting extends Component
      * @param int $pollId
      * @return void
      */
-    public function mount(int $pollId): void
+    public function mount(int $pollIndex): void
     {
-        $this->poll = Poll::findOrFail($pollId, ['id', 'status', 'public_id', 'add_time_options']);
+        $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options']);
         $this->form->loadData($this->voteService->getPollData($this->poll->id));
     }
 
@@ -57,33 +58,46 @@ class Voting extends Component
      * @return void|null
      */
     #[On('submitVote')]
-    public function submitVote($voteData): void
+    public function submitVote(): void
     {
         if(!Gate::allows('canVote', $this->poll)) {
-            $this->dispatch('validation-failed', errors: [
-                'form' => 'You do not have permission to vote.',
-            ]);
+            $this->addError('error', 'You are not allowed to vote on this poll.');
             return;
         }
 
-        try {
-            $validatedData = $this->form->validate();
-            $validatedData['poll_id'] = $this->poll->id;
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->setErrorBag($e->validator->getMessageBag());
+        $validatedData = $this->form->validate();
+        $validatedData['poll_id'] = $this->poll->id;
+
+        $selected = false;
+
+        foreach ($this->form->timeOptions as $timeOption) {
+            if ($timeOption['picked_preference'] !== -0) {
+                $selected = true;
+                break;
+            }
+        }
+
+        foreach ($this->form->questions as $question) {
+            foreach ($question['options'] as $option) {
+                if ($option['picked_preference'] !== 0) {
+                    $selected = true;
+                    break;
+                }
+            }
+        }
+
+        if(!$selected) {
+            $this->addError('error', 'You must select at least one option.');
             return;
         }
+
 
         $vote = $this->saveVote($validatedData);
 
         if ($vote) {
             $this->form->loadData($this->voteService->getPollData($this->poll->id));
-            $this->dispatch('vote-submitted');
-        } else {
-            $this->dispatch('validation-failed', errors: $this->getErrors());
         }
     }
-
 
     /**
      * Metoda pro uložení hlasu do databáze.
@@ -151,7 +165,7 @@ class Voting extends Component
      */
     public function render()
     {
-        return view('livewire.poll.voting');
+        return view('livewire.pages.poll-show.voting-section');
     }
 
 }

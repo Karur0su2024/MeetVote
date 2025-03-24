@@ -47,20 +47,18 @@ class VotingForm extends Form
      */
     public $existingVote;
 
-    /**
-     * Definice validací
-     * @var string[]
-     */
-    protected $rules = [
-        'user.name' => 'required|string|min:3|max:255',
-        'user.email' => 'required|email',
-        'existingVote' => 'nullable|integer',
-        'timeOptions.*.picked_preference' => 'required|integer|min:-1|max:2',
-        'timeOptions.*.id' => 'required|integer',
-        'questions.*.id' => 'required|integer',
-        'questions.*.options.*.id' => 'required|integer',
-        'questions.*.options.*.picked_preference' => 'required|integer|in:0,2',
-    ];
+    protected function rules(): array {
+        return [
+            'user.name' => 'required|string|min:3|max:255',
+            'user.email' => 'required|email',
+            'existingVote' => 'nullable|integer',
+            'timeOptions.*.picked_preference' => 'required|integer|min:-1|max:2',
+            'timeOptions.*.id' => 'required|integer',
+            'questions.*.id' => 'required|integer',
+            'questions.*.options.*.id' => 'required|integer',
+            'questions.*.options.*.picked_preference' => 'required|integer|in:0,2',
+        ];
+    }
 
     /**
      * @var string[]
@@ -98,10 +96,5 @@ class VotingForm extends Form
 
     }
 
-    public function handleSubmittedData($data)
-    {
-        $this->user = $data['user'];
-        $this->timeOptions = $data['timeOptions'];
-        $this->questions = $data['questions'];
-    }
+    
 }

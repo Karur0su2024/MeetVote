@@ -21,6 +21,7 @@ class HasPassword
             return $next($request);
         }
 
+        dd('HasPassword middleware', $request->poll->password, session('poll_'.$request->poll->public_id.'_authenticated', false));
         return redirect()->route('polls.authentication', $request->poll);
 
 

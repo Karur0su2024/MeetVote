@@ -105,7 +105,6 @@ class PollService
             DB::rollBack();
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
-            dd($e);
             DB::rollBack();
             throw new PollException('An error occurred while saving the poll.');
         }
@@ -121,7 +120,7 @@ class PollService
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
             'invite_only' => $validatedData['settings']['invite_only'],
-            'password' => bcrypt($validatedData['settings']['password']['value']),
+            'password' => $validatedData['settings']['password']['value'] ? bcrypt($validatedData['settings']['password']['value']) : null,
             'edit_votes' => $validatedData['settings']['edit_votes'],
             'add_time_options' => $validatedData['settings']['add_time_options'],
 
