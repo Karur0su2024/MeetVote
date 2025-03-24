@@ -7,7 +7,8 @@
     <a class="
         dropdown-item pointer-cursor
         {{ $color ? 'text-' . $color : '' }}
-        {{ $disabled ? 'disabled' : '' }}"
+        {{ $disabled ? 'disabled' : '' }}
+        {{ $attributes->get('class') }}"
         {{ $attributes }}>
         {{ $slot }}
     </a>

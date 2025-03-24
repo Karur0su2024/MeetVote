@@ -15,40 +15,32 @@ class Dashboard extends Component
 
     public $events;
 
-    public $search = '';
+    public $status = 'all';
 
     public function mount()
-    {
-        $this->loadPolls();
-        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
+    {        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
-        $this->polls = Poll::where('user_id', Auth::id())
-            ->where('title', 'like', '%'.$this->search.'%')->get();
+        $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
 
         $this->events = Auth::user()->allPolls()->pluck('event')->unique('id')->filter();
         //dd($this->events);
     }
 
-    // Vyhledávání
-    public function updatingSearch()
-    {
-
+    public function filterByStatus($status){
+        $this->status = $status;
+        if ($status === 'all') {
+            $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
+            return;
+        }
+        $this->polls = Auth::user()->polls()->where('status', $status)->orderBy('created_at', 'desc')->get();
     }
+
 
     public function render()
     {
-        $this->loadPolls();
         return view('livewire.user.dashboard');
     }
 
     // Načtení anket
-    private function loadPolls()
-    {
-
-        // Načtení anket
-        $this->polls = Poll::where('user_id', Auth::id())
-            ->where('title', 'like', '%'.$this->search.'%')->get();
-
-    }
 
 }

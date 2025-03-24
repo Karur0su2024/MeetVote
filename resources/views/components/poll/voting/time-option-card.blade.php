@@ -1,4 +1,12 @@
 @props(['poll'])
+@php
+    $prefValues = [
+        '2' =>  'yes',
+        '1' =>  'maybe',
+        '0' =>  'none',
+        '-1' => 'no',
+    ];
+@endphp
 
 <div
         {{ $attributes->class(['card card-sharp voting-card border-start-0 border-end-0 p-3 transition-all']) }}

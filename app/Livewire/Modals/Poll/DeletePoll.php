@@ -10,9 +10,9 @@ class DeletePoll extends Component
 {
     public $poll;
 
-    public function mount($pollId)
+    public function mount($pollIndex)
     {
-        $this->poll = Poll::find($pollId, ['id', 'user_id']);
+        $this->poll = Poll::find($pollIndex, ['id', 'user_id']);
     }
 
     // Smazání ankety

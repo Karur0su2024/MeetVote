@@ -57,9 +57,9 @@ class Invitations extends Component
      * @param $pollId
      * @return void
      */
-    public function mount($pollId): void
+    public function mount($pollIndex): void
     {
-        $this->poll = Poll::with('invitations')->find($pollId);
+        $this->poll = Poll::with('invitations')->find($pollIndex);
         $this->loadInvitations();
     }
 

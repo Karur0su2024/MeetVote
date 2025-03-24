@@ -9,7 +9,7 @@
             data: {
                 alias: alias,
                 params: {
-                    pollId: index
+                    pollIndex: index
                 }
             },
         });

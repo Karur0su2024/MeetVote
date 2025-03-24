@@ -1,7 +1,7 @@
 @props([
     'event',
     'poll',
-    '$syncGoogleCalendar'
+    '$syncGoogleCalendar = false',
 ])
 
 <x-ui.card header-size="h3" class="w-100 h-100">
@@ -26,7 +26,7 @@
     @if ($event)
         <p><strong>Title:</strong> {{ $event->title }}</p>
 
-        @if ($syncGoogleCalendar)
+        @if ($syncGoogleCalendar ?? false)
             <p class="text-success">
                 <x-ui.icon name="calendar-check"/>
                 <strong>{{ __('pages/poll-show.event_details.text.synced_with_google') }}</strong>
@@ -76,13 +76,13 @@
                     </button>
                 @else
                     <button class="btn btn-outline-secondary"
-                            onclick="openModal('modals.poll.choose-final-options', '{{ $poll->id }}')">
+                            wire:click="openModal('modals.poll.choose-final-options', '{{ $poll->id }}')">
                         <i class="bi bi-check2-square"></i> {{ __('pages/poll-show.event_details.buttons.pick_from_results') }}
                     </button>
                 @endif
             @else
                 <button class="btn btn-outline-secondary"
-                        onclick="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
+                        wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
                     <i class="bi bi-check2-square"></i> {{ __('pages/poll-show.event_details.buttons.close_poll') }}
                 </button>
             @endif

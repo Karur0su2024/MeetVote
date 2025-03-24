@@ -15,7 +15,7 @@ trait CanOpenModals
             $this->dispatch('showModal', [
                 'alias' => $modalName,
                 'params' => [
-                    'pollId' => $pollId,
+                    'pollIndex' => $pollId,
                 ],
             ]);
         }

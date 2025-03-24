@@ -57,7 +57,7 @@
 }
 
 .voting-card-clickable:hover {
-    background-color: #f0f0f0;
+    background-color: #f0f0f028;
 }
 
 
@@ -83,5 +83,22 @@
 }
 
 .voting-card-no {
+    background-color: #d9000020 !important;
+}
+
+/* Vzhled pozadí karet pro alpine, protože už jsem línej to předělávat */
+.voting-card-0 {
+    background-color: #69696920 !important;
+}
+
+.voting-card-2 {
+    background-color: #4ba56920 !important;
+}
+
+.voting-card-1 {
+    background-color: #d2b74b20 !important;
+}
+
+.voting-card--1 {
     background-color: #d9000020 !important;
 }

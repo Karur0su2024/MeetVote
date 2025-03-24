@@ -26,9 +26,9 @@
             <div>
                 <div class="p-4 w-100">
                     <div class="mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
-                        <x-poll.show.voting.legend name="Yes" value="2"/>
-                        <x-poll.show.voting.legend name="Maybe" value="1"/>
-                        <x-poll.show.voting.legend name="No" value="-1"/>
+                        <x-poll.show.voting.legend name="yes" value="2"/>
+                        <x-poll.show.voting.legend name="maybe" value="1"/>
+                        <x-poll.show.voting.legend name="no" value="-1"/>
                     </div>
                 </div>
                 <form @submit.prevent='submitVotes'>
@@ -121,7 +121,9 @@
                                         {{ __('pages/poll-show.voting.buttons.form.loading') }}
                                 </x-ui.saving>
                             </span>
-                            <span class="text-danger" x-show="messages.errors.form" x-text="messages.errors.form"
+                            <span class="text-danger"
+                                  x-show="messages.errors.form"
+                                  x-text="messages.errors.form"
                                   class="text-danger me-2"></span>
 
                             {{-- Zobrazí se, pokud je hlasování úspěšné --}}

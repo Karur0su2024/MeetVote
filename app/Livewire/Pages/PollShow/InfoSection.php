@@ -3,12 +3,15 @@
 namespace App\Livewire\Pages\PollShow;
 
 use App\Models\Poll;
+use App\Traits\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 
 class InfoSection extends Component
 {
+    use CanOpenModals;
+
     public $poll;
     public $event;
     public $isAdmin = false;

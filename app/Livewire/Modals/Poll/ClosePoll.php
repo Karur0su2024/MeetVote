@@ -25,9 +25,9 @@ class ClosePoll extends Component
      * @param $pollId
      * @return void
      */
-    public function mount($pollId): void
+    public function mount($pollIndex): void
     {
-        $this->poll = Poll::find($pollId, ['id', 'status']);
+        $this->poll = Poll::find($pollIndex, ['id', 'status']);
         $this->status = $this->poll->status;
     }
 

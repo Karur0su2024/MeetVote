@@ -13,9 +13,9 @@ class Share extends Component
 
     public $adminLink;
 
-    public function mount($pollId)
+    public function mount($pollIndex)
     {
-        $this->poll = Poll::findOrFail($pollId);
+        $this->poll = Poll::findOrFail($pollIndex, ['public_id', 'admin_key']);
 
 
         $this->link = route('polls.show', ['poll' => $this->poll->public_id]);
