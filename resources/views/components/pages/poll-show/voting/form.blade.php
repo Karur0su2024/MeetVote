@@ -7,6 +7,7 @@
                 id="name"
                 x-model="form.user.name"
                 data-class="form-control-lg"
+                required
                 placeholder="{{ __('pages/poll-show.voting.form.username.placeholder') }}">
             {{ __('pages/poll-show.voting.form.username.label') }}
         </x-ui.form.input>
@@ -20,6 +21,7 @@
                 x-model="form.user.email"
                 type="email"
                 data-class="form-control-lg"
+                required
                 placeholder="{{ __('pages/poll-show.voting.form.email.placeholder') }}">
             {{ __('pages/poll-show.voting.form.email.label') }}
         </x-ui.form.input>

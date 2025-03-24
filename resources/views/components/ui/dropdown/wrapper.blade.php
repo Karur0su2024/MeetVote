@@ -2,11 +2,12 @@
     'id' => 'dropdown',
     'size' => 'sm',
     'element' => 'div',
+    'color' => 'outline-secondary',
 ])
 
 <{{ $element }} class="dropdown {{ $class ?? '' }}">
     {{-- Dropdown button --}}
-    <a class="btn btn-{{ $size }} btn-outline-secondary" href="#" id="{{ $id }}" role="button"
+    <a class="btn btn-{{ $size }} btn-{{ $color }}" href="#" id="{{ $id }}" role="button"
         data-bs-toggle="dropdown" aria-expanded="false">
         {{ $header ?? '' }}
     </a>

@@ -3,11 +3,14 @@
 namespace App\Livewire\User;
 
 use App\Models\Poll;
+use App\Traits\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
+    use CanOpenModals;
+
     public $polls;
 
     public $events;
@@ -45,9 +48,6 @@ class Dashboard extends Component
         // Načtení anket
         $this->polls = Poll::where('user_id', Auth::id())
             ->where('title', 'like', '%'.$this->search.'%')->get();
-
-        // Seskupení anket podle jejich statusu
-        $this->polls = $this->polls->groupBy('status')->all();
 
     }
 

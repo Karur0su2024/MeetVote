@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Pages\PollShow;
 
+use App\Traits\Traits\CanOpenModals;
 use Livewire\Component;
 use App\Models\Poll;
 use Illuminate\Support\Facades\Gate;
 
 class SettingsSection extends Component
 {
+    use CanOpenModals;
 
     public Poll $poll;
 
@@ -16,25 +18,6 @@ class SettingsSection extends Component
         $this->poll = Poll::findOrFail($pollIndex, ['id', 'status', 'public_id', 'admin_key']);
     }
 
-    public function openModal($modalName, $pollId)
-    {
-        if(Gate::allows('isAdmin', $this->poll)) {
-            $this->dispatch('showModal', [
-                'alias' => $modalName,
-                'params' => [
-                    'pollId' => $pollId,
-                ],
-            ]);
-        }
-        else {
-            $this->dispatch('showModal', [
-                'alias' => 'modals.error',
-                'params' => [
-                    'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.'
-                ],
-            ]);
-        }
-    }
 
     public function render()
     {

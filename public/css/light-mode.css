@@ -13,7 +13,6 @@
  */
 
 [data-bs-theme="light"] .card {
-    border: none;
     background-color: #f9fafb;
     color: #212529;
 }

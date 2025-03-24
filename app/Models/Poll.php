@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use phpseclib3\File\ASN1\Maps\Attribute;
 
 /**
  *
@@ -31,17 +32,13 @@ class Poll extends Model
         'status' => 'active'
     ];
 
-    protected function settings(): array
-    {
-        return [
-            'anonymous_votes' => $this->anonymous_votes,
-            'comments' => $this->comments,
-            'invite_only' => $this->invite_only,
-            'hide_results' => $this->hide_results,
-            'edit_votes' => $this->edit_votes,
-            'add_time_options' => $this->add_time_options,
-        ];
-    }
+    protected $indexed = [
+        'public_id',
+        'admin_key',
+        'user_id',
+        'status',
+    ];
+
 
     protected static function booted(): void
     {

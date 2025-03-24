@@ -56,10 +56,4 @@ Route::middleware(['setLanguage'])->group(function () {
     // Změna jazyka
     Route::get('/changeLanguage/{lang}', [AppController::class, 'changeLanguage'])
     ->name('changeLanguage');
-
-    // Chybová stránka
-    Route::get('/error', function () {
-        return view('pages.error');
-    })->name('errors');
-
 });

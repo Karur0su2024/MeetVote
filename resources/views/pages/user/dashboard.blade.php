@@ -7,4 +7,4 @@
         <livewire:user.dashboard />
     </div>
 
-</x-layout.app>
+</x-layouts.app>
