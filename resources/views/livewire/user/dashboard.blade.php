@@ -6,7 +6,7 @@
                 <div class="card py-2 text-center bg-info-subtle bg-gradient">
                     <i class="bi bi-check2-square fs-1 mb-2"></i>
                     <p class="fs-5 text-muted fw-bold">
-                        You have currently {{ $polls->count() }} polls.
+                        {{ __('pages/dashboard.cards.poll_count', ['polls_count' => $polls->count()]) }}
                     </p>
                 </div>
             </div>
@@ -17,27 +17,27 @@
                 <a href="{{ route('polls.create') }}"
                    class="btn btn-outline-secondary">
                     <x-ui.icon name="plus-circle" />
-                    New poll
+                    {{ __('pages/dashboard.buttons.new_poll') }}
                 </a>
                 <div class="d-flex gap-2 align-items-center ms-2">
                     <div x-show="opened === 'Polls'">
                         <x-ui.dropdown.wrapper size="md">
                             <x-slot:header>
                                 <x-ui.icon name="filter"/>
-                                Filter
+                                {{ __('pages/dashboard.dropdowns.filter.title') }}
                             </x-slot:header>
                             <x-slot:dropdown-items>
                                 <x-ui.dropdown.item wire:click="filterByStatus('all')"
                                                     :class="$status === 'all' ? 'active' : ''">
-                                    All
+                                    {{ __('pages/dashboard.dropdowns.filter.items.all') }}
                                 </x-ui.dropdown.item>
                                 <x-ui.dropdown.item wire:click="filterByStatus('active')"
                                                     :class="$status === 'active' ? 'active' : ''">
-                                    Active
+                                    {{ __('pages/dashboard.dropdowns.filter.items.active') }}
                                 </x-ui.dropdown.item>
                                 <x-ui.dropdown.item wire:click="filterByStatus('closed')"
                                                     :class="$status === 'closed' ? 'active' : ''">
-                                    Closed
+                                    {{ __('pages/dashboard.dropdowns.filter.items.closed') }}
                                 </x-ui.dropdown.item>
                             </x-slot:dropdown-items>
                         </x-ui.dropdown.wrapper>
@@ -47,11 +47,11 @@
                         <x-slot:dropdown-items>
                             <x-ui.dropdown.item @click="opened = 'Polls'"
                                                 x-bind:class="opened === 'Polls' ? 'active' : ''">
-                                Polls
+                                {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
                             </x-ui.dropdown.item>
                             <x-ui.dropdown.item @click="opened = 'Events'"
                                                 x-bind:class="opened === 'Events' ? 'active' : ''">
-                                Events
+                                {{ __('pages/dashboard.dropdowns.opened.items.events') }}
                             </x-ui.dropdown.item>
                         </x-slot:dropdown-items>
                     </x-ui.dropdown.wrapper>
@@ -75,7 +75,7 @@
                 {{-- Upozornění pro žádné ankety --}}
                 <x-ui.alert type="info">
                     <x-ui.icon name="info-circle" class="me-2"/>
-                    No polls found.
+                    {{ __('pages/dashboard.alerts.no_polls') }}
                 </x-ui.alert>
             @endif
         </div>
@@ -83,14 +83,12 @@
 
 
     <div x-show="opened === 'Events'">
-        <h2 class="my-3">Events</h2>
-
         @if (Auth::user()->google_id == null)
             {{-- Upozornění pro žádné události --}}
             <x-ui.alert type="info">
                 <x-ui.icon name="info-circle"/>
-                    You can sync your events with Google Calendar. To do this, please link your Google account in the
-                    <a href="{{ route('settings') }}" class="text-decoration-none">settings</a>.
+                    {{ __('pages/dashboard.alerts.no_connected_calendar.text') }}
+                    <a href="{{ route('settings') }}" class="text-decoration-none">{{ __('pages/dashboard.alerts.no_connected_calendar.link') }}</a>.
             </x-ui.alert>
         @endif
 
@@ -103,7 +101,7 @@
             @empty
                 <x-ui.alert type="info">
                     <x-ui.icon name="bi-calendar-x"/>
-                    You don't have any events yet.
+                    {{ __('pages/dashboard.alerts.no_events') }}
                 </x-ui.alert>
             @endforelse
         </div>

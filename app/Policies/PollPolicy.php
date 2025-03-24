@@ -39,7 +39,7 @@ class PollPolicy
         if ($this->isAdmin($user, $poll)) return true;
 
         if ($poll->password !== '') {
-            return session()->get('poll_' . $poll->public_id . '_password') === $poll->password;
+            return session()->get('poll_' . $poll->public_id . '_authenticated', false) === true;
         }
 
         return true;

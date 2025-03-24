@@ -41,7 +41,7 @@ class PollController extends Controller
     public function checkPassword(Request $request, Poll $poll)
     {
         if(Hash::check($request->password, $poll->password)) {
-            session()->put('poll_'.$poll->public_id.'_password', $request->password);
+            session()->put('poll_'.$poll->public_id.'_authenticated', true);
 
             return redirect()->route('polls.show', $poll);
         }

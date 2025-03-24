@@ -51,6 +51,42 @@ class User extends Authenticatable
     }
 
 
+    public function setGoogleTokenAttribute($value)
+    {
+        if(empty($value)) {
+            $this->attributes['google_token'] = encrypt($value);
+            return;
+        }
+        $this->attributes['google_token'] = null;
+    }
+
+    public function setGoogleRefreshTokenAttribute($value)
+    {
+        if(empty($value)) {
+            $this->attributes['google_refresh_token'] = encrypt($value);
+            return;
+        }
+        $this->attributes['google_token'] = null;
+    }
+
+    public function getGoogleTokenAttribute($value)
+    {
+        if(empty($value)) {
+            return decrypt($value);
+        }
+        return null;
+    }
+
+    public function getGoogleRefreshTokenAttribute($value)
+    {
+        if(empty($value)) {
+            return decrypt($value);
+        }
+        return null;
+    }
+
+
+
     // Vztah k hlasováním (1:N)
     public function comments()
     {
@@ -91,4 +127,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(SyncedEvent::class);
     }
+
+
+
 }

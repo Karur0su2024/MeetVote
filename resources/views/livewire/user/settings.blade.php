@@ -1,7 +1,7 @@
 <div>
 
     {{-- Sekce pro nastavení jména a emailové adresy --}}
-    <x-card>
+    <x-ui.card>
         <x-slot:header>{{ __('pages/user-settings.profile_settings.title') }}</x-slot>
 
         <form wire:submit.prevent='updateProfile'>
@@ -35,11 +35,11 @@
                 <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>
             @endif
         </form>
-    </x-card>
+    </x-ui.card>
 
 
     {{-- Sekce pro nastavení hesla --}}
-    <x-card>
+    <x-ui.card>
         <x-slot:header>{{ __('pages/user-settings.password.title') }}</x-slot>
 
         <form wire:submit.prevent='updatePassword'>
@@ -67,10 +67,10 @@
                 <span class="text-success ms-3">{{ session('settings.password.success') }}</span>
             @endif
         </form>
-    </x-card>
+    </x-ui.card>
 
     {{-- Sekce pro nastavení  --}}
-    <x-card>
+    <x-ui.card>
         <x-slot:header>{{ __('pages/user-settings.google.title') }}r</x-slot>
 
 
@@ -91,9 +91,9 @@
         @if (session()->has('settings.google.error'))
             <span class="text-danger ms-3">{{ session('settings.google.error') }}</span>
         @endif
-    </x-card>
+    </x-ui.card>
 
-    <x-card>
+    <x-ui.card>
         <x-slot:header>{{ __('pages/user-settings.delete_account.title') }}</x-slot>
         <p class="text-muted">
             {{ __('pages/user-settings.delete_account.description') }}
@@ -102,5 +102,5 @@
         <x-ui.button color="danger" wire:click="deleteAccount">
             {{ __('pages/user-settings.delete_account.buttons.delete_account') }}
         </x-ui.button>
-    </x-card>
+    </x-ui.card>
 </div>
