@@ -3,7 +3,7 @@
         {{ __('ui/modals.invitations.title') }}
     </x-ui.modal.header>
     <div class="modal-body">
-        @if($poll->status === 'active')
+        @if($poll->isActive())
             @if (count($poll->invitations) === 0)
                 <div class="alert alert-secondary" role="alert">
                     No invitations added yet

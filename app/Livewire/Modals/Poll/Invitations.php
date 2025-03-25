@@ -5,6 +5,7 @@ namespace App\Livewire\Modals\Poll;
 use App\Models\Invitation;
 use App\Models\Poll;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Carbon\Carbon;
@@ -90,8 +91,13 @@ class Invitations extends Component
      */
     public function addInvitation()
     {
-        if($this->poll->status !== 'active') {
-            session()->flash('error', 'You can send invitations only to active polls.');
+        if(!$this->poll->isActive()) {
+            $this->addError('error', __('ui/modals.invitations.message.error.closed'));
+            return;
+        }
+
+        if(Gate::allows('invitate', $this->poll)) {
+            $this->addError('error', __('ui/modals.invitations.message.error.no_permissions'));
             return;
         }
 

@@ -41,6 +41,12 @@ return [
             'label' => 'Text',
             'placeholder' => 'Enter text option',
         ],
+        'messages' => [
+            'error' => [
+                'no_permissions' => 'You can\'t add this option.',
+                'duplicates' => 'Invalid date format.',
+            ],
+        ],
         'loading' => 'Adding...',
     ],
     'results' => [
@@ -115,7 +121,11 @@ return [
         'loading' => 'Sending...',
         'message' => [
             'success' => 'Invitation sent successfully.',
-            'error' => 'An error occurred while sending the invitation.',
+            'error' => [
+                'closed' => 'You can send invitations only to active polls.',
+                'general' => 'An error occurred while sending the invitation.',
+                'no_permissions' => 'You can\'t send invitations.',
+            ],
         ],
         'alerts' => [
             'error' => [

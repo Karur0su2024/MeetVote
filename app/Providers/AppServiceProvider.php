@@ -43,6 +43,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Services\EventService', function ($app) {
             return new \App\Services\EventService;
         });
+
+        $this->app->singleton('App\Services\NotificationService', function ($app) {
+            return new \App\Services\NotificationService;
+        });
+
+        $this->app->singleton('App\Services\InvitationService', function ($app) {
+            return new \App\Services\InvitationService;
+        });
     }
 
     /**

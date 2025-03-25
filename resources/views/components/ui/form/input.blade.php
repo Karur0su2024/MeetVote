@@ -24,21 +24,15 @@
         type="{{ $type ?? 'text' }}"
         {{ $attributes }}
         class="form-control {{ $attributes->get['class'] ?? '' }}
-                {{ $dataClass ?? '' }} @error($attributes->get['wire:model'] ?? null) is-invalid @enderror"
+                {{ $dataClass ?? '' }} @error($attributes->get('wire:model')) is-invalid @enderror"
         aria-label="{{ $slot }}"
         aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
     />
         {{ $inputGroup ?? null }}
     </div>
 
-    <x-ui.form.error-text :error="$attributes->get['wire:model'] ?? 'error'" />
+
+    <x-ui.form.error-text margin="ms-0" :error="$attributes->get('wire:model')" />
 
     {{-- Chybová hláška --}}
-
-    @error($error ?? null)
-        {{-- Chybová hláška --}}
-        <x-ui.red-text>
-            {{ $message }}
-        </x-ui.red-text>
-    @enderror
 </div>

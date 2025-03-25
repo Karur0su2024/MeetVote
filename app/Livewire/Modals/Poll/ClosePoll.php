@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Modals\Poll;
 
+use App\Enums\PollStatus;
 use Livewire\Component;
 use App\Models\Poll;
 use App\Services\EventService;
@@ -42,9 +43,16 @@ class ClosePoll extends Component
     {
         if(Gate::allows('close', $this->poll)) {
             try {
+
                 DB::beginTransaction();
-                $this->poll->status->toggle();
+                $this->poll->status = $this->poll->status->toggle();
+                if($this->poll->status === PollStatus::ACTIVE) {
+                    $this->eventService->deleteEvent($this->poll->event);
+                }
+                $this->poll->save();
+
                 DB::commit();
+
                 return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', 'Poll status updated successfully.');
             } catch (\Exception $e) {
                 session()->flash('error', 'An error occurred while closing poll.');
@@ -54,27 +62,10 @@ class ClosePoll extends Component
         }
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
-     */
+
     public function render()
     {
         return view('livewire.modals.poll.close-poll');
-    }
-
-    /**
-     * @return void
-     */
-    private function updateStatus(): void
-    {
-        if ($this->poll->status === 'active') {
-            $this->poll->update(['status' => 'closed']);
-        } else {
-            $this->poll->update(['status' => 'active']);
-            if ($this->poll->event) {
-                $this->eventService->deleteEvent($this->poll->event);
-            }
-        }
     }
 
 }

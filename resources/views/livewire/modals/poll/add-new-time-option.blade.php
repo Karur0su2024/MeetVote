@@ -31,8 +31,7 @@
                              wire:model="option.date"
                              type="date"
                              required
-                             placeholder="{{ __('ui/modals.add_new_time_option.date.placeholder') }}"
-                             error="option.date">
+                             placeholder="{{ __('ui/modals.add_new_time_option.date.placeholder') }}">
                 {{ __('ui/modals.add_new_time_option.date.label') }}
             </x-ui.form.input>
 
@@ -45,8 +44,7 @@
                                      wire:model="option.content.start"
                                      type="time"
                                      required
-                                     placeholder="{{ __('ui/modals.add_new_time_option.start_time.placeholder') }}"
-                                     error="option.content.start">
+                                     placeholder="{{ __('ui/modals.add_new_time_option.start_time.placeholder') }}">
                         {{ __('ui/modals.add_new_time_option.start_time.label') }}
                     </x-ui.form.input>
 
@@ -67,9 +65,7 @@
                     <x-ui.form.input id="text"
                                      wire:model="option.content.text"
                                      type="text"
-                                     required
-                                     placeholder="{{ __('ui/modals.add_new_time_option.text.placeholder') }}"
-                                     error="option.content.text">
+                                     placeholder="{{ __('ui/modals.add_new_time_option.text.placeholder') }}">
                         {{ __('ui/modals.add_new_time_option.text.label') }}
                     </x-ui.form.input>
                 </div>

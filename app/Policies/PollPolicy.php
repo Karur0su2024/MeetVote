@@ -10,10 +10,8 @@ class PollPolicy
 {
     public function isAdmin(?User $user, Poll $poll): bool
     {
-        if ($user !== null) {
-            if ($poll->user_id === $user->id) {
-                return true;
-            }
+        if (($user !== null) && $poll->user_id === $user->id) {
+            return true;
         }
 
         return session()->get('poll_' . $poll->public_id . '_adminKey') === $poll->admin_key;
@@ -21,9 +19,6 @@ class PollPolicy
 
     public function hasValidInvitation(?User $user, Poll $poll): bool
     {
-        if (!$poll->isActive()){
-            return false;
-        }
 
         if ($this->isAdmin($user, $poll)) return true;
 
@@ -37,10 +32,6 @@ class PollPolicy
 
     public function hasValidPassword(?User $user, Poll $poll): bool
     {
-        if (!$poll->isActive()){
-            return false;
-        }
-
         if ($this->isAdmin($user, $poll)) {
             return true;
         }
@@ -72,7 +63,7 @@ class PollPolicy
 
     public function close(?User $user, Poll $poll): bool
     {
-        if ($poll->votes()->count() > 0) {
+        if ($poll->votes()->count() === 0) {
             return false;
         }
 
@@ -101,5 +92,16 @@ class PollPolicy
 
         return $poll->user_id === $user->id;
     }
+
+    public function invite(?User $user, Poll $poll): bool
+    {
+        if ($this->isAdmin($user, $poll)) {
+            return true;
+        }
+
+        return false;
+    }
+
+
 
 }

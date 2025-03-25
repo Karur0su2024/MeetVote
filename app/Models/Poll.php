@@ -140,7 +140,7 @@ class Poll extends Model
      */
     public function isActive(): bool
     {
-        return $this->status === PollStatus::ACTIVE && ($this->deadline > now() || $this->deadline === null);
+        return $this->status === PollStatus::ACTIVE;
     }
 
 }
