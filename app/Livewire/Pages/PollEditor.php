@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Pages;
 
+use App\Exceptions\PollException;
 use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\PollService;
 use Livewire\Component;
-use App\Services\EmailService;
-use App\Exceptions\PollException;
 
 class PollEditor extends Component
 {

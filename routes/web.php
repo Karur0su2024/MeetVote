@@ -10,6 +10,7 @@ Route::middleware(['setLanguage'])->group(function () {
 
     // Routy pro autentizaci
     require __DIR__ . '/auth.php';
+    require __DIR__ . '/google.php';
 
     // Domovská stránka
     Route::view('/', 'pages.home')->name('home');

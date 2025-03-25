@@ -2,15 +2,13 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use App\Models\Event as EventModel;
 use App\Models\Poll;
-use App\Services\GoogleService;
-use App\Traits\Traits\CanOpenModals;
-use Illuminate\Container\Attributes\DB;
+use App\Services\EventService;
+use App\Services\Google\GoogleService;
+use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use App\Services\EventService;
 
 class CreateEvent extends Component
 {

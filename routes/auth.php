@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleController;
 
 
@@ -21,17 +20,11 @@ Route::middleware('guest')->group(function () {
 });
 
 
-// Google routy
-Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('user/logout', [UserController::class, 'logout'])->name('logout');
 
-
-    // Doplnit middleware
-    Route::get('/user/google/disconnect', [GoogleController::class, 'disconnectGoogle'])->name('google.disconnect');
 
     // Dashboard
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');

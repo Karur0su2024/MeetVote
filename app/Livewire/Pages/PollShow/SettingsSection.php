@@ -2,10 +2,9 @@
 
 namespace App\Livewire\Pages\PollShow;
 
-use App\Traits\Traits\CanOpenModals;
-use Livewire\Component;
 use App\Models\Poll;
-use Illuminate\Support\Facades\Gate;
+use App\Traits\CanOpenModals;
+use Livewire\Component;
 
 class SettingsSection extends Component
 {

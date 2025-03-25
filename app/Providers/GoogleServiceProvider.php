@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Interfaces\GoogleServiceInterface;
+use App\Services\Google\GoogleService;
+use App\Services\Google\GoogleServiceEmpty;
 use App\Services\GoogleCalendarService;
-use App\Services\GoogleService;
-use App\Services\GoogleServiceEmpty;
 use Illuminate\Support\ServiceProvider;
 
 class GoogleServiceProvider extends ServiceProvider

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Google;
 
 
-use App\Models\User;
 use App\Interfaces\GoogleServiceInterface;
+use App\Models\User;
+use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as GoogleUser;
 

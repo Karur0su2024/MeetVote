@@ -2,8 +2,7 @@
 
 namespace App\Livewire\User;
 
-use App\Models\Poll;
-use App\Traits\Traits\CanOpenModals;
+use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

@@ -6,13 +6,11 @@ use App\Events\PollCreated;
 use App\Events\VoteSubmitted;
 use App\Listeners\SendPollConfirmationEmail;
 use App\Listeners\SendVoteNotificationEmail;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Gate;
 use App\Models\Poll;
 use App\Policies\PollPolicy;
-use App\Services\GoogleCalendarService;
-use App\Services\GoogleService;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

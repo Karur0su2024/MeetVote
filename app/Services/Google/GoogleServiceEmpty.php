@@ -1,14 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Google;
 
 use App\Interfaces\GoogleServiceInterface;
-use App\Models\SyncedEvent;
-use Carbon\Carbon;
-use Google\Client;
-use Google\Service\Calendar;
-use Google\Service\Calendar\Event;
-use App\Models\Poll;
 use Laravel\Socialite\Two\User as GoogleUser;
 
 class GoogleServiceEmpty implements GoogleServiceInterface

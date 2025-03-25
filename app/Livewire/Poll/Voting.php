@@ -8,10 +8,9 @@ use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\VoteService;
-use App\Traits\Traits\CanOpenModals;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Illuminate\Support\Facades\Gate;
 
 class Voting extends Component
 {

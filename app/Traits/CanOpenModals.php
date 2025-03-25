@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Traits;
+namespace App\Traits;
 
 use App\Models\Poll;
 use Illuminate\Support\Facades\Gate;

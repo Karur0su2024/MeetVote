@@ -4,12 +4,11 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Invitation;
 use App\Models\Poll;
-use App\Services\EmailService;
+use App\Services\Mail\EmailService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 /**
  *
