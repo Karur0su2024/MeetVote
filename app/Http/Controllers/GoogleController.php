@@ -27,26 +27,11 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-        } catch (\Exception $e) {
-            return redirect(route('home'));
-        }
-
-        $this->googleService->handleGoogleCallback($googleUser);
-
-        return redirect(route('home'));
+        return $this->googleService->handleGoogleCallback();
     }
 
     public function disconnectGoogle()
     {
-        // Případně odpojit všechny události
-
-        $user = Auth::user();
-        $user->google_id = null;
-        $user->google_token = null;
-        $user->save();
-
-        return redirect()->back()->with('success', 'Google account disconnected successfully.');
+        $this->googleService->disconnectFromGoogle();
     }
 }

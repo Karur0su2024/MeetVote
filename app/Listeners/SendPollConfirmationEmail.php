@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class SendPollConfirmationEmail
 {
-    protected EmailService $notificationService;
+    protected EmailService $emailService;
 
     /**
      * Create the event listener.
@@ -28,7 +28,7 @@ class SendPollConfirmationEmail
         $poll = $event->poll;
 
         if($poll->author_email){
-            $this->notificationService->sendConfirmationEmail($poll);
+            $this->emailService->sendConfirmationEmail($poll);
         }
     }
 }

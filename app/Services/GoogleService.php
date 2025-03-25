@@ -60,6 +60,13 @@ class GoogleService implements GoogleServiceInterface
      */
     public function handleGoogleCallback(GoogleUser $googleUser): ?User
     {
+
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect(route('home'));
+        }
+
         $user = $this->googleAccountAlreadyConnected($googleUser);
 
         if($user && Auth::check()){
@@ -75,7 +82,7 @@ class GoogleService implements GoogleServiceInterface
         }
         Auth::login($user, true);
 
-        return $user;
+        return redirect(route('home'));
     }
 
 
@@ -109,6 +116,16 @@ class GoogleService implements GoogleServiceInterface
     private function googleAccountAlreadyConnected($googleUser): ?User
     {
         return User::where('google_id', $googleUser->getId())->first();
+    }
+
+    public function disconnectFromGoogle()
+    {
+        $user = Auth::user();
+        $user->google_id = null;
+        $user->google_token = null;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Google account disconnected successfully.');
     }
 
 

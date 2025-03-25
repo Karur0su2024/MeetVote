@@ -16,4 +16,5 @@ interface GoogleServiceInterface
 
     public function handleGoogleCallback(GoogleUser $googleUser);
 
+    public function disconnectFromGoogle();
 }

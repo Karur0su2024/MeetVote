@@ -23,4 +23,10 @@ class GoogleServiceEmpty implements GoogleServiceInterface
     {
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
+
+    public function disconnectFromGoogle()
+    {
+        return redirect(route('home'))->with('warning', 'Google service is not enabled.');
+    }
+
 }

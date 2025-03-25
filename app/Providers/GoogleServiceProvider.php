@@ -40,7 +40,6 @@ class GoogleServiceProvider extends ServiceProvider
 
     private function isConfigured(): bool
     {
-        // Sem přidat podmínku
-        return false;
+        return config('google.service_enabled');
     }
 }
