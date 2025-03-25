@@ -6,8 +6,9 @@ use App\Mail\InvitationEmail;
 use App\Mail\PollCreatedConfirmationEmail;
 use App\Mail\VoteNotificationEmail;
 use Illuminate\Support\Facades\Mail;
+use App\Interfaces\EmailServiceInterface;
 
-class NotificationService
+class EmailService implements EmailServiceInterface
 {
 
     // Potvrzení vytvoření ankety
@@ -30,19 +31,16 @@ class NotificationService
     {
         if(!$this->isEmailConfigured()) return;
         // Odeslání e-mailu uživateli
-        //Mail::to($email)->send(new InvitationEmail($poll, $key));
+        Mail::to($email)->send(new InvitationEmail($poll, $key));
     }
 
-    private function isEmailConfigured(): bool
-    {
-        $isAllowed = config('mail.mail_allowed');
+    /*        $isAllowed = config('mail.mail_allowed');
         $host = config('mail.mailers.smtp.host');
         $username = config('mail.mailers.smtp.username');
         $password = config('mail.mailers.smtp.password');
 
         // Pokud chybí některá klíčová hodnota, e-maily se nebudou odesílat
-        return $isAllowed && (!empty($host) || !empty($username) || !empty($password));
-    }
+        return $isAllowed && (!empty($host) || !empty($username) || !empty($password));*/
 
 
 }

@@ -4,7 +4,7 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Invitation;
 use App\Models\Poll;
-use App\Services\NotificationService;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -32,9 +32,9 @@ class Invitations extends Component
     public $email;
 
     /**
-     * @var NotificationService|\Illuminate\Foundation\Application|mixed|object|\Spatie\Ignition\Config\FileConfigManager
+     * @var EmailService|\Illuminate\Foundation\Application|mixed|object|\Spatie\Ignition\Config\FileConfigManager
      */
-    protected NotificationService $notificationService;
+    protected EmailService $notificationService;
 
     /**
      * @var string[]
@@ -49,7 +49,7 @@ class Invitations extends Component
     /**
      *
      */
-    public function boot(NotificationService $notificationService): void
+    public function boot(EmailService $notificationService): void
     {
         $this->notificationService = $notificationService;
     }

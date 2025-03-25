@@ -7,7 +7,7 @@ use App\Services\PollService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Form;
-use App\Services\NotificationService;
+use App\Services\EmailService;
 use App\Exceptions\PollException;
 use App\Rules\NoDateDuplicates;
 use App\Rules\NoQuestionDuplicates;

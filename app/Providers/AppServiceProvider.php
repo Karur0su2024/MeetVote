@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Poll;
 use App\Policies\PollPolicy;
+use App\Services\GoogleCalendarService;
+use App\Services\GoogleService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,13 +46,18 @@ class AppServiceProvider extends ServiceProvider
             return new \App\Services\EventService;
         });
 
-        $this->app->singleton('App\Services\NotificationService', function ($app) {
-            return new \App\Services\NotificationService;
-        });
+
 
         $this->app->singleton('App\Services\InvitationService', function ($app) {
             return new \App\Services\InvitationService;
         });
+
+        $this->app->singleton(GoogleService::class, function ($app) {
+            return new GoogleService(
+                $app->make(GoogleCalendarService::class),
+            );
+        });
+
     }
 
     /**

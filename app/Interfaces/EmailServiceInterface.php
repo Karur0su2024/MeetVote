@@ -6,7 +6,7 @@ use App\Mail\PollCreatedConfirmationEmail;
 use App\Mail\VoteNotificationEmail;
 use Illuminate\Support\Facades\Mail;
 
-interface NotificationServiceInterface
+interface EmailServiceInterface
 {
     public function sendConfirmationEmail($poll);
 

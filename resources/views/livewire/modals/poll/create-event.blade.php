@@ -48,7 +48,7 @@
         </div>
     </div>
     <x-ui.modal.footer>
-        <x-ui.button wire:click="openResultsModal()"
+        <x-ui.button wire:click="openModal('modals.poll.choose-final-results')"
                      color="outline-secondary"
                      class="mx-auto w-100">
             <x-ui.icon class="download"/>

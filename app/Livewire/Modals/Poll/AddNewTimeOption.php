@@ -81,9 +81,7 @@ class AddNewTimeOption extends Component
             $this->addError('error', __('ui/modals.add_new_time_option.messages.error.no_permissions'));
             return;
         }
-
-
-
+        
         $validatedData = $this->validate();
 
         try {
@@ -93,11 +91,11 @@ class AddNewTimeOption extends Component
                 'end' => $validatedData['option']['type'] === 'time' ? $validatedData['option']['content']['end'] : null,
                 'text' => $validatedData['option']['type'] === 'text' ? $validatedData['option']['content']['text'] : null,
             ]);
+            return redirect()->route('polls.show', $this->poll);
         } catch (\Exception $e) {
             $this->addError('error', $e);
             return;
         }
-        return redirect()->route('polls.show', $this->poll);
     }
 
 

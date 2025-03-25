@@ -129,4 +129,5 @@ class PollService
             'author_email' => ($poll->author_email ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['email'],
         ];
     }
+
 }

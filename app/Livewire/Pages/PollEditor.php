@@ -6,7 +6,7 @@ use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\PollService;
 use Livewire\Component;
-use App\Services\NotificationService;
+use App\Services\EmailService;
 use App\Exceptions\PollException;
 
 class PollEditor extends Component

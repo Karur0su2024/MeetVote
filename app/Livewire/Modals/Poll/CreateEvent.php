@@ -4,7 +4,10 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Event as EventModel;
 use App\Models\Poll;
+use App\Services\GoogleService;
+use App\Traits\Traits\CanOpenModals;
 use Illuminate\Container\Attributes\DB;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use App\Services\EventService;
@@ -12,8 +15,10 @@ use App\Services\EventService;
 class CreateEvent extends Component
 {
     public $poll;
+    use CanOpenModals;
 
     protected EventService $eventService;
+    protected GoogleService $googleService;
 
     public bool $update = false;
 
@@ -26,13 +31,16 @@ class CreateEvent extends Component
         'description' => '',
     ];
 
-    protected $rules = [
-        'event.title' => 'required|string|max:255',
-        'event.all_day' => 'boolean',
-        'event.start_time' => 'required|date',
-        'event.end_time' => 'required|date|after:event.start_time',
-        'event.description' => 'nullable|string',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'event.title' => 'required|string|max:255',
+            'event.all_day' => 'boolean',
+            'event.start_time' => 'required|date',
+            'event.end_time' => 'required|date|after:event.start_time',
+            'event.description' => 'nullable|string',
+        ];
+    }
 
 
     public function boot(EventService $eventService)
@@ -62,51 +70,27 @@ class CreateEvent extends Component
     // Metoda pro vytvoření nové události
     public function createEvent()
     {
+        if (Gate::allows('createEvent', $this->poll)) {
+            return $this->redirect(route('polls.show', $this->poll))->with('error', __('ui.modals.create_event.messages.error.no_permissions'));
+        }
 
         try {
             $validatedData = $this->validate();
+            $response = $this->eventService->createEvent($this->poll, $validatedData['event']);
 
-            $event = $this->poll->event()->first();
+            $this->googleService->googleCalendarService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter(), $this->poll->event);
 
-
-            if($event){
-                $this->poll->event()->update($validatedData['event']);
-                $event = $this->poll->event()->first();
-            }
-            else{
-                $event = $this->poll->event()->create($validatedData['event']);
-            }
-
-            session()->flash('event', 'Událost byla úspěšně vytvořena.');
-
-
-
-            $this->eventService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter(), $event);
-
-
-            return redirect()->route('polls.show', $this->poll);
-        }
-        catch (\Exception $e) {
+            return redirect()->route('polls.show', $this->poll)->with('success', $response);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
             //Doplnit logování chyby
         }
 
     }
 
-
-    public function openResultsModal(){
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.choose-final-options',
-            'params' => [
-                'publicIndex' => $this->poll->id,
-            ],
-
-        ]);
-    }
-
     public function deleteEvent(){
-        $event = $this->poll->event()->first();
-        $this->eventService->deleteEvent($event);
-        return redirect()->route('polls.show', $this->poll);
+        $this->poll->event()->delete();
+        return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
 
     }
 

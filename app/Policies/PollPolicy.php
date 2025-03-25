@@ -103,5 +103,17 @@ class PollPolicy
     }
 
 
+    public function createEvent(?User $user, Poll $poll): bool
+    {
+        if(!$poll->isActive()) {
+            return false;
+        }
+
+        if ($this->isAdmin($user, $poll)) {
+            return true;
+        }
+
+        return false;
+    }
 
 }

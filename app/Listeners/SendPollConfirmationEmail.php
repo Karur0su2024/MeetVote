@@ -3,18 +3,18 @@
 namespace App\Listeners;
 
 use App\Events\PollCreated;
-use App\Services\NotificationService;
+use App\Services\EmailService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class SendPollConfirmationEmail
 {
-    protected NotificationService $notificationService;
+    protected EmailService $notificationService;
 
     /**
      * Create the event listener.
      */
-    public function __construct(NotificationService $notificationService)
+    public function __construct(EmailService $notificationService)
     {
         $this->notificationService = $notificationService;
     }

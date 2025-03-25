@@ -91,6 +91,17 @@ return [
             'label' => 'Event Description',
             'placeholder' => 'Enter event description...',
         ],
+        'messages' => [
+            'error' => [
+                'no_permissions' => 'You have no permissions to create event.',
+
+            ],
+            'success' => [
+                'event_created' => 'Event created successfully.',
+                'event_updated' => 'Event updated successfully.',
+                'event_deleted' => 'Event deleted successfully.',
+            ],
+        ]
     ],
     'invitations' => [
         'title' => 'Invite participants',
