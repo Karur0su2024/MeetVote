@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\GoogleService;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -11,70 +12,29 @@ use Illuminate\Support\Str;
 
 class GoogleController extends Controller
 {
+    public GoogleService $googleService;
+
+    public function __construct(GoogleService $googleService)
+    {
+        $this->googleService = $googleService;
+    }
+
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')
-        ->scopes([
-            'openid',
-            'email',
-            'profile',
-            'https://www.googleapis.com/auth/calendar',
-            'https://www.googleapis.com/auth/calendar.events'
-        ])->with(['access_type' => 'offline', 'prompt' => 'consent']) ->redirect();
+        return $this->googleService->redirectToGoogle();
     }
 
     public function handleGoogleCallback()
     {
-        $googleUser = Socialite::driver('google')->user();
-
-        $user = Auth::user();
-
-        if($user) {
-            $existingUser = User::where('google_id', $googleUser->getId())->first();
-
-            if ($existingUser) {
-                return redirect('/settings')->with('error', 'Your Google account is already linked to another user.');
-            } else {
-                $user->update([
-                    'google_id' => $googleUser->getId(),
-                    'google_token' => $googleUser->token,
-                    'google_refresh_token' => $googleUser->refreshToken ?? null,
-                    'google_avatar' => $googleUser->getAvatar(),
-                ]);
-
-
-                return redirect('/settings');
-            }
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect(route('home'));
         }
 
-        $user = User::where('email', $googleUser->getEmail())->first();
+        $this->googleService->handleGoogleCallback($googleUser);
 
-        if(!$user){
-            $user = User::create([
-                'name' => $googleUser->getName(),
-                'email' => $googleUser->getEmail(),
-                'google_id' => $googleUser->getId(),
-                'google_token' => $googleUser->token,
-                'google_refresh_token' => $googleUser->refreshToken,
-                'google_avatar' => $googleUser->getAvatar(),
-                'password' => bcrypt(Str::random(16)), // generování náhodného hesla
-            ]);
-        }
-        else {
-            $user->update([
-                'google_id' => $googleUser->getId(),
-                'google_token' => $googleUser->token,
-                'google_refresh_token' => $googleUser->refreshToken,
-                'google_avatar' => $googleUser->getAvatar(),
-            ]);
-        }
-
-
-
-        // Ulož token pro budoucí použití
-        Auth::login($user, true);
-
-        return redirect('/dashboard');
+        return redirect(route('home'));
     }
 
     public function disconnectGoogle()
@@ -86,6 +46,6 @@ class GoogleController extends Controller
         $user->google_token = null;
         $user->save();
 
-        return redirect('/settings')->with('success', 'Google account disconnected successfully.');
+        return redirect()->back()->with('success', 'Google account disconnected successfully.');
     }
 }

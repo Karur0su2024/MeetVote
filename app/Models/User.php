@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -50,8 +51,15 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted(): void
+    {
+        static::creating(static function (User $user) {
+            $user->password = $user->password ?? bcrypt(Str::random(16));
+        });
+    }
 
-    public function setGoogleTokenAttribute($value)
+
+/*    public function setGoogleTokenAttribute($value)
     {
         if(empty($value)) {
             $this->attributes['google_token'] = encrypt($value);
@@ -83,7 +91,7 @@ class User extends Authenticatable
             return decrypt($value);
         }
         return null;
-    }
+    }*/
 
 
 

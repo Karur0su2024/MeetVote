@@ -61,6 +61,11 @@ class Poll extends Model
     }
 
 
+    protected $hidden = [
+        'admin_key',
+        'password',
+    ];
+
     /**
      * Vztah k uživateli (M:1)
      * @return BelongsTo
