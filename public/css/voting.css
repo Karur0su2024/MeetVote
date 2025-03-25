@@ -42,6 +42,7 @@
 }
 
 .voting-card {
+    border: none !important;
     transition: all 0.3s ease-in-out;
     height: 130px !important;
     border-radius: 0 !important;
@@ -57,7 +58,7 @@
 }
 
 .voting-card-clickable:hover {
-    background-color: #f0f0f028;
+    background-color: #69696928 !important;
 }
 
 

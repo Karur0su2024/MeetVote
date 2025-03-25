@@ -33,6 +33,8 @@ class VotingSection extends Component
      */
     protected VoteService $voteService;
 
+    public $loaded = false;
+
     /**
      * @param VoteService $voteService
      * @return void
@@ -43,13 +45,14 @@ class VotingSection extends Component
     }
 
     /**
-     * @param int $pollId
+     * @param int $pollInex
      * @return void
      */
     public function mount(int $pollIndex): void
     {
         $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options']);
-        $this->form->loadData($this->voteService->getPollData($this->poll->id));
+
+        $this->reloadSection();
     }
 
     /**
@@ -145,7 +148,7 @@ class VotingSection extends Component
     #[On('refreshPoll')]
     public function refreshPoll($voteIndex = null): void
     {
-        $this->form->loadData($this->voteService->getPollData($this->poll, $voteIndex));
+        $this->form->loadData($this->voteService->getPollData($this->poll->id, $voteIndex));
         $this->dispatch('refresh-poll', formData: $this->form);
     }
 
@@ -159,6 +162,12 @@ class VotingSection extends Component
         $this->form->loadData($this->voteService->getPollData($this->poll));
     }
 
+    private function reloadSection(): void
+    {
+        $this->loaded = false;
+        $this->form->loadData($this->voteService->getPollData($this->poll->id));
+        $this->loaded = true;
+    }
 
     /**
      *

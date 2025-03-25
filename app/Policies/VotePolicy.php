@@ -37,15 +37,19 @@ class VotePolicy
         return $user && $vote->user_id === $user->id;
     }
 
-    public function view(?User $user, Vote $vote, bool $isAdmin): bool {
+    public function view(?User $user, Vote $vote): bool {
 
         // Přidat podmínku zda jsou výsledky skryté
 
-        if ($isAdmin) {
+        if ($vote->user_id === $user->id) {
             return true;
         }
 
-        if ($vote->user_id === Auth::user()->id) {
+        if ($vote->poll->anonymous_votes) {
+            return false;
+        }
+
+        if(Gate::allows('isAdmin', $vote->poll)) {
             return true;
         }
 

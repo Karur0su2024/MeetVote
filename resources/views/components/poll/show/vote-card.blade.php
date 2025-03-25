@@ -33,7 +33,7 @@
     </h2>
     <div id="accordion-collapse-vote-{{ $vote->id }}" class="accordion-collapse collapse">
         <div class="accordion-body p-0">
-            <div class="d-flex justify-content-between gap-2 p-2 my-2">
+            <div class="d-flex gap-2 p-2 my-2">
                 @can('delete', $vote)
                     <x-ui.button color="outline-danger"
                                  wire:click="deleteVote({{ $vote->id }})">
@@ -42,10 +42,10 @@
                     </x-ui.button>
                 @endcan
                 @can('edit', $vote)
-                    <x-ui.button color="outline-primary"
+                    <x-ui.button color="outline-secondary"
                                  wire:click="loadVote({{ $vote->id }})">
                         <x-ui.icon name="pencil"/>
-                        {{ __('ui/modals.results.buttons.edit_vote') }}
+                        {{ __('ui/modals.results.buttons.load_vote') }}
                     </x-ui.button>
                 @endcan
             </div>

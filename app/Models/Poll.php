@@ -51,8 +51,6 @@ class Poll extends Model
     ];
 
 
-
-
     protected static function booted(): void
     {
         static::creating(static function (Poll $poll) {
@@ -142,7 +140,7 @@ class Poll extends Model
      */
     public function isActive(): bool
     {
-        return $this->status === 'active' && ($this->deadline > now() || $this->deadline === null);
+        return $this->status === PollStatus::ACTIVE && ($this->deadline > now() || $this->deadline === null);
     }
 
 }

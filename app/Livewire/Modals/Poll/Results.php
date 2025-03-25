@@ -6,6 +6,8 @@ use App\Models\Poll;
 use App\Models\Vote;
 use Livewire\Component;
 use App\Services\VoteService;
+use Illuminate\Support\Facades\Gate;
+
 
 class Results extends Component
 {
@@ -29,8 +31,14 @@ class Results extends Component
 
     public function loadVote($voteIndex)
     {
-        $this->dispatch('hideModal');
-        $this->dispatch('refreshPoll', $voteIndex);
+        $vote = Vote::where('id', $voteIndex)->firstOrFail();
+
+        if(Gate::allows('edit', $vote)) {
+            $this->dispatch('hideModal');
+            $this->dispatch('refreshPoll', $voteIndex);
+            return;
+        }
+        $this->addError('error', __('ui.modals.results.messages.error.load'));
     }
 
     public function reloadResults()
@@ -43,12 +51,16 @@ class Results extends Component
 
     public function deleteVote($voteIndex)
     {
-        $vote = Vote::find($voteIndex);
-        $vote->delete();
-        $this->reloadResults();
+        $vote = Vote::where('id', $voteIndex)->firstOrFail();
 
-        $this->dispatch('updateOptions');
-        $this->dispatch('removeVote');
+        if(Gate::allows('delete', $vote)) {
+            $vote->delete();
+            $this->reloadResults();
+            return;
+        }
+
+        $this->addError('error', __('ui.modals.results.messages.error.delete'));
+
     }
 
     public function render()

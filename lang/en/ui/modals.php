@@ -47,13 +47,17 @@ return [
         'title' => 'Poll results',
         'alert' => [
             'no_votes' => 'No votes yet.',
+            'anonymous_votes' => 'Votes are anonymous. You can only see your own votes.',
         ],
         'buttons' => [
             'delete_vote' => 'Delete vote',
             'load_vote' => 'Load vote',
         ],
         'messages' => [
-            'error' => 'An error occurred while processing your request.',
+            'error' => [
+                'delete' => 'You can\'t delete this vote.',
+                'load' => 'You can\'t load this vote.',
+            ],
         ],
     ],
     'create_event' => [

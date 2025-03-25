@@ -32,11 +32,10 @@
                 @endif
             </p>
             <x-slot:footer>
-                <x-badge>
-                    {{ __('pages/poll-show.info.badges.status.' . $poll->status) }}
-                </x-badge>
                 @if ($poll->comments)
                     <x-badge>
+
+
                         {{ __('pages/poll-show.info.badges.comments') }}
                     </x-badge>
                 @endif

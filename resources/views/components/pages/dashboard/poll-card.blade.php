@@ -7,7 +7,7 @@
             </h4>
             <div class="d-flex gap-2 align-items-center ms-2">
                 <span class="badge {{ $poll->isActive() ? 'bg-success' : 'bg-secondary' }} ">
-                    {{ $poll->status}}
+                    {{ $poll->status }}
                 </span>
                 @can('is-admin', $poll)
                     <span class="badge bg-warning text-dark">

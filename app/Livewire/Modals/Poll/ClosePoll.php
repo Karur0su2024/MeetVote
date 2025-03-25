@@ -8,6 +8,7 @@ use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Exceptions\CriticalErrorException;
+use Illuminate\Support\Facades\Gate;
 
 
 class ClosePoll extends Component
@@ -39,35 +40,18 @@ class ClosePoll extends Component
      */
     public function closePoll()
     {
-        if($this->checkPollStatus()) {
-            return;
+        if(Gate::allows('close', $this->poll)) {
+            try {
+                DB::beginTransaction();
+                $this->poll->status->toggle();
+                DB::commit();
+                return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', 'Poll status updated successfully.');
+            } catch (\Exception $e) {
+                session()->flash('error', 'An error occurred while closing poll.');
+                DB::rollBack();
+                return;
+            }
         }
-        try {
-            DB::beginTransaction();
-            $this->updateStatus();
-            DB::commit();
-            return redirect()->route('polls.show', ['poll' => $this->poll->public_id]);
-        } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while closing poll.');
-            DB::rollBack();
-            return;
-        }
-
-    }
-
-    private function checkPollStatus() {
-        if ($this->poll->status !== $this->status) {
-            session()->flash('error', 'The poll status has changed. Please refresh the pages.');
-            return true;
-        }
-
-        if($this->poll->votes()->count() === 0) {
-            session()->flash('error', 'You cannot close a poll without any votes.');
-            return true;
-        }
-
-        return false;
-
     }
 
     /**
@@ -92,4 +76,5 @@ class ClosePoll extends Component
             }
         }
     }
+
 }

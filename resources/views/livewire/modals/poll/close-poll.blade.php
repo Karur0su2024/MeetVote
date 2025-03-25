@@ -9,13 +9,13 @@
     <div class="modal-body text-start mb-0">
         @if (session()->has('error'))
             <span class="text-danger">
-                    {{ session('error') }}
-                </span>
+                {{ session('error') }}
+            </span>
         @else
             @if ($poll->isActive())
                 @if (count($poll->votes) === 0)
                     <x-ui.alert type="danger">
-                        <x-ui.icon name="exclamation-triangle-fill" />
+                        <x-ui.icon name="exclamation-triangle-fill"/>
                         {{ __('ui/modals.close_poll.alerts.no_votes') }}
                     </x-ui.alert>
                 @else
@@ -25,7 +25,7 @@
             @else
                 <p>{{ __('ui/modals.close_poll.text.reopen') }}</p>
                 <x-ui.alert type="warning">
-                    <x-ui.icon name="exclamation-triangle-fill" />
+                    <x-ui.icon name="exclamation-triangle-fill"/>
                     {{ __('ui/modals.close_poll.alerts.reopen_warning') }}
                 </x-ui.alert>
             @endif
