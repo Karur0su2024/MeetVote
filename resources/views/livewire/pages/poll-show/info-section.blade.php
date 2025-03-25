@@ -1,31 +1,37 @@
+@php
+    /**
+    * @see  resources/views/pages/polls/show.blade.php
+    */
+@endphp
+
 <div class="row g-4 mb-4" x-data="{ showEventDetails: true }">
 
     {{-- Levá strana – základní informace o anketě --}}
     <div :class="{ 'col-lg-8': showEventDetails, 'col-lg-12': !showEventDetails }">
-        <div class="card shadow text-start mb-5 w-100 h-100 border-0">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2>{{ $poll->title }}</h2>
-                    <x-ui.button color="outline-secondary"
-                                 x-bind:class="showEventDetails ? 'active' : ''"
-                                 @click="showEventDetails = !showEventDetails">
-                        <i class="bi bi-calendar"></i>
-                    </x-ui.button>
-                </div>
-
-                <div class="d-flex align-items-center text-muted mb-2">
-                    {{-- Doplnit avatar uživatele --}}
-                    <span>{{ $poll->author_name }}</span>
-                </div>
-                <p class="text-muted">
-                    @if ($poll->description == null || $poll->description == '')
-                        {{ __('pages/poll-show.info.text.no_description') }}
-                    @else
-                        {{ $poll->description }}
-                    @endif
-                </p>
+        <x-ui.card class="w-100 h-100"
+                   header-hidden
+                   footer-flex>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>{{ $poll->title }}</h2>
+                <x-ui.button color="outline-secondary"
+                             x-bind:class="showEventDetails ? 'active' : ''"
+                             @click="showEventDetails = !showEventDetails">
+                    <i class="bi bi-calendar"></i>
+                </x-ui.button>
             </div>
-            <div class="card-footer">
+
+            <div class="d-flex align-items-center text-muted mb-2">
+                {{-- Doplnit avatar uživatele --}}
+                <span>{{ $poll->author_name }}</span>
+            </div>
+            <p class="text-muted">
+                @if ($poll->description == null || $poll->description == '')
+                    {{ __('pages/poll-show.info.text.no_description') }}
+                @else
+                    {{ $poll->description }}
+                @endif
+            </p>
+            <x-slot:footer>
                 <x-badge>
                     {{ __('pages/poll-show.info.badges.status.' . $poll->status) }}
                 </x-badge>
@@ -64,9 +70,8 @@
                         {{ __('pages/poll-show.info.badges.deadline_in', ['parse_poll_deadline' => now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline))]) }}
                     </x-badge>
                 @endif
-            </div>
-
-        </div>
+            </x-slot:footer>
+        </x-ui.card>>
     </div>
 
     {{--Pravá strana – informace o události--}}

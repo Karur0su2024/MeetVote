@@ -15,13 +15,13 @@
         </p>
 
         {{-- V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat --}}
-        @if ($canDelete)
-            <button class="btn btn-outline-secondary"
+
+        @can('delete', $comment)
+            <button class="btn btn-outline-danger"
                     wire:click='deleteComment({{ $comment->id }})'>
                 {{ __('pages/poll-show.comments.buttons.delete_comment') }}
             </button>
-        @endif
-
+        @endcan
     </div>
 
     <p>

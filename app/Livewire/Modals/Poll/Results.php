@@ -12,6 +12,8 @@ class Results extends Component
     public $votes;
     public $poll;
 
+    public $loadedVotes = false;
+
     protected VoteService $voteService;
 
     public function boot(VoteService $voteService): void
@@ -21,8 +23,8 @@ class Results extends Component
 
     public function mount($pollIndex)
     {
-        $this->poll = Poll::with('votes')->findOrFail($pollIndex, ['id', 'anonymous_votes', 'edit_votes', 'public_id', 'admin_key']);
-        $this->votes = $this->voteService->getPollResults($this->poll);
+        $this->poll = Poll::findOrFail($pollIndex, ['id', 'anonymous_votes', 'edit_votes', 'public_id', 'admin_key']);
+        $this->reloadResults();
     }
 
     public function loadVote($voteIndex)
@@ -31,11 +33,19 @@ class Results extends Component
         $this->dispatch('refreshPoll', $voteIndex);
     }
 
+    public function reloadResults()
+    {
+        $this->loadedVotes = false;
+        $this->poll->load('votes');
+        $this->votes = $this->poll->votes;
+        $this->loadedVotes = true;
+    }
+
     public function deleteVote($voteIndex)
     {
         $vote = Vote::find($voteIndex);
         $vote->delete();
-        $this->votes = $this->poll->votes;
+        $this->reloadResults();
 
         $this->dispatch('updateOptions');
         $this->dispatch('removeVote');

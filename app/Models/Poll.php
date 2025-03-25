@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Enums\PollStatus;
 
 /**
  *
@@ -29,7 +30,7 @@ class Poll extends Model
     protected $attributes = [
         'deadline' => null,
         'description' => null,
-        'status' => 'active'
+        'status' => PollStatus::ACTIVE,
     ];
 
     protected $indexed = [
@@ -38,6 +39,18 @@ class Poll extends Model
         'user_id',
         'status',
     ];
+
+    protected $casts = [
+        'anonymous_votes' => 'boolean',
+        'comments' => 'boolean',
+        'invite_only' => 'boolean',
+        'hide_results' => 'boolean',
+        'edit_votes' => 'boolean',
+        'add_time_options' => 'boolean',
+        'status' => PollStatus::class,
+    ];
+
+
 
 
     protected static function booted(): void

@@ -58,4 +58,15 @@ class PollPolicy
         return $poll->add_time_options || $this->isAdmin($user, $poll);
     }
 
+
+    public function close(?User $user, Poll $poll): bool
+    {
+        if ($this->isAdmin($user, $poll)) return true;
+
+        if ($poll->status === Poll::STATUS_ACTIVE) {
+            return $poll->votes()->count() > 0;
+        }
+
+        return false;
+    }
 }

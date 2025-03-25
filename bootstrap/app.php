@@ -2,10 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Middleware\CheckPollPassword;
-use App\Http\Middleware\IsPollAdmin;
-use App\Http\Middleware\PollIsInviteOnly;
-use App\Http\Middleware\SetLanguage;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'inviteOnly' => PollIsInviteOnly::class,
             'setLanguage' => SetLanguage::class,
             'checkIfConnectedToGoogle' => CheckIfConnectedToGoogle::class,
             'poll.has_access' => Poll\HasAccess::class,

@@ -12,53 +12,52 @@
             </div>
         </div>
 
-        <div class="card mb-3 p-2">
-            <div class="d-flex justify-content-between align-items-center">
+        <x-ui.panel>
+            <x-slot:left>
                 <a href="{{ route('polls.create') }}"
                    class="btn btn-outline-secondary">
                     <x-ui.icon name="plus-circle" />
                     {{ __('pages/dashboard.buttons.new_poll') }}
                 </a>
-                <div class="d-flex gap-2 align-items-center ms-2">
-                    <div x-show="opened === 'Polls'">
-                        <x-ui.dropdown.wrapper size="md">
-                            <x-slot:header>
-                                <x-ui.icon name="filter"/>
-                                {{ __('pages/dashboard.dropdowns.filter.title') }}
-                            </x-slot:header>
-                            <x-slot:dropdown-items>
-                                <x-ui.dropdown.item wire:click="filterByStatus('all')"
-                                                    :class="$status === 'all' ? 'active' : ''">
-                                    {{ __('pages/dashboard.dropdowns.filter.items.all') }}
-                                </x-ui.dropdown.item>
-                                <x-ui.dropdown.item wire:click="filterByStatus('active')"
-                                                    :class="$status === 'active' ? 'active' : ''">
-                                    {{ __('pages/dashboard.dropdowns.filter.items.active') }}
-                                </x-ui.dropdown.item>
-                                <x-ui.dropdown.item wire:click="filterByStatus('closed')"
-                                                    :class="$status === 'closed' ? 'active' : ''">
-                                    {{ __('pages/dashboard.dropdowns.filter.items.closed') }}
-                                </x-ui.dropdown.item>
-                            </x-slot:dropdown-items>
-                        </x-ui.dropdown.wrapper>
-                    </div>
+            </x-slot:left>
+            <x-slot:right>
+                <div x-show="opened === 'Polls'">
                     <x-ui.dropdown.wrapper size="md">
-                        <x-slot:header><span x-text="opened"></span></x-slot:header>
+                        <x-slot:header>
+                            <x-ui.icon name="filter"/>
+                            {{ __('pages/dashboard.dropdowns.filter.title') }}
+                        </x-slot:header>
                         <x-slot:dropdown-items>
-                            <x-ui.dropdown.item @click="opened = 'Polls'"
-                                                x-bind:class="opened === 'Polls' ? 'active' : ''">
-                                {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
+                            <x-ui.dropdown.item wire:click="filterByStatus('all')"
+                                                :class="$status === 'all' ? 'active' : ''">
+                                {{ __('pages/dashboard.dropdowns.filter.items.all') }}
                             </x-ui.dropdown.item>
-                            <x-ui.dropdown.item @click="opened = 'Events'"
-                                                x-bind:class="opened === 'Events' ? 'active' : ''">
-                                {{ __('pages/dashboard.dropdowns.opened.items.events') }}
+                            <x-ui.dropdown.item wire:click="filterByStatus('active')"
+                                                :class="$status === 'active' ? 'active' : ''">
+                                {{ __('pages/dashboard.dropdowns.filter.items.active') }}
+                            </x-ui.dropdown.item>
+                            <x-ui.dropdown.item wire:click="filterByStatus('closed')"
+                                                :class="$status === 'closed' ? 'active' : ''">
+                                {{ __('pages/dashboard.dropdowns.filter.items.closed') }}
                             </x-ui.dropdown.item>
                         </x-slot:dropdown-items>
                     </x-ui.dropdown.wrapper>
                 </div>
-            </div>
-        </div>
-
+                <x-ui.dropdown.wrapper size="md">
+                    <x-slot:header><span x-text="opened"></span></x-slot:header>
+                    <x-slot:dropdown-items>
+                        <x-ui.dropdown.item @click="opened = 'Polls'"
+                                            x-bind:class="opened === 'Polls' ? 'active' : ''">
+                            {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
+                        </x-ui.dropdown.item>
+                        <x-ui.dropdown.item @click="opened = 'Events'"
+                                            x-bind:class="opened === 'Events' ? 'active' : ''">
+                            {{ __('pages/dashboard.dropdowns.opened.items.events') }}
+                        </x-ui.dropdown.item>
+                    </x-slot:dropdown-items>
+                </x-ui.dropdown.wrapper>
+            </x-slot:right>
+        </x-ui.panel>
 
         <div x-show="opened === 'Polls'">
             @if (count($polls) !== 0)

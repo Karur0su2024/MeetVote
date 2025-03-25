@@ -64,7 +64,7 @@ return [
         'title' => 'Settings',
         'tooltip' => 'Set the poll settings.',
         'comments' => [
-            'label' => 'CommentsSection',
+            'label' => 'Allow comments',
             'tooltip' => 'Allow participants to add comments to the poll.',
         ],
         'anonymous' => [

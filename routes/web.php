@@ -28,8 +28,8 @@ Route::middleware(['setLanguage'])->group(function () {
 
         // Úprava ankety
         Route::get('/{poll}/edit', [PollController::class, 'edit'])
-        ->middleware(['poll.is_active', 'poll.has_access'])
-        ->name('polls.edit');
+            ->middleware(['poll.is_active', 'poll.has_access'])
+            ->name('polls.edit');
 
         // Formulář pro ověření hesla ankety
         Route::get('/{poll}/authentication', [PollController::class, 'authentication'])->name('polls.authentication');
@@ -55,5 +55,5 @@ Route::middleware(['setLanguage'])->group(function () {
 
     // Změna jazyka
     Route::get('/changeLanguage/{lang}', [AppController::class, 'changeLanguage'])
-    ->name('changeLanguage');
+        ->name('changeLanguage');
 });

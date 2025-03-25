@@ -1,7 +1,5 @@
 <?php
 
-// resources/views/pages/polls/show.blade.php
-
 return [
 
     'settings' => [
@@ -24,7 +22,7 @@ return [
                 'active' => 'Active poll',
                 'closed' => 'Closed poll',
             ],
-            'comments' => 'CommentsSection',
+            'comments' => 'Comments',
             'anonymous_voting' => 'Anonymous voting',
             'password_protected' => 'Password protected',
             'invite_only' => 'Invite only',
@@ -81,7 +79,7 @@ return [
         ],
     ],
     'comments' => [
-    'title' => 'CommentsSection',
+    'title' => 'Comments',
     'form' => [
         'title' => 'Leave a comment',
         'username' => [

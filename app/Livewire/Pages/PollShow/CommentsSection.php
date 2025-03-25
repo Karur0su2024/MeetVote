@@ -17,6 +17,8 @@ class CommentsSection extends Component
 
     public $content;
 
+    public $loadedComments = false;
+
     // Načtení komentářů
     public function mount($pollIndex)
     {
@@ -37,6 +39,18 @@ class CommentsSection extends Component
 
         $this->content = '';
     }
+
+
+    public function loadComments()
+    {
+        $this->loadedComments = false;
+
+        $this->comments = $this->poll->load('pollComments');
+
+        $this->loadedComments = true;
+    }
+
+
 
     // Validace formuláře
     public function addComment()

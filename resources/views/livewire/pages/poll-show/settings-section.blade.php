@@ -1,6 +1,5 @@
-<div class="card mb-3 p-2 shadow">
-    <div class="d-flex justify-content-end gap-2">
-        {{-- Dropdown pro správce --}}
+<x-ui.panel>
+    <x-slot:right>
         <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" wrapper="div">
             <x-slot:header>
                 <x-ui.icon class="gear me-1"/>
@@ -37,5 +36,5 @@
                 </x-ui.dropdown.item>
             </x-slot:dropdown-items>
         </x-ui.dropdown.wrapper>
-    </div>
-</div>
+    </x-slot:right>
+</x-ui.panel>

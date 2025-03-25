@@ -5,12 +5,23 @@
     </x-slot:header>
 
     @if ($poll->pollComments)
-        <div>
-            <div class="list-group">
-                @foreach ($poll->pollComments as $commentIndex => $comment)
-                    <x-poll.show.comment-card :comment="$comment" wire:key="commentIndex"/>
-                @endforeach
-            </div>
+        <div wire:init="loadComments">
+            @if($loadedComments)
+                <div class="list-group">
+                    @foreach ($poll->pollComments as $commentIndex => $comment)
+                        <x-poll.show.comment-card :comment="$comment" wire:key="commentIndex"/>
+                    @endforeach
+                </div>
+            @else
+
+                <div class="d-flex justify-content-center">
+                    <x-ui.spinner>
+                        Loading comments...
+                    </x-ui.spinner>
+                </div>
+            @endif
+
+
 
             <div class="p-3">
 
