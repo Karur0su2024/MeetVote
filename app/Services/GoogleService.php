@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Models\User;
+use App\Interfaces\GoogleServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
@@ -12,7 +13,7 @@ use Laravel\Socialite\Two\User as GoogleUser;
 /**
  *
  */
-class GoogleService
+class GoogleService implements GoogleServiceInterface
 {
     /**
      * @var GoogleCalendarService
@@ -57,20 +58,22 @@ class GoogleService
      * @param GoogleUser $googleUser
      * @return User|\Illuminate\Contracts\Auth\Authenticatable|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|object|null
      */
-    public function handleGoogleCallback(GoogleUser $googleUser){
+    public function handleGoogleCallback(GoogleUser $googleUser): ?User
+    {
+        $user = $this->googleAccountAlreadyConnected($googleUser);
 
-        if($this->googleAccountAlreadyConnected($googleUser)){
-            return redirect('/settings')->with('error', 'Your Google account is already linked to another user.');
+        if($user && Auth::check()){
+            return null;
         }
+
 
         if(Auth::check()){
-            $user = Auth::user();
             $user->update($this->buildGoogleUser($googleUser));
-        }
-        else {
+        } else {
             $user = User::create($this->buildGoogleUser($googleUser));
             Auth::login($user, true);
         }
+        Auth::login($user, true);
 
         return $user;
     }
@@ -103,14 +106,9 @@ class GoogleService
      * @param $googleUser
      * @return bool
      */
-    private function googleAccountAlreadyConnected($googleUser): bool
+    private function googleAccountAlreadyConnected($googleUser): ?User
     {
-        $existingUser = User::where('google_id', $googleUser->getId())->first();
-
-        if ($existingUser) {
-            return true;
-        }
-        return false;
+        return User::where('google_id', $googleUser->getId())->first();
     }
 
 

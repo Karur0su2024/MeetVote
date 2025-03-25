@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\GoogleServiceInterface;
 use App\Services\GoogleService;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -12,9 +13,9 @@ use Illuminate\Support\Str;
 
 class GoogleController extends Controller
 {
-    public GoogleService $googleService;
+    public GoogleServiceInterface $googleService;
 
-    public function __construct(GoogleService $googleService)
+    public function __construct(GoogleServiceInterface $googleService)
     {
         $this->googleService = $googleService;
     }

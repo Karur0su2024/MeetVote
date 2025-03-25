@@ -52,12 +52,6 @@ class AppServiceProvider extends ServiceProvider
             return new \App\Services\InvitationService;
         });
 
-        $this->app->singleton(GoogleService::class, function ($app) {
-            return new GoogleService(
-                $app->make(GoogleCalendarService::class),
-            );
-        });
-
     }
 
     /**
