@@ -33,7 +33,7 @@
 
         {{-- Komentáře --}}
         @if ($poll->comments)
-            <livewire:poll.comments :poll="$poll"/>
+            <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
         @endif
 
     </div>

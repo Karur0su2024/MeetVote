@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use phpseclib3\File\ASN1\Maps\Attribute;
 
 /**
  *
@@ -100,7 +100,7 @@ class Poll extends Model
      * Vztah ke komentářům (1:N)
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function comments()
+    public function pollComments()
     {
         return $this->hasMany(Comment::class);
     }

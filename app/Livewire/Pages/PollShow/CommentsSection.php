@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire\Poll;
+namespace App\Livewire\Pages\PollShow;
 
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use App\Models\Poll;
 
-class Comments extends Component
+class CommentsSection extends Component
 {
     public $poll;
 
@@ -17,16 +18,17 @@ class Comments extends Component
     public $content;
 
     // Načtení komentářů
-    public function mount($poll)
+    public function mount($pollIndex)
     {
-        $this->poll = $poll;
-        $this->comments = $poll->comments()->latest()->get();
+
+        $this->poll = Poll::find($pollIndex);
         $this->resetForm();
     }
 
     // Resetování formuláře
     private function resetForm()
     {
+        $this->poll->load('pollComments');
         if (Auth::check()) {
             $this->username = Auth::user()->name;
         } else {
@@ -44,15 +46,13 @@ class Comments extends Component
             'content' => 'required|string|max:1000',
         ]);
 
-        $this->poll->comments()->create([
+        $this->poll->pollComments()->create([
             'author_name' => $this->username,
             'content' => $this->content,
             'user_id' => Auth::id(),
         ]);
 
         $this->resetForm();
-        $this->comments = $this->poll->comments()->latest()->get();
-
     }
 
     // Smazání komentáře
@@ -65,13 +65,12 @@ class Comments extends Component
             $comment->delete();
         }
 
-        // Nové načtení komentářů
-        $this->comments = $this->poll->comments()->latest()->get();
+        $this->resetForm();
     }
 
     // Zobrazení komponenty
     public function render()
     {
-        return view('livewire.poll.comments');
+        return view('livewire.pages.poll-show.comments-section');
     }
 }

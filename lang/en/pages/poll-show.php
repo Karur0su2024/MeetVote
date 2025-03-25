@@ -24,7 +24,7 @@ return [
                 'active' => 'Active poll',
                 'closed' => 'Closed poll',
             ],
-            'comments' => 'Comments',
+            'comments' => 'CommentsSection',
             'anonymous_voting' => 'Anonymous voting',
             'password_protected' => 'Password protected',
             'invite_only' => 'Invite only',
@@ -81,7 +81,7 @@ return [
         ],
     ],
     'comments' => [
-    'title' => 'Comments',
+    'title' => 'CommentsSection',
     'form' => [
         'title' => 'Leave a comment',
         'username' => [
@@ -100,7 +100,7 @@ return [
     ],
 
     'alert' => [
-        'disabled' => 'Comments are disabled for this poll.',
+        'disabled' => 'CommentsSection are disabled for this poll.',
         'no_comments_yet' => 'No comments yet.',
     ],
 ],

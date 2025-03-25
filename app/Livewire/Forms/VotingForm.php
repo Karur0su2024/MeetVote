@@ -2,16 +2,8 @@
 
 namespace App\Livewire\Forms;
 
-use App\Exceptions\VoteException;
-use App\Services\VoteService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
-use Illuminate\Support\Facades\DB;
-use App\Models\Vote;
-use App\Models\Poll;
-use App\Services\NotificationService;
-use App\Events\VoteSubmitted;
-
 /**
  *
  */
@@ -96,5 +88,5 @@ class VotingForm extends Form
 
     }
 
-    
+
 }
