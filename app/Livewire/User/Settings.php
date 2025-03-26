@@ -20,10 +20,6 @@ class Settings extends Component
 
     public $new_password_confirmation;
 
-    public $flashMessages = [
-        'settings.profile.success',
-        'settings.password.success',
-    ];
 
     public function mount()
     {

@@ -23,8 +23,8 @@ class GoogleController extends Controller
         return $this->googleService->handleGoogleCallback();
     }
 
-    public function disconnectGoogle()
+    public function disconnectFromGoogle()
     {
-        $this->googleService->disconnectFromGoogle();
+        return $this->googleService->disconnectFromGoogle();
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -36,6 +37,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'google_token',
+        'google_refresh_token',
     ];
 
     /**
@@ -59,39 +62,21 @@ class User extends Authenticatable
     }
 
 
-/*    public function setGoogleTokenAttribute($value)
+    public function googleToken(): Attribute
     {
-        if(empty($value)) {
-            $this->attributes['google_token'] = encrypt($value);
-            return;
-        }
-        $this->attributes['google_token'] = null;
+        return Attribute::make(
+            get: fn ($value) => $value ? decrypt($value) : null,
+            set: fn ($value) => $value ? encrypt($value) : null,
+        );
     }
 
-    public function setGoogleRefreshTokenAttribute($value)
+    public function googleRefreshToken(): Attribute
     {
-        if(empty($value)) {
-            $this->attributes['google_refresh_token'] = encrypt($value);
-            return;
-        }
-        $this->attributes['google_token'] = null;
+        return Attribute::make(
+            get: fn ($value) => $value ? decrypt($value) : null,
+            set: fn ($value) => $value ? encrypt($value) : null,
+        );
     }
-
-    public function getGoogleTokenAttribute($value)
-    {
-        if(empty($value)) {
-            return decrypt($value);
-        }
-        return null;
-    }
-
-    public function getGoogleRefreshTokenAttribute($value)
-    {
-        if(empty($value)) {
-            return decrypt($value);
-        }
-        return null;
-    }*/
 
 
 

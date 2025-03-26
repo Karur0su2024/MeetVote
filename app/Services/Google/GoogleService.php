@@ -39,7 +39,6 @@ class GoogleService implements GoogleServiceInterface
      */
     public function handleGoogleCallback()
     {
-
         try {
             $googleUser = Socialite::driver('google')->user();
         } catch (\Exception $e) {
@@ -56,11 +55,21 @@ class GoogleService implements GoogleServiceInterface
             return redirect(route('dashboard'))->with('success', 'You were successfully logged in!');
         }
 
+        //$user = $this->checkIfEmailExists($googleUser->getEmail());
+
 
         if(Auth::check()){
+            $user = Auth::user();
             $user->update($this->buildGoogleUser($googleUser));
+            return redirect(route('settings'))->with('success', 'Google account connected successfully.');
         } else {
-            $user = User::create($this->buildGoogleUser($googleUser));
+            $user = $this->checkIfEmailExists($googleUser);
+            if($user){
+                $user->update($this->buildGoogleUser($googleUser));
+            }
+            else {
+                $user = User::create($this->buildGoogleUser($googleUser));
+            }
             Auth::login($user, true);
         }
 
@@ -101,14 +110,21 @@ class GoogleService implements GoogleServiceInterface
         return User::where('google_id', $googleUser->getId())->first();
     }
 
+    private function checkIfEmailExists($email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
+
     public function disconnectFromGoogle()
     {
         $user = Auth::user();
         $user->google_id = null;
         $user->google_token = null;
+        $user->google_refresh_token = null;
+        $user->google_avatar = null;
         $user->save();
 
-        return redirect()->back()->with('success', 'Google account disconnected successfully.');
+        return redirect(route('settings'))->with('success', 'Google account disconnected successfully.');
     }
 
 
@@ -121,8 +137,6 @@ class GoogleService implements GoogleServiceInterface
         $event->load('syncedEvents');
 
         try {
-
-
             $googleEvent = $googleCalendarService->buildGoogleEvent($event);
 
             foreach($users as $user){
@@ -136,7 +150,7 @@ class GoogleService implements GoogleServiceInterface
             }
         }
         catch (\Exception $exception){
-            dd($exception);
+
         }
 
     }

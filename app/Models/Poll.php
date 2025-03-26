@@ -33,11 +33,9 @@ class Poll extends Model
         'status' => PollStatus::ACTIVE,
     ];
 
-    protected $indexed = [
-        'public_id',
+    protected $hidden = [
         'admin_key',
-        'user_id',
-        'status',
+        'password',
     ];
 
     protected $casts = [
@@ -59,12 +57,6 @@ class Poll extends Model
             $poll->user_id = Auth::id();
         });
     }
-
-
-    protected $hidden = [
-        'admin_key',
-        'password',
-    ];
 
     /**
      * Vztah k uživateli (M:1)

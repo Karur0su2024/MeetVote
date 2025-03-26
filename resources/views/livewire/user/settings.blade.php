@@ -9,20 +9,18 @@
 
             <x-ui.form.input
                 id="name"
-                model="name"
+                wire:model="name"
                 type="text"
-                required
-                error="name">
+                required>
                 {{ __('pages/user-settings.profile_settings.labels.name') }}
             </x-ui.form.input>
 
             {{-- Email --}}
             <x-ui.form.input
                 id="email"
-                model="email"
+                wire:model="email"
                 type="email"
-                required
-                error="email">
+                required>
                 {{ __('pages/user-settings.profile_settings.labels.email') }}
             </x-ui.form.input>
 
@@ -44,17 +42,26 @@
 
         <form wire:submit.prevent='updatePassword'>
             {{-- Současné heslo --}}
-            <x-ui.form.input id="current_password" model="current_password" type="password" required error="current_password">
+            <x-ui.form.input id="current_password"
+                             wire:modelmodel="current_password"
+                             type="password"
+                             required>
                 {{ __('pages/user-settings.password.labels.old_password') }}
             </x-ui.form.input>
 
             {{-- Nové heslo --}}
-            <x-ui.form.input id="new_password" model="new_password" type="password" required error="new_password">
+            <x-ui.form.input id="new_password"
+                             wire:model="new_password"
+                             type="password"
+                             required>
                 {{ __('pages/user-settings.password.labels.new_password') }}
             </x-ui.form.input>
 
             {{-- Potvrzení nového hesla --}}
-            <x-ui.form.input id="password_confirmation" model="new_password_confirmation" type="password" required error="new_password_confirmation">
+            <x-ui.form.input id="password_confirmation"
+                             wire:model="new_password_confirmation"
+                             type="password"
+                             required>
                 {{ __('pages/user-settings.password.labels.new_password_confirmation') }}
             </x-ui.form.input>
 
@@ -99,7 +106,8 @@
             {{ __('pages/user-settings.delete_account.description') }}
         </p>
         {{-- Přidat modal pro potvrzení --}}
-        <x-ui.button color="danger" wire:click="deleteAccount">
+        <x-ui.button color="danger"
+                     wire:click="deleteAccount">
             {{ __('pages/user-settings.delete_account.buttons.delete_account') }}
         </x-ui.button>
     </x-ui.card>
