@@ -7,8 +7,6 @@ use Livewire\Component;
 use App\Models\Poll;
 use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use App\Exceptions\CriticalErrorException;
 use Illuminate\Support\Facades\Gate;
 
 

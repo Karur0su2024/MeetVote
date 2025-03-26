@@ -15,30 +15,9 @@ use Laravel\Socialite\Two\User as GoogleUser;
  */
 class GoogleService implements GoogleServiceInterface
 {
-    /**
-     * @var GoogleCalendarService
-     */
-    protected GoogleCalendarService $service;
 
     /**
-     * @param GoogleCalendarService $googleCalendarService
-     */
-    public function __construct(GoogleCalendarService $googleCalendarService)
-    {
-        $this->googleCalendarService = $googleCalendarService;
-    }
-
-
-    /**
-     * @return GoogleCalendarService
-     */
-    public function getGoogleCalendarService(): GoogleCalendarService
-    {
-        return $this->googleCalendarService;
-    }
-
-
-    /**
+     * Přesměruje uživatele na Google pro přihlášení
      * @return mixed
      */
     public function redirectToGoogle(){
@@ -58,7 +37,7 @@ class GoogleService implements GoogleServiceInterface
      * @param GoogleUser $googleUser
      * @return User|\Illuminate\Contracts\Auth\Authenticatable|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|object|null
      */
-    public function handleGoogleCallback(GoogleUser $googleUser): ?User
+    public function handleGoogleCallback()
     {
 
         try {
@@ -69,8 +48,12 @@ class GoogleService implements GoogleServiceInterface
 
         $user = $this->googleAccountAlreadyConnected($googleUser);
 
-        if($user && Auth::check()){
-            return null;
+        if($user){
+            if(Auth::check()){
+                return redirect(route('settings'))->with('error', 'Google account is already connected to another user.');
+            }
+            Auth::login($user, true);
+            return redirect(route('dashboard'))->with('success', 'You were successfully logged in!');
         }
 
 
@@ -80,7 +63,7 @@ class GoogleService implements GoogleServiceInterface
             $user = User::create($this->buildGoogleUser($googleUser));
             Auth::login($user, true);
         }
-        Auth::login($user, true);
+
 
         return redirect(route('home'));
     }
@@ -129,4 +112,23 @@ class GoogleService implements GoogleServiceInterface
     }
 
 
+    public function syncWithGoogleCalendar($users, $event)
+    {
+        $googleCalendarService = new GoogleCalendarService();
+        app()->instance(GoogleCalendarService::class, $googleCalendarService);
+
+        dd($event);
+
+        $googleCalendarService->desyncEvent($event);
+
+        $googleEvent = $googleCalendarService->buildGoogleEvent($event);
+
+        foreach($users as $user){
+            if(!$user->google_id){
+                continue;
+            }
+            $googleCalendarService->checkToken($user);
+            $googleCalendarService->syncEvent($googleEvent, $event, $user);
+        }
+    }
 }

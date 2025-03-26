@@ -18,13 +18,24 @@ class EventService
 
         if($event){
             $poll->event()->update($validatedEventData);
-            return __('ui/modals.create_event.messages.success.event_updated');
         }
         else{
             $event = $poll->event()->create($validatedEventData);
-            return __('ui/modals.create_event.messages.success.event_created');
         }
 
+        return $event;
+    }
+
+    public function buildEvent($validatedData): array
+    {
+        return [
+            'poll_id' => $this->poll->public_id,
+            'title' => $this->event['title'],
+            'all_day' => $this->event['all_day'],
+            'start_time' => $this->event['start_time'],
+            'end_time' => $this->event['end_time'],
+            'description' => $this->event['description'],
+        ];
     }
 
 }

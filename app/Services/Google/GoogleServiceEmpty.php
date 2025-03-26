@@ -13,7 +13,7 @@ class GoogleServiceEmpty implements GoogleServiceInterface
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
 
-    public function handleGoogleCallback(GoogleUser $googleUser)
+    public function handleGoogleCallback()
     {
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
@@ -21,6 +21,12 @@ class GoogleServiceEmpty implements GoogleServiceInterface
     public function disconnectFromGoogle()
     {
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
+    }
+
+    public function syncWithGoogleCalendar($users, $eventData)
+    {
+        // Synchronizace s Google kalendářem nebude provedena
+        return;
     }
 
 }

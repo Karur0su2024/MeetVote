@@ -20,14 +20,7 @@ class CreateEvent extends Component
 
     public bool $update = false;
 
-    public $event = [
-        'poll_id' => '',
-        'title' => '',
-        'all_day' => false,
-        'start_time' => '',
-        'end_time' => '',
-        'description' => '',
-    ];
+    public $event;
 
     protected function rules(): array
     {
@@ -41,19 +34,21 @@ class CreateEvent extends Component
     }
 
 
-    public function boot(EventService $eventService)
+    public function boot(EventService $eventService, GoogleService $googleService): void
     {
+        $this->googleService = $googleService;
         $this->eventService = $eventService;
     }
 
-    public function mount($event = null)
+    public function mount($pollIndex, $eventData = null)
     {
+        $this->poll = Poll::find($pollIndex, ['*']);
 
-        if ($event) {
-            $this->event = $event;
-            $this->poll = Poll::where('public_id', $event['poll_id'])->first();
+
+        if ($this->event) {
             if ($this->poll->event()->exists()) {
                 $this->update = true;
+                $this->event = $this->eventService->buildEvent($event->toArray());
             }
         }
 
@@ -74,13 +69,13 @@ class CreateEvent extends Component
 
         try {
             $validatedData = $this->validate();
-            $response = $this->eventService->createEvent($this->poll, $validatedData['event']);
+            $event = $this->eventService->createEvent($this->poll, $validatedData['event']);
+            $users = $this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter();
 
-            $this->googleService->googleCalendarService->synchronizeGoogleCalendar($this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter(), $this->poll->event);
+            $this->googleService->syncWithGoogleCalendar($users, $event);
 
-            return redirect()->route('polls.show', $this->poll)->with('success', $response);
+            return redirect()->route('polls.show', $this->poll)->with('success', 'Test');
         } catch (\Exception $e) {
-            dd($e->getMessage());
             //Doplnit logování chyby
         }
 
@@ -89,7 +84,6 @@ class CreateEvent extends Component
     public function deleteEvent(){
         $this->poll->event()->delete();
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
-
     }
 
     public function render()

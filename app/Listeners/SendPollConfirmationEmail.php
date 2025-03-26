@@ -12,9 +12,9 @@ class SendPollConfirmationEmail
     /**
      * Create the event listener.
      */
-    public function __construct(EmailService $notificationService)
+    public function __construct(EmailService $emailService)
     {
-        $this->notificationService = $notificationService;
+        $this->emailService = $emailService;
     }
 
     /**

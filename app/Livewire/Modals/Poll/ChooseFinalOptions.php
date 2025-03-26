@@ -90,6 +90,7 @@ class ChooseFinalOptions extends Component
             'alias' => 'modals.poll.create-event',
             'params' => [
                 'event' => $event,
+                'poll' => $this->poll,
             ],
 
         ]);

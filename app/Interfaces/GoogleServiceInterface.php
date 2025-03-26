@@ -14,7 +14,9 @@ interface GoogleServiceInterface
     public function redirectToGoogle();
 
 
-    public function handleGoogleCallback(GoogleUser $googleUser);
+    public function handleGoogleCallback();
 
     public function disconnectFromGoogle();
+
+    public function syncWithGoogleCalendar($users, $eventData);
 }

@@ -34,22 +34,12 @@ class InfoSection extends Component
 
 
 
-    public function openEventModal($update){
-
-        $event = [
-            'poll_id' => $this->poll->public_id,
-            'title' => $this->event['title'],
-            'all_day' => $this->event['all_day'],
-            'start_time' => $this->event['start_time'],
-            'end_time' => $this->event['end_time'],
-            'description' => $this->event['description'],
-        ];
-
-
+    public function openEventModal(){
         $this->dispatch('showModal', [
             'alias' => 'modals.poll.create-event',
             'params' => [
-                'event' => $event,
+                'pollIndex' => $this->poll,
+                'eventIndex' => $this->event,
             ],
 
         ]);

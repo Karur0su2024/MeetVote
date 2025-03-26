@@ -17,9 +17,7 @@ class GoogleServiceProvider extends ServiceProvider
     {
         if($this->isConfigured()){
             $this->app->singleton(GoogleServiceInterface::class, function ($app) {
-                return new GoogleService(
-                    $app->make(GoogleCalendarService::class),
-                );
+                return new GoogleService();
             });
         }
         else {
