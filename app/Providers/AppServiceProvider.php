@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Events\PollCreated;
+use App\Events\PollEventCreated;
 use App\Events\VoteSubmitted;
 use App\Listeners\SendPollConfirmationEmail;
 use App\Listeners\SendVoteNotificationEmail;
+use App\Listeners\SyncWithGoogleCalendar;
 use App\Models\Poll;
 use App\Policies\PollPolicy;
 use Illuminate\Support\Facades\Event;
@@ -66,6 +68,10 @@ class AppServiceProvider extends ServiceProvider
             SendVoteNotificationEmail::class,
         );
 
-        Gate::policy(Poll::class, PollPolicy::class);
+        Event::listen(
+            PollEventCreated::class,
+            SyncWithGoogleCalendar::class,
+        );
+
     }
 }

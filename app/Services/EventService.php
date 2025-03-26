@@ -14,11 +14,13 @@ class EventService
 
         if($event){
             $poll->event()->update($validatedEventData);
+            $event = $poll->event()->first();
         }
         else{
             $event = $poll->event()->create($validatedEventData);
         }
 
+        $poll->load('event');
         return $event;
     }
 

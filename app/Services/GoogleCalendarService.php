@@ -11,6 +11,7 @@ use Google\Service\Calendar\Event;
 class GoogleCalendarService
 {
     protected $client;
+    protected $calendar;
 
     public function __construct()
     {
@@ -20,14 +21,14 @@ class GoogleCalendarService
         $this->client->setAuthConfig(storage_path('app/oauth-credentials.json')); // Cesta k souboru s oauth credentials
         $this->client->setAccessType('offline');
         $this->client->setPrompt('select_account consent');
+        $this->calendar = new Calendar($this->client); // Inicializace Google Kalendáře
     }
 
     //https://ggomez.dev/blog/how-to-integrate-google-calendar-with-laravel
     // Metoda pro synchronizaci události s Google Kalendářem
     public function syncEvent($googleEvent, $event, $user)
     {
-        $calendar = new Calendar($this->client); // Inicializace Google Kalendáře
-        $calendarEvent = $calendar->events->insert('primary', $googleEvent);
+        $calendarEvent = $this->calendar->events->insert('primary', $googleEvent);
         $event->syncedEvents()->create([
             'calendar_event_id' => $calendarEvent->id, // ID události v Google Kalendáři
             'user_id' => $user->id,
@@ -35,17 +36,16 @@ class GoogleCalendarService
 
     }
 
-    public function desyncEvent($event)
+    public function desyncEvent($event, $userIndex)
     {
-        $calendar = new Calendar($this->client); // Inicializace Google Kalendáře
-        foreach($event->syncedEvents as $syncEvent) {
-            try {
-                $calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
-                $calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
-            } catch (\Exception $e) {
-            }
-            $syncEvent->delete();
+        $syncEvent = $event->syncedEvents->where('user_id', $userIndex)->first();
+        try {
+            $this->calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
+            $this->calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
+        $syncEvent->delete();
     }
 
     private function refreshToken($user)

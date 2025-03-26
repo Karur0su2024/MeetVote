@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Modals\Poll;
 
+use App\Events\PollEventCreated;
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\Google\GoogleService;
@@ -70,10 +71,10 @@ class CreateEvent extends Component
 
         try {
             $validatedData = $this->validate();
-            $event = $this->eventService->createEvent($this->poll, $validatedData['event']);
-            $users = $this->poll->votes()->with('user')->get()->pluck('user')->unique()->filter();
+            $this->eventService->createEvent($this->poll, $validatedData['event']);
 
-            $this->googleService->syncWithGoogleCalendar($users, $event);
+
+            PollEventCreated::dispatch($this->poll);
 
             return redirect()->route('polls.show', $this->poll)->with('success', 'Test');
         } catch (\Exception $e) {

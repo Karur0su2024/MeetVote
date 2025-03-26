@@ -95,9 +95,7 @@ class PollService
 
             DB::commit();
 
-            if($newPoll) {
-                event(new PollCreated($poll));
-            }
+            PollCreated::dispatchIf($newPoll, $poll);
 
             session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
             return $poll;
