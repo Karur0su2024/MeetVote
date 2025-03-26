@@ -4,7 +4,7 @@
     '$syncGoogleCalendar = false',
 ])
 
-<x-ui.card header-size="h3" class="w-100 h-100">
+<x-ui.card header-size="h3" class="w-100 h-100" footer-flex>
     <x-slot:header>
         {{ __('pages/poll-show.event_details.title') }}
     </x-slot:header>
@@ -80,6 +80,10 @@
                     <button class="btn btn-outline-secondary"
                             wire:click="openModal('modals.poll.choose-final-options', '{{ $poll->id }}')">
                         <i class="bi bi-check2-square"></i> {{ __('pages/poll-show.event_details.buttons.pick_from_results') }}
+                    </button>
+                    <button class="btn btn-outline-primary"
+                            wire:click="createEvent">
+                        <i class="bi bi-check2-square"></i> {{ __('pages/poll-show.event_details.buttons.automatically_create_event') }}
                     </button>
                 @endif
             @else

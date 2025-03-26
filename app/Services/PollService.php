@@ -28,6 +28,22 @@ class PollService
         $this->questionService = $questionService;
     }
 
+    /**
+     * @return QuestionService
+     */
+    public function getQuestionService(): QuestionService
+    {
+        return $this->questionService;
+    }
+
+    /**
+     * @return TimeOptionService
+     */
+    public function getTimeOptionService(): TimeOptionService
+    {
+        return $this->timeOptionService;
+    }
+
 
     /**
      * Načte data ankety a vrátí je jako pole.

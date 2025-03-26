@@ -19,4 +19,6 @@ interface GoogleServiceInterface
     public function disconnectFromGoogle();
 
     public function syncWithGoogleCalendar($users, $eventData);
+
+    public function desyncWithGoogleCalendar($event);
 }

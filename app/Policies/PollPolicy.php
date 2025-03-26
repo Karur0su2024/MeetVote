@@ -75,7 +75,7 @@ class PollPolicy
             return $poll->votes()->count() > 0;
         }
 
-        return false;
+        return true;
     }
 
 
@@ -105,7 +105,7 @@ class PollPolicy
 
     public function createEvent(?User $user, Poll $poll): bool
     {
-        if(!$poll->isActive()) {
+        if($poll->isActive()) {
             return false;
         }
 

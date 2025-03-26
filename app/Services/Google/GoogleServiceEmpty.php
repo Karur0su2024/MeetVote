@@ -29,4 +29,8 @@ class GoogleServiceEmpty implements GoogleServiceInterface
         return;
     }
 
+    public function desyncWithGoogleCalendar($event)
+    {
+        return;
+    }
 }

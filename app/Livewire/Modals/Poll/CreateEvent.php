@@ -3,6 +3,7 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Events\PollEventCreated;
+use App\Events\PollEventDeleted;
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\Google\GoogleService;
@@ -72,18 +73,19 @@ class CreateEvent extends Component
         try {
             $validatedData = $this->validate();
             $this->eventService->createEvent($this->poll, $validatedData['event']);
-
-
             PollEventCreated::dispatch($this->poll);
 
-            return redirect()->route('polls.show', $this->poll)->with('success', 'Test');
+
         } catch (\Exception $e) {
+            return;
             //Doplnit logování chyby
         }
 
+        return redirect()->route('polls.show', $this->poll)->with('success', 'Event created successfully');
     }
 
     public function deleteEvent(){
+        PollEventDeleted::dispatch($this->poll);
         $this->poll->event()->delete();
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
     }

@@ -36,4 +36,32 @@ class EventService
         ];
     }
 
+    public function buildEventFromValidatedData($poll, $results): array
+    {
+
+        $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']];
+        $text = $poll->description ? $poll->description."\n\n" : '';
+
+        if(isset($results['questions'])){
+            $text .= "Questions:\n";
+
+            foreach ($results['questions'] as $question) {
+                $text .= $question['text'].': ';
+                $text .= $question['options'][$question['selected']]['text']."\n";
+                $text .= "\n";
+            }
+        }
+
+
+
+        return [
+            'poll_id' => $poll->id,
+            'title' => $poll->title,
+            'all_day' => false,
+            'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? ''),
+            'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? ''),
+            'description' => $text,
+        ];
+    }
+
 }

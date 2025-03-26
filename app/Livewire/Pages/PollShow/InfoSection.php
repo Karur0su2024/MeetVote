@@ -2,10 +2,14 @@
 
 namespace App\Livewire\Pages\PollShow;
 
+use App\Events\PollEventCreated;
 use App\Models\Poll;
+use App\Services\EventService;
+use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 
@@ -19,6 +23,16 @@ class InfoSection extends Component
 
     public $syncGoogleCalendar = false;
 
+    protected PollResultsService $pollResultsService;
+    protected EventService $eventService;
+
+    public function boot(PollResultsService $pollResultsService, EventService $eventService): void
+    {
+        $this->pollResultsService = $pollResultsService;
+        $this->eventService = $eventService;
+    }
+
+
     public function mount($pollIndex): void
     {
         $this->poll = Poll::findOrFail($pollIndex);
@@ -27,22 +41,22 @@ class InfoSection extends Component
             $this->event = $this->poll->event()->first();
             if(Auth::check() && $this->event) {
                 $this->syncGoogleCalendar = $this->poll->event->syncedEvents->where('user_id', Auth::user()->id)->isNotEmpty();
-                //dd($this->syncGoogleCalendar);
             }
         }
     }
 
+    public function createEvent()
+    {
+        if (Gate::denies('createEvent', $this->poll)) {
+            return;
+        }
 
+        $results = $this->pollResultsService->getPollResultsData($this->poll);
+        $event = $this->eventService->buildEventFromValidatedData($this->poll, $results);
+        $this->eventService->createEvent($this->poll, $event);
+        PollEventCreated::dispatch($this->poll);
+        return redirect()->route('polls.show', $this->poll)->with('success', 'Test');
 
-    public function openEventModal(){
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.create-event',
-            'params' => [
-                'pollIndex' => $this->poll,
-                'eventIndex' => $this->event,
-            ],
-
-        ]);
     }
 
     // https://github.com/spatie/calendar-links

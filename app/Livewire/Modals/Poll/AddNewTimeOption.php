@@ -31,7 +31,7 @@ class AddNewTimeOption extends Component
         return [
             'option' => ['required', 'array', new CheckIfTimeOptionExists($this->poll->id, $this->timeOptionService)],
             'option.type' => 'required|in:time,text',
-            'option.date' => 'required|int|after_or_equal:today',
+            'option.date' => 'required|date|after_or_equal:today',
             'option.content.start' => 'required_if:type,time|date_format:H:i',
             'option.content.end' => 'required_if:type,time|date_format:H:i|after:content.start',
             'option.content.text' => 'required_if:type,text|string',
@@ -81,7 +81,7 @@ class AddNewTimeOption extends Component
             $this->addError('error', __('ui/modals.add_new_time_option.messages.error.no_permissions'));
             return;
         }
-        
+
         $validatedData = $this->validate();
 
         try {

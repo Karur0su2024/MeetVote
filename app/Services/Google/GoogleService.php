@@ -115,8 +115,6 @@ class GoogleService implements GoogleServiceInterface
     public function syncWithGoogleCalendar($users, $event)
     {
 
-
-
         $googleCalendarService = new GoogleCalendarService();
         app()->instance(GoogleCalendarService::class, $googleCalendarService);
 
@@ -139,6 +137,20 @@ class GoogleService implements GoogleServiceInterface
         }
         catch (\Exception $exception){
             dd($exception);
+        }
+
+    }
+
+    public function desyncWithGoogleCalendar($event)
+    {
+        $googleCalendarService = new GoogleCalendarService();
+        app()->instance(GoogleCalendarService::class, $googleCalendarService);
+
+        $syncedEvents = $event->syncedEvents;
+
+        foreach($syncedEvents as $syncedEvent){
+            $googleCalendarService->checkToken($syncedEvent->user);
+            $googleCalendarService->desyncEvent($syncedEvent->event, $syncedEvent->user->id);
         }
 
     }

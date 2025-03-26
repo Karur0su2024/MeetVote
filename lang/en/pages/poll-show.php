@@ -49,7 +49,8 @@ return [
         ],
         'buttons' => [
             'update_event' => 'Update event',
-            'pick_from_results' => 'Pick from results',
+            'pick_from_results' => 'Manually',
+            'automatically_create_event' => 'Automatically',
             'close_poll' => 'Close poll',
         ],
     ],

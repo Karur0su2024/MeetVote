@@ -3,6 +3,8 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Enums\PollStatus;
+use App\Events\PollReopened;
+use App\Services\PollResultsService;
 use Livewire\Component;
 use App\Models\Poll;
 use App\Services\EventService;
@@ -39,17 +41,15 @@ class ClosePoll extends Component
      */
     public function closePoll()
     {
+
         if(Gate::allows('close', $this->poll)) {
             try {
-
                 DB::beginTransaction();
                 $this->poll->status = $this->poll->status->toggle();
-                if($this->poll->status === PollStatus::ACTIVE) {
-                    $this->eventService->deleteEvent($this->poll->event);
-                }
                 $this->poll->save();
-
                 DB::commit();
+
+                PollReopened::dispatchIf(true, $this->poll);
 
                 return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', 'Poll status updated successfully.');
             } catch (\Exception $e) {

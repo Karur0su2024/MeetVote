@@ -3,7 +3,7 @@
         {{ __('ui/modals.results.title') }}
     </x-ui.modal.header>
     <div class="modal-body">
-        @if ($votes)
+        @if ($votes->count() > 0)
             @if($poll->anonymous_votes)
                 <x-ui.alert type="warning">
                     <x-ui.icon name="exclamation-triangle-fill"/>

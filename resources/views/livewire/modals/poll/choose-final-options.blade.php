@@ -34,8 +34,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($timeOptions as $optionIndex => $option)
-                                    <tr class="{{ $optionIndex == $selected['time_option'] ? 'table-active' : '' }}">
+                                @foreach ($results['timeOptions']['options'] as $optionIndex => $option)
+                                    <tr>
                                         <td class="w-75">
                                             <label for="timeOption_{{ $option['id'] }}"
                                                    class="w-100 d-flex align-items-center mb-0">
@@ -51,8 +51,10 @@
                                         </td>
                                         <td class="text-center align-middle">
                                             <input class="form-check-input" type="radio"
-                                                   value="{{ $optionIndex }}" wire:model="selected.time_option"
-                                                   name="timeOption" id="timeOption_{{ $option['id'] }}">
+                                                   value="{{ $optionIndex }}"
+                                                   wire:model="results.timeOptions.selected"
+                                                   name="timeOption"
+                                                   id="timeOption_{{ $option['id'] }}">
                                         </td>
                                     </tr>
                                 @endforeach
@@ -64,7 +66,7 @@
                     </div>
                 </div>
 
-            @foreach ($questions as $questionIndex => $question)
+            @foreach ($results['questions'] as $questionIndex => $question)
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button fs-3" type="button" data-bs-toggle="collapse"
@@ -88,7 +90,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($question['options'] as $optionIndex => $option)
-                                        <tr class="{{ $optionIndex == $selected['time_option'] ? 'table-active' : '' }}">
+                                        <tr>
                                             <td class="w-75 align-middle">
                                                 <label for="question_{{ $questionIndex }}_{{ $optionIndex }}"
                                                        class="w-100 d-flex align-items-center mb-0">
@@ -104,7 +106,7 @@
                                             <td class="text-center align-middle">
                                                 <input class="form-check-input mx-auto" type="radio"
                                                        value="{{ $optionIndex }}"
-                                                       wire:model="selected.questions.{{ $questionIndex }}"
+                                                       wire:model="results.questions.{{ $questionIndex }}.selected"
                                                        name="question_{{ $questionIndex }}"
                                                        id="question_{{ $questionIndex }}_{{ $optionIndex }}">
                                             </td>
