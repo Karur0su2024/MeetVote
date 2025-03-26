@@ -2,17 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\SyncedEvent;
-use Carbon\Carbon;
-use Google\Client;
-use Google\Service\Calendar;
-use Google\Service\Calendar\Event;
+use App\Models\Event;
 use App\Models\Poll;
 
 class EventService
 {
 
-    public function createEvent(Poll $poll, $validatedEventData): string
+    public function createEvent(Poll $poll, $validatedEventData): Event
     {
         $event = $poll->event;
 
@@ -26,15 +22,15 @@ class EventService
         return $event;
     }
 
-    public function buildEvent($validatedData): array
+    public function buildEvent($event): array
     {
         return [
-            'poll_id' => $this->poll->public_id,
-            'title' => $this->event['title'],
-            'all_day' => $this->event['all_day'],
-            'start_time' => $this->event['start_time'],
-            'end_time' => $this->event['end_time'],
-            'description' => $this->event['description'],
+            'poll_id' => $event->poll_id ?? null,
+            'title' => $event->title ?? null,
+            'all_day' => $event->all_day ?? false,
+            'start_time' => $event->start_time ? $event->start_time->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s'),
+            'end_time' => $event->end_time ? $event->end_time->format('Y-m-d H:i:s') : now()->addHour()->format('Y-m-d H:i:s'),
+            'description' => $event->description ?? null,
         ];
     }
 

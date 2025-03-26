@@ -73,7 +73,7 @@
         <x-slot:footer>
             @if (!$poll->isActive())
                 @if ($poll->event)
-                    <button wire:click='openEventModal(false)' class="btn btn-warning">
+                    <button wire:click="openModal('modals.poll.create-event', {{ $poll->id }})" class="btn btn-warning">
                         <i class="bi bi-pencil-square"></i> {{ __('pages/poll-show.event_details.buttons.update_event') }}
                     </button>
                 @else

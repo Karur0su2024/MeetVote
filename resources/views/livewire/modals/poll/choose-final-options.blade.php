@@ -6,7 +6,7 @@
         <p class="text-muted">
             {{ __('ui/modals.choose_final_options.description') }}
         </p>
-        <form wire:submit.prevent='chooseFinalResults'>
+        <form wire:submit.prevent='insertToEventModal'>
             <div class="accordion" id="chooseFinalResultsAccordion">
                 {{-- TimeOptions --}}
                 <div class="accordion-item">

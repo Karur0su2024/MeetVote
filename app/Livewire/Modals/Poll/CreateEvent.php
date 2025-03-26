@@ -40,17 +40,18 @@ class CreateEvent extends Component
         $this->eventService = $eventService;
     }
 
-    public function mount($pollIndex, $eventData = null)
+    public function mount($pollIndex, array $eventData = null)
     {
-        $this->poll = Poll::find($pollIndex, ['*']);
+        $this->poll = Poll::with('event')->find($pollIndex, ['*']);
 
-
-        if ($this->event) {
-            if ($this->poll->event()->exists()) {
-                $this->update = true;
-                $this->event = $this->eventService->buildEvent($event->toArray());
-            }
+        if($eventData){
+            $this->event = $eventData;
+            return;
         }
+
+        $this->update = true;
+        $this->event = $this->eventService->buildEvent($this->poll->event);
+
 
     }
 

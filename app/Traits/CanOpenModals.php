@@ -7,7 +7,15 @@ use Illuminate\Support\Facades\Gate;
 
 trait CanOpenModals
 {
-    public function openModal($modalName, $pollId)
+
+    /**
+     * Otevírá všechny modální okna související s anketou.
+     *
+     * @param string $modalName
+     * @param int $pollId
+     * @return void
+     */
+    public function openModal($modalName, $pollId): void
     {
         $poll = Poll::findOrFail($pollId);
 

@@ -35,37 +35,34 @@ class ChooseFinalOptions extends Component
     public function mount($pollIndex)
     {
 
-        try {
-            $this->poll = Poll::find($pollIndex, ['*']);
+        $this->poll = Poll::find($pollIndex, ['*']);
 
-            $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
-            foreach ($this->timeOptions as &$timeOption) {
-                $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
-            }
+        $this->poll->load([
+            'timeOptions',
+            'questions',
+            'questions.options',
+        ]);
 
-
-            $this->selected['time_option'] = 0;
-
-            $this->questions = $this->questionService->getPollQuestions($this->poll);
-
-            $this->selectedTimeOption = 0;
-
-            foreach ($this->questions as $questionIndex => $question) {
-                $this->selected['questions'][$questionIndex] = 0;
-            }
-        } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while loading poll.');
-            return;
+        $this->timeOptions = $this->timeOptionService->getPollTimeOptions($this->poll);
+        foreach ($this->timeOptions as &$timeOption) {
+            $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
         }
 
+        $this->selected['time_option'] = 0;
+        $this->questions = $this->questionService->getPollQuestions($this->poll);
+
+        $this->selectedTimeOption = 0;
+
+        foreach ($this->questions as $questionIndex => $question) {
+            $this->selected['questions'][$questionIndex] = 0;
+        }
 
     }
 
-    public function chooseFinalResults()
+    public function insertToEventModal()
     {
 
         $timeOption = $this->timeOptions[$this->selected['time_option']];
-
 
         $text = 'Poll description: '.$this->poll->description."\n\n";
 
@@ -89,8 +86,8 @@ class ChooseFinalOptions extends Component
         $this->dispatch('showModal', [
             'alias' => 'modals.poll.create-event',
             'params' => [
-                'event' => $event,
-                'poll' => $this->poll,
+                'eventData' => $event,
+                'pollIndex' => $this->poll->id,
             ],
 
         ]);
