@@ -4,6 +4,7 @@ namespace App\Services\Question;
 
 use App\Models\Poll;
 use App\Models\QuestionOption;
+use App\Models\Vote;
 
 class QuestionQueryService
 {
@@ -55,4 +56,28 @@ class QuestionQueryService
         }
         return $score;
     }
+
+
+
+    /**
+     * Metoda pro získání dat o otázkách pro hlasování
+     * Vratí pole s daty s otázkami
+     * @param $data
+     * @param $voteIndex
+     * @return array
+     */
+    public function getVotingArray(Poll $poll, $voteIndex = null): array
+    {
+        $pollQuestions = $this->getQuestionsArray($poll);
+
+        $vote = Vote::with(['timeOptions'])->find($voteIndex);
+
+        foreach ($vote->questionOptions ?? [] as $questionOption) {
+            $pollQuestions[$questionOption->question_id][$questionOption->option_id]['picked_preference'] = $questionOption->preference;
+        }
+
+        return $pollQuestions;
+
+    }
+
 }

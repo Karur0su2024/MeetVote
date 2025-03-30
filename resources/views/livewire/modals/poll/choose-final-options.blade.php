@@ -40,7 +40,7 @@
                                             <label for="timeOption_{{ $option['id'] }}"
                                                    class="w-100 d-flex align-items-center mb-0">
                                                 {{ Carbon\Carbon::parse($option['date'])->format('F d, Y') }}
-                                                {{ $option['content']['full'] }}
+                                                {{ $option['full_content'] }}
                                             </label>
                                         </td>
                                         <td class="text-center align-middle">

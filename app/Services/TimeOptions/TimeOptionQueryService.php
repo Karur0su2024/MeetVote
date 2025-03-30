@@ -5,6 +5,7 @@ namespace App\Services\TimeOptions;
 use App\Models\Poll;
 use App\Models\TimeOption;
 use Carbon\Carbon;
+use App\Models\Vote;
 
 class TimeOptionQueryService
 {
@@ -27,18 +28,23 @@ class TimeOptionQueryService
 
         $timeOptions = [];
         foreach ($poll->timeOptions as $timeOption) {
-            $timeOptions[] = [
+
+            $content = $timeOption->start ? [
+                'start' => Carbon::parse($timeOption->start)->format('H:i'),
+                'end' => Carbon::parse($timeOption->end)->format('H:i'),
+            ] : [
+                'text' => $timeOption->text,
+            ];
+
+            $timeOptions[$timeOption->id] = [
                 'id' => $timeOption->id,
                 'date' => $timeOption->date,
                 'date_formatted' => Carbon::parse($timeOption->date)->format('l, F d, Y'),
                 'type' => $timeOption->start ? 'time' : 'text',
-                'content' => $timeOption->start ? [
-                    'start' => Carbon::parse($timeOption->start)->format('H:i'),
-                    'end' => Carbon::parse($timeOption->end)->format('H:i'),
-                ] : [
-                    'text' => $timeOption->text,
-                ],
+                'content' => $content,
+                'full_content' => implode(' - ', $content),
                 'score' => $this->getOptionScore($timeOption),
+                'picked_preference' => 0,
             ];
         }
 
@@ -67,9 +73,6 @@ class TimeOptionQueryService
         return $score;
     }
 
-
-
-
     /**
      * Metoda pro inicializaci časové možnosti.
      * @return array
@@ -85,4 +88,27 @@ class TimeOptionQueryService
             ],
         ]];
     }
+
+
+
+    /**
+     * Metoda pro získání dat o časových možnostech pro hlasování.
+     * Vratí pole s daty s časovými možnostmi.
+     * @param array $options
+     * @param $voteIndex
+     * @return array
+     */
+    public function getVotingArray(Poll $poll, $voteIndex): array
+    {
+        $options = $this->getTimeOptionsArray($poll); // Získání časových možností
+
+        $vote = Vote::with(['timeOptions'])->find($voteIndex);
+
+        foreach ($vote->timeOptions ?? [] as $timeOption) {
+            $options[$timeOption->time_option_id]['picked_preference'] = $timeOption->preference;
+        }
+
+        return $options;
+    }
+
 }

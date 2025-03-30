@@ -26,7 +26,7 @@
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
                                         <p class="fs-5 fw-bold">{{ $option['date_formatted'] }}</p>
-                                        <p class="card-text text-muted">{{ $option['content']['full'] }}</p>
+                                        <p class="card-text text-muted">{{ $option['full_content'] }}</p>
                                     </div>
                                     <span class="badge bg-primary fs-5">{{ $option['score'] }}</span>
                                 </div>

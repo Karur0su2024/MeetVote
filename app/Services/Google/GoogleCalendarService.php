@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Google;
 
-use App\Models\SyncedEvent;
-use Carbon\Carbon;
 use Google\Client;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event;

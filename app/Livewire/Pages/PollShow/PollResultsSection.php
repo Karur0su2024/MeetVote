@@ -23,7 +23,7 @@ class PollResultsSection extends Component
 
     public function mount($pollIndex){
         $this->poll = Poll::find($pollIndex);
-        $this->pollResults = $this->pollResultsService->getPollResultsData($this->poll);
+        $this->pollResults = $this->pollResultsService->getResults($this->poll);
     }
 
     public function render()

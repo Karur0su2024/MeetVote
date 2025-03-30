@@ -4,34 +4,28 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Models\Poll;
+use App\Services\Question\QuestionQueryService;
+use App\Services\TimeOptions\TimeOptionQueryService;
 
 class PollResultsService
 {
 
+    public function __construct(
+        protected TimeOptionQueryService $timeOptionQueryService,
+        protected QuestionQueryService $questionQueryService,
+    ) {}
 
-
-    protected PollService $pollService;
-
-    public function __construct(PollService $pollService){
-        $this->pollService = $pollService;
-    }
-
-    public function getPollResultsData($poll)
+    public function getResults($poll)
     {
 
-
-        $timeOptions = $this->pollService->getTimeOptionService()->getPollTimeOptions($poll);
+        $timeOptions = $this->timeOptionQueryService->getTimeOptionsArray($poll);
 
         usort($timeOptions, function ($a, $b) {
             return $b['score'] <=> $a['score'];
         });
 
+        $questions = $this->questionQueryService->getQuestionsArray($poll);
 
-        foreach ($timeOptions as &$timeOption) {
-            $timeOption['content']['full'] = implode(' - ', $timeOption['content']);
-        }
-
-        $questions = $this->pollService->getQuestionService()->getPollQuestions($poll);
         $questionArray = [];
 
         foreach ($questions as $question) {

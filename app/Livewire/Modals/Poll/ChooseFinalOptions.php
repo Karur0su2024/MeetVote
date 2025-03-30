@@ -26,27 +26,7 @@ class ChooseFinalOptions extends Component
         ],
     ];
 
-
-    public $timeOptions = [];
-
-    public $questions = [];
-
-    public $selectedTimeOption;
-
-    public $selectedQuestionOptions = [];
-
-    public $selected = [];
-
-    protected PollResultsService $pollResultsService;
-    protected EventService $eventService;
-
-    public function boot(PollResultsService $pollResultsService, EventService $eventService)
-    {
-        $this->pollResultsService = $pollResultsService;
-        $this->eventService = $eventService;
-    }
-
-    public function mount($pollIndex)
+    public function mount($pollIndex, PollResultsService $pollResultsService)
     {
         $this->poll = Poll::find($pollIndex, ['*']);
 
@@ -56,14 +36,14 @@ class ChooseFinalOptions extends Component
             'questions.options',
         ]);
 
-        $this->results = $this->pollResultsService->getPollResultsData($this->poll);
+        $this->results = $pollResultsService->getResults($this->poll);
 
     }
 
-    public function insertToEventModal()
+    public function insertToEventModal(EventService $eventService)
     {
 
-        $event = $this->eventService->buildEventFromValidatedData($this->poll, $this->results);
+        $event = $eventService->buildEventFromValidatedData($this->poll, $this->results);
 
         $this->dispatch('showModal', [
             'alias' => 'modals.poll.create-event',

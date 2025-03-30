@@ -16,13 +16,15 @@ class VotePolicy
             return true;
         }
 
+        if(Gate::allows('isAdmin', $vote->poll)) {
+            return true;
+        }
+
         if(!$vote->poll->edit_votes){
             return false;
         }
 
-        if(Gate::allows('isAdmin', $vote->poll)) {
-            return true;
-        }
+
 
         return $user && $vote->user_id === $user->id;
 
@@ -41,10 +43,11 @@ class VotePolicy
 
         // Přidat podmínku zda jsou výsledky skryté
 
-        if ($vote->user_id === $user->id) {
-            return true;
+        if(auth()->check()) {
+            if ($vote->user_id === $user->id) {
+                return true;
+            }
         }
-
         if ($vote->poll->anonymous_votes) {
             return false;
         }

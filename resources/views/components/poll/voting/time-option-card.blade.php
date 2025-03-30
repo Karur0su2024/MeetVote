@@ -19,7 +19,7 @@
                 <h6 class="mb-1 fw-bold"
                     x-text="timeOption.date_formatted"></h6>
                 <p class="mb-0 text-muted"
-                   x-text="timeOption.content"></p>
+                   x-text="timeOption.full_content"></p>
             </div>
 
             {{-- Skóre možnosti --}}

@@ -4,9 +4,9 @@ namespace App\Livewire\Modals\Poll;
 
 use App\Models\Poll;
 use App\Models\Vote;
-use Livewire\Component;
-use App\Services\VoteService;
+use App\Services\Vote\VoteService;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
 
 
 class Results extends Component
@@ -15,13 +15,6 @@ class Results extends Component
     public $poll;
 
     public $loadedVotes = false;
-
-    protected VoteService $voteService;
-
-    public function boot(VoteService $voteService): void
-    {
-        $this->voteService = $voteService;
-    }
 
     public function mount($pollIndex)
     {

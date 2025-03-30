@@ -7,7 +7,10 @@ use App\Exceptions\VoteException;
 use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
 use App\Models\Vote;
-use App\Services\VoteService;
+use App\Services\Vote\VoteCreateService;
+use App\Services\Vote\VoteQueryService;
+use App\Services\Vote\VoteService;
+use App\Services\Vote\VoteValidationService;
 use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
@@ -17,53 +20,33 @@ class VotingSection extends Component
 {
 
     use CanOpenModals;
-    /**
-     * @var Poll
-     */
+
     public Poll $poll;
 
-    // Formulář pro hlasování
-    /**
-     * @var VotingForm
-     */
     public VotingForm $form;
 
-    /**
-     * @var VoteService
-     */
     protected VoteService $voteService;
 
     public $loaded = false;
 
-    /**
-     * @param VoteService $voteService
-     * @return void
-     */
-    public function boot(VoteService $voteService): void
-    {
-        $this->voteService = $voteService;
-    }
 
     /**
      * @param int $pollInex
      * @return void
      */
-    public function mount(int $pollIndex): void
+    public function mount(int $pollIndex, VoteQueryService $voteQueryService): void
     {
         $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options']);
-
-        $this->reloadSection();
+        $this->reloadVoteSection($voteQueryService);
     }
 
-    /**
-     * Metoda pro zpracování odeslaných dat z formuláře.
-     * @param $voteData
-     * @return void|null
-     */
-    #[On('submitVote')]
-    public function submitVote(): void
+    public function submitVote(
+        VoteValidationService $voteValidationService,
+        VoteQueryService $voteQueryService,
+        VoteCreateService $voteCreateService,
+    ): void
     {
-        if(!Gate::allows('canVote', $this->poll)) {
+        if(Gate::denies('canVote', $this->poll)) {
             $this->addError('error', 'You are not allowed to vote on this poll.');
             return;
         }
@@ -71,34 +54,15 @@ class VotingSection extends Component
         $validatedData = $this->form->validate();
         $validatedData['poll_id'] = $this->poll->id;
 
-        $selected = false;
-
-        foreach ($this->form->timeOptions as $timeOption) {
-            if ($timeOption['picked_preference'] !== -0) {
-                $selected = true;
-                break;
-            }
-        }
-
-        foreach ($this->form->questions as $question) {
-            foreach ($question['options'] as $option) {
-                if ($option['picked_preference'] !== 0) {
-                    $selected = true;
-                    break;
-                }
-            }
-        }
-
-        if(!$selected) {
+        if($voteValidationService->isPickedPreferenceValid($validatedData)) {
             $this->addError('error', 'You must select at least one option.');
             return;
         }
 
-
-        $vote = $this->saveVote($validatedData);
+        $vote = $this->saveVote($validatedData, $voteCreateService, $voteQueryService);
 
         if ($vote) {
-            $this->form->loadData($this->voteService->getPollData($this->poll->id));
+            $this->reloadVoteSection($voteQueryService);
         }
     }
 
@@ -108,26 +72,26 @@ class VotingSection extends Component
      * @return Vote|null
      * @throws \Throwable
      */
-    private function saveVote($validatedData): ?Vote
+    private function saveVote(
+        $validatedData,
+        VoteCreateService $voteCreateService,
+        VoteQueryService $voteQueryService): ?Vote
     {
         try {
-            if (!$this->voteService->atLeastOnePickedPreference($validatedData)) {
-                throw new VoteException('No option selected.');
-            }
-            $vote = $this->voteService->saveVote($validatedData);
+            $vote = $voteCreateService->saveVote($validatedData);
 
             if (isset($validatedData['existingVote'])) {
                 session()->flash('success', 'Vote has been updated successfully.');
             } else {
                 session()->flash('success', 'Vote has been created successfully.');
-                event(new VoteSubmitted($vote));
+                //event(new VoteSubmitted($vote));
             }
-            $this->form->loadData($this->voteService->getPollData($this->poll->id));
+            $this->reloadVoteSection($voteQueryService);
             return $vote;
         } catch (VoteException $e) {
-            session()->flash('error', $e->getMessage());
+            $this->addError('error', 'An error occurred while saving the vote.');
         } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while saving the vote.');
+            $this->addError('error', 'An error occurred while saving the vote.');
         }
         return null;
     }
@@ -146,26 +110,16 @@ class VotingSection extends Component
      * @return void
      */
     #[On('refreshPoll')]
-    public function refreshPoll($voteIndex = null): void
+    public function refreshPoll(VoteQueryService $voteQueryService, $voteIndex): void
     {
-        $this->form->loadData($this->voteService->getPollData($this->poll->id, $voteIndex));
-        $this->dispatch('refresh-poll', formData: $this->form);
+        $this->reloadVoteSection($voteQueryService, $voteIndex);
     }
 
 
-    /**
-     * @return void
-     */
-    #[On('updateTimeOptions')]
-    public function updateTimeOptions(): void
-    {
-        $this->form->loadData($this->voteService->getPollData($this->poll));
-    }
-
-    private function reloadSection(): void
+    private function reloadVoteSection(VoteQueryService $voteQueryService, $voteIndex = null): void
     {
         $this->loaded = false;
-        $this->form->loadData($this->voteService->getPollData($this->poll->id));
+        $this->form->loadData($voteQueryService->getPollData($this->poll, $voteIndex));
         $this->loaded = true;
     }
 
