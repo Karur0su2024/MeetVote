@@ -13,36 +13,25 @@ class PollEditor extends Component
 
     public PollEditorForm $form;
     public $pollIndex;
-    protected PollService $pollService;
-
-
-    /**
-     * @param PollService $pollService
-     * @return void
-     */
-    public function boot(PollService $pollService): void
-    {
-        $this->pollService = $pollService;
-    }
 
     /**
      * @param Poll|null $poll
      * @return void
      */
-    public function mount($pollIndex = null): void
+    public function mount(PollService $pollService, $pollIndex = null): void
     {
         $this->pollIndex = $pollIndex;
-        $this->form->loadForm($this->pollService->getPollData($this->pollIndex));
+        $this->form->loadForm($pollService->getPollData($this->pollIndex));
     }
 
     /**
      * @return void
      */
-    public function submit()
+    public function submit(PollService $pollService): void
     {
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
-            $this->saveToDatabase($validatedData);
+            $this->saveToDatabase($validatedData, $pollService);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
@@ -55,10 +44,10 @@ class PollEditor extends Component
      * @param array $validatedData
      * @return \Illuminate\Http\RedirectResponse|null
      */
-    private function saveToDatabase(array $validatedData)
+    private function saveToDatabase(array $validatedData, PollService $pollService)
     {
         try {
-            $poll = $this->pollService->savePoll($validatedData, $this->pollIndex ?? null);
+            $poll = $pollService->savePoll($validatedData, $this->pollIndex ?? null);
             return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());

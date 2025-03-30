@@ -1,4 +1,3 @@
-<!-- resources/views/components/enhanced-event-card.blade.php -->
 <x-ui.card header-size="5">
     <x-slot:header>
         {{ $event->title }}

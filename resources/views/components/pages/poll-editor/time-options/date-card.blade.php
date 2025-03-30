@@ -24,7 +24,8 @@
         </div>
     </div>
     <div class="card-body p-2"
-         x-show="!collapsed">
+         x-show="!collapsed"
+         x-collapse>
         <template x-for="(option, optionIndex) in date" :key="optionIndex">
             <x-pages.poll-editor.time-options.date-options />
         </template>

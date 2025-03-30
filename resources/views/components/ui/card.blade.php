@@ -31,11 +31,16 @@
         </div>
     @endif
     <div class="card-body text-start p-{{ $bodyPadding ?? 4 }} {{ $bodyClass ?? '' }}"
-         x-show="show">
+         x-show="show" x-collapse>
         {{ $slot }}
     </div>
     @if ($footer ?? null)
-        <div class="card-footer {{ $footerFlex ? 'd-flex' : '' }} d-grid gap-2 text-start p-{{ $footerPadding ?? 2 }} {{ $footerClass ?? '' }}">
+        <div class="card-footer
+        {{ $footerFlex ? 'd-flex' : '' }}
+        d-grid gap-2 text-start
+        p-{{ $footerPadding ?? 2 }}
+        {{ $footerClass ?? '' }}"
+        >
             {{ $footer }}
         </div>
     @endif

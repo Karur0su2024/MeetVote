@@ -53,8 +53,8 @@ class PollEditorForm extends Form
             'settings.add_time_options' => 'boolean',
             'settings.edit_votes' => 'boolean',
             'user.posted_anonymously' => 'boolean',
-            'user.name' => 'required_if:user.posted_anonymously,string|min:3|max:255',
-            'user.email' => 'required_if:user.posted_anonymously,email',
+            'user.name' => 'required_unless:user.posted_anonymously,string|min:3|max:255',
+            'user.email' => 'required_unless:user.posted_anonymously,email',
             'dates' => 'required|array|min:1', // Pole různých dnů
             'dates.*' => ['nullable', 'array', 'min:1', new NoDateDuplicates()], // Pole časových možností podle data
             'dates.*.*.id' => 'nullable|integer', // ID možnosti

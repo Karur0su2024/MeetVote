@@ -12,7 +12,7 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5170,
         strictPort: true,
-        cors: true,      // Povolení CORS
+        cors: true,
         hmr: {
             host: '192.168.1.131',
             protocol: 'ws',

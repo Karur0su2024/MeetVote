@@ -24,7 +24,7 @@
     </div>
 
     {{-- Možnosti odpovědí --}}
-    <div class="card-body" x-show="!collapsed">
+    <div class="card-body" x-show="!collapsed" x-collapse>
         <template x-for="(option, optionIndex) in question.options" :key="optionIndex">
             <x-poll.form.question-card-option/>
             {{-- Zobrazení chybové hlášky, pokud možnost není validní --}}

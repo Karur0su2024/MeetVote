@@ -10,7 +10,7 @@
         {{ __('pages/poll-editor.basic_info.post_anonymously.label') }}
     </x-ui.form.checkbox>
 
-    <div x-show="!anonymous">
+    <div x-show="!anonymous" x-collapse>
 
         {{-- Jméno autora --}}
         <x-ui.form.input
