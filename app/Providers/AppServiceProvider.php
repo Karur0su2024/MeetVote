@@ -13,7 +13,11 @@ use App\Listeners\SendVoteNotificationEmail;
 use App\Listeners\SyncWithGoogleCalendar;
 use App\Models\Poll;
 use App\Policies\PollPolicy;
+use App\Services\Poll\PollCreateService;
+use App\Services\Poll\PollQueryService;
 use App\Services\PollService;
+use App\Services\QuestionService;
+use App\Services\TimeOptionService;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -58,6 +62,24 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Services\PollResultsService', function ($app) {
             return new \App\Services\PollResultsService(
                 $app->make(PollService::class),
+            );
+        });
+
+        $this->app->singleton('App\Services\PollQueryService', function ($app) {
+            return new \App\Services\PollQueryService;
+        });
+
+        $this->app->singleton('App\Services\PollCreateService', function ($app) {
+            return new PollCreateService(
+                $app->make(TimeOptionService::class),
+                $app->make(TimeOptionService::class),
+            );
+        });
+
+        $this->app->singleton('App\Services\Poll\PollQueryService', function ($app) {
+            return new PollQueryService(
+                $app->make(TimeOptionService::class),
+                $app->make(QuestionService::class),
             );
         });
 

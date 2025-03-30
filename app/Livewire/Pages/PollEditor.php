@@ -5,7 +5,8 @@ namespace App\Livewire\Pages;
 use App\Exceptions\PollException;
 use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
-use App\Services\PollService;
+use App\Services\Poll\PollCreateService;
+use App\Services\Poll\PollQueryService;
 use Livewire\Component;
 
 class PollEditor extends Component
@@ -15,49 +16,34 @@ class PollEditor extends Component
     public $pollIndex;
 
     /**
-     * @param Poll|null $poll
      * @return void
      */
-    public function mount(PollService $pollService, $pollIndex = null): void
+    public function mount(PollQueryService $pollQueryService, $pollIndex = null): void
     {
         $this->pollIndex = $pollIndex;
-        $this->form->loadForm($pollService->getPollData($this->pollIndex));
+        $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
     }
 
     /**
-     * @return void
      */
-    public function submit(PollService $pollService): void
+    public function submit(PollCreateService $pollCreateService)
     {
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
-            $this->saveToDatabase($validatedData, $pollService);
+            $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('validation-failed', errors: $this->getErrors());
-            throw $e;
-        }
-    }
-
-    /**
-     * Uloží data do databáze
-     *
-     * @param array $validatedData
-     * @return \Illuminate\Http\RedirectResponse|null
-     */
-    private function saveToDatabase(array $validatedData, PollService $pollService)
-    {
-        try {
-            $poll = $pollService->savePoll($validatedData, $this->pollIndex ?? null);
-            return redirect()->route('polls.show', ['poll' => $poll->public_id]);
+            return;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
-            return null;
+            return;
         } catch (\Exception $e) {;
             $this->addError('error', 'An error occurred while saving the poll.');
-            return null;
+            return;
         }
-    }
 
+        return redirect()->route('polls.show', ['poll' => $poll->public_id]);
+    }
 
 
 
