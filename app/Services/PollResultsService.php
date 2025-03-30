@@ -15,7 +15,7 @@ class PollResultsService
         protected QuestionQueryService $questionQueryService,
     ) {}
 
-    public function getResults($poll)
+    public function getResults($poll): array
     {
 
         $timeOptions = $this->timeOptionQueryService->getTimeOptionsArray($poll);

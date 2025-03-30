@@ -51,11 +51,11 @@ class InfoSection extends Component
             return;
         }
 
-        $results = $this->pollResultsService->getPollResultsData($this->poll);
+        $results = $this->pollResultsService->getResults($this->poll);
         $event = $this->eventService->buildEventFromValidatedData($this->poll, $results);
         $this->eventService->createEvent($this->poll, $event);
         PollEventCreated::dispatch($this->poll);
-        return redirect()->route('polls.show', $this->poll)->with('success', 'Test');
+        return redirect()->route('polls.show', $this->poll)->with('success', 'Event created successfully.');
 
     }
 
