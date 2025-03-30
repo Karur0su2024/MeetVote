@@ -16,7 +16,11 @@ use App\Policies\PollPolicy;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
 use App\Services\PollService;
+use App\Services\Question\QuestionCreateService;
+use App\Services\Question\QuestionQueryService;
 use App\Services\QuestionService;
+use App\Services\TimeOptions\TimeOptionCreateService;
+use App\Services\TimeOptions\TimeOptionQueryService;
 use App\Services\TimeOptionService;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -36,13 +40,6 @@ class AppServiceProvider extends ServiceProvider
                 $app->make('App\Services\QuestionService')
             );
         });
-        $this->app->singleton('App\Services\TimeOptionService', function ($app) {
-            return new \App\Services\TimeOptionService;
-        });
-        $this->app->singleton('App\Services\QuestionService', function ($app) {
-            return new \App\Services\QuestionService;
-        });
-
 
         $this->app->singleton('App\Services\VoteService', function ($app) {
             return new \App\Services\VoteService(
@@ -51,35 +48,23 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton('App\Services\EventService', function ($app) {
-            return new \App\Services\EventService;
-        });
-
-        $this->app->singleton('App\Services\InvitationService', function ($app) {
-            return new \App\Services\InvitationService;
-        });
-
         $this->app->singleton('App\Services\PollResultsService', function ($app) {
             return new \App\Services\PollResultsService(
                 $app->make(PollService::class),
             );
         });
 
-        $this->app->singleton('App\Services\PollQueryService', function ($app) {
-            return new \App\Services\PollQueryService;
-        });
-
-        $this->app->singleton('App\Services\PollCreateService', function ($app) {
+        $this->app->singleton(PollCreateService::class, function ($app) {
             return new PollCreateService(
-                $app->make(TimeOptionService::class),
-                $app->make(TimeOptionService::class),
+                $app->make(TimeOptionCreateService::class),
+                $app->make(QuestionCreateService::class),
             );
         });
 
-        $this->app->singleton('App\Services\Poll\PollQueryService', function ($app) {
+        $this->app->singleton(PollQueryService::class, function ($app) {
             return new PollQueryService(
-                $app->make(TimeOptionService::class),
-                $app->make(QuestionService::class),
+                $app->make(TimeOptionQueryService::class),
+                $app->make(QuestionQueryService::class),
             );
         });
 

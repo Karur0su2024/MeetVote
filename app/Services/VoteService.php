@@ -16,24 +16,13 @@ use App\Exceptions\VoteException;
 class VoteService
 {
     /**
-     * @var TimeOptionService
-     */
-    protected TimeOptionService $timeOptionService;
-    /**
-     * @var QuestionService
-     */
-    protected QuestionService $questionService;
-
-    /**
      * Konstruktor pro inicializaci služeb
      * @param TimeOptionService $timeOptionService
      * @param QuestionService $questionService
      */
-    public function __construct(TimeOptionService $timeOptionService, QuestionService $questionService)
-    {
-        $this->timeOptionService = $timeOptionService;
-        $this->questionService = $questionService;
-    }
+    public function __construct(
+        protected TimeOptionService $timeOptionService,
+        protected QuestionService $questionService){}
 
     /**
      * Metoda pro získaní dat pro hlasování.

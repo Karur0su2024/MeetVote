@@ -3,6 +3,8 @@
 namespace App\Services\Poll;
 
 use App\Models\Poll;
+use App\Services\Question\QuestionQueryService;
+use App\Services\TimeOptions\TimeOptionQueryService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Services\QuestionService;
@@ -13,10 +15,9 @@ class PollQueryService
 
     public function __construct
     (
-        protected TimeOptionService $timeOptionService,
-        protected QuestionService $questionService,
+        protected TimeOptionQueryService $timeOptionQueryService,
+        protected QuestionQueryService $questionQueryService,
     ) {}
-
 
     public function getPollArray($pollIndex = null): array
     {
@@ -44,8 +45,8 @@ class PollQueryService
                 'add_time_options' => (bool) $poll?->add_time_options,
                 'edit_votes' => (bool) $poll?->edit_votes,
             ],
-            'time_options' => $this->timeOptionService->getPollTimeOptions($poll),
-            'questions' => $this->questionService->getPollQuestions($poll),
+            'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll),
+            'questions' => $this->questionQueryService->getQuestionsArray($poll),
         ];
     }
 

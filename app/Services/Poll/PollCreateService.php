@@ -5,17 +5,17 @@ namespace App\Services\Poll;
 use App\Events\PollCreated;
 use App\Exceptions\PollException;
 use App\Models\Poll;
-use App\Services\PollService;
+use App\Services\Question\QuestionCreateService;
 use App\Services\QuestionService;
-use App\Services\TimeOptionService;
+use App\Services\TimeOptions\TimeOptionCreateService;
 use Illuminate\Support\Facades\DB;
 
 class PollCreateService
 {
 
     public function __construct(
-        protected TimeOptionService $timeOptionService,
-        protected QuestionService $questionService,
+        protected TimeOptionCreateService $timeOptionCreateService,
+        protected QuestionCreateService $questionCreateService,
     ) {}
 
 
@@ -41,8 +41,8 @@ class PollCreateService
                 $newPoll = true;
             }
 
-            $this->timeOptionService->saveTimeOptions($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
-            $this->questionService->saveQuestions($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
+            $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
+            $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
             DB::commit();
             PollCreated::dispatchIf($newPoll, $poll);
 
