@@ -33,6 +33,7 @@ class PollEditor extends Component
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('validation-failed', errors: $this->getErrors());
+            throw $e;
             return;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
