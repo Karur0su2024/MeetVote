@@ -6,9 +6,9 @@ use App\Events\PollCreated;
 use App\Exceptions\PollException;
 use App\Models\Poll;
 use App\Services\Question\QuestionCreateService;
-use App\Services\QuestionService;
 use App\Services\TimeOptions\TimeOptionCreateService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PollCreateService
 {
@@ -28,26 +28,8 @@ class PollCreateService
     public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
-            $newPoll = false;
-            DB::beginTransaction();
-            $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
-
-            $builtPoll = $this->buildPoll($validatedData, $poll);
-
-            if ($poll) {
-                $poll->update($builtPoll);
-            } else {
-                $poll = Poll::create($builtPoll);
-                $newPoll = true;
-            }
-
-            $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
-            $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
-            DB::commit();
-            PollCreated::dispatchIf($newPoll, $poll);
-
-            // Tohle je potřeba zabezpečit
-            session()->put('poll_'.$poll->public_id.'_adminKey', $poll->admin_key);
+            $poll = $this->createOrUpdatePoll($validatedData, $pollIndex);
+            session()->push('poll_admin_keys.'.$poll->id, $poll->admin_key);
             return $poll;
         } catch (PollException $e) {
             DB::rollBack();
@@ -59,7 +41,35 @@ class PollCreateService
     }
 
 
-    private function buildPoll(array $validatedData, ?Poll $poll): array
+    /**
+     * @param mixed $pollIndex
+     * @param $validatedData
+     * @throws \Throwable
+     */
+    public function createOrUpdatePoll($validatedData, $pollIndex = null): Poll
+    {
+        DB::beginTransaction();
+        $newPoll = false;
+
+        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
+        $builtPoll = $this->buildPollArray($validatedData, $poll);
+
+        if ($poll) {
+            $poll->update($builtPoll);
+        } else {
+            $poll = Poll::create($builtPoll);
+            $newPoll = true;
+        }
+
+        $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
+        $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
+        DB::commit();
+        PollCreated::dispatchIf($newPoll, $poll);
+        return $poll;
+    }
+
+
+    private function buildPollArray(array $validatedData, ?Poll $poll): array
     {
         return [
             'title' => $validatedData['title'],
@@ -69,7 +79,7 @@ class PollCreateService
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
             'invite_only' => $validatedData['settings']['invite_only'],
-            'password' => $validatedData['settings']['password']['value'] ? bcrypt($validatedData['settings']['password']['value']) : null,
+            'password' => $validatedData['settings']['password']['value'] ? Hash::make($validatedData['settings']['password']['value']) : null,
             'edit_votes' => $validatedData['settings']['edit_votes'],
             'add_time_options' => $validatedData['settings']['add_time_options'],
 

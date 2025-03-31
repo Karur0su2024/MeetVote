@@ -17,7 +17,6 @@ class TimeOptionCreateService
     {
         $this->deleteTimeOptions($removedTimeOptions);
 
-
         foreach ($timeOptions as $option) {
 
             $optionToAdd = $this->builtTimeOption($option);
@@ -37,7 +36,7 @@ class TimeOptionCreateService
      * @param array $deletedOptions
      * @return void
      */
-    public function deleteTimeOptions(array $deletedOptions): void
+    private function deleteTimeOptions(array $deletedOptions): void
     {
         if(count($deletedOptions) === 0) {
             return;

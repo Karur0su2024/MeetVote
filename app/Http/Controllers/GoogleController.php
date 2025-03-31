@@ -6,12 +6,9 @@ use App\Interfaces\GoogleServiceInterface;
 
 class GoogleController extends Controller
 {
-    public GoogleServiceInterface $googleService;
 
-    public function __construct(GoogleServiceInterface $googleService)
-    {
-        $this->googleService = $googleService;
-    }
+    public function __construct(public GoogleServiceInterface $googleService)
+    {}
 
     public function redirectToGoogle()
     {

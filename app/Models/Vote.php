@@ -10,6 +10,11 @@ class Vote extends Model
 {
     protected $fillable = ['user_id', 'poll_id', 'voter_email', 'voter_name'];
 
+    protected $casts = [
+        'voter_email' => 'string',
+        'voter_name' => 'string',
+    ];
+
     protected static function booted(): void
     {
         static::creating(static function (Vote $vote) {

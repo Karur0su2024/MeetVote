@@ -11,6 +11,11 @@ class TimeOption extends Model
      */
     protected $fillable = ['poll_id', 'date', 'start', 'end', 'text'];
 
+    protected $casts = [
+        'date' => 'date',
+        'text' => 'string',
+    ];
+
 
     /**
      * Anketa, ke které tato časová možnost patří

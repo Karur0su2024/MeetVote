@@ -14,7 +14,7 @@ class PollPolicy
             return true;
         }
 
-        return session()->get('poll_' . $poll->public_id . '_adminKey') === $poll->admin_key;
+        return session()->get('poll_admin_keys.' . $poll->id, null) === $poll->admin_key;
     }
 
     public function hasValidInvitation(?User $user, Poll $poll): bool
@@ -23,9 +23,10 @@ class PollPolicy
         if ($this->isAdmin($user, $poll)) return true;
 
         if ($poll->invite_only) {
-            return $poll->invitations->where('key', session()->get('poll_' . $poll->public_id . '_invite'))->isNotEmpty();
-        }
+            $invitationKey = session()->get('poll_invitations.' . $poll->id);
 
+            return $poll->invitations->where('key', $invitationKey)->isNotEmpty();
+        }
 
         return true;
     }
@@ -37,7 +38,7 @@ class PollPolicy
         }
 
         if ($poll->password !== null) {
-            return session()->get('poll_' . $poll->public_id . '_authenticated', false) === true;
+            return session()->get('poll_passwords.' . $poll->id, null) === $poll->password;
         }
 
         return true;

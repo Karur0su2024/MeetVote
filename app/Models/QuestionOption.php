@@ -8,6 +8,10 @@ class QuestionOption extends Model
 {
     protected $fillable = ['poll_question_id', 'text'];
 
+    protected $casts = [
+        'text' => 'string',
+    ];
+
     public function question()
     {
         return $this->belongsTo(PollQuestion::class);

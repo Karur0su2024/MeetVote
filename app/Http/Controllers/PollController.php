@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poll;
+use App\Services\InvitationService;
 use Illuminate\Http\Request;
 use App\Models\Invitation;
 use Illuminate\Support\Facades\Hash;
@@ -35,32 +36,23 @@ class PollController extends Controller
 
     public function authentication(Poll $poll)
     {
+        //dd(session()->get('poll_passwords'));
         return view('pages.polls.authenticate', ['poll' => $poll]);
     }
 
     public function checkPassword(Request $request, Poll $poll)
     {
         if(Hash::check($request->password, $poll->password)) {
-            session()->put('poll_'.$poll->public_id.'_authenticated', true);
-
+            session()->push('poll_passwords.'.$poll->id, $poll->password);
             return redirect()->route('polls.show', $poll);
         }
-        return redirect()->back()->with('error', 'Špatné heslo');
+        return redirect()->back()->with('error', 'Wrong password');
     }
 
 
-    public function openPollWithInvitation($token)
+    public function openPollWithInvitation($token, InvitationService $invitationService)
     {
-        $invitation = Invitation::where('key', $token)->firstOrFail();
-
-        $poll = Poll::where('id', $invitation->poll_id)->firstOrFail();
-
-        if($invitation->status === 'pending') {
-            $invitation->status = 'active';
-            $invitation->save();
-        }
-
-        session()->put('poll_'.$poll->public_id.'_invite', $token);
+        $poll = $invitationService->checkInvitation($token);
 
         return redirect()->route('polls.show', $poll);
     }

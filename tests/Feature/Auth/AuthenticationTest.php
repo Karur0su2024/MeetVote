@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
 
@@ -23,7 +24,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
+        $component = Livewire::test('pages.auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'password');
 
