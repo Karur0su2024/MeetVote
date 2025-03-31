@@ -1,5 +1,11 @@
+@props([
+    'margin' => 'mb-3', // Třída pro margin
+    'id' => $attributes->get('id') ?? '',
+])
+
+
 <div class="d-flex">
-    <div class="form-check form-switch mb-3">
+    <div class="form-check form-switch {{ $margin }}">
         <input
             type="checkbox"
             {{ $attributes }}

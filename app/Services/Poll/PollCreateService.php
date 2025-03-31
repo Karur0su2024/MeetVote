@@ -71,6 +71,7 @@ class PollCreateService
 
     private function buildPollArray(array $validatedData, ?Poll $poll): array
     {
+
         return [
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
@@ -79,7 +80,7 @@ class PollCreateService
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
             'invite_only' => $validatedData['settings']['invite_only'],
-            'password' => $validatedData['settings']['password']['value'] ? Hash::make($validatedData['settings']['password']['value']) : null,
+            'password' => $this->setPassword($validatedData['settings']['password']),
             'edit_votes' => $validatedData['settings']['edit_votes'],
             'add_time_options' => $validatedData['settings']['add_time_options'],
 
@@ -87,6 +88,21 @@ class PollCreateService
             'author_name' => ($poll->author_name ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['name'],
             'author_email' => ($poll->author_email ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['email'],
         ];
+    }
+
+    private function setPassword($password): ?string
+    {
+
+        if($password['set']){
+            return $password['set'];
+        }
+        if($password['enabled']){
+            return $password['value'] !== "" ? Hash::make($password['value']) : null;
+        }
+
+        return null;
+
+
     }
 
 

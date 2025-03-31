@@ -48,6 +48,8 @@ class PollEditorForm extends Form
             'settings.comments' => 'boolean',
             'settings.anonymous' => 'boolean',
             'settings.hide_results' => 'boolean',
+            'settings.password.set' => 'nullable|string',
+            'settings.password.enabled' => 'boolean',
             'settings.password.value' => 'nullable|string',
             'settings.invite_only' => 'boolean',
             'settings.add_time_options' => 'boolean',

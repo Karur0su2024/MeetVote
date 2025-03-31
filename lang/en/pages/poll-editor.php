@@ -90,6 +90,7 @@ return [
         'password' => [
             'label' => 'Password',
             'tooltip' => 'Set a password for the poll. Only users with the password can access the poll.',
+            'placeholder' => 'Enter password',
         ],
     ],
     'button' => [

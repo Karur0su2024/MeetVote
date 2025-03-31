@@ -39,7 +39,8 @@ class PollQueryService
                 'hide_results' => (bool) $poll?->hide_results,
                 'invite_only' => (bool) $poll?->invite_only,
                 'password' => [
-                    'set' => $poll?->password ?? false,
+                    'enabled' => $poll?->password ? true : false,
+                    'set' => $poll?->password ?? null,
                     'value' => '',
                 ],
                 'add_time_options' => (bool) $poll?->add_time_options,
