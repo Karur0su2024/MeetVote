@@ -38,7 +38,7 @@ class PollPolicy
         }
 
         if ($poll->password !== null) {
-            return session()->get('poll_passwords.' . $poll->id, null) === $poll->password;
+            return session()->get('poll_passwords.'.$poll->id)[0] ?? null === $poll->password;
         }
 
         return true;

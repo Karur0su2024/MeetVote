@@ -62,7 +62,7 @@ class GoogleService implements GoogleServiceInterface
             $user->update($this->buildGoogleUser($googleUser));
             return redirect(route('settings'))->with('success', 'Google account connected successfully.');
         } else {
-            $user = $this->checkIfEmailExists($googleUser);
+            $user = $this->checkIfEmailExists($googleUser->getEmail());
             if($user){
                 $user->update($this->buildGoogleUser($googleUser));
             }

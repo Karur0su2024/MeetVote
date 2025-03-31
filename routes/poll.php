@@ -19,11 +19,13 @@ Route::prefix('polls')->group(function () {
 
     // Úprava ankety
     Route::get('/{poll}/edit', [PollController::class, 'edit'])
-        ->middleware(['poll.is_active', 'poll.has_access'])
+        ->middleware(['poll.is_active', 'poll.can_edit'])
         ->name('polls.edit');
 
     // Formulář pro ověření hesla ankety
-    Route::get('/{poll}/authentication', [PollController::class, 'authentication'])->name('polls.authentication');
+    Route::get('/{poll}/authentication', [PollController::class, 'authentication'])
+        ->middleware(['poll.already_has_access'])
+        ->name('polls.authentication');
 
     // Přidat práva správce ankety pomocí odkazu
     Route::get('/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');

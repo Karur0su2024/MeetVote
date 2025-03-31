@@ -7,6 +7,8 @@ use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
+use Exception;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class PollEditor extends Component
@@ -31,16 +33,15 @@ class PollEditor extends Component
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             $this->dispatch('validation-failed', errors: $this->getErrors());
             throw $e;
-            return;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
-            return;
-        } catch (\Exception $e) {;
+            return null;
+        } catch (Exception $e) {
             $this->addError('error', 'An error occurred while saving the poll.');
-            return;
+            return null;
         }
 
         return redirect()->route('polls.show', ['poll' => $poll->public_id]);
@@ -55,7 +56,6 @@ class PollEditor extends Component
 
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
      */
     public function render()
     {

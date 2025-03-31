@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,6 +18,7 @@ class Poll extends Model
 {
 
     use SoftDeletes;
+    use HasFactory;
 
     // Atributy, které lze přiřadit
     protected $fillable = [
@@ -57,6 +59,7 @@ class Poll extends Model
             $poll->user_id = Auth::id();
         });
     }
+
 
     /**
      * Vztah k uživateli (M:1)

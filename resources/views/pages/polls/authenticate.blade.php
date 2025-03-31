@@ -10,6 +10,11 @@
                 <h1>{{ $poll->title }}</h1>
             </div>
             <div class="card-body">
+                @if(session()->has('error'))
+                    <x-ui.alert type="danger">
+                        {{ session('error') }}
+                    </x-ui.alert>
+                @endif
                 <p>Poll is secured with password</p>
                 <form action="{{ route('polls.checkPassword', $poll) }}" method="post">
                     @csrf
