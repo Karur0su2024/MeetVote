@@ -30,6 +30,16 @@ class PollEditor extends Component
      */
     public function submit(PollCreateService $pollCreateService)
     {
+
+        if ($this->pollIndex) {
+            $pollUpdated = Poll::find($this->pollIndex, ['updated_at']);
+            if($pollUpdated->updated_at !== $this->form->lastUpdated){
+                $this->addError('error', 'The poll has been updated by another user. Please refresh the page.');
+                return null;
+            }
+        }
+
+
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);

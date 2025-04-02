@@ -1,6 +1,9 @@
 <x-ui.card collapsable>
     <x-slot:header>{{ __('pages/poll-editor.settings.title') }}</x-slot>
 
+    <h4 class="text-muted mb-3">
+        Poll settings
+    </h4>
     {{-- Komentáře --}}
     <x-ui.form.checkbox id="comments" x-model="form.settings.comments">
         <x-slot:tooltip>
@@ -33,14 +36,6 @@
         {{ __('pages/poll-editor.settings.edit_votes.label') }}
     </x-ui.form.checkbox>
 
-    {{-- Pouze pro pozvané --}}
-    <x-ui.form.checkbox id="invite_only" x-model="form.settings.invite_only">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.invite_only.label') }}
-    </x-ui.form.checkbox>
-
     {{-- Přidání časových možností --}}
     <x-ui.form.checkbox id="add_time_options" x-model="form.settings.add_time_options">
         <x-slot:tooltip>
@@ -49,6 +44,19 @@
         {{ __('pages/poll-editor.settings.add_time_options.label') }}
     </x-ui.form.checkbox>
 
+
+
+    <h4 class="text-muted mb-3">
+        Poll security
+    </h4>
+
+    {{-- Pouze pro pozvané --}}
+    <x-ui.form.checkbox id="invite_only" x-model="form.settings.invite_only">
+        <x-slot:tooltip>
+            {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
+        </x-slot:tooltip>
+        {{ __('pages/poll-editor.settings.invite_only.label') }}
+    </x-ui.form.checkbox>
 
     <div>
         <div x-show="form.settings.password.set !== null">

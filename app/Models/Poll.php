@@ -48,6 +48,7 @@ class Poll extends Model
         'edit_votes' => 'boolean',
         'add_time_options' => 'boolean',
         'status' => PollStatus::class,
+        'updated_at' => 'string',
     ];
 
 

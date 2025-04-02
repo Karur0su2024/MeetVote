@@ -9,4 +9,13 @@ return [
     'redirect' => env('GOOGLE_REDIRECT_URI', null),
 
 
+    'oauth_scopes' => [
+            'openid',
+            'email',
+            'profile',
+            'https://www.googleapis.com/auth/calendar',
+            'https://www.googleapis.com/auth/calendar.events'
+    ]
+
+
 ];

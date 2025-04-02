@@ -1,14 +1,21 @@
 <div x-data="{ anonymous: @entangle('form.user.posted_anonymously') }">
 
-    {{-- Nastavení anonymity autora --}}
-    <x-ui.form.checkbox
-        id="show.user-info"
-        x-model="anonymous">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.basic_info.post_anonymously.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.basic_info.post_anonymously.label') }}
-    </x-ui.form.checkbox>
+    <h4 class="text-muted mb-3">
+        User information
+    </h4>
+
+    @auth
+        {{-- Nastavení anonymity autora --}}
+        <x-ui.form.checkbox
+            id="show.user-info"
+            x-model="anonymous">
+            <x-slot:tooltip>
+                {{ __('pages/poll-editor.basic_info.post_anonymously.tooltip') }}
+            </x-slot:tooltip>
+            {{ __('pages/poll-editor.basic_info.post_anonymously.label') }}
+        </x-ui.form.checkbox>
+    @endauth
+
 
     <div x-show="!anonymous" x-collapse>
 

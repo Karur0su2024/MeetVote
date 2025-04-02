@@ -21,13 +21,7 @@ class GoogleService implements GoogleServiceInterface
      */
     public function redirectToGoogle(){
         return Socialite::driver('google')
-            ->scopes([
-                'openid',
-                'email',
-                'profile',
-                'https://www.googleapis.com/auth/calendar',
-                'https://www.googleapis.com/auth/calendar.events'
-            ])->with(['access_type' => 'offline', 'prompt' => 'consent']) ->redirect();
+            ->scopes(config('google.oauth_scopes'))->with(['access_type' => 'offline', 'prompt' => 'consent']) ->redirect();
     }
 
 
@@ -53,8 +47,6 @@ class GoogleService implements GoogleServiceInterface
             Auth::login($user, true);
             return redirect(route('dashboard'))->with('success', 'You were successfully logged in!');
         }
-
-        //$user = $this->checkIfEmailExists($googleUser->getEmail());
 
 
         if(Auth::check()){

@@ -11,6 +11,8 @@ class PollEditorForm extends Form
 {
     public ?int $pollIndex = null;
 
+    public ?string $lastUpdated = null;
+
     // Název ankety
     public ?string $title = '';
 
@@ -135,6 +137,7 @@ class PollEditorForm extends Form
      */
     public function loadForm($data)
     {
+        $this->lastUpdated = $data['last_updated'] ?? null;
         $this->pollIndex = $data['pollIndex'] ?? null;
         $this->title = $data['title'] ?? '';
         $this->description = $data['description'] ?? '';

@@ -48,6 +48,7 @@ class PollQueryService
             ],
             'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll),
             'questions' => $this->questionQueryService->getQuestionsArray($poll),
+            'last_updated' => $poll->updated_at ?? null,
         ];
     }
 

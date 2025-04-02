@@ -1,4 +1,7 @@
 <div>
+
+
+
     <form wire:submit.prevent="submit"
           x-data="getFormData"
           @validation-failed.window="duplicateError($event.detail.errors)">
