@@ -10,11 +10,9 @@ export default defineConfig({
     ],
     server: {
         host: '0.0.0.0',
-        port: 5180,
-        strictPort: true,
-        cors: true,
+        port: 5173,
         hmr: {
-            host: '192.168.1.131',
+            host: 'localhost',
             protocol: 'ws',
         },
     },
