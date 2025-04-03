@@ -30,26 +30,35 @@
                 </div>
                 @if($loaded)
                     <form wire:submit.prevent="submitVote()">
-
-                        <div class="accordion accordion-flush" id="accordionPoll">
-                            {{-- Časové možnosti --}}
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button p-4 fw-bold fs-4" type="button"
-                                            data-bs-toggle="collapse"
-                                            data-bs-target="#collapseTimeOptions" aria-expanded="false"
-                                            aria-controls="collapseTimeOptions">
-                                        <i class="bi bi-calendar-event me-2"></i>
-                                        <span>{{ __('pages/poll-show.voting.accordion.time_options') }}</span>
-                                        <span class="badge text-bg-dark ms-2" x-text="form.timeOptions.length"></span>
-                                    </button>
-                                </h2>
-                                <div id="collapseTimeOptions" class="accordion-collapse collapse show">
-                                    <div class="accordion-body p-0">
+                        <div wire:ignore>
+                            <x-ui.accordion.wrapper flush>
+                                <x-ui.accordion.item opened>
+                                    <x-slot:header fs="4">
+                                        <div>
+                                            <span>{{ __('pages/poll-show.voting.accordion.time_options') }}</span>
+                                            <span class="badge text-bg-dark ms-2" x-text="form.timeOptions.options.length"></span>
+                                        </div>
+                                    </x-slot:header>
+                                    <x-slot:body>
                                         <div class="row g-0">
                                             <template x-for="(timeOption, optionIndex) in form.timeOptions">
                                                 <div class="col-lg-6">
-                                                    <x-poll.voting.time-option-card :poll="$poll"/>
+                                                    <x-pages.poll-show.voting.card ::class="'voting-card-' + timeOption.picked_preference" :poll="$poll">
+                                                        <x-slot:content>
+                                                            <h6 class="mb-1 fw-bold"
+                                                                x-text="timeOption.date_formatted"></h6>
+                                                            <p class="mb-0 text-muted"
+                                                               x-text="timeOption.full_content"></p>
+                                                        </x-slot:content>
+                                                        <x-slot:score x-text="timeOption.score"></x-slot:score>
+                                                        <x-slot:button
+                                                            @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"
+                                                            ::class="'btn-outline-vote-' + timeOption.picked_preference">
+                                                            <img class="p-1"
+                                                                 :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
+                                                                 :alt="timeOption.picked_preference"/>
+                                                        </x-slot:button>
+                                                    </x-pages.poll-show.voting.card>
                                                 </div>
                                             </template>
 
@@ -74,40 +83,49 @@
                                                 </div>
                                             @endif
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    </x-slot:body>
+                                </x-ui.accordion.item>
 
-
-                            {{-- Dodatečné otázky --}}
-                            <template x-for="(question, questionIndex) in form.questions">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button p-4 fw-bold fs-4"
-                                                type="button"
-                                                data-bs-toggle="collapse"
-                                                :data-bs-target="'#collapseQuestion' + questionIndex" aria-expanded="false"
-                                                :aria-controls="'collapseQuestion' + questionIndex">
-                                            <i class="bi bi-question-circle me-2"></i>
-                                            <span x-text="question.text"></span>
-                                            <span class="badge text-bg-dark ms-2" x
-                                                  -text="question.options.length"></span>
-                                        </button>
-                                    </h2>
-                                    <div :id="'collapseQuestion' + questionIndex" class="accordion-collapse collapse show">
-                                        <div class="accordion-body p-0">
+                                <template x-for="(question, questionIndex) in form.questions">
+                                    <x-ui.accordion.item opened>
+                                        <x-slot:header fs="4">
+                                            <div>
+                                                <span x-text="question.text"></span>
+                                                <span class="badge text-bg-dark ms-2" x-text="question.options.length"></span>
+                                            </div>
+                                        </x-slot:header>
+                                        <x-slot:body>
                                             <div class="row g-0">
                                                 <template x-for="(option, optionIndex) in question.options">
                                                     <div class="col-lg-6">
-                                                        <x-poll.voting.question-option-card :poll="$poll"/>
+                                                        <x-pages.poll-show.voting.card ::class="'voting-card-' + option.picked_preference" :poll="$poll">
+                                                            <x-slot:content>
+                                                                <h6 class="mb-0" x-text="option.text"></h6>
+                                                            </x-slot:content>
+                                                            <x-slot:score x-text="option.score"></x-slot:score>
+                                                            <x-slot:button
+                                                                @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))"
+                                                                ::class="'btn-outline-vote-' + option.picked_preference">
+                                                                <img class="p-1"
+                                                                     :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
+                                                                     :alt="option.picked_preference"/>
+                                                            </x-slot:button>
+                                                        </x-pages.poll-show.voting.card>
                                                     </div>
                                                 </template>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </template>
+                                        </x-slot:body>
+                                    </x-ui.accordion.item>
+                                </template>
+
+
+
+
+
+
+                            </x-ui.accordion.wrapper>
                         </div>
+
 
 
                         {{-- Formulář pro vyplnění jména a e-mailu --}}
@@ -125,13 +143,15 @@
                                     {{ __('pages/poll-show.voting.buttons.form.loading') }}
                                 </x-ui.spinner>
 
-                                <x-ui.form.error-text error="form" />
 
-                                {{-- Zobrazí se, pokud je hlasování úspěšné --}}
-                                <span x-show="messages.success" class="text-success me-2">
-                                <i class="bi bi-check-circle me-2"></i>
-                                <span x-text="messages.success"></span>
-                            </span>
+                                <x-ui.form.message
+                                    form-message="error"
+                                    color="danger" />
+                                <x-ui.form.message
+                                    form-message="success"
+                                    type="flash"
+                                    color="success" />
+
 
                             </div>
                         </div>

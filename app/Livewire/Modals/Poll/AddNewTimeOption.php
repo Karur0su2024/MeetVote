@@ -3,6 +3,7 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Models\Poll;
+use App\Services\TimeOptions\TimeOptionQueryService;
 use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -29,25 +30,13 @@ class AddNewTimeOption extends Component
     public function rules(): array
     {
         return [
-            'option' => ['required', 'array', new CheckIfTimeOptionExists($this->poll->id, $this->timeOptionService)],
+            'option' => ['required', 'array', new CheckIfTimeOptionExists($this->poll->id)],
             'option.type' => 'required|in:time,text',
             'option.date' => 'required|date|after_or_equal:today',
             'option.content.start' => 'required_if:type,time|date_format:H:i',
             'option.content.end' => 'required_if:type,time|date_format:H:i|after:content.start',
             'option.content.text' => 'required_if:type,text|string',
         ];
-    }
-
-
-    protected TimeOptionService $timeOptionService;
-
-    /**
-     * @param TimeOptionService $timeOptionService
-     * @return void
-     */
-    public function boot(TimeOptionService $timeOptionService)
-    {
-        $this->timeOptionService = $timeOptionService;
     }
 
     /**

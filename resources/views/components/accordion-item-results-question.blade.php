@@ -1,7 +1,0 @@
-@props([
-    'questionIndex',
-    'question',
-    'selected'
-])
-
-

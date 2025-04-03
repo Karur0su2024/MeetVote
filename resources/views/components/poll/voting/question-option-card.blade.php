@@ -24,7 +24,7 @@
             <div>
                 <button
                         @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))"
-                        class="btn btn-outline-vote d-flex align-items-center"
+
                         :class="'btn-outline-vote-' + option.picked_preference"
                         type="button">
                     <img class="p-1"

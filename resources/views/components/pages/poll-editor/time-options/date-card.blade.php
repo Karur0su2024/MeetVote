@@ -9,6 +9,7 @@
             </x-badge>
         </p>
 
+        {{--Tlačítka pro správu dne--}}
         <div class="d-flex gap-2">
             <x-ui.button color="outline-secondary"
                          size="sm"
@@ -27,7 +28,7 @@
          x-show="!collapsed"
          x-collapse>
         <template x-for="(option, optionIndex) in date" :key="optionIndex">
-            <x-pages.poll-editor.time-options.date-options />
+            <x-pages.poll-editor.time-options.date-options/>
         </template>
         <span
             class="text-danger ms-2"

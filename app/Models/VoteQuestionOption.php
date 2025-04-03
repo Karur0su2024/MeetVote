@@ -17,4 +17,11 @@ class VoteQuestionOption extends Model
     {
         return $this->belongsTo(QuestionOption::class);
     }
+
+
+    public function pollQuestion()
+    {
+        return $this->belongsTo(PollQuestion::class);
+    }
+
 }

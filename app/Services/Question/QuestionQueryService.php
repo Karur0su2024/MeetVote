@@ -24,14 +24,15 @@ class QuestionQueryService
         foreach ($poll->questions as $question) {
             $questionOptions = [];
             foreach ($question->options as $option) {
-                $questionOptions[] = [
+                $questionOptions[$option->id] = [
                     'id' => $option->id,
                     'text' => $option->text,
                     'score' => $this->getOptionScore($option),
+                    'picked_preference' => 0,
                 ];
             }
 
-            $questions[] = [
+            $questions[$question->id] = [
                 'id' => $question->id,
                 'text' => $question->text,
                 'options' => $questionOptions,
@@ -70,10 +71,13 @@ class QuestionQueryService
     {
         $pollQuestions = $this->getQuestionsArray($poll);
 
-        $vote = Vote::with(['timeOptions'])->find($voteIndex);
+
+        $vote = Vote::with(['questionOptions'])->find($voteIndex);
+
+
 
         foreach ($vote->questionOptions ?? [] as $questionOption) {
-            $pollQuestions[$questionOption->question_id][$questionOption->option_id]['picked_preference'] = $questionOption->preference;
+            $pollQuestions[$questionOption->poll_question_id]['options'][$questionOption->question_option_id]['picked_preference'] = $questionOption->preference;
         }
 
         return $pollQuestions;

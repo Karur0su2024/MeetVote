@@ -16,7 +16,7 @@
                 x-model="form.title"
                 type="text"
                 placeholder="{{ __('pages/poll-editor.basic_info.poll_title.placeholder') }}"
-
+                required
                 x-error="form.title">
                 {{ __('pages/poll-editor.basic_info.poll_title.label') }}
             </x-ui.form.input>
@@ -26,7 +26,7 @@
                 id="description"
                 x-model="form.description"
                 placeholder="{{ __('pages/poll-editor.basic_info.poll_description.placeholder') }}"
-                error="form.description">
+                x-error="form.description">
                 {{ __('pages/poll-editor.basic_info.poll_description.label') }}
             </x-ui.form.textbox>
 
@@ -35,7 +35,7 @@
                 id="deadline"
                 x-model="form.deadline"
                 type="date"
-                error="form.deadline">
+                x-error="form.deadline">
                 <x-slot:tooltip>
                     {{ __('pages/poll-editor.basic_info.poll_deadline.tooltip') }}
                 </x-slot:tooltip>

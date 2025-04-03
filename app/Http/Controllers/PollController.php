@@ -6,6 +6,7 @@ use App\Models\Poll;
 use App\Services\InvitationService;
 use Illuminate\Http\Request;
 use App\Models\Invitation;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 

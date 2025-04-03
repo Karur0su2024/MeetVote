@@ -28,7 +28,7 @@ return [
             'invite_only' => 'Invite only',
             'edit_votes' => 'Participants can edit their votes',
             'add_time_options' => 'Participants can add time options',
-            'deadline_in' => 'Ends in:parse_poll_deadline days',
+            'deadline_in' => 'Ends in :parse_poll_deadline days',
         ],
     ],
     'event_details' => [

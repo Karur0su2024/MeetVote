@@ -7,11 +7,11 @@
 <div class="row g-4 mb-4" x-data="{ showEventDetails: true }">
 
     {{-- Levá strana – základní informace o anketě --}}
-    <div :class="{ 'col-lg-8': showEventDetails, 'col-lg-12': !showEventDetails }">
+    <div class="info-section-card" :class="{ 'col-lg-8': showEventDetails, 'col-lg-12': !showEventDetails }">
         <x-ui.card class="w-100 h-100"
                    header-hidden
                    footer-flex>
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
                 <h2>{{ $poll->title }}</h2>
                 <x-ui.button color="outline-secondary"
                              x-bind:class="showEventDetails ? 'active' : ''"
@@ -22,7 +22,7 @@
 
             <div class="d-flex align-items-center text-muted mb-2">
                 {{-- Doplnit avatar uživatele --}}
-                <span>{{ $poll->author_name }}</span>
+                <x-ui.icon name="person-fill" /><strong>{{ $poll->author_name }}</strong>
             </div>
             <p class="text-muted">
                 @if ($poll->description == null || $poll->description == '')
@@ -33,48 +33,48 @@
             </p>
             <x-slot:footer>
                 @if ($poll->comments)
-                    <x-badge>
+                    <x-ui.badge>
 
 
                         {{ __('pages/poll-show.info.badges.comments') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->anonymous_votes)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.anonymous_voting') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->password)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.password_protected') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->invite_only)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.invite_only') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->edit_votes)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.edit_votes') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->add_time_options)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.add_time_options') }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
                 @if ($poll->deadline)
-                    <x-badge>
+                    <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.deadline_in', ['parse_poll_deadline' => now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline))]) }}
-                    </x-badge>
+                    </x-ui.badge>
                 @endif
             </x-slot:footer>
         </x-ui.card>>
     </div>
 
     {{--Pravá strana – informace o události--}}
-    <div class="col-lg-4"
+    <div class="col-lg-4 info-section-card"
          x-show="showEventDetails">
         <x-pages.poll-show.info.event-details :event="$event" :syncGoogleCalendar="$syncGoogleCalendar" :poll="$poll" :isAdmin="$isAdmin"/>
     </div>

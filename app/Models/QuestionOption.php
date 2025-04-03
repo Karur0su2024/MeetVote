@@ -12,7 +12,7 @@ class QuestionOption extends Model
         'text' => 'string',
     ];
 
-    public function question()
+    public function pollQuestion()
     {
         return $this->belongsTo(PollQuestion::class);
     }

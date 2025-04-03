@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Modals\Poll;
 
+use App\Events\InvitationSent;
 use App\Models\Invitation;
 use App\Models\Poll;
 use App\Services\Mail\EmailService;
@@ -30,10 +31,6 @@ class Invitations extends Component
      */
     public $email;
 
-    /**
-     * @var EmailService|\Illuminate\Foundation\Application|mixed|object|\Spatie\Ignition\Config\FileConfigManager
-     */
-    protected EmailService $notificationService;
 
     /**
      * @var string[]
@@ -41,17 +38,6 @@ class Invitations extends Component
     protected $rules = [
         'email' => 'required|email',
     ];
-
-
-    // Konstruktor
-
-    /**
-     *
-     */
-    public function boot(EmailService $notificationService): void
-    {
-        $this->notificationService = $notificationService;
-    }
 
     /**
      * @param $pollId
@@ -114,9 +100,8 @@ class Invitations extends Component
             'sent_at' => now(),
         ]);
 
-        // Odeslání pozvánky
-        $this->notificationService->sendInvitation($this->email, $this->poll, $invitation->key);
 
+        InvitationSent::dispatch($invitation);
 
         $this->email = '';
         $this->poll->refresh();
@@ -158,7 +143,7 @@ class Invitations extends Component
 
 
         if ($invitation) {
-            $this->notificationService->sendInvitation($invitation->email, $this->poll, $invitation->key);
+            InvitationSent::dispatch($invitation);
             session()->flash('success', 'Invitation resent successfully.');
         } else {
             session()->flash('error', 'Invitation not found.');
@@ -173,8 +158,8 @@ class Invitations extends Component
     private function checkIfCanBeSent(): bool
     {
 
-        if(count($this->poll->invitations) >= 2) {
-            session()->flash('error', 'You can only send 2 invitations to this poll.');
+        if(count($this->poll->invitations) >= 5) {
+            session()->flash('error', 'You can only send 5 invitations to this poll.');
             return false;
         }
         $todayInvitations = $this->poll->invitations->where('sent_at', '>=', now()->subDay())->count();
@@ -193,9 +178,6 @@ class Invitations extends Component
         return true;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View|object
-     */
     public function render()
     {
         return view('livewire.modals.poll.invitations');

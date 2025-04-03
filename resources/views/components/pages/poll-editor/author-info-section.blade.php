@@ -26,7 +26,7 @@
             type="text"
             required
             placeholder="{{ __('pages/poll-editor.basic_info.user_name.placeholder') }}"
-            error="form.user.name">
+            x-error="form.user.name">
             {{ __('pages/poll-editor.basic_info.user_name.label') }}
         </x-ui.form.input>
 
@@ -37,7 +37,7 @@
             type="email"
             required
             placeholder="{{ __('pages/poll-editor.basic_info.user_email.placeholder') }}"
-            error="form.user.email">
+            x-error="form.user.email">
             {{ __('pages/poll-editor.basic_info.user_email.label') }}
         </x-ui.form.input>
     </div>
