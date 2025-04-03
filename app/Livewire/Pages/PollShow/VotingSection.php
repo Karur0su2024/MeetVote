@@ -36,7 +36,7 @@ class VotingSection extends Component
      */
     public function mount(int $pollIndex, VoteQueryService $voteQueryService): void
     {
-        $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options']);
+        $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options', '.anonymous_votes']);
         $this->reloadVoteSection($voteQueryService);
     }
 

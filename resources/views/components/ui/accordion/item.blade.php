@@ -1,5 +1,6 @@
 @props([
     'id' => Str::random(6),
+    'opened' => false,
 ])
 
 <div class="accordion-item"  wire:ignore>
@@ -18,7 +19,7 @@
         </button>
     </h2>
 
-    <div id="accordion-collapse-{{ $id }}" class="accordion-collapse collapse"  wire:ignore>
+    <div id="accordion-collapse-{{ $id }}" class="accordion-collapse collapse {{ $opened ? 'show' : '' }}"  wire:ignore>
         <div class="accordion-body p-0">
             {{ $body }}
         </div>

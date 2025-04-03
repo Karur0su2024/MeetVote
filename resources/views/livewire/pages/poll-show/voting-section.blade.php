@@ -32,7 +32,7 @@
                     <form wire:submit.prevent="submitVote()">
                         <div wire:ignore>
                             <x-ui.accordion.wrapper flush>
-                                <x-ui.accordion.item>
+                                <x-ui.accordion.item opened>
                                     <x-slot:header fs="4">
                                         <div>
                                             <span>{{ __('pages/poll-show.voting.accordion.time_options') }}</span>
@@ -87,7 +87,7 @@
                                 </x-ui.accordion.item>
 
                                 <template x-for="(question, questionIndex) in form.questions">
-                                    <x-ui.accordion.item>
+                                    <x-ui.accordion.item opened>
                                         <x-slot:header fs="4">
                                             <div>
                                                 <span x-text="question.text"></span>
@@ -143,13 +143,15 @@
                                     {{ __('pages/poll-show.voting.buttons.form.loading') }}
                                 </x-ui.spinner>
 
-                                <x-ui.form.error-text error="form" />
 
-                                {{-- Zobrazí se, pokud je hlasování úspěšné --}}
-                                <span x-show="messages.success" class="text-success me-2">
-                                <i class="bi bi-check-circle me-2"></i>
-                                <span x-text="messages.success"></span>
-                            </span>
+                                <x-ui.form.message
+                                    form-message="error"
+                                    color="danger" />
+                                <x-ui.form.message
+                                    form-message="success"
+                                    type="flash"
+                                    color="success" />
+
 
                             </div>
                         </div>
