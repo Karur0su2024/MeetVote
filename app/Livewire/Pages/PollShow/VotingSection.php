@@ -123,6 +123,11 @@ class VotingSection extends Component
         $this->loaded = true;
     }
 
+    public function status()
+    {
+        dd($this->form);
+    }
+
     /**
      *
      */

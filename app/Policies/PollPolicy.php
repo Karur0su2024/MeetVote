@@ -8,19 +8,30 @@ use App\Enums\PollStatus;
 
 class PollPolicy
 {
+
+    public function isOwner(?User $user, Poll $poll): bool
+    {
+        return $user && $poll->user_id === $user->id;
+    }
+
+    public function hasValidKey(?User $user, Poll $poll): bool
+    {
+        return (session()->get('poll_admin_keys.' . $poll->id . '.0', null) === $poll->admin_key);
+    }
+
     public function isAdmin(?User $user, Poll $poll): bool
     {
-        if (($user !== null) && $poll->user_id === $user->id) {
-            return true;
-        }
+        return $this->hasValidKey($user, $poll) || $this->isOwner($user, $poll);
+    }
 
-        return session()->get('poll_admin_keys.' . $poll->id, null) === $poll->admin_key;
+    public function hasAdminPermissions(?User $user, Poll $poll): bool
+    {
+        return $this->hasValidKey($user, $poll) || $this->isOwner($user, $poll);
     }
 
     public function hasValidInvitation(?User $user, Poll $poll): bool
     {
-
-        if ($this->isAdmin($user, $poll)) return true;
+        if ($this->hasAdminPermissions($user, $poll)) return true;
 
         if ($poll->invite_only) {
             $invitationKey = session()->get('poll_invitations.' . $poll->id);
@@ -33,9 +44,7 @@ class PollPolicy
 
     public function hasValidPassword(?User $user, Poll $poll): bool
     {
-        if ($this->isAdmin($user, $poll)) {
-            return true;
-        }
+        if ($this->hasAdminPermissions($user, $poll)) return true;
 
         if ($poll->password !== null) {
             return session()->get('poll_passwords.'.$poll->id)[0] ?? null === $poll->password;
@@ -43,8 +52,6 @@ class PollPolicy
 
         return true;
     }
-
-
 
     public function canVote(?User $user, Poll $poll): bool
     {

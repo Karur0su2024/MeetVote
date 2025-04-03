@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Services\PollService;
+use App\Services\TimeOptions\TimeOptionQueryService;
 use App\Services\TimeOptionService;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -10,14 +11,8 @@ use App\Models\Poll;
 
 class CheckIfTimeOptionExists implements ValidationRule
 {
-    public $pollIndex;
-    protected TimeOptionService $timeOptionService;
-
-    public function __construct($pollIndex, $timeOptionService)
-    {
-        $this->pollIndex = $pollIndex;
-        $this->timeOptionService = $timeOptionService;
-    }
+    public function __construct(public $pollIndex)
+    {}
 
     /**
      * Run the validation rule.
@@ -26,11 +21,13 @@ class CheckIfTimeOptionExists implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+
+
         $newOption = $this->convertContentToText($value);
 
         $poll = Poll::find($this->pollIndex);
 
-        $timeOptions = $this->timeOptionService->getPollTimeOptions($poll);
+        $timeOptions = app(TimeOptionQueryService::class)->getTimeOptionsArray($poll);
 
         foreach ($timeOptions as $option) {
             if($newOption === $this->convertContentToText($option)){
@@ -42,7 +39,9 @@ class CheckIfTimeOptionExists implements ValidationRule
 
     private function convertContentToText($option): string
     {
-        return $option['date'].' '.strtolower(implode('', $option['content']));
+        $content = ($option['type'] === 'time') ? $option['content']['start'] . ' - ' . $option['content']['end'] : $option['content']['text'];
+
+        return $option['date'].' '.strtolower($content);
     }
 
 }
