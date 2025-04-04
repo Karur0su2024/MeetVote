@@ -64,11 +64,14 @@ class PollController extends Controller
     public function addAdmin(Poll $poll, $admin_key)
     {
         if ($admin_key !== $poll->admin_key) {
-            // return redirect()->back()->with('error', 'Špatný klíč správce ankety');
+            return redirect()->back()->with('error', 'Špatný klíč správce ankety');
         }
 
-        session()->put('poll_'.$poll->public_id.'_adminKey', $admin_key);
+        session()->forget('poll_'.$poll->public_id.'_adminKey', $admin_key);
 
-        return redirect()->route('polls.show', $poll);
+        session()->forget('poll_admin_keys.'.$poll->id);
+        session()->push('poll_admin_keys.'.$poll->id, $poll->admin_key);
+
+        return redirect()->route('polls.show', $poll)->with('success', 'You are in admin mode now!');
     }
 }

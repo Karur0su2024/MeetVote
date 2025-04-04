@@ -4,9 +4,9 @@
         <p class="m-0">
             <strong class="card-title m-0"
                     x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"></strong>
-            <x-badge class="ms-2">
+            <x-ui.badge class="ms-2">
                 <span x-text="form.dates[dateIndex].length"></span>
-            </x-badge>
+            </x-ui.badge>
         </p>
 
         {{--Tlačítka pro správu dne--}}
