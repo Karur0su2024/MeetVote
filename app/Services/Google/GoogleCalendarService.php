@@ -16,7 +16,7 @@ class GoogleCalendarService
         $this->client = new Client;
         $this->client->setApplicationName(config('app.name'));
         $this->client->setScopes(Calendar::CALENDAR); // Rozsah přístupu k Google Kalendáři
-        $this->client->setAuthConfig(storage_path('app/oauth-credentials.json')); // Cesta k souboru s oauth credentials
+        $this->client->setAuthConfig(config('google.oauth_credentials')); // Cesta k souboru s oauth credentials
         $this->client->setAccessType('offline');
         $this->client->setPrompt('select_account consent');
         $this->calendar = new Calendar($this->client); // Inicializace Google Kalendáře

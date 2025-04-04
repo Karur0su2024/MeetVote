@@ -53,6 +53,7 @@ class ClosePoll extends Component
 
                 return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', 'Poll status updated successfully.');
             } catch (\Exception $e) {
+                dd($e->getMessage());
                 session()->flash('error', 'An error occurred while closing poll.');
                 DB::rollBack();
                 return;

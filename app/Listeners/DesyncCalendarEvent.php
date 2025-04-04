@@ -26,6 +26,7 @@ class DesyncCalendarEvent
         $poll = $event->poll;
         $poll->load('event');
         $this->googleService->desyncWithGoogleCalendar($poll->event);
-        $poll->event->delete();
+
+        if ($poll->event) $poll->event->delete();
     }
 }

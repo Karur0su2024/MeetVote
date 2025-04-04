@@ -141,21 +141,29 @@ class GoogleService implements GoogleServiceInterface
             }
         }
         catch (\Exception $exception){
-
+            dd($exception->getMessage());
+            // Špatný json
+            // přidat logování
         }
 
     }
 
     public function desyncWithGoogleCalendar($event)
     {
-        $googleCalendarService = new GoogleCalendarService();
-        app()->instance(GoogleCalendarService::class, $googleCalendarService);
 
-        $syncedEvents = $event->syncedEvents;
+        try {
+            $googleCalendarService = new GoogleCalendarService();
+            app()->instance(GoogleCalendarService::class, $googleCalendarService);
 
-        foreach($syncedEvents as $syncedEvent){
-            $googleCalendarService->checkToken($syncedEvent->user);
-            $googleCalendarService->desyncEvent($syncedEvent->event, $syncedEvent->user->id);
+            $syncedEvents = $event->syncedEvents;
+
+            foreach($syncedEvents as $syncedEvent){
+                $googleCalendarService->checkToken($syncedEvent->user);
+                $googleCalendarService->desyncEvent($syncedEvent->event, $syncedEvent->user->id);
+            }
+
+        } catch (\Exception $e) {
+            // Přidat logování (v budoucnu)
         }
 
     }

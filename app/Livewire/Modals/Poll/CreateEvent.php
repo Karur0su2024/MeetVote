@@ -66,8 +66,8 @@ class CreateEvent extends Component
     // Metoda pro vytvoření nové události
     public function createEvent()
     {
-        if (Gate::allows('createEvent', $this->poll)) {
-            return $this->redirect(route('polls.show', $this->poll))->with('error', __('ui.modals.create_event.messages.error.no_permissions'));
+        if (Gate::denies('createEvent', $this->poll)) {
+            return redirect(route('polls.show', $this->poll))->with('error', __('ui.modals.create_event.messages.error.no_permissions'));
         }
 
         try {
