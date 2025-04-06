@@ -5,6 +5,7 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
 --}}
 @props([
     'results' => [], // TODO: Načíst pole se všemi preferencemi (Yes, No, Maybe), místo Score
+    'score' => 0,
 ])
 
 
@@ -16,7 +17,9 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
             <div>
                 {{ $content }}
             </div>
-                {{ $score }}
+            <span class="badge bg-primary fs-5">
+                {{ $score ?? 0 }}
+            </span>
         </div>
     </div>
 </div>
