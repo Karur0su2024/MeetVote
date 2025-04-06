@@ -1,3 +1,11 @@
+{{--
+
+TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle voting-section je retardovaný
+NOTE: Jo a měl bych si konečně tady psát více komentářů a více je využívat, protože tohle je fakt hrozný
+
+--}}
+
+
 <div x-data="{ mode: 'Voting'}">
 
     <x-ui.card body-padding="0" collapsable>
@@ -20,12 +28,8 @@
                 <div x-show="mode === 'Results'">
                     <x-poll.show.voting.results :results="$results" />
                 </div>
-
-
             </div>
-
         </x-slot:body>
-
     </x-ui.card>
 
 </div>
