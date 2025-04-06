@@ -26,10 +26,11 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
                     {{--
                         TODO: Udělat samostatnou Livewire komponentu pro voting
                     --}}
-                    <x-poll.show.voting.voting :poll="$poll" :loaded="$loaded" :form="$form"/>
+
+                    <livewire:pages.poll-show.poll-section.voting :poll="$poll" />
                 </div>
                 <div x-show="mode === 'Results'">
-                    <x-poll.show.voting.results :results="$results"/>
+                    <livewire:pages.poll-show.poll-section.results :poll="$poll" />
                 </div>
             </div>
         </x-slot:body>

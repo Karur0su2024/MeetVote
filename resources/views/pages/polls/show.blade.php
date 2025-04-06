@@ -24,15 +24,7 @@
         {{-- Základní informace o anketě --}}
         <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
 
-        @if($poll->isActive())
-            <!-- Hlasovací formulář -->
-            <livewire:pages.poll-show.voting-section :poll-index="$poll->id" />
-        @else
-            <livewire:pages.poll-show.poll-results-section :poll-index="$poll->id" />
-        @endif
-
-
-
+        <x-pages.poll-show.poll.section :poll="$poll" />
 
         {{-- Komentáře --}}
         @if ($poll->comments)
