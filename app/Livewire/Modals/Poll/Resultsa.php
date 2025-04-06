@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 
-class Results extends Component
+class Resultsa extends Component
 {
-    public $vote;
+    public $votes;
+    public $poll;
 
-    public function mount($voteIndex)
+    public $loadedVotes = false;
+
+    public function mount($pollIndex)
     {
-        $this->vote = Vote::where('id', $voteIndex)->firstOrFail();
+        $this->poll = Poll::findOrFail($pollIndex, ['id', 'anonymous_votes', 'edit_votes', 'public_id', 'admin_key']);
+        $this->reloadResults();
     }
 
     public function loadVote($voteIndex)
@@ -30,6 +34,13 @@ class Results extends Component
         $this->addError('error', __('ui.modals.results.messages.error.load'));
     }
 
+    public function reloadResults()
+    {
+        $this->loadedVotes = false;
+        $this->poll->load('votes');
+        $this->votes = $this->poll->votes;
+        $this->loadedVotes = true;
+    }
 
     public function deleteVote($voteIndex)
     {

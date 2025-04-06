@@ -22,10 +22,20 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
     </div>
 
-    <div>
+    <div class="mt-4">
         <h3>
             All votes
         </h3>
+
+        @foreach($votes as $vote)
+
+            <x-ui.button size="sm"
+                         color="outline-secondary"
+                         wire:click="openVoteModal({{ $vote }})">
+                {{ $vote->voter_name }}
+            </x-ui.button>
+
+        @endforeach
 
 
         {{--
@@ -37,7 +47,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
     </div>
 
-    <div>
+    <div class="mt-4">
         <h3>
             Choose results
         </h3>
