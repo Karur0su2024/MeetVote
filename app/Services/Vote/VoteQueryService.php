@@ -37,4 +37,7 @@ class VoteQueryService{
             'vote_index' => $voteIndex, // Id existujícího hlasu pro případnou její změnu
         ];
     }
+
+
+
 }

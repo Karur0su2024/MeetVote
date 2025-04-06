@@ -23,6 +23,13 @@
                         <x-slot:content>
                             <p class="fs-5 fw-bold">{{ $option['date_formatted'] }}</p>
                             <p class="card-text text-muted">{{ $option['full_content'] }}</p>
+                            @foreach($option['preferences'] as $preferenceName => $preference)
+                                <img src="{{ asset('icons/' . $preferenceName . '.svg') }}" alt="{{ $preferenceName  }}"
+                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                     data-bs-html="true"
+                                     data-bs-title="{{ count($preference) !== 0 ? implode('<br>', array_slice($preference, 0, 10)) : 'No votes' }}">
+                                {{ count($preference) }}
+                            @endforeach
                         </x-slot:content>
                     </x-pages.poll-show.poll.results.option-card>
                 </div>

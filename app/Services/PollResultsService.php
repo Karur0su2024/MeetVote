@@ -8,6 +8,7 @@ use App\Models\Vote;
 use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
 use Illuminate\Support\Facades\Auth;
+use App\Models\VoteTimeOption;
 
 class PollResultsService
 {
@@ -19,8 +20,12 @@ class PollResultsService
 
     public function getResults($poll): array
     {
+        $preferences = $this->getPreferenceData($poll);
 
         $timeOptions = $this->timeOptionQueryService->getTimeOptionsArray($poll);
+
+        $timeOptions = $this->addPreferencesToTimeOptions($timeOptions, $preferences['timeOptions']);
+
 
         usort($timeOptions, function ($a, $b) {
             return $b['score'] <=> $a['score'];
@@ -36,7 +41,6 @@ class PollResultsService
             usort($options, function ($a, $b) {
                 return $b['score'] <=> $a['score'];
             });
-
 
 
             $questionArray[] = [
@@ -70,6 +74,45 @@ class PollResultsService
 
         return $vote;
 
+    }
+
+
+    public function getPreferenceData($poll) {
+        $votes = $poll->votes;
+
+        $preferences = [
+            'timeOptions' => [],
+            'questions' => [],
+        ];
+
+        foreach ($votes as $vote) {
+
+            foreach ($vote->timeOptions as $timeOption) {
+                $preferences['timeOptions'][$timeOption->time_option_id][$timeOption->preference][] = $vote->voter_name;
+            }
+
+            foreach ($vote->questionOptions as $questionOption) {
+                $preferences['questions'][$questionOption->poll_question_id][$questionOption->question_option_id][$questionOption->preference][] =
+                    $vote->voter_name;
+            }
+        }
+
+        return $preferences;
+
+    }
+
+
+    private function addPreferencesToTimeOptions($timeOptions, $preferences): array
+    {
+        foreach ($timeOptions as $key => $timeOption) {
+            $timeOptions[$key]['preferences'] = [
+                2 => $preferences[$timeOption['id']][2] ?? [],
+                1 => $preferences[$timeOption['id']][1] ?? [],
+                -1 => $preferences[$timeOption['id']][-1] ?? [],
+            ];
+        }
+
+        return $timeOptions;
     }
 
 }

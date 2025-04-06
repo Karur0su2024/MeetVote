@@ -9,7 +9,7 @@
 <div x-data="{mode: 'Results'}"
 
     @change-section.window="mode = 'Voting'">
-    
+
     <x-ui.card body-padding="0" collapsable>
 
         <x-slot:header>

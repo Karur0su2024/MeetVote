@@ -17,6 +17,9 @@
                         <x-slot:content>
                             <p class="fs-5 fw-bold">{{ $option['date_formatted'] }}</p>
                             <p class="card-text text-muted">{{ $option['full_content'] }}</p>
+                            @foreach($option->preferences as $$preferenceName => $preference)
+                                {{ $preferenceName }}
+                            @endforeach
                         </x-slot:content>
                     </x-pages.poll-show.poll.results.option-card>
                 </div>
