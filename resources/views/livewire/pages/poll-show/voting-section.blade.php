@@ -1,7 +1,6 @@
 {{--
 
-TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle voting-section je retardovaný
-NOTE: Jo a měl bych si konečně tady psát více komentářů a více je využívat, protože tohle je fakt hrozný
+TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle voting-section je naprd
 
 --}}
 
