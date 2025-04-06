@@ -5,7 +5,7 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
 --}}
 
 
-<div x-data="{ mode: 'Voting'}">
+<div x-data="{ mode: 'Results'}">
 
     <x-ui.card body-padding="0" collapsable>
 
@@ -15,7 +15,8 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
 
         <x-slot:headerRight>
 
-            <x-ui.button color="outline-secondary" x-text="mode"
+            <x-ui.button color="outline-secondary"
+                         x-text="mode"
                          @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
             </x-ui.button>
         </x-slot:headerRight>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\PollShow\PollSection;
 
 use App\Models\Poll;
+use App\Services\EventService;
 use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
@@ -16,12 +17,28 @@ class Results extends Component
 
     public $loadedVotes = false;
 
+    public $results = [
+        'timeOptions' => [
+            'options' => [],
+            'selected' => 0,
+        ],
+        'questions' => [
+            'questions' => [
+            ],
+        ],
+    ];
 
-    public $results = [];
+
 
     public function mount($poll, PollResultsService $pollResultsService){
         $this->poll = $poll;
-        $this->results = $pollResultsService->getResults($poll);
+        $this->poll->load([
+            'timeOptions',
+            'questions',
+            'questions.options',
+        ]);
+
+        $this->results = $pollResultsService->getResults($this->poll);
         $this->reloadResults();
     }
 
@@ -34,7 +51,6 @@ class Results extends Component
     }
 
 
-
     public function openVoteModal($vote): void
     {
         $this->dispatch('showModal', [
@@ -43,6 +59,22 @@ class Results extends Component
                 'voteIndex' => $vote['id'],
             ],
         ]);
+    }
+
+    public function insertToEventModal(EventService $eventService)
+    {
+
+        $event = $eventService->buildEventFromValidatedData($this->poll, $this->results);
+
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.create-event',
+            'params' => [
+                'eventData' => $event,
+                'pollIndex' => $this->poll->id,
+            ],
+
+        ]);
+
     }
 
 

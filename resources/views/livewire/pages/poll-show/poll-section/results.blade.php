@@ -47,54 +47,6 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
     </div>
 
-    <div class="mt-4">
-        <h3>
-            Choose results
-        </h3>
-
-        <x-ui.button>
-            Insert into event form
-        </x-ui.button>
-
-        <div>
-            <h4 class="mb-3 mt-5">Time options</h4>
-            <div class="row g-3">
-                @foreach($results['timeOptions']['options'] as $option)
-                    <div class="col-md-6">
-                        <x-pages.poll-show.poll.results.option-card>
-                            <x-slot:content>
-                                <p class="fs-5 fw-bold">{{ $option['date_formatted'] }}</p>
-                                <p class="card-text text-muted">{{ $option['full_content'] }}</p>
-                            </x-slot:content>
-                            <x-slot:score>
-                                <span class="badge bg-primary fs-5">{{ $option['score'] }}</span>
-                            </x-slot:score>
-                        </x-pages.poll-show.poll.results.option-card>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-
-
-        @foreach($results['questions'] as $question)
-            <div class="mt-3">
-                <h4 class="mb-3">{{ $question['text'] }}</h4>
-                <div class="row g-3">
-                    @foreach($question['options'] as $option)
-                        <div class="col-md-6">
-                            <x-pages.poll-show.poll.results.option-card>
-                                <x-slot:content>
-                                    <p>{{ $option['text'] }}</p>
-                                </x-slot:content>
-                                <x-slot:score>
-                                    <span class="badge bg-primary">{{ $option['score'] }}</span>
-                                </x-slot:score>
-                            </x-pages.poll-show.poll.results.option-card>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        @endforeach
-    </div>
+    <x-pages.poll-show.poll.results.pick-results-form :results="$results"/>
 
 </div>

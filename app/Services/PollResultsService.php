@@ -38,6 +38,7 @@ class PollResultsService
 
 
             $questionArray[] = [
+                'id' => $question['id'],
                 'text' => $question['text'],
                 'options' => $options,
                 'selected' => 0,

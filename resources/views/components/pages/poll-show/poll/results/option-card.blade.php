@@ -10,7 +10,7 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
 
 
 
-<div {{ $attributes->class(['card']) }}>
+<div {{ $attributes->class(['card']) }} {{ $attributes }}>
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-start">
             <div>
