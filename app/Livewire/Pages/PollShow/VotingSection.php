@@ -7,6 +7,7 @@ use App\Exceptions\VoteException;
 use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
 use App\Models\Vote;
+use App\Services\PollResultsService;
 use App\Services\Vote\VoteCreateService;
 use App\Services\Vote\VoteQueryService;
 use App\Services\Vote\VoteService;
@@ -27,6 +28,8 @@ class VotingSection extends Component
 
     protected VoteService $voteService;
 
+    public $results = [];
+
     public $loaded = false;
 
 
@@ -34,10 +37,12 @@ class VotingSection extends Component
      * @param int $pollInex
      * @return void
      */
-    public function mount(int $pollIndex, VoteQueryService $voteQueryService): void
+    public function mount(int $pollIndex, VoteQueryService $voteQueryService, PollResultsService $pollResultsService): void
     {
         $this->poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex, ['id', 'status', 'public_id', 'add_time_options', '.anonymous_votes']);
         $this->reloadVoteSection($voteQueryService);
+        $this->results = $pollResultsService->getResults($this->poll);
+
     }
 
     public function submitVote(
@@ -66,12 +71,6 @@ class VotingSection extends Component
         }
     }
 
-    /**
-     * Metoda pro uložení hlasu do databáze.
-     * @param $validatedData
-     * @return Vote|null
-     * @throws \Throwable
-     */
     private function saveVote(
         $validatedData,
         VoteCreateService $voteCreateService,
@@ -121,11 +120,6 @@ class VotingSection extends Component
         $this->loaded = false;
         $this->form->loadData($voteQueryService->getPollData($this->poll, $voteIndex));
         $this->loaded = true;
-    }
-
-    public function status()
-    {
-        dd($this->form);
     }
 
     /**

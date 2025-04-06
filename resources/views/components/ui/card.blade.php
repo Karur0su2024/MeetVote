@@ -32,6 +32,7 @@
     @endif
     <div class="card-body text-start p-{{ $bodyPadding ?? 4 }} {{ $bodyClass ?? '' }}"
          x-show="show" x-collapse>
+        {{ $body ?? '' }}
         {{ $slot }}
     </div>
     @if ($footer ?? null)

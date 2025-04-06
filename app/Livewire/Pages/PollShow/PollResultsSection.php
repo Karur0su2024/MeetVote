@@ -11,19 +11,13 @@ class PollResultsSection extends Component
 {
     use CanOpenModals;
 
-    protected PollResultsService $pollResultsService;
-
     public $poll;
 
     public $pollResults = [];
 
-    public function boot(PollResultsService $pollResultsService){
-        $this->pollResultsService = $pollResultsService;
-    }
-
-    public function mount($pollIndex){
+    public function mount($pollIndex, PollResultsService $pollResultsService){
         $this->poll = Poll::find($pollIndex);
-        $this->pollResults = $this->pollResultsService->getResults($this->poll);
+        $this->pollResults = $pollResultsService->getResults($this->poll);
     }
 
     public function render()
