@@ -4,8 +4,7 @@
 
 <div x-data="{ open: true }">
     <div class="d-flex gap-2 my-2">
-        <x-ui.button color="outline-primary" @click="open = !open" x-text="open ? 'Hide' : 'Show'">
-        </x-ui.button>
+        <x-ui.button color="outline-primary" @click="open = !open" x-text="open ? 'Hide' : 'Show'" />
 
         @can('delete', $vote)
             <x-ui.button color="outline-danger"
@@ -22,9 +21,9 @@
             </x-ui.button>
         @endcan
     </div>
-    <div x-show="open" class="border shadow-sm">
+    <div x-show="open" class="border rounded">
         @foreach($vote->timeOptions ?? []  as $option)
-            <div class="border-0 overflow-hidden">
+            <div class="overflow-hidden">
                 <div class="d-flex justify-content-between align-items-center p-3 voting-card-{{$option->preference}}">
                     <div class="d-flex flex-column">
                         <div
@@ -68,3 +67,4 @@
             </div>
         @endforeach
     </div>
+</div>

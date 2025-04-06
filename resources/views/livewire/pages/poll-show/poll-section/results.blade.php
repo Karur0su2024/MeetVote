@@ -8,37 +8,48 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 --}}
 <div class="p-4">
 
-    <div class="row">
-
+    <div class="row g-3">
 
         <div class="col-md-6">
-            <h3>
-                Your vote
-            </h3>
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>
+                        Your vote
+                    </h3>
+                    <div>
+                        @if($userVote)
+                            <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
+                        @else
+                            <p class="text-muted">
+                                You have not voted yet.
+                            </p>
 
-            @if($userVote)
-                <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
-            @else
-                You have not voted yet.
-            @endif
-
+                            <x-ui.button>
+                                Add new vote
+                            </x-ui.button>
+                        @endif
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6">
-            <h3>
-                All votes
-            </h3>
-
-            @foreach($votes as $vote)
-
-                <x-ui.button size="sm"
-                             color="outline-secondary"
-                             wire:click="openVoteModal({{ $vote }})">
-                    {{ $vote->voter_name }}
-                </x-ui.button>
-
-            @endforeach
-
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>All votes</h3>
+                    <div class="d-flex flex-wrap gap-2">
+                        @forelse($votes as $vote)
+                            <x-ui.button size="sm"
+                                         color="outline-secondary"
+                                         wire:click="openVoteModal({{ $vote }})">
+                                {{ $vote->voter_name }}
+                            </x-ui.button>
+                        @empty
+                            No votes yet.
+                        @endforelse
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
