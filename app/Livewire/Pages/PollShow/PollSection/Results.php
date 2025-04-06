@@ -6,11 +6,14 @@ use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
+use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class Results extends Component
 {
+
+    use HasVoteControls;
 
     public $votes;
     public $userVote;

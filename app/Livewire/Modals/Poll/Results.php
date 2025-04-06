@@ -5,44 +5,20 @@ namespace App\Livewire\Modals\Poll;
 use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\Vote\VoteService;
+use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 
 class Results extends Component
 {
+    use HasVoteControls;
+
     public $vote;
 
     public function mount($voteIndex)
     {
         $this->vote = Vote::where('id', $voteIndex)->firstOrFail();
-    }
-
-    public function loadVote($voteIndex)
-    {
-        $vote = Vote::where('id', $voteIndex)->firstOrFail();
-
-        if(Gate::allows('edit', $vote)) {
-            $this->dispatch('hideModal');
-            $this->dispatch('refreshPoll', $voteIndex);
-            return;
-        }
-        $this->addError('error', __('ui.modals.results.messages.error.load'));
-    }
-
-
-    public function deleteVote($voteIndex)
-    {
-        $vote = Vote::where('id', $voteIndex)->firstOrFail();
-
-        if(Gate::allows('delete', $vote)) {
-            $vote->delete();
-            $this->reloadResults();
-            return;
-        }
-
-        $this->addError('error', __('ui.modals.results.messages.error.delete'));
-
     }
 
     public function render()

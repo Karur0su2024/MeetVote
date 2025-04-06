@@ -111,7 +111,9 @@ class VotingSection extends Component
     #[On('refreshPoll')]
     public function refreshPoll(VoteQueryService $voteQueryService, $voteIndex): void
     {
+        dd($voteIndex);
         $this->reloadVoteSection($voteQueryService, $voteIndex);
+        $this->dispatch('show-voting-section', $voteIndex);
     }
 
 

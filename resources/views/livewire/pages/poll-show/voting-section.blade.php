@@ -5,7 +5,8 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
 --}}
 
 
-<div x-data="{ mode: 'Voting'}">
+<div x-data="{ mode: 'Voting'}"
+     x-on:show-voting-section.window="mode = 'Voting'">
 
     <x-ui.card body-padding="0" collapsable>
 
@@ -35,4 +36,14 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
         </x-slot:body>
     </x-ui.card>
 
+    <div x-data="{}">
+        <script>
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('názevUdálosti', (data) => {
+                    // Zde zpracuj data
+                    console.log(data);
+                });
+            });
+        </script>
+    </div>
 </div>

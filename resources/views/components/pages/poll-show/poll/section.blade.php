@@ -1,12 +1,15 @@
-{{--
+@push('scripts')
+    <script>
+        Livewire.on('show-voting-section', () => {
+            window.dispatchEvent(new CustomEvent('change-section'));
+        });
+    </script>
+@endpush
 
-TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle voting-section je naprd
+<div x-data="{mode: 'Results'}"
 
---}}
-
-
-<div x-data="{ mode: 'Results'}">
-
+    @change-section.window="mode = 'Voting'">
+    
     <x-ui.card body-padding="0" collapsable>
 
         <x-slot:header>
@@ -24,10 +27,6 @@ TODO: Přejmenovat tuhle sekci na něco rozumnějšího, protože nazývat tohle
         <x-slot:body>
             <div>
                 <div x-show="mode === 'Voting'">
-                    {{--
-                        TODO: Udělat samostatnou Livewire komponentu pro voting
-                    --}}
-
                     <livewire:pages.poll-show.poll-section.voting :poll="$poll" />
                 </div>
                 <div x-show="mode === 'Results'">
