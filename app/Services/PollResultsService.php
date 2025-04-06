@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Models\Poll;
+use App\Models\Vote;
 use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
+use Illuminate\Support\Facades\Auth;
 
 class PollResultsService
 {
@@ -52,6 +54,21 @@ class PollResultsService
             ],
             'questions' => $questionArray,
         ];
+
+    }
+
+
+    public function getUserVote($poll): ?Vote
+    {
+        $vote = null;
+        if (Auth::check()) {
+            $vote = Vote::with(['timeOptions.timeOption', 'questionOptions.questionOption.pollQuestion'])
+                ->where('poll_id', $poll->id)
+                ->where('user_id', Auth::id())
+                ->first();
+        }
+
+        return $vote;
 
     }
 
