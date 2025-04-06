@@ -5,7 +5,7 @@
 
     <div class="container text-start">
 
-        <div class="mb-3 alerts-container">
+        <div class="mb-3">
             @if (session('error'))
                 <x-ui.alert type="danger">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -19,6 +19,7 @@
                 </x-ui.alert>
             @endif
         </div>
+
 
         {{-- Základní informace o anketě --}}
         <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
