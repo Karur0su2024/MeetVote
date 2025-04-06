@@ -20,11 +20,6 @@
             @endif
         </div>
 
-        {{-- Panel s nastavením ankety --}}
-        @can('isAdmin', $poll)
-            <livewire:pages.poll-show.settings-section :poll-index="$poll->id"/>
-        @endcan
-
         {{-- Základní informace o anketě --}}
         <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
 
