@@ -1,6 +1,6 @@
 @props([
     'preferences',
-    'score'
+    'score' => null
 ])
 
 <div class="d-flex align-items-center justify-content-between gap-4">

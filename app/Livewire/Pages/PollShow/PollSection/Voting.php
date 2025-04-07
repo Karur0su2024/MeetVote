@@ -75,16 +75,7 @@ class Voting extends Component
         VoteQueryService $voteQueryService): ?Vote
     {
         try {
-            $vote = $voteCreateService->saveVote($validatedData);
-
-            if (isset($validatedData['existingVote'])) {
-                session()->flash('success', 'Vote has been updated successfully.');
-            } else {
-                session()->flash('success', 'Vote has been created successfully.');
-                //event(new VoteSubmitted($vote));
-            }
-            $this->reloadVoteSection($voteQueryService);
-            return $vote;
+            $voteCreateService->saveVote($validatedData);
         } catch (VoteException $e) {
             $this->addError('error', 'An error occurred while saving the vote.');
         } catch (\Exception $e) {
@@ -117,7 +108,7 @@ class Voting extends Component
     private function reloadVoteSection(VoteQueryService $voteQueryService, $voteIndex = null): void
     {
         $this->loaded = false;
-        $this->form->loadData($voteQueryService->getPollData($this->poll, $voteIndex));
+        $this->form->loadData($voteQueryService->getPollData($this->poll));
         $this->loaded = true;
     }
 

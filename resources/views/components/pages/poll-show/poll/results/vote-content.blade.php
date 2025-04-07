@@ -1,25 +1,8 @@
-@props([
-    'vote'
-])
+@props(['vote'])
 
-<div x-data="{ open: true }">
+<div>
     <div class="d-flex gap-2 my-2">
-        <x-ui.button color="outline-primary" @click="open = !open" x-text="open ? 'Hide' : 'Show'" />
 
-        @can('delete', $vote)
-            <x-ui.button color="outline-danger"
-                         wire:click="deleteVote({{ $vote->id }})">
-                <x-ui.icon name="trash"/>
-                {{ __('ui/modals.results.buttons.delete_vote') }}
-            </x-ui.button>
-        @endcan
-        @can('edit', $vote)
-            <x-ui.button color="outline-secondary"
-                         wire:click="loadVote({{ $vote->id }})">
-                <x-ui.icon name="pencil"/>
-                {{ __('ui/modals.results.buttons.load_vote') }}
-            </x-ui.button>
-        @endcan
     </div>
     <div x-show="open" class="border rounded">
         @foreach($vote->timeOptions ?? []  as $option)
@@ -33,7 +16,6 @@
                                 <span>{{ $option->timeOption->text }}</span>
                             @else
                                 <div class="d-flex align-items-center">
-                                    <i class="bi bi-clock me-1"></i>
                                     <span>{{ $option->timeOption->start }} - {{ $option->timeOption->end }}</span>
                                 </div>
                             @endif

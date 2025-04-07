@@ -23,7 +23,7 @@ class VoteCreateService
      * @return Vote|null
      * @throws \Throwable
      */
-    public function saveVote($validatedVoteData): ?Vote
+    public function saveVote($validatedVoteData)
     {
         try {
             DB::beginTransaction();
@@ -40,7 +40,14 @@ class VoteCreateService
 
             DB::commit();
 
-            return $vote;
+            if($validatedVoteData['existingVote']){
+                $message = 'Vote successfully updated.';
+            }
+            else {
+                $message = 'Vote successfully saved.';
+            }
+
+            redirect(request()->header('Referer'))->with('success', $message);
 
         } catch (\Exception $e) {
             DB::rollBack();

@@ -7,6 +7,7 @@ use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
+use App\Traits\HasVoteControls;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -16,10 +17,11 @@ use Spatie\CalendarLinks\Link;
 class InfoSection extends Component
 {
     use CanOpenModals;
+    use HasVoteControls;
 
     public $poll;
     public $event;
-    public $isAdmin = false;
+    public $userVote;
 
     public $syncGoogleCalendar = false;
 
@@ -33,9 +35,11 @@ class InfoSection extends Component
     }
 
 
-    public function mount($pollIndex): void
+    public function mount($pollIndex, PollResultsService $pollResultsService): void
     {
         $this->poll = Poll::findOrFail($pollIndex);
+        $this->userVote = $pollResultsService->getUserVote($this->poll);
+
 
         if($this->poll) {
             $this->event = $this->poll->event()->first();

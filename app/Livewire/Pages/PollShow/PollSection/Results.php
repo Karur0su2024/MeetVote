@@ -13,10 +13,9 @@ use Livewire\Component;
 class Results extends Component
 {
 
-    use HasVoteControls;
 
     public $votes;
-    public $userVote;
+
     public $poll;
 
     public $loadedVotes = false;
@@ -43,7 +42,6 @@ class Results extends Component
         ]);
 
         $this->results = $pollResultsService->getResults($this->poll);
-        $this->userVote = $pollResultsService->getUserVote($this->poll);
         $this->reloadResults();
     }
 

@@ -22,10 +22,11 @@ class VoteQueryService{
      * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
      * @return array Pole s daty o hlasu.
      */
-    public function getPollData(Poll $poll, $voteIndex = null): array
+    public function getPollData(Poll $poll): array
     {
         $poll->load(['timeOptions', 'questions', 'questions.options']);
 
+        $voteIndex = $this->getVoteIndex($poll);
 
         return [
             'user' => [
@@ -36,6 +37,19 @@ class VoteQueryService{
             'questions' => $this->questionQueryService->getVotingArray($poll, $voteIndex), // Pole otázek
             'vote_index' => $voteIndex, // Id existujícího hlasu pro případnou její změnu
         ];
+    }
+
+
+    public function getVoteIndex(Poll $poll): ?int
+    {
+        if(Auth::check()) {
+            $vote = $poll->votes()->where('user_id', Auth::id())->first();
+            if($vote) {
+                return $vote->id;
+            }
+        }
+
+        return null;
     }
 
 

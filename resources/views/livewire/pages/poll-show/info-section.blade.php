@@ -105,6 +105,8 @@
             </x-slot:footer>
         </x-ui.card>
     </div>
+    <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
+
 
     {{--Pravá strana – informace o události--}}
     @if($event)

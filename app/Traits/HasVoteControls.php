@@ -26,8 +26,7 @@ trait HasVoteControls
 
         if(Gate::allows('delete', $vote)) {
             $vote->delete();
-            $this->reloadResults();
-            return;
+            return redirect(request()->header('Referer'))->with('success', 'Vote deleted successfully.');
         }
 
         $this->addError('error', __('ui.modals.results.messages.error.delete'));
