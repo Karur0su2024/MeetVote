@@ -6,7 +6,7 @@
 
 
 @push('scripts')
-    <script src="{{ asset('js/alpine/voting.js') }}"></script>
+    <script src="{{ asset('js/alpine/voting.js') }}" xmlns="http://www.w3.org/1999/html"></script>
 @endpush
 
 <div x-data="getVotingData">
@@ -21,103 +21,77 @@
             </div>
             @if($loaded)
                 <form wire:submit.prevent="submitVote()">
-                    <div wire:ignore>
-                        <x-ui.accordion.wrapper flush>
-                            <x-ui.accordion.item opened>
-                                <x-slot:header fs="4">
-                                    <div>
-                                        <span>{{ __('pages/poll-show.voting.accordion.time_options') }}</span>
-                                        <span class="badge text-bg-dark ms-2" x-text="form.timeOptions.options.length"></span>
-                                    </div>
-                                </x-slot:header>
-                                <x-slot:body>
-                                    <div class="row g-0">
-                                        <template x-for="(timeOption, optionIndex) in form.timeOptions">
-                                            <div class="col-lg-6">
-                                                <x-pages.poll-show.voting.card ::class="'voting-card-' + timeOption.picked_preference" :poll="$poll">
-                                                    <x-slot:content>
-                                                        <h6 class="mb-1 fw-bold"
-                                                            x-text="timeOption.date_formatted"></h6>
-                                                        <p class="mb-0 text-muted"
-                                                           x-text="timeOption.full_content"></p>
-                                                    </x-slot:content>
-                                                    <x-slot:score x-text="timeOption.score"></x-slot:score>
-                                                    <x-slot:button
-                                                        @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))"
-                                                        ::class="'btn-outline-vote-' + timeOption.picked_preference">
-                                                        <img class="p-1"
-                                                             :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
-                                                             :alt="timeOption.picked_preference"/>
-                                                    </x-slot:button>
-                                                </x-pages.poll-show.voting.card>
-                                            </div>
-                                        </template>
+                    <div class="mt-4 border-top py-2 px-4">
+                        <x-pages.poll-show.poll.results.results-section-card title="Time options">
+                            <x-slot:title-right>
+                                <x-ui.button>
+                                    Check availability
+                                </x-ui.button>
+                            </x-slot:title-right>
+                            <x-slot:content>
+                                <template x-for="(timeOption, optionIndex) in form.timeOptions">
 
-                                        @can('addOption', $poll)
-                                            <div class="col-lg-6">
-                                                <div
-                                                    class="card voting-card voting-card-0 voting-card-clickable text-center transition-all"
-                                                    wire:click="openModal('modals.poll.add-new-time-option', {{ $poll->id }})">
-                                                    <div
-                                                        class="card-body add-option-card d-flex align-items-center justify-content-center gap-2 py-4">
-                                                        <i class="bi bi-plus-circle-fill text-primary fs-4"></i>
-                                                        <h5 class="card-title mb-0">Add new time option</h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endcan
+                                    <div class="col-md-12 col-lg-6">
+                                        <x-pages.poll-show.poll.results.option-card
+                                            class="btn-outline-vote"
+                                            ::class="'voting-card-' + timeOption.picked_preference"
+                                            @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
+                                            <x-slot:text>
+                                                <span x-text="timeOption.date_formatted"></span>
+                                            </x-slot:text>
+                                            <x-slot:subtext>
+                                                <span x-text="timeOption.full_content"></span>
+                                            </x-slot:subtext>
+                                            <x-slot:right>
+                                                <img class="p-1"
+                                                     :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
+                                                     :alt="timeOption.picked_preference"/>
+                                            </x-slot:right>
+                                            <x-slot:bottom>
+                                                <x-ui.badge>
+                                                    Available
+                                                </x-ui.badge>
+                                            </x-slot:bottom>
 
-                                        @if(((count($poll->timeOptions) + (int)$poll->add_time_options) % 2) !== 0)
-                                            <div class="col-lg-6 d-none d-lg-block">
-                                                <div class="card voting-card voting-card-0 text-center transition-all">
-                                                </div>
-                                            </div>
-                                        @endif
+                                        </x-pages.poll-show.poll.results.option-card>
                                     </div>
-                                </x-slot:body>
-                            </x-ui.accordion.item>
+                                </template>
+                            </x-slot:content>
+                        </x-pages.poll-show.poll.results.results-section-card>
+
+                        <div class="mt-3">
+                            <h3>Additional questions</h3>
 
                             <template x-for="(question, questionIndex) in form.questions">
-                                <x-ui.accordion.item opened>
-                                    <x-slot:header fs="4">
-                                        <div>
-                                            <span x-text="question.text"></span>
-                                            <span class="badge text-bg-dark ms-2" x-text="question.options.length"></span>
-                                        </div>
-                                    </x-slot:header>
-                                    <x-slot:body>
-                                        <div class="row g-0">
-                                            <template x-for="(option, optionIndex) in question.options">
-                                                <div class="col-lg-6">
-                                                    <x-pages.poll-show.voting.card ::class="'voting-card-' + option.picked_preference" :poll="$poll">
-                                                        <x-slot:content>
-                                                            <h6 class="mb-0" x-text="option.text"></h6>
-                                                        </x-slot:content>
-                                                        <x-slot:score x-text="option.score"></x-slot:score>
-                                                        <x-slot:button
-                                                            @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))"
-                                                            ::class="'btn-outline-vote-' + option.picked_preference">
-                                                            <img class="p-1"
-                                                                 :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
-                                                                 :alt="option.picked_preference"/>
-                                                        </x-slot:button>
-                                                    </x-pages.poll-show.voting.card>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </x-slot:body>
-                                </x-ui.accordion.item>
+                                <x-pages.poll-show.poll.results.results-section-card>
+                                    <x-slot:title>
+                                        <span x-text="question.text"></span>
+                                    </x-slot:title>
+                                    <x-slot:content>
+                                        <template x-for="(option, optionIndex) in question.options">
+
+                                            <div class="col-md-12 col-lg-6">
+                                                <x-pages.poll-show.poll.results.option-card
+                                                    class="btn-outline-vote"
+                                                    ::class="'voting-card-' + option.picked_preference"
+                                                    @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))">
+                                                    <x-slot:text>
+                                                        <span x-text="option.text"></span>
+                                                    </x-slot:text>
+                                                    <x-slot:right>
+                                                        <img class="p-1"
+                                                             :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
+                                                             :alt="option.picked_preference"/>
+                                                    </x-slot:right>
+                                                </x-pages.poll-show.poll.results.option-card>
+                                            </div>
+                                        </template>
+                                    </x-slot:content>
+                                </x-pages.poll-show.poll.results.results-section-card>
                             </template>
+                        </div>
 
-
-
-
-
-
-                        </x-ui.accordion.wrapper>
                     </div>
-
-
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
                     <div class="p-4">
@@ -137,11 +111,11 @@
 
                             <x-ui.form.message
                                 form-message="error"
-                                color="danger" />
+                                color="danger"/>
                             <x-ui.form.message
                                 form-message="success"
                                 type="flash"
-                                color="success" />
+                                color="success"/>
 
 
                         </div>

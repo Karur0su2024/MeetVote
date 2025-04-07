@@ -1,12 +1,19 @@
 @props([
-    'header',
-    '$content'
+    'title' => '',
+    'titleRight' => '',
+    'content' => ''
 ])
 
 <div class="card mt-3 shadow-sm">
 
     <div class="card-body">
-        <h5 class="mb-3 text-muted">{{ $header }}</h5>
+        <div class="d-flex justify-content-between mb-3">
+            <h5 class="justify-content-between">{{ $title }}</h5>
+            <div>
+                {{ $titleRight }}
+            </div>
+        </div>
+
         <div class="row g-3">
             {{ $content }}
         </div>
