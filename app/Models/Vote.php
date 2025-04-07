@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Vote extends Model
 {
-    protected $fillable = ['user_id', 'poll_id', 'voter_email', 'voter_name'];
+    protected $fillable = ['user_id', 'poll_id', 'voter_email', 'voter_name', 'message'];
 
     protected $casts = [
         'voter_email' => 'string',

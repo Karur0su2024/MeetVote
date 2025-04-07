@@ -98,11 +98,9 @@ class TimeOptionQueryService
      * @param $voteIndex
      * @return array
      */
-    public function getVotingArray(Poll $poll, $voteIndex): array
+    public function getVotingArray(Poll $poll, $vote = null): array
     {
         $options = $this->getTimeOptionsArray($poll); // Získání časových možností
-
-        $vote = Vote::with(['timeOptions'])->find($voteIndex);
 
         foreach ($vote->timeOptions ?? [] as $timeOption) {
             $options[$timeOption->time_option_id]['picked_preference'] = $timeOption->preference;

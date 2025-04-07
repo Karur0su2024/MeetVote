@@ -67,14 +67,9 @@ class QuestionQueryService
      * @param $voteIndex
      * @return array
      */
-    public function getVotingArray(Poll $poll, $voteIndex = null): array
+    public function getVotingArray(Poll $poll, $vote = null): array
     {
         $pollQuestions = $this->getQuestionsArray($poll);
-
-
-        $vote = Vote::with(['questionOptions'])->find($voteIndex);
-
-
 
         foreach ($vote->questionOptions ?? [] as $questionOption) {
             $pollQuestions[$questionOption->poll_question_id]['options'][$questionOption->question_option_id]['picked_preference'] = $questionOption->preference;

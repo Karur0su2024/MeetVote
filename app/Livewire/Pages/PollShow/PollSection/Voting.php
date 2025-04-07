@@ -25,8 +25,7 @@ class Voting extends Component
     public Poll $poll;
 
     public VotingForm $form;
-
-    protected VoteService $voteService;
+    
 
     public $results = [];
 

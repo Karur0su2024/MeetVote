@@ -13,6 +13,11 @@
         </div>
 
 
+        <div class="text-muted small">
+            {{ $vote->message }}
+        </div>
+
+
         <x-pages.poll-show.poll.results.vote-content :vote="$vote"/>
     </div>
 </div>

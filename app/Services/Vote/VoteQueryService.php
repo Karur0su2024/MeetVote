@@ -26,26 +26,29 @@ class VoteQueryService{
     {
         $poll->load(['timeOptions', 'questions', 'questions.options']);
 
-        $voteIndex = $this->getVoteIndex($poll);
+        $vote = $this->getVote($poll);
+
+
 
         return [
             'user' => [
                 'name' => Auth::user()->name ?? '',
                 'email' => Auth::user()->email ?? '',
             ],
-            'time_options' => $this->timeOptionQueryService->getVotingArray($poll, $voteIndex), // Pole časových možností
-            'questions' => $this->questionQueryService->getVotingArray($poll, $voteIndex), // Pole otázek
-            'vote_index' => $voteIndex, // Id existujícího hlasu pro případnou její změnu
+            'message' => $vote->message ?? '',
+            'time_options' => $this->timeOptionQueryService->getVotingArray($poll, $vote), // Pole časových možností
+            'questions' => $this->questionQueryService->getVotingArray($poll, $vote), // Pole otázek
+            'vote_index' => $vote->id ?? null, // Id existujícího hlasu pro případnou její změnu
         ];
     }
 
 
-    public function getVoteIndex(Poll $poll): ?int
+    public function getVote(Poll $poll): ?Vote
     {
         if(Auth::check()) {
             $vote = $poll->votes()->where('user_id', Auth::id())->first();
             if($vote) {
-                return $vote->id;
+                return $vote;
             }
         }
 

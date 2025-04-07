@@ -114,6 +114,7 @@ class VoteCreateService
             'poll_id' => $validatedVoteData['poll_id'],
             'voter_name' => $validatedVoteData['user']['name'],
             'voter_email' => $validatedVoteData['user']['email'],
+            'message' => $validatedVoteData['notes'] ?? null,
         ];
     }
 

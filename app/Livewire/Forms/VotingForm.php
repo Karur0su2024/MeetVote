@@ -9,34 +9,17 @@ use Livewire\Form;
  */
 class VotingForm extends Form
 {
-    /**
-     * @var null
-     */
     public $pollIndex = null;
 
-    /**
-     * @var string[]
-     */
     public $user = [
         'name' => '',
         'email' => '',
     ];
+    public $notes = '';
 
-    /**
-     * Časové možnosti
-     * @var array
-     */
+
     public $timeOptions = [];
-
-    /**
-     * Možnosti otázek
-     * @var array
-     */
     public $questions = [];
-
-    /**
-     * @var
-     */
     public $existingVote;
 
     protected function rules(): array {
@@ -49,6 +32,7 @@ class VotingForm extends Form
             'questions.*.id' => 'required|integer',
             'questions.*.options.*.id' => 'required|integer',
             'questions.*.options.*.picked_preference' => 'required|integer|in:0,2',
+            'notes' => 'nullable|string',
         ];
     }
 
@@ -81,6 +65,8 @@ class VotingForm extends Form
             $this->user['name'] = $data['user']['name'] ?? '';
             $this->user['email'] = $data['user']['email'] ?? '';
         }
+
+        $this->notes = $data['message'] ?? '';
 
         $this->timeOptions = $data['time_options'];
         $this->questions = $data['questions'];
