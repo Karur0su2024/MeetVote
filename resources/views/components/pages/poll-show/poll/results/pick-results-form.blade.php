@@ -47,13 +47,16 @@
                 </x-slot:header>
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
-                        <div class="col-lg-3 col-md-6"
+                        <div class="col-lg-6 col-md-12"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
                             <x-pages.poll-show.poll.results.option-card :score="$option['score']"
                                                                         ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">
-                                <x-slot:content>
-                                    <p class="fs-5 fw-bold">{{ $option['text'] }}</p>
-                                </x-slot:content>
+                                <x-slot:text>
+                                    {{ $option['text'] }}
+                                </x-slot:text>
+                                <x-slot:bottom>
+                                    <x-pages.poll-show.poll.results.preference-view :score="$option['score']"/>
+                                </x-slot:bottom>
                             </x-pages.poll-show.poll.results.option-card>
                         </div>
                     @endforeach
