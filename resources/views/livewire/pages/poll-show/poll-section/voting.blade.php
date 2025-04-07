@@ -23,13 +23,16 @@
                         <x-pages.poll-show.poll.results.results-section-card title="Time options">
                             <x-slot:title-right>
                                 @can('sync', Auth::user())
-                                    <x-ui.button wire:click="checkAvailability">
+                                    <x-ui.saving wire:loading wire:target="checkAvailability">
+                                        Checking availability...
+                                    </x-ui.saving>
+                                    <x-ui.button wire:click="checkAvailability" class="ms-2">
                                         Check availability
                                     </x-ui.button>
                                 @endcan
-
                             </x-slot:title-right>
                             <x-slot:content>
+
                                 <template x-for="(timeOption, optionIndex) in form.timeOptions">
 
                                     <div class="col-md-12 col-lg-6">

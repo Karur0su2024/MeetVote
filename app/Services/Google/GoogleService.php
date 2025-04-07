@@ -177,7 +177,7 @@ class GoogleService implements GoogleServiceInterface
             $end = date('c', strtotime($endTime));
 
             $events = $googleCalendarService->getEvents($start, $end) ?? [];
-
+            
             return count($events) === 0;
         } catch (\Exception $e) {
             // Logování chyby

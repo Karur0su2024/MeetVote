@@ -97,8 +97,8 @@ class GoogleCalendarService
             'timeMin' => $startTime,
             'timeMax' => $endTime,
             'singleEvents' => true,
+            'timeZone' => date_default_timezone_get(),
         ];
-
         return $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
 
     }
