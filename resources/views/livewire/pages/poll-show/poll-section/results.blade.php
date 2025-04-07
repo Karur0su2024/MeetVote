@@ -56,7 +56,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
     @can('hasAdminPermissions', $poll)
         <x-pages.poll-show.poll.results.pick-results-form :results="$results"/>
     @else
-        <x-pages.poll-show.poll.results.results :results="$results" />
+        <x-pages.poll-show.poll.results.view-only :results="$results" />
     @endcan
 
 </div>
