@@ -50,9 +50,12 @@
                                             </x-slot:right>
                                             <x-slot:bottom>
                                                 @can('sync', Auth::user())
-                                                    <x-ui.badge>
-                                                        Available
-                                                    </x-ui.badge>
+                                                    <div x-show="timeOption.availability !== undefined">
+                                                        <x-ui.badge x-text="timeOption.availability ? 'Available' : 'Not available'"
+                                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
+                                                        </x-ui.badge>
+                                                    </div>
+
                                                 @endcan
 
                                             </x-slot:bottom>

@@ -120,10 +120,13 @@ class Voting extends Component
         if(Gate::denies('sync', Auth::user())){
             return;
         }
+        $user = Auth::user();
 
-        //TODO: potřeba zjistit, zda je uživatel volný v daný termín
-
-
+        foreach ($this->form->timeOptions as $optionIndex => $option) {
+            $startTime = $option['date'] . ' ' . ($option['content']['start'] ?? '');
+            $endTime = $option['date'] . ' ' . ($option['content']['end'] ?? '');
+            $this->form->timeOptions[$optionIndex]['availability'] = $googleService->checkAvailability($user, $startTime, $endTime);
+        }
     }
 
 

@@ -90,6 +90,18 @@ class GoogleCalendarService
     }
 
 
+    public function getEvents($startTime, $endTime)
+    {
+        $calendarId = 'primary';
+        $eventDetails = [
+            'timeMin' => $startTime,
+            'timeMax' => $endTime,
+            'singleEvents' => true,
+        ];
+
+        return $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
+
+    }
 
 
 }

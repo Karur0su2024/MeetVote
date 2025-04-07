@@ -167,11 +167,22 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
-    public function checkAvailability($options)
+    public function checkAvailability($user, $startTime, $endTime)
     {
-        $googleCalendarService = new GoogleCalendarService();
+        try {
+            $googleCalendarService = new GoogleCalendarService();
+            $googleCalendarService->checkToken($user);
 
-        //TODO: potřeba implementovat
+            $start = date('c', strtotime($startTime));
+            $end = date('c', strtotime($endTime));
+
+            $events = $googleCalendarService->getEvents($start, $end) ?? [];
+
+            return count($events) === 0;
+        } catch (\Exception $e) {
+            // Logování chyby
+            return null; // V případě chyby vrátíme null (neznámý stav)
+        }
 
     }
 }
