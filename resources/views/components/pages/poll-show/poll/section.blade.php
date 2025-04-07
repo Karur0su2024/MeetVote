@@ -10,25 +10,28 @@
 
     @change-section.window="mode = 'Voting'">
 
-    <x-ui.card body-padding="0" collapsable>
+    <x-ui.card body-padding="0">
 
         <x-slot:header>
             {{ __('pages/poll-show.voting.title') }}
         </x-slot:header>
 
         <x-slot:headerRight>
-
-            <x-ui.button color="outline-secondary"
-                         x-text="mode"
-                         @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
-            </x-ui.button>
+            @if($poll->isActive())
+                <x-ui.button color="outline-secondary"
+                             x-text="mode === 'Results' ? 'Show results' : 'Show options'"
+                             @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
+                </x-ui.button>
+            @endif
         </x-slot:headerRight>
 
         <x-slot:body>
             <div>
-                <div x-show="mode === 'Voting'">
-                    <livewire:pages.poll-show.poll-section.voting :poll="$poll" />
-                </div>
+                @if($poll->isActive())
+                    <div x-show="mode === 'Voting'">
+                        <livewire:pages.poll-show.poll-section.voting :poll="$poll" />
+                    </div>
+                @endif
                 <div x-show="mode === 'Results'">
                     <livewire:pages.poll-show.poll-section.results :poll="$poll" />
                 </div>

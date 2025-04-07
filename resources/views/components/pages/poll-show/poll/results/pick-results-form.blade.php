@@ -20,7 +20,7 @@
             </x-slot:header>
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)
-                    <div class="col-lg-3 col-md-6" @click="results.timeOptions.selected = {{ $optionIndex }}">
+                    <div class="col-lg-6 col-md-12" @click="results.timeOptions.selected = {{ $optionIndex }}">
                         <x-pages.poll-show.poll.results.option-card :score="$option['score']"
                                                                     ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}">
                             <x-slot:content :text="$option['date_formatted']" subtext="{{ $option['full_content'] }}">

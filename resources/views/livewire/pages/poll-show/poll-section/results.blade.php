@@ -24,7 +24,9 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
                                 You have not voted yet.
                             </p>
 
-                            <x-ui.button>
+                            <x-ui.button color="primary"
+                                         size="sm"
+                                         wire:click="dispatch('show-voting-section')">
                                 Add new vote
                             </x-ui.button>
                         @endif
@@ -53,7 +55,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
         </div>
     </div>
 
-    @can('hasAdminPermissions', $poll)
+    @can('chooseResults', $poll)
         <x-pages.poll-show.poll.results.pick-results-form :results="$results"/>
     @else
         <x-pages.poll-show.poll.results.view-only :results="$results" />

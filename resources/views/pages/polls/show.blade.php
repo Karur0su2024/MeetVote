@@ -3,7 +3,7 @@
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
 
-    <div class="container text-start">
+    <div class="container-fluid text-start">
 
         <div class="mb-3">
             @if (session('error'))
@@ -20,16 +20,23 @@
             @endif
         </div>
 
+        <div class="row">
+            <div class="col-lg-8">
+                <x-pages.poll-show.poll.section :poll="$poll" />
+            </div>
+            <div class="col-lg-4">
+                {{-- Základní informace o anketě --}}
+                <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
+                @if ($poll->comments)
+                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                @endif
+            </div>
+        </div>
 
-        {{-- Základní informace o anketě --}}
-        <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
 
-        <x-pages.poll-show.poll.section :poll="$poll" />
 
         {{-- Komentáře --}}
-        @if ($poll->comments)
-            <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
-        @endif
+
 
     </div>
 

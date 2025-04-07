@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Poll;
 use App\Models\User;
-use App\Enums\PollStatus;
 
 class PollPolicy
 {
@@ -47,7 +46,7 @@ class PollPolicy
         if ($this->hasAdminPermissions($user, $poll)) return true;
 
         if ($poll->password !== null) {
-            return session()->get('poll_passwords.'.$poll->id)[0] ?? null === $poll->password;
+            return session()->get('poll_passwords.' . $poll->id)[0] ?? null === $poll->password;
         }
 
         return true;
@@ -61,7 +60,7 @@ class PollPolicy
 
     public function addOption(?User $user, Poll $poll): bool
     {
-        if(!$poll->isActive()) {
+        if (!$poll->isActive()) {
             return false;
         }
 
@@ -87,10 +86,9 @@ class PollPolicy
     }
 
 
-
     public function edit(?User $user, Poll $poll): bool
     {
-        if (!$poll->isActive()){
+        if (!$poll->isActive()) {
             return false;
         }
 
@@ -113,11 +111,24 @@ class PollPolicy
 
     public function createEvent(?User $user, Poll $poll): bool
     {
-        if($poll->isActive()) {
+        if ($poll->isActive()) {
             return false;
         }
 
         if ($this->isAdmin($user, $poll)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function chooseResults(?User $user, Poll $poll): bool
+    {
+        if($poll->isActive()) {
+            return false;
+        }
+
+        if ($this->hasAdminPermissions($user, $poll)) {
             return true;
         }
 
