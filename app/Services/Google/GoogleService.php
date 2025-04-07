@@ -153,7 +153,6 @@ class GoogleService implements GoogleServiceInterface
 
         try {
             $googleCalendarService = new GoogleCalendarService();
-            app()->instance(GoogleCalendarService::class, $googleCalendarService);
 
             $syncedEvents = $event->syncedEvents;
 
@@ -165,6 +164,14 @@ class GoogleService implements GoogleServiceInterface
         } catch (\Exception $e) {
             // Přidat logování (v budoucnu)
         }
+
+    }
+
+    public function checkAvailability($options)
+    {
+        $googleCalendarService = new GoogleCalendarService();
+
+        //TODO: potřeba implementovat
 
     }
 }

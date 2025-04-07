@@ -6,7 +6,9 @@
     </script>
 @endpush
 
-<div x-data="{mode: 'Results'}"
+<div x-data="{
+    mode: '{{ $poll->isActive() ? 'Voting' : 'Results' }}'
+}"
 
     @change-section.window="mode = 'Voting'">
 
@@ -19,7 +21,7 @@
         <x-slot:headerRight>
             @if($poll->isActive())
                 <x-ui.button color="outline-secondary"
-                             x-text="mode === 'Results' ? 'Show results' : 'Show options'"
+                             x-text="mode === 'Results' ? 'Show voting options' : 'Show results'"
                              @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
                 </x-ui.button>
             @endif

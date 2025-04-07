@@ -6,11 +6,13 @@ use App\Exceptions\VoteException;
 use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
 use App\Models\Vote;
+use App\Services\Google\GoogleService;
 use App\Services\PollResultsService;
 use App\Services\Vote\VoteCreateService;
 use App\Services\Vote\VoteQueryService;
 use App\Services\Vote\VoteValidationService;
 use App\Traits\CanOpenModals;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -110,6 +112,18 @@ class Voting extends Component
         $this->loaded = false;
         $this->form->loadData($voteQueryService->getPollData($this->poll));
         $this->loaded = true;
+    }
+
+
+    public function checkAvailability(GoogleService $googleService): void
+    {
+        if(Gate::denies('sync', Auth::user())){
+            return;
+        }
+
+        //TODO: potřeba zjistit, zda je uživatel volný v daný termín
+
+
     }
 
 

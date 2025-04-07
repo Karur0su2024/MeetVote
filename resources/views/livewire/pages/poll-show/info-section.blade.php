@@ -111,7 +111,7 @@
     {{--Pravá strana – informace o události--}}
     @if($event)
         <div>
-            <x-pages.poll-show.info.event-details :event="$event" :syncGoogleCalendar="$syncGoogleCalendar" :poll="$poll" :isAdmin="$isAdmin"/>
+            <x-pages.poll-show.info.event-details :event="$event" :syncGoogleCalendar="$syncGoogleCalendar" :poll="$poll" />
         </div>
     @endif
 

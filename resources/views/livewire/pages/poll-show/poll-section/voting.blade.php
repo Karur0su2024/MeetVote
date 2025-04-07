@@ -12,21 +12,22 @@
 <div x-data="getVotingData">
     @if($poll->isActive())
         <div>
-            <div class="p-4 w-100">
-                <div class="mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
-                    <x-poll.show.voting.legend name="yes" value="2"/>
-                    <x-poll.show.voting.legend name="maybe" value="1"/>
-                    <x-poll.show.voting.legend name="no" value="-1"/>
-                </div>
+            <div class="py-3 mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
+                <x-poll.show.voting.legend name="yes" value="2"/>
+                <x-poll.show.voting.legend name="maybe" value="1"/>
+                <x-poll.show.voting.legend name="no" value="-1"/>
             </div>
             @if($loaded)
                 <form wire:submit.prevent="submitVote()">
-                    <div class="mt-4 border-top py-2 px-4">
+                    <div class="border-top py-2 px-4">
                         <x-pages.poll-show.poll.results.results-section-card title="Time options">
                             <x-slot:title-right>
-                                <x-ui.button>
-                                    Check availability
-                                </x-ui.button>
+                                @can('sync', Auth::user())
+                                    <x-ui.button wire:click="checkAvailability">
+                                        Check availability
+                                    </x-ui.button>
+                                @endcan
+
                             </x-slot:title-right>
                             <x-slot:content>
                                 <template x-for="(timeOption, optionIndex) in form.timeOptions">
@@ -48,9 +49,12 @@
                                                      :alt="timeOption.picked_preference"/>
                                             </x-slot:right>
                                             <x-slot:bottom>
-                                                <x-ui.badge>
-                                                    Available
-                                                </x-ui.badge>
+                                                @can('sync', Auth::user())
+                                                    <x-ui.badge>
+                                                        Available
+                                                    </x-ui.badge>
+                                                @endcan
+
                                             </x-slot:bottom>
 
                                         </x-pages.poll-show.poll.results.option-card>
@@ -95,10 +99,20 @@
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
                     <div class="p-4">
+                        <h3 class="mb-4 pb-2 fw-bold">
+                            {{ __('pages/poll-show.voting.form.title') }}
+                        </h3>
+                        @guest
+                            @if (!$poll->anonymous_votes)
+                                <x-pages.poll-show.voting.form/>
+                            @endif
+                        @endguest
 
-                        @if (!$poll->anonymous_votes)
-                            <x-pages.poll-show.voting.form/>
-                        @endif
+
+                        <x-ui.form.textbox x-model="form.notes"
+                                            placeholder="Your additional notes...">
+                            Notes
+                        </x-ui.form.textbox>
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
                             <x-ui.button type="submit" size="lg">
@@ -112,12 +126,6 @@
                             <x-ui.form.message
                                 form-message="error"
                                 color="danger"/>
-                            <x-ui.form.message
-                                form-message="success"
-                                type="flash"
-                                color="success"/>
-
-
                         </div>
                     </div>
 
@@ -135,6 +143,6 @@
     @endif
 
 
-</div>>
+</div>
 
 

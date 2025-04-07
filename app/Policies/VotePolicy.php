@@ -32,6 +32,11 @@ class VotePolicy
 
     public function delete(?User $user, Vote $vote): bool
     {
+        if(!$vote->poll->isActive()){
+            return false;
+        }
+
+
         if(Gate::allows('isAdmin', $vote->poll)) {
             return true;
         }

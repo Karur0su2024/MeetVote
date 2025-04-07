@@ -1,7 +1,4 @@
 <div class="row">
-    <h3 class="mb-4 pb-2 fw-bold">
-        {{ __('pages/poll-show.voting.form.title') }}
-    </h3>
     <div class="col-md-6 mb-3">
         <x-ui.form.input
                 id="name"
