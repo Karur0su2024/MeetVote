@@ -5,7 +5,8 @@
     </x-slot:tooltip>
 
     <template x-if="form.questions.length > 0">
-        <template x-for="(question, questionIndex) in form.questions" :key="questionIndex">
+        <template x-for="(question, questionIndex) in form.questions" :key="question.id">
+            {{-- Základní informace o anketě --}}
             <x-poll.form.question-card/>
         </template>
     </template>

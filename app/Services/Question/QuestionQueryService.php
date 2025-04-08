@@ -24,6 +24,37 @@ class QuestionQueryService
         foreach ($poll->questions as $question) {
             $questionOptions = [];
             foreach ($question->options as $option) {
+                $questionOptions[] = [
+                    'id' => $option->id,
+                    'text' => $option->text,
+                    'score' => $this->getOptionScore($option),
+                    'picked_preference' => 0,
+                ];
+            }
+
+            $questions[] = [
+                'id' => $question->id,
+                'text' => $question->text,
+                'options' => $questionOptions,
+            ];
+        }
+
+        return $questions;
+    }
+
+
+    // TODO: dočasné řešení
+    public function getQuestionsAssArray(Poll $poll): array
+    {
+        $questions = [];
+
+        if (!isset($poll->id)) {
+            return $questions;
+        }
+
+        foreach ($poll->questions as $question) {
+            $questionOptions = [];
+            foreach ($question->options as $option) {
                 $questionOptions[$option->id] = [
                     'id' => $option->id,
                     'text' => $option->text,
@@ -69,7 +100,7 @@ class QuestionQueryService
      */
     public function getVotingArray(Poll $poll, $vote = null): array
     {
-        $pollQuestions = $this->getQuestionsArray($poll);
+        $pollQuestions = $this->getQuestionsAssArray($poll);
 
         foreach ($vote->questionOptions ?? [] as $questionOption) {
             $pollQuestions[$questionOption->poll_question_id]['options'][$questionOption->question_option_id]['picked_preference'] = $questionOption->preference;

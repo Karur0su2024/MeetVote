@@ -184,7 +184,6 @@ function getFormData() {
 
         duplicateError(errors) {
             this.messages.errors = errors;
-            console.log(this.messages);
         }
     }
 }

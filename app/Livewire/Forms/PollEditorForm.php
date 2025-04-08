@@ -33,7 +33,7 @@ class PollEditorForm extends Form
     public array $dates = [];
 
     // Otázky ankety
-    public array $questions = [];
+    public $questions = [];
 
     public $removed = [
         'time_options' => [],
@@ -152,6 +152,7 @@ class PollEditorForm extends Form
         $this->user = $data['user'] ?? [];
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray() ?? [];
         $this->questions = $data['questions'] ?? [];
+
     }
 
 
