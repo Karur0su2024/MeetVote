@@ -13,9 +13,19 @@
         </x-ui.pill>
 
         <div class="text-muted small mt-1">
-            {{ $vote->message }}
+            {{ $vote->message ?? '' }}
         </div>
 
+
+
+
+        @can('delete', $vote)
+            <div class="mt-3">
+                <button type="button" class="btn btn-danger" wire:click="deleteVote({{$vote->id}})">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+        @endcan
 
         <x-pages.poll-show.poll.results.vote-content :vote="$vote"/>
     </div>

@@ -35,9 +35,7 @@ class VotePolicy
         if(!$vote->poll->isActive()){
             return false;
         }
-
-
-        if(Gate::allows('isAdmin', $vote->poll)) {
+        if(Gate::allows('hasAdminPermissions', $vote->poll)) {
             return true;
         }
 
