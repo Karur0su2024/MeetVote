@@ -9,13 +9,6 @@ use Illuminate\Support\Facades\Gate;
 trait CanOpenModals
 {
 
-    /**
-     * Otevírá všechny modální okna související s anketou.
-     *
-     * @param string $modalName
-     * @param int $pollId
-     * @return void
-     */
     public function openModal($modalName, $pollId): void
     {
         $poll = Poll::findOrFail($pollId);
@@ -33,6 +26,20 @@ trait CanOpenModals
         }
     }
 
+    public function openAddNewTimeModal($pollId): void
+    {
+        $poll = Poll::findOrFail($pollId);
+        if(Gate::allows('addNewOption', $poll)) {
+            $this->dispatch('showModal', [
+                'alias' => 'modals.poll.add-new-time',
+                'params' => [
+                    'pollIndex' => $poll->id,
+                ],
+            ]);
+        }
+
+    }
+
     public function openVoteModal($vote): void
     {
         $this->dispatch('showModal', [
@@ -45,7 +52,6 @@ trait CanOpenModals
 
     public function insertToEventModal(EventService $eventService)
     {
-
         $event = $eventService->buildEventFromValidatedData($this->poll, $this->results);
 
         $this->dispatch('showModal', [

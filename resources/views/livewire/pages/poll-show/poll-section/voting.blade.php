@@ -76,8 +76,21 @@
                                         </x-pages.poll-show.poll.results.option-card>
                                     </div>
                                 </template>
+
+
+                                @can('addNewOption', $poll)
+                                    <div class="col-md-12 col-lg-6">
+                                        <div class="card p-4 w-100 voting-card-clickable" wire:click="openAddNewTimeModal({{ $poll->id }})">
+                                            Add new time
+                                        </div>
+                                    </div>
+                                @endcan
+
+
                             </x-slot:content>
                         </x-pages.poll-show.poll.results.results-section-card>
+
+
 
 
                         @if(!empty($form->questions))

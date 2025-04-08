@@ -148,4 +148,21 @@ class PollPolicy
         return !$poll->anonymous_votes;
     }
 
+    public function addNewOption(?User $user, Poll $poll): bool
+    {
+        if(!$poll->isActive()) {
+            return false;
+        }
+
+        if ($this->hasAdminPermissions($user, $poll)) {
+            return true;
+        }
+
+        if($poll->add_time_options) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

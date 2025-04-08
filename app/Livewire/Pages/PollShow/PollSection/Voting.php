@@ -25,17 +25,14 @@ class Voting extends Component
     public Poll $poll;
 
     public VotingForm $form;
-    
+
 
     public $results = [];
 
     public $loaded = false;
 
 
-    /**
-     * @param int $pollInex
-     * @return void
-     */
+
     public function mount($poll, VoteQueryService $voteQueryService, PollResultsService $pollResultsService): void
     {
         $this->poll = $poll;
