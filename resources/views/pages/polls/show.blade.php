@@ -21,16 +21,16 @@
         </div>
 
 
-        <div class="row">
-            <div class="col-lg-8">
-                <x-pages.poll-show.poll.section :poll="$poll" />
-            </div>
+        <div class="row flex-row-reverse">
             <div class="col-lg-4">
                 {{-- Základní informace o anketě --}}
                 <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
                 @if ($poll->comments)
                     <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
                 @endif
+            </div>
+            <div class="col-lg-8">
+                <x-pages.poll-show.poll.section :poll="$poll" />
             </div>
         </div>
 

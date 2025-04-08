@@ -12,22 +12,30 @@
 <div x-data="getVotingData">
     @if($poll->isActive())
         <div>
-            <div class="py-3 mx-auto w-100 d-flex flex-wrap justify-content-around text-center" wire:ignore>
+            <!-- Pro přesunutí -->
+            <div class="py-3 mx-auto w-100 d-flex flex-wrap justify-content-around text-center border-bottom d-none" wire:ignore>
                 <x-poll.show.voting.legend name="yes" value="2"/>
                 <x-poll.show.voting.legend name="maybe" value="1"/>
                 <x-poll.show.voting.legend name="no" value="-1"/>
             </div>
             @if($loaded)
                 <form wire:submit.prevent="submitVote()">
-                    <div class="border-top py-2 px-4">
-                        <x-pages.poll-show.poll.results.results-section-card title="Time options">
+                    <div class="py-2 px-4">
+                        <x-pages.poll-show.poll.results.results-section-card title="Time">
+                            <x-slot:title>
+                                <span class="me-2">Times</span>
+                                <x-ui.tooltip>
+                                    Choose the time that suits you best for meeting.
+                                </x-ui.tooltip>
+                            </x-slot:title>
                             <x-slot:title-right>
                                 @can('sync', Auth::user())
                                     <x-ui.saving wire:loading wire:target="checkAvailability">
                                         Checking availability...
                                     </x-ui.saving>
                                     <x-ui.button wire:click="checkAvailability" class="ms-2" size="sm">
-                                        Check availability
+                                        <x-ui.icon name="calendar-check" />
+                                        Check calendar availability
                                     </x-ui.button>
                                 @endcan
                             </x-slot:title-right>
@@ -54,10 +62,11 @@
                                             <x-slot:bottom>
                                                 @can('sync', Auth::user())
                                                     <div x-show="timeOption.availability !== undefined">
-                                                        <x-ui.badge
-                                                            x-text="timeOption.availability ? 'Available' : 'Not available'"
-                                                            ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
-                                                        </x-ui.badge>
+                                                        <x-ui.pill ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
+                                                            <i class="bi me-1" :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>
+                                                            <span x-text="timeOption.availability ? 'Available' : 'Not available'">
+                                                            </span>
+                                                        </x-ui.pill>
                                                     </div>
 
                                                 @endcan
@@ -72,7 +81,6 @@
 
 
                         @if(!empty($form->questions))
-
 
                             <div class="mt-3">
                                 <h3>Additional questions</h3>
@@ -108,35 +116,35 @@
                         @endif
 
 
-                    </div>
 
-                    {{-- Formulář pro vyplnění jména a e-mailu --}}
-                    <div class="mt-4">
-                        @guest
-                            @if (!$poll->anonymous_votes)
+
+                        {{-- Formulář pro vyplnění jména a e-mailu --}}
+                        <div class="mt-4">
+                            @guest
                                 <x-pages.poll-show.poll.voting.form/>
-                            @endif
-                        @endguest
+                            @endguest
 
 
-                        <x-ui.form.textbox x-model="form.notes"
-                                           placeholder="Your additional notes...">
-                            Notes
-                        </x-ui.form.textbox>
+                            <x-ui.form.textbox x-model="form.notes"
+                                               placeholder="Your additional notes to poll...">
+                                Additional notes
+                            </x-ui.form.textbox>
 
-                        <div class="d-flex flex-wrap align-items-center gap-3">
-                            <x-ui.button type="submit" size="lg">
-                                {{ __('pages/poll-show.voting.buttons.submit_vote') }}
-                            </x-ui.button>
-                            <x-ui.spinner wire:loading wire:target="submitVote">
-                                {{ __('pages/poll-show.voting.buttons.form.loading') }}
-                            </x-ui.spinner>
+                            <div class="d-flex flex-wrap align-items-center gap-3">
+                                <x-ui.button type="submit" size="lg">
+                                    {{ __('pages/poll-show.voting.buttons.submit_vote') }}
+                                </x-ui.button>
+                                <x-ui.spinner wire:loading wire:target="submitVote">
+                                    {{ __('pages/poll-show.voting.buttons.form.loading') }}
+                                </x-ui.spinner>
 
 
-                            <x-ui.form.message
-                                form-message="error"
-                                color="danger"/>
+                                <x-ui.form.message
+                                    form-message="error"
+                                    color="danger"/>
+                            </div>
                         </div>
+
                     </div>
 
                 </form>

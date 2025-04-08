@@ -105,7 +105,11 @@
             </x-slot:footer>
         </x-ui.card>
     </div>
-    <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
+
+    @auth
+        <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
+    @endauth
+
 
 
     {{--Pravá strana – informace o události--}}
