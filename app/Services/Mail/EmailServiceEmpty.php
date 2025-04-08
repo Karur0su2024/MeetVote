@@ -19,7 +19,6 @@ class EmailServiceEmpty implements EmailServiceInterface
 
     public function sendInvitation($email, $poll, $key)
     {
-        dd($email, $poll, $key);
         return;
     }
 }

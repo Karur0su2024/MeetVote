@@ -24,7 +24,6 @@ class PollController extends Controller
 
     public function edit(Poll $poll)
     {
-        //dd($poll->settings);
         $pollIndex = $poll->id;
         $publicId = $poll->public_id;
         $pollTitle = $poll->title;
@@ -39,7 +38,6 @@ class PollController extends Controller
 
     public function authentication(Poll $poll)
     {
-        //dd(session()->get('poll_passwords'));
         return view('pages.polls.authenticate', ['poll' => $poll]);
     }
 

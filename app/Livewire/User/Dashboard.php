@@ -17,12 +17,12 @@ class Dashboard extends Component
     public $status = 'all';
 
     public function mount()
-    {        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
+    {
+        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
         $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
 
         $this->events = Auth::user()->allPolls()->pluck('event')->unique('id')->filter();
-        //dd($this->events);
     }
 
     public function filterByStatus($status){

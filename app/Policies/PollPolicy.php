@@ -15,7 +15,7 @@ class PollPolicy
 
     public function hasValidKey(?User $user, Poll $poll): bool
     {
-        return (session()->get('poll_admin_keys.' . $poll->id . '.0', null) === $poll->admin_key);
+        return (session()->get('poll_admin_keys.' . $poll->id, null) === $poll->admin_key);
     }
 
     public function isAdmin(?User $user, Poll $poll): bool

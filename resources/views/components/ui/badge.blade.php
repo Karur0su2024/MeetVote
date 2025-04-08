@@ -1,7 +1,14 @@
 @props([
-    'color' => 'primary'
+    'color' => 'primary',
+    'tooltip' => null,
 ])
 
-<span class="badge text-bg-{{ $color }} border-1 shadow-sm" {{ $attributes }}>
+<span class="badge text-bg-{{ $color }} border-1 shadow-sm" {{ $attributes }}
+    @if($tooltip)
+    data-bs-toggle="tooltip" data-bs-placement="top"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="{{ $tooltip }}"
+    @endif
+    >
     {{ $slot  }}
 </span>

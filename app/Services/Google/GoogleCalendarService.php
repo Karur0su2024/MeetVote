@@ -41,7 +41,7 @@ class GoogleCalendarService
             $this->calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
             $this->calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
         } catch (\Exception $e) {
-            //dd($e->getMessage());
+            // TODO: možná poslat notifikaci uživateli, nebo logovat chybu
         }
 
         if($syncEvent) {

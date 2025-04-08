@@ -38,7 +38,7 @@ class PollCreateService
 
     public function createOrUpdatePoll($validatedData, $pollIndex = null): ?Poll
     {
-        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->findOrFail($pollIndex, ['id', 'public_id']);
+        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
         $newPoll = !$poll;
 
         DB::beginTransaction();
@@ -47,6 +47,7 @@ class PollCreateService
             $poll = Poll::create($this->buildPollArray($validatedData, $poll));
         } else {
             $poll->update($this->buildPollArray($validatedData, $poll));
+            $poll->refresh();
         }
 
         $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);

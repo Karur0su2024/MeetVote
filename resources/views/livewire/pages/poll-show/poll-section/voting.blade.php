@@ -50,7 +50,6 @@
                                             @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
                                             <x-slot:text>
                                                 <span x-text="timeOption.date_formatted"></span>
-                                                <span x-text="timeOption.invalid"></span>
                                             </x-slot:text>
                                             <x-slot:subtext>
                                                 <span x-text="timeOption.full_content"></span>

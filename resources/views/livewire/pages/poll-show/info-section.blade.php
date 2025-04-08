@@ -67,6 +67,12 @@
                 @endif
             </p>
             <x-slot:footer class="flex-wrap">
+                <x-ui.badge>
+                    <x-slot:tooltip>
+                        Not implemented yet
+                    </x-slot:tooltip>
+                    UTC +00:00 (placeholder)
+                </x-ui.badge>
                 @if ($poll->comments)
                     <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.comments') }}

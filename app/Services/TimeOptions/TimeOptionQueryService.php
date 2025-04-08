@@ -85,8 +85,8 @@ class TimeOptionQueryService
             'type' => 'time',
             'date' => Carbon::today()->format('Y-m-d'),
             'content' => [
-                'start' => Carbon::now()->format('H:i'),
-                'end' => Carbon::now()->addMinutes(60)->format('H:i'),
+                'start' => Carbon::now()->addMinutes(60)->format('H:i'),
+                'end' => Carbon::now()->addMinutes(120)->format('H:i'),
             ],
         ]];
     }

@@ -141,9 +141,8 @@ class GoogleService implements GoogleServiceInterface
             }
         }
         catch (\Exception $exception){
-            dd($exception->getMessage());
             // Špatný json
-            // přidat logování
+            // TODO: přidat logování
         }
 
     }
