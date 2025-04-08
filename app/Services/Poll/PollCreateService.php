@@ -15,21 +15,16 @@ class PollCreateService
 
     public function __construct(
         protected TimeOptionCreateService $timeOptionCreateService,
-        protected QuestionCreateService $questionCreateService,
-    ) {}
+        protected QuestionCreateService   $questionCreateService,
+    )
+    {
+    }
 
-
-    /**
-     * @param $validatedData
-     * @param $pollIndex
-     * @return Poll|null
-     * @throws \Throwable
-     */
     public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
             $poll = $this->createOrUpdatePoll($validatedData, $pollIndex);
-            session()->push('poll_admin_keys.'.$poll->id, $poll->admin_key);
+            session()->put('poll_admin_keys.' . $poll->id, $poll->admin_key);
             return $poll;
         } catch (PollException $e) {
             DB::rollBack();
@@ -41,24 +36,17 @@ class PollCreateService
     }
 
 
-    /**
-     * @param mixed $pollIndex
-     * @param $validatedData
-     * @throws \Throwable
-     */
-    public function createOrUpdatePoll($validatedData, $pollIndex = null): Poll
+    public function createOrUpdatePoll($validatedData, $pollIndex = null): ?Poll
     {
+        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->findOrFail($pollIndex, ['id', 'public_id']);
+        $newPoll = !$poll;
+
         DB::beginTransaction();
-        $newPoll = false;
 
-        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
-        $builtPoll = $this->buildPollArray($validatedData, $poll);
-
-        if ($poll) {
-            $poll->update($builtPoll);
+        if ($newPoll) {
+            $poll = Poll::create($this->buildPollArray($validatedData, $poll));
         } else {
-            $poll = Poll::create($builtPoll);
-            $newPoll = true;
+            $poll->update($this->buildPollArray($validatedData, $poll));
         }
 
         $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
@@ -66,6 +54,7 @@ class PollCreateService
         DB::commit();
         PollCreated::dispatchIf($newPoll, $poll);
         return $poll;
+
     }
 
 
@@ -88,10 +77,10 @@ class PollCreateService
     private function setPassword($password): ?string
     {
 
-        if($password['set']){
+        if ($password['set']) {
             return $password['set'];
         }
-        if($password['enabled']){
+        if ($password['enabled']) {
             return $password['value'] !== "" ? Hash::make($password['value']) : null;
         }
 

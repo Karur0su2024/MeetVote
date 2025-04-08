@@ -94,7 +94,7 @@ return [
         ],
     ],
     'button' => [
-        'submit' => 'Submit',
+        'submit' => 'Save Poll',
     ],
 
     'loading' => 'Saving...',

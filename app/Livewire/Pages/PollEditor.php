@@ -16,6 +16,7 @@ class PollEditor extends Component
 
     public PollEditorForm $form;
     public $pollIndex;
+    public $poll;
 
     /**
      * @return void
@@ -23,6 +24,7 @@ class PollEditor extends Component
     public function mount(PollQueryService $pollQueryService, $pollIndex = null): void
     {
         $this->pollIndex = $pollIndex;
+        $this->poll = Poll::where('id', $pollIndex)->first();
         $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
     }
 

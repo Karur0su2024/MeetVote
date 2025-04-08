@@ -80,10 +80,15 @@
 
                                 @can('addNewOption', $poll)
                                     <div class="col-md-12 col-lg-6">
-                                        <div class="card p-4 w-100 voting-card-clickable" wire:click="openAddNewTimeModal({{ $poll->id }})">
-                                            Add new time
+                                        <div class="card p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable"
+                                             wire:click="openAddNewTimeModal({{ $poll->id }})">
+                                            <span class="text-muted fw-bold">
+                                                Add new time
+                                            </span>
+
                                         </div>
                                     </div>
+
                                 @endcan
 
 
@@ -133,10 +138,7 @@
 
                         {{-- Formulář pro vyplnění jména a e-mailu --}}
                         <div class="mt-4">
-                            @guest
-                                <x-pages.poll-show.poll.voting.form/>
-                            @endguest
-
+                            <x-pages.poll-show.poll.voting.form/>
 
                             <x-ui.form.textbox x-model="form.notes"
                                                placeholder="Your additional notes to poll...">

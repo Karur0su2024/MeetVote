@@ -1,7 +1,6 @@
 <div>
 
 
-
     <form wire:submit.prevent="submit"
           x-data="getFormData"
           @validation-failed.window="duplicateError($event.detail.errors)">
@@ -23,15 +22,28 @@
             </x-layouts.col-6>
         </div>
 
-        <x-error-alert for="error"/>
-        <div class="mb-3">
-            <x-ui.saving wire:loading wire:target="submit">
-                {{ __('pages/poll-editor.loading') }}
-            </x-ui.saving>
-        </div>
-        <x-ui.button type="submit" size="lg" class="w-50 mx-auto">
-            {{ __('pages/poll-editor.button.submit') }}
-        </x-ui.button>
+
+
+        <x-ui.panel>
+            @if($poll)
+                <x-slot:left>
+                    <a class="btn btn-secondary text-start" href="{{ route('polls.show', $poll) }}">
+                        Return to poll
+                    </a>
+                </x-slot:left>
+            @endif
+            <x-slot:right>
+                <x-error-alert for="error"/>
+                <x-ui.button type="submit" class="w-25">
+                    {{ __('pages/poll-editor.button.submit') }}
+                </x-ui.button>
+                <x-ui.saving wire:loading wire:target="submit">
+                    {{ __('pages/poll-editor.loading') }}
+                </x-ui.saving>
+            </x-slot:right>
+        </x-ui.panel>
+
+
 
 
     </form>
