@@ -40,7 +40,8 @@ return [
             'dates' => 'Chosen dates',
         ],
         'button' => [
-            'add_time_option' => 'Add time option',
+            'add_empty_time_option' => 'Add empty time option',
+            'add_hour_time_option' => 'Add hour time option',
             'add_text_option' => 'Add text option',
         ],
     ],

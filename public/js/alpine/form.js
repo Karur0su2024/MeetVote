@@ -56,7 +56,7 @@ function getFormData() {
         },
 
         // Funkce pro přidání časové možnosti
-        addTimeOption(date, type) {
+        addTimeOption(date, type, empty) {
 
 
             // Přidání časové možnosti do formuláře
@@ -66,15 +66,34 @@ function getFormData() {
 
             // Kontrola typu možnosti
             if (type === 'time') {
-                let lastEnd = this.getLastEnd(date);
-                this.form.dates[date].push({
-                    type: type,
-                    date: date,
-                    content: {
-                        start: lastEnd,
-                        end: moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm'),
-                    },
-                });
+                if(empty){
+                    this.form.dates[date].push({
+                        type: type,
+                        date: date,
+                        content: {
+                            start: '',
+                            end: '',
+                        },
+                    });
+                }
+                else {
+                    let lastEnd = this.getLastEnd(date);
+                    let end = moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm');
+
+                    if(lastEnd > end) {
+                        return;
+                    }
+
+                    this.form.dates[date].push({
+                        type: type,
+                        date: date,
+                        content: {
+                            start: lastEnd,
+                            end: end,
+                        },
+                    });
+                }
+
             } else {
                 this.form.dates[date].push({
                     type: type,
@@ -106,9 +125,8 @@ function getFormData() {
         getLastEnd(dateIndex) {
 
             let lastEnd = null;
-
             this.form.dates[dateIndex].forEach((option) => {
-                if (option.type === 'time') {
+                if (option.type === 'time' && option.content.end !== '') {
                     lastEnd = option.content.end;
                 }
             });
