@@ -26,7 +26,7 @@
                                     <x-ui.saving wire:loading wire:target="checkAvailability">
                                         Checking availability...
                                     </x-ui.saving>
-                                    <x-ui.button wire:click="checkAvailability" class="ms-2">
+                                    <x-ui.button wire:click="checkAvailability" class="ms-2" size="sm">
                                         Check availability
                                     </x-ui.button>
                                 @endcan
@@ -54,8 +54,9 @@
                                             <x-slot:bottom>
                                                 @can('sync', Auth::user())
                                                     <div x-show="timeOption.availability !== undefined">
-                                                        <x-ui.badge x-text="timeOption.availability ? 'Available' : 'Not available'"
-                                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
+                                                        <x-ui.badge
+                                                            x-text="timeOption.availability ? 'Available' : 'Not available'"
+                                                            ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
                                                         </x-ui.badge>
                                                     </div>
 
@@ -69,54 +70,57 @@
                             </x-slot:content>
                         </x-pages.poll-show.poll.results.results-section-card>
 
-                        <div class="mt-3">
-                            <h3>Additional questions</h3>
 
-                            <template x-for="(question, questionIndex) in form.questions">
-                                <x-pages.poll-show.poll.results.results-section-card>
-                                    <x-slot:title>
-                                        <span x-text="question.text"></span>
-                                    </x-slot:title>
-                                    <x-slot:content>
-                                        <template x-for="(option, optionIndex) in question.options">
+                        @if(!empty($form->questions))
 
-                                            <div class="col-md-12 col-lg-6">
-                                                <x-pages.poll-show.poll.results.option-card
-                                                    class="btn-outline-vote"
-                                                    ::class="'voting-card-' + option.picked_preference"
-                                                    @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))">
-                                                    <x-slot:text>
-                                                        <span x-text="option.text"></span>
-                                                    </x-slot:text>
-                                                    <x-slot:right>
-                                                        <img class="p-1"
-                                                             :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
-                                                             :alt="option.picked_preference"/>
-                                                    </x-slot:right>
-                                                </x-pages.poll-show.poll.results.option-card>
-                                            </div>
-                                        </template>
-                                    </x-slot:content>
-                                </x-pages.poll-show.poll.results.results-section-card>
-                            </template>
-                        </div>
+
+                            <div class="mt-3">
+                                <h3>Additional questions</h3>
+
+                                <template x-for="(question, questionIndex) in form.questions">
+                                    <x-pages.poll-show.poll.results.results-section-card>
+                                        <x-slot:title>
+                                            <span x-text="question.text"></span>
+                                        </x-slot:title>
+                                        <x-slot:content>
+                                            <template x-for="(option, optionIndex) in question.options">
+
+                                                <div class="col-md-12 col-lg-6">
+                                                    <x-pages.poll-show.poll.results.option-card
+                                                        class="btn-outline-vote"
+                                                        ::class="'voting-card-' + option.picked_preference"
+                                                        @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))">
+                                                        <x-slot:text>
+                                                            <span x-text="option.text"></span>
+                                                        </x-slot:text>
+                                                        <x-slot:right>
+                                                            <img class="p-1"
+                                                                 :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
+                                                                 :alt="option.picked_preference"/>
+                                                        </x-slot:right>
+                                                    </x-pages.poll-show.poll.results.option-card>
+                                                </div>
+                                            </template>
+                                        </x-slot:content>
+                                    </x-pages.poll-show.poll.results.results-section-card>
+                                </template>
+                            </div>
+                        @endif
+
 
                     </div>
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
-                    <div class="p-4">
-                        <h3 class="mb-4 pb-2 fw-bold">
-                            {{ __('pages/poll-show.voting.form.title') }}
-                        </h3>
+                    <div class="mt-4">
                         @guest
                             @if (!$poll->anonymous_votes)
-                                <x-pages.poll-show.voting.form/>
+                                <x-pages.poll-show.poll.voting.form/>
                             @endif
                         @endguest
 
 
                         <x-ui.form.textbox x-model="form.notes"
-                                            placeholder="Your additional notes...">
+                                           placeholder="Your additional notes...">
                             Notes
                         </x-ui.form.textbox>
 
@@ -150,5 +154,4 @@
 
 
 </div>
-
 

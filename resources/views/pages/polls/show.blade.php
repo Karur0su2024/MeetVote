@@ -20,6 +20,7 @@
             @endif
         </div>
 
+
         <div class="row">
             <div class="col-lg-8">
                 <x-pages.poll-show.poll.section :poll="$poll" />
