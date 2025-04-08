@@ -3,9 +3,8 @@
 ])
 
 
-<div class="mt-4 border-top">
-
-    <h4 class="my-3">
+<div>
+    <h4>
         Results
     </h4>
 

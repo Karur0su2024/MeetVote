@@ -13,6 +13,7 @@ use Livewire\Component;
 class Results extends Component
 {
 
+    use CanOpenModals;
 
     public $votes;
 
@@ -53,31 +54,7 @@ class Results extends Component
         $this->loadedVotes = true;
     }
 
-    public function openVoteModal($vote): void
-    {
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.results',
-            'params' => [
-                'voteIndex' => $vote['id'],
-            ],
-        ]);
-    }
 
-    public function insertToEventModal(EventService $eventService)
-    {
-
-        $event = $eventService->buildEventFromValidatedData($this->poll, $this->results);
-
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.create-event',
-            'params' => [
-                'eventData' => $event,
-                'pollIndex' => $this->poll->id,
-            ],
-
-        ]);
-
-    }
 
 
     public function render()

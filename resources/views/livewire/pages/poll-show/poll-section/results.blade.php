@@ -8,28 +8,33 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 --}}
 <div class="p-4">
 
-
-    <div class="card h-100">
-        <div class="card-body">
-            <h3>All votes</h3>
-            <div class="d-flex flex-wrap gap-2">
-                @forelse($votes as $vote)
-                    <x-ui.button size="sm"
-                                 color="outline-secondary"
-                                 wire:click="openVoteModal({{ $vote }})">
-                        {{ $vote->voter_name }}
-                    </x-ui.button>
-                @empty
-                    No votes yet.
-                @endforelse
+        <div class="card h-100 mb-3">
+            <div class="card-body">
+                <h4>All votes</h4>
+                <div class="d-flex flex-wrap gap-2">
+                    @forelse($votes as $vote)
+                        <x-ui.button size="sm"
+                                     color="outline-secondary"
+                                     wire:click="openVoteModal({{ $vote }})">
+                            {{ $poll->anonymous_votes ? 'Anonymous' : $vote->user->name }}
+                        </x-ui.button>
+                    @empty
+                        No votes yet.
+                    @endforelse
+                </div>
             </div>
         </div>
-    </div>
 
-    @can('chooseResults', $poll)
-        <x-pages.poll-show.poll.results.pick-results-form :results="$results"/>
-    @else
-        <x-pages.poll-show.poll.results.view-only :results="$results"/>
+
+
+    @can('viewResults', $poll)
+
+        @can('chooseResults', $poll)
+            <x-pages.poll-show.poll.results.pick-results-form :results="$results"/>
+        @else
+            <x-pages.poll-show.poll.results.view-only :results="$results"/>
+        @endcan
+
     @endcan
 
 </div>

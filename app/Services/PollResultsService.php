@@ -80,6 +80,15 @@ class PollResultsService
     public function getPreferenceData($poll) {
         $votes = $poll->votes;
 
+        if ($poll->anonymous_votes) {
+            foreach ($votes as $vote) {
+                $vote->voter_name = 'Anonymous';
+            }
+        }
+
+
+
+
         $preferences = [
             'timeOptions' => [],
             'questions' => [],

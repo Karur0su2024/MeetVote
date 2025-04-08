@@ -33,7 +33,7 @@ class PollPolicy
         if ($this->hasAdminPermissions($user, $poll)) return true;
 
         if ($poll->invite_only) {
-            $invitationKey = session()->get('poll_invitations.' . $poll->id);
+            $invitationKey = session()->get('poll_invitations.' . $poll->id . '.0', null);
 
             return $poll->invitations->where('key', $invitationKey)->isNotEmpty();
         }
@@ -124,6 +124,10 @@ class PollPolicy
 
     public function chooseResults(?User $user, Poll $poll): bool
     {
+        if($poll->event !== null) {
+            return false;
+        }
+
         if($poll->isActive()) {
             return false;
         }
@@ -133,6 +137,15 @@ class PollPolicy
         }
 
         return false;
+    }
+
+    public function viewResults(?User $user, Poll $poll): bool
+    {
+        if ($this->hasAdminPermissions($user, $poll)) {
+            return true;
+        }
+
+        return !$poll->anonymous_votes;
     }
 
 }

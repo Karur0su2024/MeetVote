@@ -9,7 +9,6 @@
 <div x-data="{
     mode: '{{ $poll->isActive() ? 'Voting' : 'Results' }}'
 }"
-
     @change-section.window="mode = 'Voting'">
 
     <x-ui.card body-padding="0">

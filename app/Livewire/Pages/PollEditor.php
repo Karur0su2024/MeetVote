@@ -64,7 +64,7 @@ class PollEditor extends Component
         }
         return true;
     }
-    
+
     /**
      */
     public function render()
