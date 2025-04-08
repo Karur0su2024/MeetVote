@@ -24,15 +24,26 @@
         <div class="row flex-row-reverse">
             <div class="col-lg-4">
                 {{-- Základní informace o anketě --}}
-                <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
+                <div>
+                    <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
+                </div>
+
                 @if ($poll->comments)
-                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                    <div class="d-lg-block d-none">
+                        <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                    </div>
                 @endif
             </div>
             <div class="col-lg-8">
                 <x-pages.poll-show.poll.section :poll="$poll" />
             </div>
         </div>
+
+        @if ($poll->comments)
+            <div class="d-lg-none d-md-block">
+                <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+            </div>
+        @endif
 
 
 

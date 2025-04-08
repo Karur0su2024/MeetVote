@@ -1,7 +1,6 @@
 <x-ui.card body-padding="0" collapsable>
     <x-slot:header>
         {{ __('pages/poll-show.comments.title') }}
-        <span class="badge bg-secondary ms-1 fs-4">{{ $poll->pollComments->count() }}</span>
     </x-slot:header>
 
     @if ($poll->pollComments)
