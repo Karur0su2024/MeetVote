@@ -12,18 +12,16 @@
             {{ Carbon\Carbon::parse($vote->updated_at)->diffForHumans() }}
         </x-ui.pill>
 
-        <div class="text-muted small mt-1">
+        <div class="text-muted mt-1">
             {{ $vote->message ?? '' }}
         </div>
 
 
-
-
         @can('delete', $vote)
             <div class="mt-3">
-                <button type="button" class="btn btn-danger" wire:click="deleteVote({{$vote->id}})">
-                    <i class="bi bi-trash"></i> Delete
-                </button>
+                <x-ui.button color="outline-danger" wire:click="deleteVote({{$vote->id}})">
+                    <x-ui.icon name="trash" /> Delete
+                </x-ui.button>
             </div>
         @endcan
 

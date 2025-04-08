@@ -99,7 +99,7 @@ class PollPolicy
         return $poll->user_id === $user->id;
     }
 
-    public function invite(?User $user, Poll $poll): bool
+    public function invite(User $user, Poll $poll): bool
     {
         if ($this->isAdmin($user, $poll)) {
             return true;

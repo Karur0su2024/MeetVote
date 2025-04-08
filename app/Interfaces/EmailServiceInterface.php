@@ -10,7 +10,7 @@ interface EmailServiceInterface
 {
     public function sendConfirmationEmail($poll);
 
-    public function voteNotification($poll, $vote);
+    public function sendVoteNotificationEmail($poll, $vote);
 
     public function sendInvitation($email, $poll, $key);
 

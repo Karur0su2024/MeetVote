@@ -30,10 +30,6 @@
                     <x-ui.icon name="share"/>
                     {{ __('pages/dashboard.poll_card.dropdown.share') }}
                 </x-ui.dropdown.item>
-                <x-ui.dropdown.item wire:click="openModal('modals.poll.results', '{{ $poll->id }}')">
-                    <x-ui.icon name="bar-chart"/>
-                    {{ __('pages/dashboard.poll_card.dropdown.results') }}
-                </x-ui.dropdown.item>
                 <x-ui.dropdown.divider/>
                 <x-ui.dropdown.item wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')"
                                     color="danger">

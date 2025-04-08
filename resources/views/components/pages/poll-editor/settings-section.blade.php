@@ -50,13 +50,16 @@
         Poll security
     </h4>
 
-    {{-- Pouze pro pozvané --}}
-    <x-ui.form.checkbox id="invite_only" x-model="form.settings.invite_only">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.invite_only.label') }}
-    </x-ui.form.checkbox>
+    @auth
+        {{-- Pouze pro pozvané --}}
+        <x-ui.form.checkbox id="invite_only" x-model="form.settings.invite_only">
+            <x-slot:tooltip>
+                {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
+            </x-slot:tooltip>
+            {{ __('pages/poll-editor.settings.invite_only.label') }}
+        </x-ui.form.checkbox>
+    @endauth
+
 
     <div>
         <div x-show="form.password.set !== null">

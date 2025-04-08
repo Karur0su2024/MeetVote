@@ -18,13 +18,17 @@ class EmailService implements EmailServiceInterface
     }
 
 
-    public function voteNotification($poll, $vote)
+    public function sendVoteNotificationEmail($poll, $vote)
     {
+        //        if($poll->notifications){
+        //            TODO: doplnit vypnutí notifikací
+        //        }
         Mail::to($poll->author_email)->send(new VoteNotificationEmail($poll, $vote));
     }
 
     public function sendInvitation($email, $poll, $key)
     {
+
         Mail::to($email)->send(new InvitationEmail($poll, $key));
     }
 

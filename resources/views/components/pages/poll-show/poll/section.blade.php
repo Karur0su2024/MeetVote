@@ -19,7 +19,7 @@
 
         <x-slot:headerRight>
             @if($poll->isActive())
-                <x-ui.button color="outline-secondary"
+                <x-ui.button color="secondary"
                              x-text="mode === 'Results' ? 'Show voting options' : 'Show results'"
                              @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
                 </x-ui.button>

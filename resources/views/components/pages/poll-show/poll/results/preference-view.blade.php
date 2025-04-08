@@ -3,7 +3,7 @@
     'score' => 0
 ])
 
-<div class="d-flex align-items-center justify-content-between gap-4">
+<div class="d-flex align-items-center justify-content-between gap-4 flex-wrap">
     <div class="align-items-center border p-2 px-4 rounded bg-primary text-light fw-bold">
         {{ $score }}
     </div>

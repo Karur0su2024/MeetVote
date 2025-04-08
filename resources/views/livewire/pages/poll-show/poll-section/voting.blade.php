@@ -35,6 +35,9 @@
                                     </x-ui.saving>
                                     <x-ui.button wire:click="checkAvailability" class="ms-2" size="sm">
                                         <x-ui.icon name="calendar-check" />
+                                        <x-slot:tooltip>
+                                            Check for your Google Calendar availability
+                                        </x-slot:tooltip>
                                         Check calendar availability
                                     </x-ui.button>
                                 @endcan

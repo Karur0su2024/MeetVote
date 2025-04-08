@@ -2,6 +2,7 @@
 
 namespace App\Services\Vote;
 
+use App\Events\VoteSubmitted;
 use App\Exceptions\VoteException;
 use App\Models\Vote;
 use App\Models\VoteQuestionOption;
@@ -45,6 +46,7 @@ class VoteCreateService
             }
             else {
                 $message = 'Vote successfully saved.';
+                VoteSubmitted::dispatch($vote);
             }
 
             redirect(request()->header('Referer'))->with('success', $message);

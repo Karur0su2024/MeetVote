@@ -25,11 +25,13 @@
                                     <x-ui.icon class="pencil-square me-1"/>
                                     {{ __('pages/poll-show.settings.dropdown.edit_poll') }}
                                 </x-ui.dropdown.item>
-                                <x-ui.dropdown.item wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"
-                                                    :disabled="!$poll->isActive()">
-                                    <x-ui.icon class="person-plus me-1"/>
-                                    {{ __('pages/poll-show.settings.dropdown.invitations') }}
-                                </x-ui.dropdown.item>
+                                @auth
+                                    <x-ui.dropdown.item wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"
+                                                        :disabled="!$poll->isActive()">
+                                        <x-ui.icon class="person-plus me-1"/>
+                                        {{ __('pages/poll-show.settings.dropdown.invitations') }}
+                                    </x-ui.dropdown.item>
+                                @endauth
                                 <x-ui.dropdown.item wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
                                     <x-ui.icon class="share me-1"/>
                                     {{ __('pages/poll-show.settings.dropdown.share_poll') }}

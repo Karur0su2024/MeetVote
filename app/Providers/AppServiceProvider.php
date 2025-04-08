@@ -70,15 +70,6 @@ class AppServiceProvider extends ServiceProvider
     {
 
         Event::listen(
-            PollCreated::class,
-            SendPollConfirmationEmail::class,
-        );
-        Event::listen(
-            VoteSubmitted::class,
-            SendVoteNotificationEmail::class,
-        );
-
-        Event::listen(
             PollEventCreated::class,
             SyncWithGoogleCalendar::class,
         );
@@ -93,10 +84,7 @@ class AppServiceProvider extends ServiceProvider
             DesyncCalendarEvent::class,
         );
 
-        Event::listen(
-            InvitationSent::class,
-            SendInvitationEmail::class,
-        );
+
 
     }
 }

@@ -55,7 +55,7 @@ return [
         ],
     ],
     'voting' => [
-        'title' => 'Voting',
+        'title' => '',
         'accordion' => [
           'time_options' => 'Time options',
         ],

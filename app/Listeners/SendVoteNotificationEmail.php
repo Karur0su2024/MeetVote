@@ -23,6 +23,6 @@ class SendVoteNotificationEmail
     {
         $vote = $event->vote;
 
-        $this->notificationService->voteNotification($vote->poll, $vote);
+        $this->notificationService->sendVoteNotificationEmail($vote->poll, $vote);
     }
 }
