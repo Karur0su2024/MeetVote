@@ -36,7 +36,6 @@ class PollCreateService
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
-            dd($e);
             throw new PollException('An error occurred while saving the poll.');
         }
     }
@@ -77,13 +76,8 @@ class PollCreateService
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'deadline' => $validatedData['deadline'] !== '' ? $validatedData['deadline'] : null,
-            'anonymous_votes' => $validatedData['settings']['anonymous'],
-            'comments' => $validatedData['settings']['comments'],
-            'hide_results' => $validatedData['settings']['hide_results'],
-            'invite_only' => $validatedData['settings']['invite_only'],
-            'password' => $this->setPassword($validatedData['settings']['password']),
-            'edit_votes' => $validatedData['settings']['edit_votes'],
-            'add_time_options' => $validatedData['settings']['add_time_options'],
+            'settings' => $validatedData['settings'],
+            'password' => $this->setPassword($validatedData['password']),
 
             // Pro nové ankety
             'author_name' => ($poll->author_name ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['name'],

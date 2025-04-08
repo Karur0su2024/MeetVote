@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,7 +26,7 @@ class Poll extends Model
         'user_id', 'author_name', 'author_email', 'title', 'description',
         'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status',
         'deadline', 'password', 'public_id', 'admin_key',
-        'edit_votes', 'add_time_options'
+        'edit_votes', 'add_time_options', 'settings',
 
     ];
 
@@ -62,6 +63,29 @@ class Poll extends Model
     }
 
 
+    public function settings(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => [
+                'anonymous_votes' => $this->getAttribute('anonymous_votes') ?? false,
+                'comments' => $this->getAttribute('comments') ?? false,
+                'invite_only' => $this->getAttribute('invite_only') ?? false,
+                'hide_results' => $this->getAttribute('hide_results') ?? false,
+                'edit_votes' => $this->getAttribute('edit_votes') ?? false,
+                'add_time_options' => $this->getAttribute('add_time_options') ?? false,
+            ],
+            set: fn($array) => [
+                'anonymous_votes' => $array['anonymous_votes'] ?? false,
+                'comments' => $array['comments'] ?? false,
+                'invite_only' => $array['invite_only'] ?? false,
+                'hide_results' => $array['hide_results'] ?? false,
+                'edit_votes' => $array['edit_votes'] ?? false,
+                'add_time_options' => $array['add_time_options'] ?? false,
+            ],
+        );
+    }
+
+
     /**
      * Vztah k uživateli (M:1)
      * @return BelongsTo
@@ -71,74 +95,41 @@ class Poll extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Vztah k časovým možnostem (1:N)
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function timeOptions()
     {
         return $this->hasMany(TimeOption::class);
     }
 
-    /**
-     * Vztah k odpovědím (1:N)
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function votes()
     {
         return $this->hasMany(Vote::class);
     }
 
-    /**
-     * Vztah k události (1:1)
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function event()
     {
         return $this->hasOne(Event::class);
     }
 
-
-    /**
-     * Vztah k otázkám (1:N)
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function questions()
     {
         return $this->hasMany(PollQuestion::class);
     }
 
-    /**
-     * Vztah ke komentářům (1:N)
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function pollComments()
     {
         return $this->hasMany(Comment::class);
     }
 
-
-
-    /**
-     * // Vztah k pozvánkám (1:N)
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function invitations()
     {
         return $this->hasMany(Invitation::class);
     }
 
-    /**
-     * @return string
-     */
     public function getRouteKeyName()
     {
         return 'public_id';
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->status === PollStatus::ACTIVE;

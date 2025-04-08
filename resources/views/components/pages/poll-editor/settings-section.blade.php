@@ -13,7 +13,7 @@
     </x-ui.form.checkbox>
 
     {{-- Tajné hlasování --}}
-    <x-ui.form.checkbox id="anonymous" x-model="form.settings.anonymous">
+    <x-ui.form.checkbox id="anonymous" x-model="form.settings.anonymous_votes">
         <x-slot:tooltip>
             {{ __('pages/poll-editor.settings.anonymous.tooltip') }}
         </x-slot:tooltip>
@@ -59,16 +59,16 @@
     </x-ui.form.checkbox>
 
     <div>
-        <div x-show="form.settings.password.set !== null">
+        <div x-show="form.password.set !== null">
             <x-ui.button color="danger"
-                         @click="form.settings.password.set = null">
+                         @click="form.password.set = null">
                 Password is set, click to remove
             </x-ui.button>
         </div>
 
-        <div x-show="form.settings.password.set === null" x-collapse>
+        <div x-show="form.password.set === null" x-collapse>
             <x-ui.form.checkbox id="password_enabled"
-                                x-model="form.settings.password.enabled"
+                                x-model="form.password.enabled"
                                 margin="m-0">
                 <x-slot:tooltip>
                     {{ __('pages/poll-editor.settings.password.tooltip') }}
@@ -76,12 +76,12 @@
                 {{ __('pages/poll-editor.settings.password.label') }}
             </x-ui.form.checkbox>
 
-            <div x-show="form.settings.password.enabled" x-collapse>
+            <div x-show="form.password.enabled" x-collapse>
                 <x-ui.form.input id="password"
-                                 x-model="form.settings.password.value"
+                                 x-model="form.password.value"
                                  type="password"
                                  placeholder="{{ __('pages/poll-editor.settings.password.placeholder') }}"
-                                 error="form.settings.password" />
+                                 error="form.password" />
             </div>
 
         </div>

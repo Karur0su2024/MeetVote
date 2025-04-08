@@ -24,6 +24,7 @@ class PollEditorForm extends Form
 
     // Nastavení ankety
     public array $settings = [];
+    public array $password = [];
 
     // Informace o uživateli
     public array $user = [];
@@ -47,18 +48,11 @@ class PollEditorForm extends Form
             'title' => 'required|string|min:3|max:255',
             'description' => 'nullable|max:1000',
             'deadline' => 'nullable|date|after:today',
-            'settings.comments' => 'boolean',
-            'settings.anonymous' => 'boolean',
-            'settings.hide_results' => 'boolean',
-            'settings.password.set' => 'nullable|string',
-            'settings.password.enabled' => 'boolean',
-            'settings.password.value' => 'nullable|string',
-            'settings.invite_only' => 'boolean',
-            'settings.add_time_options' => 'boolean',
-            'settings.edit_votes' => 'boolean',
+
             'user.posted_anonymously' => 'boolean',
             'user.name' => 'required_unless:user.posted_anonymously,string|min:3|max:255',
             'user.email' => 'required_unless:user.posted_anonymously,email',
+
             'dates' => 'required|array|min:1', // Pole různých dnů
             'dates.*' => ['nullable', 'array', 'min:1', new NoDateDuplicates()], // Pole časových možností podle data
             'dates.*.*.id' => 'nullable|integer', // ID možnosti
@@ -67,6 +61,7 @@ class PollEditorForm extends Form
             'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
             'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
             'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
+
             'questions' => ['nullable', 'array', new NoQuestionDuplicates()], // Pole otázek
             'questions.*.id' => 'nullable|integer', // ID otázky
             'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
@@ -76,6 +71,16 @@ class PollEditorForm extends Form
             'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
             'removed.questions' => 'nullable|array', // ID odstraněných otázek
             'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
+
+            'settings.comments' => 'boolean',
+            'settings.anonymous_votes' => 'boolean',
+            'settings.hide_results' => 'boolean',
+            'settings.invite_only' => 'boolean',
+            'settings.add_time_options' => 'boolean',
+            'settings.edit_votes' => 'boolean',
+            'password.set' => 'nullable|string',
+            'password.enabled' => 'boolean',
+            'password.value' => 'nullable|string',
         ];
     }
 
@@ -143,6 +148,7 @@ class PollEditorForm extends Form
         $this->description = $data['description'] ?? '';
         $this->deadline = $data['deadline'] ?? null;
         $this->settings = $data['settings'] ?? [];
+        $this->password = $data['password'] ?? null;
         $this->user = $data['user'] ?? [];
         $this->dates = collect($data['time_options'])->groupBy('date')->toArray() ?? [];
         $this->questions = $data['questions'] ?? [];

@@ -24,6 +24,7 @@ class PollController extends Controller
 
     public function edit(Poll $poll)
     {
+        //dd($poll->settings);
         $pollIndex = $poll->id;
         $publicId = $poll->public_id;
         $pollTitle = $poll->title;
@@ -70,7 +71,7 @@ class PollController extends Controller
         session()->forget('poll_'.$poll->public_id.'_adminKey', $admin_key);
 
         session()->forget('poll_admin_keys.'.$poll->id);
-        session()->push('poll_admin_keys.'.$poll->id, $poll->admin_key);
+        session()->put('poll_admin_keys.'.$poll->id, $poll->admin_key);
 
         return redirect()->route('polls.show', $poll)->with('success', 'You are in admin mode now!');
     }

@@ -33,18 +33,11 @@ class PollQueryService
                 'name' => $poll->author_name ?? Auth::user()?->name,
                 'email' => $poll->author_email ?? Auth::user()?->email,
             ],
-            'settings' => [
-                'anonymous' => (bool) $poll?->anonymous_votes,
-                'comments' => (bool) $poll?->comments,
-                'hide_results' => (bool) $poll?->hide_results,
-                'invite_only' => (bool) $poll?->invite_only,
-                'password' => [
-                    'enabled' => $poll?->password ? true : false,
-                    'set' => $poll?->password ?? null,
-                    'value' => '',
-                ],
-                'add_time_options' => (bool) $poll?->add_time_options,
-                'edit_votes' => (bool) $poll?->edit_votes,
+            'settings' => $poll->settings ?? [],
+            'password' => [
+                'enabled' => $poll?->password ? true : false,
+                'set' => $poll?->password ?? null,
+                'value' => '',
             ],
             'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll),
             'questions' => $this->questionQueryService->getQuestionsArray($poll),
