@@ -28,7 +28,7 @@ return [
         'no_polls' => 'No polls found.',
         'no_events' => 'You don\'t have any events yet.',
         'no_connected_calendar' => [
-            'text' => 'You can sync your events with Google Calendar. To do this, please link your Google account in the',
+            'text' => 'You can sync your events with Google Calendar. To do this, please link your Google account in the ',
             'link' => 'settings',
         ]
     ],
