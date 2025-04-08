@@ -31,19 +31,18 @@ class PollEditor extends Component
     public function submit(PollCreateService $pollCreateService)
     {
 
-        if ($this->pollIndex) {
-            $pollUpdated = Poll::find($this->pollIndex, ['updated_at']);
-            if($pollUpdated->updated_at !== $this->form->lastUpdated){
-                $this->addError('error', 'The poll has been updated by another user. Please refresh the page.');
-                return null;
-            }
+        if(!$this->canUpdate()){
+            $this->addError('error', 'The poll has been updated by another user. Please refresh the page.');
+            return;
         }
+
 
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
+            return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (ValidationException $e) {
-            $this->dispatch('validation-failed', errors: $this->getErrors());
+            $this->dispatch('validation-failed', errors: $e->errors());
             throw $e;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
@@ -53,17 +52,19 @@ class PollEditor extends Component
             return null;
         }
 
-        return redirect()->route('polls.show', ['poll' => $poll->public_id]);
     }
 
-
-
-    private function getErrors(): array
+    private function canUpdate(): bool
     {
-        return $this->getErrorBag()->toArray();
+        if ($this->pollIndex) {
+            $pollUpdated = Poll::find($this->pollIndex, ['updated_at']);
+            if($pollUpdated->updated_at !== $this->form->lastUpdated){
+                return false;
+            }
+        }
+        return true;
     }
-
-
+    
     /**
      */
     public function render()
