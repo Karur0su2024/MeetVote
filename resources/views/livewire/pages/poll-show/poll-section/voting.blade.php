@@ -46,10 +46,11 @@
                                     <div class="col-md-12 col-lg-6">
                                         <x-pages.poll-show.poll.results.option-card
                                             class="btn-outline-vote"
-                                            ::class="'voting-card-' + timeOption.picked_preference"
+                                            ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
                                             @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
                                             <x-slot:text>
                                                 <span x-text="timeOption.date_formatted"></span>
+                                                <span x-text="timeOption.invalid"></span>
                                             </x-slot:text>
                                             <x-slot:subtext>
                                                 <span x-text="timeOption.full_content"></span>

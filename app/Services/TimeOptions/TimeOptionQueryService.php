@@ -26,6 +26,7 @@ class TimeOptionQueryService
             return $this->initialTimeOption();
         }
 
+
         $timeOptions = [];
         foreach ($poll->timeOptions as $timeOption) {
 
@@ -36,27 +37,28 @@ class TimeOptionQueryService
                 'text' => $timeOption->text,
             ];
 
+            $time = $timeOption->start ?? '23:59:59';
+            $datetime = $timeOption->date . ' ' . $time;
+
+
             $timeOptions[$timeOption->id] = [
                 'id' => $timeOption->id,
                 'date' => $timeOption->date,
                 'date_formatted' => Carbon::parse($timeOption->date)->format('l, F d, Y'),
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $content,
+                'datetime' => $datetime,
+                'invalid' => (now() >= $datetime),
                 'full_content' => implode(' - ', $content),
                 'score' => $this->getOptionScore($timeOption),
                 'picked_preference' => 0,
             ];
         }
 
-        if(count($timeOptions) === 0) {
-            return $this->initialTimeOption();
-        }
 
         return $timeOptions;
 
     }
-
-
 
 
     /**
@@ -88,7 +90,6 @@ class TimeOptionQueryService
             ],
         ]];
     }
-
 
 
     /**

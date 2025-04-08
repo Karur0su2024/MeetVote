@@ -70,6 +70,9 @@
     height: 100%;
 }
 
+.voting-card-invalid {
+    opacity: 0.5 !important;
+}
 
 /* Vzhled pozadí karet */
 .voting-card-none {

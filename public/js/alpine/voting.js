@@ -8,6 +8,10 @@ function getVotingData() {
 
         // Nastavení preference pro časovou možnost nebo otázku
         setPreference(type, questionIndex, optionIndex, preference) {
+            if( this.form.timeOptions[optionIndex].invalid){
+                return
+            }
+
             if (type === 'timeOption') {
                 this.form.timeOptions[optionIndex].picked_preference = preference;
             } else if (type == 'question') {
