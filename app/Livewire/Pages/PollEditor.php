@@ -39,7 +39,6 @@ class PollEditor extends Component
             }
         }
 
-
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
@@ -49,7 +48,7 @@ class PollEditor extends Component
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
             return null;
-        } catch (Exception $e) {
+        } catch (Exception $e) {;
             $this->addError('error', 'An error occurred while saving the poll.');
             return null;
         }

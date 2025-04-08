@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('hide_results')->default(false);
             $table->string('password')->nullable();
             $table->string('status', 45);
-            $table->timestamp('deadline')->nullable();
+            $table->dateTime('deadline')->nullable();
             $table->timestamps();
         });
     }

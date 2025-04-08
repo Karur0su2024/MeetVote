@@ -36,6 +36,7 @@ class PollCreateService
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
+            dd($e);
             throw new PollException('An error occurred while saving the poll.');
         }
     }
@@ -75,7 +76,7 @@ class PollCreateService
         return [
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
-            'deadline' => $validatedData['deadline'],
+            'deadline' => $validatedData['deadline'] !== '' ? $validatedData['deadline'] : null,
             'anonymous_votes' => $validatedData['settings']['anonymous'],
             'comments' => $validatedData['settings']['comments'],
             'hide_results' => $validatedData['settings']['hide_results'],
