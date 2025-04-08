@@ -1,7 +1,7 @@
 <div>
 
     <h4 class="text-muted mb-3">
-        User information
+        {{ __('pages/poll-editor.basic_info.section.user') }}
     </h4>
 
 

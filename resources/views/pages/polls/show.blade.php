@@ -25,7 +25,7 @@
             <div class="col-lg-4">
                 {{-- Základní informace o anketě --}}
                 <div>
-                    <livewire:pages.poll-show.info-section :poll-index="$poll->id" />
+                    <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
                 </div>
 
                 @if ($poll->comments)
@@ -35,7 +35,7 @@
                 @endif
             </div>
             <div class="col-lg-8">
-                <x-pages.poll-show.poll.section :poll="$poll" />
+                <x-pages.poll-show.poll.section :poll="$poll"/>
             </div>
         </div>
 
@@ -45,12 +45,7 @@
             </div>
         @endif
 
-
-
-        {{-- Komentáře --}}
-
-
     </div>
 
-    </x-layouts.app>
+</x-layouts.app>
 

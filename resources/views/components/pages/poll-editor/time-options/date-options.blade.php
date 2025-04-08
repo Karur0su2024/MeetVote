@@ -36,7 +36,7 @@
                      ::class="{ 'disabled': form.dates[dateIndex].length === 1 }">
             <i :class="{ 'bi bi-exclamation-triangle': form.dates[dateIndex][optionIndex].score > 0,
                          'bi bi-trash': !form.dates[dateIndex][optionIndex].score }">
-                <span class="d-md-none ms-1">Delete</span>
+                <span class="d-md-none ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
             </i>
         </x-ui.button>
 

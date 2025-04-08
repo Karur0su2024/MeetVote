@@ -24,7 +24,7 @@
     </div>
     <x-slot:footer>
         <a href="{{ route('polls.show', $event->poll) }}" class="btn btn-outline-primary btn-sm">
-            Show poll
+            {{ __('pages/dashboard.event_card.buttons.view') }}
         </a>
     </x-slot:footer>
 

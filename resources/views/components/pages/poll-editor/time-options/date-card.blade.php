@@ -20,7 +20,7 @@
             <x-ui.button color="danger"
                          size="sm"
                          @click="removeDate(dateIndex)">
-                <i class="bi bi-trash"></i> Delete
+                <i class="bi bi-trash"></i> {{ __('pages/poll-editor.time_options.button.delete') }}
             </x-ui.button>
         </div>
     </div>

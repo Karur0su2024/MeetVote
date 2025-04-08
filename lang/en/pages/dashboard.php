@@ -48,5 +48,11 @@ return [
         'buttons' => [
             'view' => 'View poll',
         ],
-    ]
+    ],
+
+    'event_card' => [
+        'buttons' => [
+            'view' => "View event\'s poll",
+        ],
+    ],
 ];

@@ -2,9 +2,22 @@
 
 return [
 
+    'page' => [
+        'create' => 'Create a New Poll',
+        'edit' => [
+            'title' => 'Edit poll :poll_title',
+        ],
+    ],
+
     // Základní informace o anketě
     'basic_info' => [
         'title' => 'Basic information',
+
+        'section' => [
+            'poll' => 'Poll information',
+            'user' => 'User information',
+        ],
+
         'poll_title' => [
             'label' => 'Poll title',
             'placeholder' => 'Poll #1',
@@ -40,6 +53,7 @@ return [
             'dates' => 'Chosen dates',
         ],
         'button' => [
+            'delete' => 'Delete',
             'add_empty_time_option' => 'Add empty time option',
             'add_hour_time_option' => 'Add hour time option',
             'add_text_option' => 'Add text option',
@@ -95,6 +109,7 @@ return [
         ],
     ],
     'button' => [
+        'return' => 'Return to poll',
         'submit' => 'Save Poll',
     ],
 

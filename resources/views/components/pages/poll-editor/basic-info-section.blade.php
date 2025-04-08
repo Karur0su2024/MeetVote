@@ -7,7 +7,7 @@
 
         <div class="mb-3">
             <h4 class="text-muted mb-3">
-                Poll information
+                {{ __('pages/poll-editor.basic_info.section.poll') }}
             </h4>
 
 

@@ -28,7 +28,7 @@
             @if($poll)
                 <x-slot:left>
                     <a class="btn btn-secondary text-start" href="{{ route('polls.show', $poll) }}">
-                        Return to poll
+                        {{ __('pages/poll-editor.button.return') }}
                     </a>
                 </x-slot:left>
             @endif

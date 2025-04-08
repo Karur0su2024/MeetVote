@@ -1,4 +1,4 @@
-<x-ui.card collapsable>
+<x-ui.card>
 
     {{-- Hlavička --}}
     <x-slot:header>
