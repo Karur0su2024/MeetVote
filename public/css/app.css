@@ -55,16 +55,8 @@ body {
     font-weight: bold;
 }
 
-.btn-primary {
-    background-color: #76D2CD !important;
-    color: #000 !important;
-    font-weight: bold !important;
-    border: none !important;
-}
 
-.btn-primary:hover {
-    background-color: #66b3af !important;
-}
+
 
 .pointer-cursor {
     cursor: pointer !important;

@@ -40,7 +40,8 @@
         {{ $footerFlex ? 'd-flex' : '' }}
         d-grid gap-2 text-start
         p-{{ $footerPadding ?? 2 }}
-        {{ $footerClass ?? '' }}"
+        {{ $footerClass ?? '' }}
+        {{ $footer->attributes->get('class') }}"
         >
             {{ $footer }}
         </div>

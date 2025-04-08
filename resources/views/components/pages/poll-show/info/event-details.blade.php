@@ -46,9 +46,9 @@
             {{ Carbon\Carbon::parse($event->end_time)->format('d.m.Y H:i') }}
         </p>
 
-        @isset($event->description)
+        @if($event->description)
             <pre>{{ $event->description }}</pre>
-        @endisset
+        @endif
     @else
         <div class="text-center">
             @if (!$poll->isActive())

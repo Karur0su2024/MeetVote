@@ -66,7 +66,7 @@
                     {{ $poll->description }}
                 @endif
             </p>
-            <x-slot:footer>
+            <x-slot:footer class="flex-wrap">
                 @if ($poll->comments)
                     <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.comments') }}
