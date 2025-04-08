@@ -9,8 +9,12 @@
             Choose results
         </h3>
 
-        <x-ui.button type="submit" size="lg">
-            Insert into event form
+        <x-ui.button type="submit">
+            <x-slot:tooltip>
+                Open event creation modal and pre-fill it with picked results.
+                Then you can share the event with your friends.
+            </x-slot:tooltip>
+            Create event
         </x-ui.button>
 
 

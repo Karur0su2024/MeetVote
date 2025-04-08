@@ -4,7 +4,7 @@
     <x-slot:title>Error</x-slot>
 
     <div class="container text-center">
-        
+
         @if (session('error'))
             <div class="alert alert-success">
                 {{ session('error') }}
