@@ -40,19 +40,19 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-//        Event::listen(
-//            InvitationSent::class,
-//            SendInvitationEmail::class,
-//        );
-//
-//        Event::listen(
-//            PollCreated::class,
-//            SendPollConfirmationEmail::class,
-//        );
-//        Event::listen(
-//            VoteSubmitted::class,
-//            SendVoteNotificationEmail::class,
-//        );
+        Event::listen(
+            InvitationSent::class,
+            SendInvitationEmail::class,
+        );
+
+        Event::listen(
+            PollCreated::class,
+            SendPollConfirmationEmail::class,
+        );
+        Event::listen(
+            VoteSubmitted::class,
+            SendVoteNotificationEmail::class,
+        );
 
     }
 
