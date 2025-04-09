@@ -21,7 +21,7 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if(false){
+        if(config('mail.allowed')){
             $this->app->singleton(EmailServiceInterface::class, function ($app) {
                 return new EmailService();
             });
@@ -40,25 +40,20 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(
-            InvitationSent::class,
-            SendInvitationEmail::class,
-        );
+//        Event::listen(
+//            InvitationSent::class,
+//            SendInvitationEmail::class,
+//        );
+//
+//        Event::listen(
+//            PollCreated::class,
+//            SendPollConfirmationEmail::class,
+//        );
+//        Event::listen(
+//            VoteSubmitted::class,
+//            SendVoteNotificationEmail::class,
+//        );
 
-        Event::listen(
-            PollCreated::class,
-            SendPollConfirmationEmail::class,
-        );
-        Event::listen(
-            VoteSubmitted::class,
-            SendVoteNotificationEmail::class,
-        );
-
-    }
-
-    public function isConfigured()
-    {
-        return config('mail.allowed');
     }
 
 }

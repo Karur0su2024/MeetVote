@@ -14,7 +14,7 @@ class EmailService implements EmailServiceInterface
     // Potvrzení vytvoření ankety
     public function sendConfirmationEmail($poll)
     {
-        Mail::to($poll->author_email)->send(new PollCreatedConfirmationEmail($poll));
+        //Mail::to($poll->author_email)->send(new PollCreatedConfirmationEmail($poll));
     }
 
 
@@ -23,13 +23,13 @@ class EmailService implements EmailServiceInterface
         //        if($poll->notifications){
         //            TODO: doplnit vypnutí notifikací
         //        }
-        Mail::to($poll->author_email)->send(new VoteNotificationEmail($poll, $vote));
+        //Mail::to($poll->author_email)->send(new VoteNotificationEmail($poll, $vote));
     }
 
     public function sendInvitation($email, $poll, $key)
     {
 
-        Mail::to($email)->send(new InvitationEmail($poll, $key));
+        //Mail::to($email)->send(new InvitationEmail($poll, $key));
     }
 
 }
