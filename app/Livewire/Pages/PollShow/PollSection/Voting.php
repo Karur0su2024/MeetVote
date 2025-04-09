@@ -52,8 +52,6 @@ class Voting extends Component
             return;
         }
 
-        dd($this->form->questions);
-
         $validatedData = $this->form->validate();
         $validatedData['poll_id'] = $this->poll->id;
 

@@ -12,12 +12,12 @@ class EmailServiceEmpty implements EmailServiceInterface
         return;
     }
 
-    public function voteNotification($poll, $vote)
+    public function sendInvitation($email, $poll, $key)
     {
         return;
     }
 
-    public function sendInvitation($email, $poll, $key)
+    public function sendVoteNotificationEmail($poll, $vote)
     {
         return;
     }

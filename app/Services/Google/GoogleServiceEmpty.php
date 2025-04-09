@@ -33,4 +33,9 @@ class GoogleServiceEmpty implements GoogleServiceInterface
     {
         return;
     }
+
+    public function checkAvailability($user, $startTime, $endTime)
+    {
+        return;
+    }
 }

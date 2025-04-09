@@ -21,7 +21,7 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if($this->isConfigured()){
+        if(false){
             $this->app->singleton(EmailServiceInterface::class, function ($app) {
                 return new EmailService();
             });
