@@ -20,7 +20,13 @@
             <x-ui.button color="danger"
                          size="sm"
                          @click="removeDate(dateIndex)">
-                <i class="bi bi-trash"></i> {{ __('pages/poll-editor.time_options.button.delete') }}
+                <i class="bi bi-trash"></i>
+                <span class="d-md-inline d-none">
+                    {{ __('pages/poll-editor.time_options.button.delete') }}
+                </span>
+
+
+
             </x-ui.button>
         </div>
     </div>
@@ -37,19 +43,19 @@
         </span>
         <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-2 mt-1">
             <x-ui.button color="outline-secondary"
-                         class="w-100 w-md-auto"
+                         class="w-100 w-md-auto py-2"
                          size="sm"
                          @click="addTimeOption(dateIndex, 'time', true)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
-                         class="w-100 w-md-auto"
+                         class="w-100 w-md-auto py-2"
                          size="sm"
                          @click="addTimeOption(dateIndex, 'time', false)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_hour_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
-                         class="w-100 w-md-auto"
+                         class="w-100 w-md-auto py-2"
                          size="sm"
                          @click="addTimeOption(dateIndex, 'text')">
                 <i class="bi bi-text-paragraph me-1"></i>{{ __('pages/poll-editor.time_options.button.add_text_option') }}

@@ -7,7 +7,7 @@
         {{-- Pole pro zadání začátku časového intervalu  --}}
 
         <template x-if="option.type === 'time'">
-            <div class="d-flex gap-2 w-100">
+            <div class="d-flex flex-md-nowrap flex-wrap gap-2 w-100">
                 <input type="time"
                        x-model="form.dates[dateIndex][optionIndex].content.start"
                        :id="'start_' + dateIndex + '_' + optionIndex"

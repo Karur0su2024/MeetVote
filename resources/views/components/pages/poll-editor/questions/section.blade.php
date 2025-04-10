@@ -18,13 +18,11 @@
     </template>
     {{-- Tlačítko pro přidání další otázky --}}
     <x-ui.button @click="addQuestion()"
-                 class="w-25"
                  color="outline-secondary">
         {{ __('pages/poll-editor.questions.button.add_question') }}
     </x-ui.button>
 
     @error('form.questions')
-    <span
-            class="text-danger ms-2">{{ $message }}</span>
+    <span class="text-danger ms-2">{{ $message }}</span>
     @enderror
 </x-ui.card>

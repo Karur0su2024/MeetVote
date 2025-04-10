@@ -34,7 +34,7 @@
             @endif
             <x-slot:right>
                 <x-error-alert for="error"/>
-                <x-ui.button type="submit" class="w-25">
+                <x-ui.button type="submit">
                     {{ __('pages/poll-editor.button.submit') }}
                 </x-ui.button>
                 <x-ui.saving wire:loading wire:target="submit">

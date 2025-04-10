@@ -52,6 +52,10 @@ return [
             'title' => 'Calendar',
             'dates' => 'Chosen dates',
         ],
+        'label' => [
+            'start' => 'Start time',
+            'end' => 'End time',
+        ],
         'button' => [
             'delete' => 'Delete',
             'add_empty_time_option' => 'Add empty time option',

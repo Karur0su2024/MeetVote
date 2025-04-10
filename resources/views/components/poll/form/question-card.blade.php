@@ -31,7 +31,6 @@
         </template>
 
         <x-ui.button @click="form.questions[questionIndex].options.push({ text: '' })"
-                     class="w-25"
                      color="outline-secondary">
             {{ __('pages/poll-editor.questions.button.add_option') }}
         </x-ui.button>

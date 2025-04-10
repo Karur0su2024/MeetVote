@@ -22,15 +22,9 @@
             @if($userVote)
                 <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
             @else
-                <p class="text-muted">
+                <p class="text-muted mt-2">
                     You have not voted yet.
                 </p>
-
-                <x-ui.button color="primary"
-                             size="sm"
-                             wire:click="dispatch('show-voting-section')">
-                    Add new vote
-                </x-ui.button>
             @endif
         </div>
     </div>
