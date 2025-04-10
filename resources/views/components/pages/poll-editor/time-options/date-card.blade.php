@@ -5,7 +5,7 @@
             <strong class="card-title m-0"
                     x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"></strong>
             <x-ui.badge class="ms-2">
-                <span x-text="form.dates[dateIndex].length"></span>
+                <span x-text="dates[dateIndex].length"></span>
             </x-ui.badge>
         </p>
 

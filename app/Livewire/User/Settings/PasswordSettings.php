@@ -25,24 +25,23 @@ class PasswordSettings extends Component
     }
 
 
-    // Metoda pro aktualizaci hesla
     public function updatePassword()
     {
-        
-        // Zjištění, zda je aktuální heslo správné
+
+        // Kontrola aktualního hesla
         if (!Hash::check($this->current_password, Auth::user()->password)) {
             $this->addError('current_password', 'Current password is incorrect.');
             return;
         }
 
-        // Validace nového hesla
         $this->validate();
 
         // Aktualizace hesla
         Auth::user()->update([
-            'password' => bcrypt($this->new_password),
+            'password' => Hash::make($this->new_password)
         ]);
 
+        // Resetování hodnot
         $this->reset();
 
         session()->flash('settings.password.success', 'Password updated successfully.');

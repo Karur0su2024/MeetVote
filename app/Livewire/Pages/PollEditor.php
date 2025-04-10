@@ -39,6 +39,7 @@ class PollEditor extends Component
         }
 
 
+
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);

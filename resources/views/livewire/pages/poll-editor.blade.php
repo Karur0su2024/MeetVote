@@ -2,8 +2,7 @@
 
 
     <form wire:submit.prevent="submit"
-          x-data="getFormData"
-          @validation-failed.window="duplicateError($event.detail.errors)">
+          x-data="getFormData">
 
         {{-- Základní informace o anketě --}}
         <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex"/>
@@ -50,7 +49,5 @@
 </div>
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="{{ asset('js/alpine/form.js') }}"></script>
 @endpush
