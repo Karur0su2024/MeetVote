@@ -2,16 +2,12 @@
 
 namespace App\Providers;
 
-use App\Events\InvitationSent;
-use App\Events\PollCreated;
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Events\PollReopened;
-use App\Events\VoteSubmitted;
+use App\Listeners\AssingPollsToUserByEmail;
 use App\Listeners\DesyncCalendarEvent;
-use App\Listeners\SendInvitationEmail;
-use App\Listeners\SendPollConfirmationEmail;
-use App\Listeners\SendVoteNotificationEmail;
+use App\Listeners\SendRegistrationEmail;
 use App\Listeners\SyncWithGoogleCalendar;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
@@ -21,7 +17,7 @@ use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionCreateService;
 use App\Services\TimeOptions\TimeOptionQueryService;
 use App\Services\Vote\VoteQueryService;
-use App\Services\Vote\VoteService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -68,6 +64,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Event::listen(
+            Registered::class,
+            SendRegistrationEmail::class,
+        );
+
+        Event::listen(
+            Registered::class,
+            AssingPollsToUserByEmail::class,
+        );
 
         Event::listen(
             PollEventCreated::class,

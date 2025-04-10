@@ -26,8 +26,6 @@ class Register extends Component
 
         event(new Registered($user = User::create($validatedData)));
 
-        $this->assignPollsToUser($user);
-
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
@@ -38,13 +36,4 @@ class Register extends Component
         return view('livewire.auth.register');
     }
 
-    private function assignPollsToUser($user): void
-    {
-        $polls = Poll::where('author_email', $user->email)->get();
-
-        foreach ($polls as $poll) {
-            $poll->user_id = $user->id;
-            $poll->save();
-        }
-    }
 }

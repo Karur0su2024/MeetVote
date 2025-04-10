@@ -8,21 +8,25 @@ use Illuminate\Support\Facades\Log;
 class EmailServiceEmpty implements EmailServiceInterface
 {
 
-    public function sendConfirmationEmail($poll)
+    public function sendConfirmationEmail($poll): void
     {
         Log::info('Email service is disabled, not sending confirmation email');
-        return;
     }
 
-    public function sendInvitation($email, $poll, $key)
+
+    public function sendInvitation($email, $poll, $key): void
     {
         Log::info('Email service is disabled, not sending invitation email');
-        return;
     }
 
-    public function sendVoteNotificationEmail($poll, $vote)
+    public function sendVoteNotificationEmail($poll, $vote): void
     {
         Log::info('Email service is disabled, not sending vote notification email');
-        return;
+    }
+
+
+    public function sendRegistrationMail($user): void
+    {
+        Log::info('Email service is disabled, not sending registration email');
     }
 }

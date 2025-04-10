@@ -5,6 +5,7 @@ namespace App\Services\Google;
 
 use App\Interfaces\GoogleServiceInterface;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as GoogleUser;
@@ -60,6 +61,7 @@ class GoogleService implements GoogleServiceInterface
             }
             else {
                 $user = User::create($this->buildGoogleUser($googleUser));
+                event(new Registered($user));
             }
             Auth::login($user, true);
         }
