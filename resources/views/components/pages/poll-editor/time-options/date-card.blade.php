@@ -34,7 +34,7 @@
          x-show="!collapsed"
          x-collapse>
         <template x-for="(option, optionIndex) in date" :key="optionIndex">
-            <x-pages.poll-editor.time-options.date-options/>
+            <x-pages.poll-editor.time-options.date-option/>
         </template>
         <span
             class="text-danger ms-2"
@@ -45,19 +45,19 @@
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addTimeOption(dateIndex, 'time', true)">
+                         @click="addOption(dateIndex, 'time', true)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addTimeOption(dateIndex, 'time', false)">
+                         @click="addOption(dateIndex, 'time', false)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_hour_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addTimeOption(dateIndex, 'text')">
+                         @click="addOption(dateIndex, 'text')">
                 <i class="bi bi-text-paragraph me-1"></i>{{ __('pages/poll-editor.time_options.button.add_text_option') }}
             </x-ui.button>
         </div>

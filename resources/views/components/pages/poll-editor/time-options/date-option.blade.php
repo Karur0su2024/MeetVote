@@ -31,7 +31,7 @@
 
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-        <x-ui.button @click="removeTimeOption(dateIndex, optionIndex)"
+        <x-ui.button @click="removeOption(dateIndex, optionIndex)"
                      color="danger"
                      ::class="{ 'disabled': dates[dateIndex].length === 1 }">
             <i :class="{ 'bi bi-exclamation-triangle': dates[dateIndex][optionIndex].score > 0,

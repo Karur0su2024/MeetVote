@@ -57,9 +57,7 @@ function setTimeOptions() {
         },
 
         // Funkce pro přidání časové možnosti
-        addTimeOption(date, type, empty) {
-
-
+        addOption(date, type, empty) {
             // Přidání časové možnosti do formuláře
             if (this.dates[date] === undefined) {
                 this.dates[date] = [];
@@ -67,46 +65,51 @@ function setTimeOptions() {
 
             // Kontrola typu možnosti
             if (type === 'time') {
-                if (empty) {
-                    this.dates[date].push({
-                        type: type,
-                        date: date,
-                        content: {
-                            start: '',
-                            end: '',
-                        },
-                    });
-                } else {
-                    let lastEnd = this.getLastEnd(date);
-                    let end = moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm');
-
-                    if (lastEnd > end) {
-                        return;
-                    }
-
-                    this.dates[date].push({
-                        type: type,
-                        date: date,
-                        content: {
-                            start: lastEnd,
-                            end: end,
-                        },
-                    });
-                }
+                this.addTimeOption(date, empty);
 
             } else {
-                this.dates[date].push({
-                    type: type,
-                    date: date,
-                    content: {
-                        text: "",
-                    },
-                });
+                this.addTextOption(date);
             }
 
         },
 
-        removeTimeOption(date, index) {
+
+        addTextOption(date) {
+            this.dates[date].push({
+                type: "text",
+                date: date,
+                content: {
+                    text: "",
+                },
+            });
+        },
+
+        addTimeOption(date, empty){
+            if(empty) {
+                let lastEnd = this.getLastEnd(date);
+                let end = moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm');
+
+                if (lastEnd > end) {
+                    return;
+                }
+            }
+            else {
+                let lastEnd = '';
+                let end = ''
+            }
+
+            this.dates[date].push({
+                type: type,
+                date: date,
+                content: {
+                    start: lastEnd,
+                    end: end,
+                },
+            });
+        },
+
+
+        removeOption(date, index) {
 
             // Odstranění časové možnosti z formuláře
             if (this.dates[date].length <= 1) {
