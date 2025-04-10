@@ -44,6 +44,7 @@ class QuestionQueryService
 
 
     // TODO: dočasné řešení
+    // Ass jako associative, ne nic jiného :D
     public function getQuestionsAssArray(Poll $poll): array
     {
         $questions = [];

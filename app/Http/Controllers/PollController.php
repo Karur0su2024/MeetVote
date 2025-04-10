@@ -66,8 +66,6 @@ class PollController extends Controller
             return redirect()->back()->with('error', 'Špatný klíč správce ankety');
         }
 
-        session()->forget('poll_'.$poll->public_id.'_adminKey', $admin_key);
-
         session()->forget('poll_admin_keys.'.$poll->id);
         session()->put('poll_admin_keys.'.$poll->id, $poll->admin_key);
 

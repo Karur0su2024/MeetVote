@@ -1,8 +1,7 @@
 <div>
 
 
-    <form wire:submit.prevent="submit"
-          x-data="getFormData">
+    <form wire:submit.prevent="submit">
 
         {{-- Základní informace o anketě --}}
         <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex"/>
@@ -47,7 +46,3 @@
 
     </form>
 </div>
-
-@push('scripts')
-    <script src="{{ asset('js/alpine/form.js') }}"></script>
-@endpush

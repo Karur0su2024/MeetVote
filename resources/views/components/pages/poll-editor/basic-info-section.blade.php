@@ -13,29 +13,26 @@
 
             <x-ui.form.input
                 id="title"
-                x-model="form.title"
+                wire:model="form.title"
                 type="text"
                 placeholder="{{ __('pages/poll-editor.basic_info.poll_title.placeholder') }}"
-                required
-                x-error="form.title">
+                required>
                 {{ __('pages/poll-editor.basic_info.poll_title.label') }}
             </x-ui.form.input>
 
             {{-- Popis ankety --}}
             <x-ui.form.textbox
                 id="description"
-                x-model="form.description"
-                placeholder="{{ __('pages/poll-editor.basic_info.poll_description.placeholder') }}"
-                x-error="form.description">
+                wire:model="form.description"
+                placeholder="{{ __('pages/poll-editor.basic_info.poll_description.placeholder') }}">
                 {{ __('pages/poll-editor.basic_info.poll_description.label') }}
             </x-ui.form.textbox>
 
             {{-- Deadline ankety --}}
             <x-ui.form.input
                 id="deadline"
-                x-model="form.deadline"
-                type="date"
-                x-error="form.deadline">
+                wire:model="form.deadline"
+                type="date">
                 <x-slot:tooltip>
                     {{ __('pages/poll-editor.basic_info.poll_deadline.tooltip') }}
                 </x-slot:tooltip>
