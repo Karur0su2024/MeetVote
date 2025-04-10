@@ -3,11 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\GoogleController;
 
 
 Route::middleware('guest')->group(function () {
-
     // registrační formulář
     Route::view('register', 'pages.auth.registration')->name('register');
 
@@ -20,11 +18,8 @@ Route::middleware('guest')->group(function () {
 });
 
 
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('user/logout', [UserController::class, 'logout'])->name('logout');
-
 
     // Dashboard
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');

@@ -15,11 +15,11 @@
             <form class="mt-3 text-start" wire:submit.prevent="sendPasswordResetLink">
 
                 <!-- Email -->
-                <x-ui.form.input id="email" model="email" type="email" label="Email" required>
-                    {{ __('pages/auth.forgot_password.labels.password') }}
+                <x-ui.form.input id="email" wire:model="email" type="email" label="Email" required>
+                    {{ __('pages/auth.forgot_password.labels.email') }}
                 </x-ui.form.input>
 
-                <button class="btn btn-primary">{{ __('pages/auth.forgot_password.buttons.send') }}</button>
+                <button class="btn btn-primary" type="submit">{{ __('pages/auth.forgot_password.buttons.send') }}</button>
 
                 <x-ui.saving wire:loading>
                     {{ __('pages/auth.forgot_password.loading') }}

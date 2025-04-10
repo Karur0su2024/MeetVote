@@ -45,7 +45,7 @@ return [
 
         'description' => 'Please enter your email address to receive a password reset link.',
         'labels' => [
-            'password' => 'Email',
+            'email' => 'Email',
         ],
         'buttons' => [
             'send' => 'Send password reset link',

@@ -20,7 +20,7 @@ class EmailService implements EmailServiceInterface
             Mail::to($poll->author_email)->send(new PollCreatedConfirmationEmail($poll));
             Log::info('Confirmation email sent successfully');
         } catch (\Exception $e) {
-            Log::error('Failed to send confirmation email');
+            Log::error('Failed to send confirmation email: ' . $e->getMessage());
         }
     }
 
@@ -31,7 +31,7 @@ class EmailService implements EmailServiceInterface
             Mail::to($poll->author_email)->send(new VoteNotificationEmail($poll, $vote));
             Log::info('Vote notification email sent successfully');
         } catch (\Exception $e) {
-            Log::error('Failed to send vote notification email');
+            Log::error('Failed to send vote notification email: ' . $e->getMessage());
         }
     }
 
@@ -41,7 +41,7 @@ class EmailService implements EmailServiceInterface
             Log::info('Attempting to send invitation email');
             Mail::to($email)->send(new InvitationEmail($poll, $key));
         } catch (\Exception $e) {
-            Log::error('Failed to send invitation email', ['email' => $email, 'poll_id' => $poll->id, 'key' => $key]);
+            Log::error('Failed to send invitation email: ' . $e->getMessage());
         }
     }
 
