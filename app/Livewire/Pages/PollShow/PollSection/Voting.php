@@ -31,8 +31,6 @@ class Voting extends Component
 
     public $loaded = false;
 
-
-
     public function mount($poll, VoteQueryService $voteQueryService, PollResultsService $pollResultsService): void
     {
         $this->poll = $poll;
@@ -53,13 +51,6 @@ class Voting extends Component
 
         $validatedData = $this->form->validate();
         $validatedData['poll_id'] = $this->poll->id;
-
-        $errorMessage = $voteValidationService->validateVote($this->poll, $validatedData);
-
-        if($errorMessage !== null) {
-            $this->addError('error', $errorMessage);
-            return;
-        }
 
         $vote = $this->saveVote($validatedData, $voteCreateService, $voteQueryService);
 

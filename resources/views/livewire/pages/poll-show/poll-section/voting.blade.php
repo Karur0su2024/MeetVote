@@ -1,7 +1,3 @@
-@php
-    use Carbon\Carbon;
-@endphp
-
 {{-- https://github.com/livewire/livewire/issues/830 --}}
 
 
@@ -9,7 +5,7 @@
     <script src="{{ asset('js/alpine/voting.js') }}" xmlns="http://www.w3.org/1999/html"></script>
 @endpush
 
-<div x-data="getVotingData">
+<div x-data="votingForm">
     <p class="text-muted">
         Vote for the time that suits you best for meeting.
     </p>
@@ -162,11 +158,11 @@
                             <x-ui.spinner wire:loading wire:target="submitVote">
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </x-ui.spinner>
-
-
                             <x-ui.form.message
-                                form-message="error"
+                                form-message="form.form"
                                 color="danger"/>
+
+
                         </div>
                     </div>
 

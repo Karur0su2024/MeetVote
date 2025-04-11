@@ -29,8 +29,8 @@ class VoteQueryService{
         $vote = $this->getVote($poll);
 
 
-
         return [
+            'poll_index' => $poll->id,
             'user' => [
                 'name' => Auth::user()->name ?? '',
                 'email' => Auth::user()->email ?? '',

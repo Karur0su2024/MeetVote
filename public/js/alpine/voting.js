@@ -1,4 +1,4 @@
-function getVotingData() {
+function votingForm() {
     return {
         form: this.$wire.entangle('form'),
         messages: {

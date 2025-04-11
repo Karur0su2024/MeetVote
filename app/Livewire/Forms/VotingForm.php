@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Forms;
 
+use App\Rules\IsPickedAtLeastOnePreference;
+use App\Rules\WasEmailAlreadyUsed;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
 /**
@@ -9,6 +11,7 @@ use Livewire\Form;
  */
 class VotingForm extends Form
 {
+    public $form;
     public $pollIndex = null;
 
     public $user = [
@@ -24,6 +27,8 @@ class VotingForm extends Form
 
     protected function rules(): array {
         return [
+            'form' => [new WasEmailAlreadyUsed($this->user['email'], $this->pollIndex), new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
+            'pollIndex' => 'required|integer',
             'user.name' => 'required|string|min:3|max:255',
             'user.email' => 'required|email',
             'existingVote' => 'nullable|integer',
@@ -36,24 +41,7 @@ class VotingForm extends Form
         ];
     }
 
-    /**
-     * @var string[]
-     */
-    protected $messages = [
-        'user.name.required' => 'Name is required.',
-        'user.email.required' => 'Email is required.',
-        'timeOptions.*.picked_preference.required' => 'Preference is required.',
-        'timeOptions.*.picked_preference.min' => 'Invalid preference value.',
-        'timeOptions.*.picked_preference.max' => 'Invalid preference value.',
-        'questions.*.options.*.id.required' => 'Option ID is required.',
-        'questions.*.options.*.picked_preference.in' => 'Invalid preference value.',
-    ];
 
-    /**
-     * Funkce pro inicializaci komponenty
-     * @param $data
-     * @return void
-     */
     public function loadData($data)
     {
         $this->pollIndex = $data['poll_index'] ?? null;

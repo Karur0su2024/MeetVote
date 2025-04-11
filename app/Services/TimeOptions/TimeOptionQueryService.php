@@ -92,13 +92,6 @@ class TimeOptionQueryService
     }
 
 
-    /**
-     * Metoda pro získání dat o časových možnostech pro hlasování.
-     * Vratí pole s daty s časovými možnostmi.
-     * @param array $options
-     * @param $voteIndex
-     * @return array
-     */
     public function getVotingArray(Poll $poll, $vote = null): array
     {
         $options = $this->getTimeOptionsArray($poll); // Získání časových možností
