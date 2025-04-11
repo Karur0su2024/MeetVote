@@ -24,10 +24,19 @@
                 @endif
             @else
                 <p>{{ __('ui/modals.close_poll.text.reopen') }}</p>
-                <x-ui.alert type="warning">
-                    <x-ui.icon name="exclamation-triangle-fill"/>
-                    {{ __('ui/modals.close_poll.alerts.reopen_warning') }}
-                </x-ui.alert>
+                @if($hasEvent)
+                    <x-ui.alert type="warning">
+                        <x-ui.icon name="exclamation-triangle-fill"/>
+                        {{ __('ui/modals.close_poll.alerts.event_will_be_deleted') }}
+                    </x-ui.alert>
+                @endif
+
+                <x-ui.form.input
+                    id="deadline"
+                    wire:model="newDeadline"
+                    type="date">
+                    {{ __('ui/modals.close_poll.labels.new_deadline') }}
+                </x-ui.form.input>
             @endif
         @endif
     </div>

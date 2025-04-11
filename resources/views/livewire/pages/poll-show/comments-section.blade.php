@@ -1,38 +1,22 @@
-<x-ui.card body-padding="0" collapsable>
-    <x-slot:header>
-        {{ __('pages/poll-show.comments.title') }}
-    </x-slot:header>
-
+<x-ui.card body-padding="0" header-hidden>
     @if ($poll->pollComments)
         <div wire:init="loadComments">
-            @if($loadedComments)
-                <div class="list-group">
-                    @foreach ($poll->pollComments as $commentIndex => $comment)
-                        <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
-                    @endforeach
-                </div>
-            @else
-
-                <div class="d-flex justify-content-center">
-                    <x-ui.spinner>
-                        Loading comments...
-                    </x-ui.spinner>
-                </div>
-            @endif
-
 
 
             <div class="p-3">
 
                 {{-- Formulář pro přidání komentáře --}}
                 <h3>{{ __('pages/poll-show.comments.form.title') }}</h3>
-                <form wire:submit.prevent='addComment' wire:key='{{ now() }}'>
+                <form class="mt-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
 
-                    <x-ui.form.input id="username"
-                                     wire:model="username"
-                                     placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
-                        {{ __('pages/poll-show.comments.form.username.label') }}
-                    </x-ui.form.input>
+                    @guest
+                        <x-ui.form.input id="username"
+                                         wire:model="username"
+                                         placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
+                            {{ __('pages/poll-show.comments.form.username.label') }}
+                        </x-ui.form.input>
+                    @endguest
+
                     <x-ui.form.textbox id="content"
                                        wire:model="content"
                                        required
@@ -46,7 +30,7 @@
                     <x-ui.saving wire:loading wire:target="addComment">
                         {{ __('pages/poll-show.comments.form.loading') }}
                     </x-ui.saving>
-                    <x-ui.form.error-text error="error" />
+                    <x-ui.form.error-text error="error"/>
                 </form>
             </div>
         </div>
@@ -58,5 +42,22 @@
         </x-ui.alert>
     @endif
 
+    <div>
+
+        @if($loadedComments)
+
+            @foreach ($poll->pollComments as $commentIndex => $comment)
+                <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
+            @endforeach
+        @else
+
+            <div class="text-center py-2">
+                <x-ui.spinner>
+                    Loading comments...
+                </x-ui.spinner>
+            </div>
+
+        @endif
+    </div>
 
 </x-ui.card>

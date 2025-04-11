@@ -7,24 +7,25 @@
 
 @endphp
 
-<div class="list-group-item card-sharp p-3">
+<div class="card m-3 p-3">
     <div class="d-flex justify-content-between">
         <p>
-            <span class="fw-bold">{{ $comment->author_name }}</span>
+            <span class="fw-bold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
             <span class="text-muted">{{ $comment->created_at->diffForHumans() }}</span>
         </p>
 
         {{-- V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat --}}
 
         @can('delete', $comment)
-            <button class="btn btn-outline-danger"
-                    wire:click='deleteComment({{ $comment->id }})'>
-                {{ __('pages/poll-show.comments.buttons.delete_comment') }}
-            </button>
+            <x-ui.button color="outline-danger"
+                         wire:click='deleteComment({{ $comment->id }})'>
+                <i class="bi bi-trash"></i>
+
+            </x-ui.button>
         @endcan
     </div>
 
-    <p>
+    <p class="mb-0">
         {{ $comment->content }}
     </p>
 

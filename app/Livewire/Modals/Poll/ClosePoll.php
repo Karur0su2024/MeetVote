@@ -16,11 +16,15 @@ class ClosePoll extends Component
 {
     public $poll;
     public $status;
-    protected EventService $eventService;
+    public $hasEvent;
 
-    public function boot(EventService $eventService): void
+    public $newDeadline;
+
+    public function rules(): array
     {
-        $this->eventService = $eventService;
+        return [
+            'newDeadline' => 'nullable|date|after:today', // Uzávěrka ankety
+        ];
     }
 
     /**
@@ -29,8 +33,8 @@ class ClosePoll extends Component
      */
     public function mount($pollIndex): void
     {
-        $this->poll = Poll::find($pollIndex, ['id', 'status']);
-        $this->status = $this->poll->status;
+        $this->poll = Poll::find($pollIndex);
+        $this->hasEvent = $this->poll->event()->exists();
     }
 
     /**
@@ -43,9 +47,11 @@ class ClosePoll extends Component
     {
 
         if(Gate::allows('close', $this->poll)) {
+            //$this->validate();
             try {
                 DB::beginTransaction();
                 $this->poll->status = $this->poll->status->toggle();
+                $this->poll->deadline = $this->newDeadline;
                 $this->poll->save();
                 DB::commit();
 

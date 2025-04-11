@@ -160,6 +160,10 @@ return [
             'reopen' => 'Reopen poll',
             'cancel' => 'Cancel',
         ],
+        'labels' => [
+            'new_deadline' => 'New deadline',
+            'new_deadline_placeholder' => 'Select new deadline',
+        ],
         'alerts' => [
             'no_votes' =>   'This poll has no votes.
                             Poll can be closed only if

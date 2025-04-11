@@ -132,7 +132,7 @@ class Poll extends Model
 
     public function isActive(): bool
     {
-        if($this->deadline && $this->deadline < now()) {
+        if($this->deadline && $this->deadline <= today()) {
             return false;
         }
 
