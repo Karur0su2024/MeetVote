@@ -16,6 +16,6 @@ interface GoogleServiceInterface
 
     public function desyncWithGoogleCalendar($event);
 
-    public function checkAvailability($user, $startTime, $endTime);
+    public function checkAvailability($user, $option);
 
 }

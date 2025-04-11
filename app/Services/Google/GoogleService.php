@@ -168,9 +168,12 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
-    public function checkAvailability($user, $startTime, $endTime)
+    public function checkAvailability($user, $option)
     {
         try {
+            $startTime = $option['date'] . ' ' . ($option['content']['start'] ?? '');
+            $endTime = $option['date'] . ' ' . ($option['content']['end'] ?? '');
+
             $googleCalendarService = new GoogleCalendarService();
             $googleCalendarService->checkToken($user);
 

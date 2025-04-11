@@ -23,21 +23,19 @@ class IsPickedAtLeastOnePreference implements ValidationRule
     {
         $picked = false;
         foreach ($this->timeOptions ?? [] as $timeOption) {
-            if ($timeOption['picked_preference'] !== -0) {
-                $picked = true;
+            if ($timeOption['picked_preference'] !== 0) {
+                return;
             }
         }
 
         foreach ($this->questions ?? [] as $question) {
             foreach ($question['options'] as $option) {
                 if ($option['picked_preference'] !== 0) {
-                    $picked = true;
+                    return;
                 }
             }
         }
 
-        if(!$picked){
-            $fail('You must select at least one option.');
-        }
+        $fail('You must select at least one option.');
     }
 }

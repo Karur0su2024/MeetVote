@@ -10,32 +10,35 @@ class GoogleServiceEmpty implements GoogleServiceInterface
 
     public function redirectToGoogle()
     {
+        Log::info('Google service is not enabled.');
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
 
     public function handleGoogleCallback()
     {
+        Log::info('Google service is not enabled.');
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
 
     public function disconnectFromGoogle()
     {
+        Log::info('Google service is not enabled.');
         return redirect(route('home'))->with('warning', 'Google service is not enabled.');
     }
 
     public function syncWithGoogleCalendar($users, $eventData)
     {
         // Synchronizace s Google kalendářem nebude provedena
-        return;
+        Log::info('Google service is not enabled.');
     }
 
     public function desyncWithGoogleCalendar($event)
     {
-        return;
+        Log::info('Google service is not enabled.');
     }
 
-    public function checkAvailability($user, $startTime, $endTime)
+    public function checkAvailability($user, $option)
     {
-        return;
+        Log::info('Google service is not enabled.');
     }
 }

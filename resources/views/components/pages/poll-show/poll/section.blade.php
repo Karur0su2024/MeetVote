@@ -38,7 +38,7 @@
                         </x-ui.alert>
                     @endif
                     <div x-show="mode === 'Voting'">
-                        <livewire:pages.poll-show.poll-section.voting :poll="$poll" />
+                        <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />
                     </div>
                 @else
                     <x-ui.alert type="warning">

@@ -7,15 +7,16 @@ use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\Google\GoogleService;
-use App\Services\PollResultsService;
 use App\Services\Vote\VoteCreateService;
 use App\Services\Vote\VoteQueryService;
 use App\Services\Vote\VoteValidationService;
 use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Nette\Schema\ValidationException;
 
 class Voting extends Component
 {
@@ -26,21 +27,22 @@ class Voting extends Component
 
     public VotingForm $form;
 
-
-    public $results = [];
-
     public $loaded = false;
 
-    public function mount($poll, VoteQueryService $voteQueryService, PollResultsService $pollResultsService): void
+    public function mount($pollIndex, VoteQueryService $voteQueryService): void
     {
-        $this->poll = $poll;
-        $this->reloadVoteSection($voteQueryService);
-        $this->results = $pollResultsService->getResults($this->poll);
+        $this->poll = Poll::findOrFail($pollIndex);
+        $this->loadVoteSection($voteQueryService);
+    }
+
+    private function loadVoteSection(VoteQueryService $voteQueryService): void
+    {
+        $this->loaded = false;
+        $this->form->loadData($voteQueryService->getPollData($this->poll->id));
+        $this->loaded = true;
     }
 
     public function submitVote(
-        VoteValidationService $voteValidationService,
-        VoteQueryService $voteQueryService,
         VoteCreateService $voteCreateService,
     ): void
     {
@@ -49,70 +51,36 @@ class Voting extends Component
             return;
         }
 
-        $validatedData = $this->form->validate();
-        $validatedData['poll_id'] = $this->poll->id;
-
-        $vote = $this->saveVote($validatedData, $voteCreateService, $voteQueryService);
-
-        if ($vote) {
-            $this->reloadVoteSection($voteQueryService);
-        }
-    }
-
-    private function saveVote(
-        $validatedData,
-        VoteCreateService $voteCreateService): ?Vote
-    {
         try {
-            $voteCreateService->saveVote($validatedData);
-        } catch (VoteException $e) {
-            $this->addError('error', 'An error occurred while saving the vote.');
+            $voteCreateService->saveVote($this->form->validate());
         } catch (\Exception $e) {
+            Log::error('Error saving vote: ' . $e->getMessage());
             $this->addError('error', 'An error occurred while saving the vote.');
         }
-        return null;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getErrors(): array
-    {
-        return $this->getErrorBag()->toArray();
-    }
-
-    /**
-     * Metoda pro aktualizaci formuláře.
-     * @param $voteIndex
-     * @return void
-     */
     #[On('refreshPoll')]
     public function refreshPoll(VoteQueryService $voteQueryService): void
     {
-        $this->reloadVoteSection($voteQueryService);
+        $this->loadVoteSection($voteQueryService);
         $this->dispatch('show-voting-section');
-    }
-
-
-    private function reloadVoteSection(VoteQueryService $voteQueryService): void
-    {
-        $this->loaded = false;
-        $this->form->loadData($voteQueryService->getPollData($this->poll));
-        $this->loaded = true;
     }
 
 
     public function checkAvailability(GoogleService $googleService): void
     {
-        if(Gate::denies('sync', Auth::user())){
-            return;
-        }
         $user = Auth::user();
 
+        if(Gate::denies('sync', $user)){
+            return;
+        }
+
         foreach ($this->form->timeOptions as $optionIndex => $option) {
-            $startTime = $option['date'] . ' ' . ($option['content']['start'] ?? '');
-            $endTime = $option['date'] . ' ' . ($option['content']['end'] ?? '');
-            $this->form->timeOptions[$optionIndex]['availability'] = $googleService->checkAvailability($user, $startTime, $endTime);
+            if($option['invalid'] ?? false) {
+                continue;
+            }
+
+            $this->form->timeOptions[$optionIndex]['availability'] = $googleService->checkAvailability($user, $option);
         }
     }
 

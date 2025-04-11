@@ -22,9 +22,9 @@ class VoteQueryService{
      * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
      * @return array Pole s daty o hlasu.
      */
-    public function getPollData(Poll $poll): array
+    public function getPollData($pollIndex): array
     {
-        $poll->load(['timeOptions', 'questions', 'questions.options']);
+        $poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex);
 
         $vote = $this->getVote($poll);
 
