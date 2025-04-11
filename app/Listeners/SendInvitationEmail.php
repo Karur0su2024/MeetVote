@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\Invitation;
 use App\Services\Mail\EmailService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -21,9 +22,11 @@ class SendInvitationEmail
      */
     public function handle(object $event): void
     {
-        $invitation = $event->invitation;
+        $invitations = $event->invitations;
 
-        $this->emailService->sendInvitation($invitation->email, $invitation->poll, $invitation->key);
+        foreach ($invitations as $invitation) {
+            $this->emailService->sendInvitation($invitation->email, $invitation->poll, $invitation->key);
+        }
     }
 
 

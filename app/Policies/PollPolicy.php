@@ -101,7 +101,11 @@ class PollPolicy
 
     public function invite(User $user, Poll $poll): bool
     {
-        if ($this->isAdmin($user, $poll)) {
+        if(!$poll->isActive()) {
+            return false;
+        }
+
+        if ($this->hasAdminPermissions($user, $poll)) {
             return true;
         }
 

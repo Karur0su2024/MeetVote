@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Invitation extends Model
 {
@@ -15,6 +17,15 @@ class Invitation extends Model
         'key' => 'string',
         'sent_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(static function (Invitation $invitation) {
+            $invitation->status = 'pending';
+            $invitation->key = Str::random(40);
+            $invitation->sent_at = now();
+        });
+    }
 
     public function poll()
     {

@@ -47,36 +47,25 @@
                     </table>
                 </div>
             @endif
-            <form wire:submit.prevent="addInvitation" wire:key='{{ now() }}' class="mt-4">
+            <form wire:submit.prevent="addInvitations" wire:key='{{ now() }}' class="mt-4">
                 <h3>{{ __('ui/modals.invitations.text') }}</h3>
 
-                <x-ui.form.input id="email"
-                                 wire:model="email"
-                                 type="email"
-                                 required
-                                 placeholder="example@email.com">
-                    {{ __('ui/modals.invitations.email.label') }}
-                    <x-slot:input-group>
-                        <x-ui.button type="submit">
-                            {{ __('ui/modals.invitations.buttons.send') }}
-                        </x-ui.button>
-                    </x-slot:input-group>
-                </x-ui.form.input>
+                    <x-ui.form.textbox
+                    id="emails"
+                    wire:model="emails"
+                    placeholder="Insert multiple emails separated by commas (,)">
+                    Emails
+                    </x-ui.form.textbox>
+
+                <x-ui.button type="submit">
+                    {{ __('ui/modals.invitations.buttons.send') }}
+                </x-ui.button>
 
                 <div>
                     <x-ui.saving wire:loading>
                         {{ __('ui/modals.invitations.loading') }}
                     </x-ui.saving>
-                    @if (session()->has('error'))
-                        <x-ui.red-text>
-                            {{ session('error') }}
-                        </x-ui.red-text>
-                    @endif
-                    @if (session()->has('success'))
-                        <div class="text-success ms-2">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                    <x-ui.form.error-text error="error" />
                 </div>
             </form>
         @else

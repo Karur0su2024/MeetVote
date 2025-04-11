@@ -16,14 +16,6 @@ class VoteCreateService
     }
 
 
-    /**
-     * Metoda pro uložení hlasu do databáze.
-     * V případě, že je hlas již uložen, aktualizuje se.
-     * V případě, že je hlas nový, vytvoří se nový záznam.
-     * @param $validatedVoteData
-     * @return Vote|null
-     * @throws \Throwable
-     */
     public function saveVote($validatedVoteData)
     {
         try {
@@ -64,7 +56,7 @@ class VoteCreateService
     {
         $timeOptionsVotes = [];
         foreach ($options as $option) {
-            if ($option['picked_preference'] == 0 || $option['invalid']) continue;
+            if ($option['picked_preference'] === 0 || $option['invalid']) continue;
 
             $timeOptionsVotes[] = New VoteTimeOption([
                 'time_option_id' => $option['id'],

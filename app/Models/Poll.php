@@ -135,8 +135,6 @@ class Poll extends Model
         if($this->deadline && $this->deadline <= today()) {
             return false;
         }
-
-
         return $this->status === PollStatus::ACTIVE;
     }
 
