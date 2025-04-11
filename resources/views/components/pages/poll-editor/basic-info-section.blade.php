@@ -42,10 +42,13 @@
 
 
 
-        {{-- Informace o autorovi --}}
-        @if (!$pollIndex)
-            <x-pages.poll-editor.author-info-section />
-        @endif
+        @guest
+            {{-- Informace o autorovi --}}
+            @if (!$pollIndex)
+                <x-pages.poll-editor.author-info-section />
+            @endif
+        @endguest
+
     </div>
 
 

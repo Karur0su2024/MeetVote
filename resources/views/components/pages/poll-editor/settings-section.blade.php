@@ -52,7 +52,7 @@
 
     @auth
         {{-- Pouze pro pozvané --}}
-        <x-ui.form.checkbox id="invite_only" x-model="form.settings.invite_only">
+        <x-ui.form.checkbox id="invite_only" wire:model="form.settings.invite_only">
             <x-slot:tooltip>
                 {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
             </x-slot:tooltip>

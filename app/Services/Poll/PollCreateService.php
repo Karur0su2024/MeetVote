@@ -7,6 +7,7 @@ use App\Exceptions\PollException;
 use App\Models\Poll;
 use App\Services\Question\QuestionCreateService;
 use App\Services\TimeOptions\TimeOptionCreateService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,6 +32,7 @@ class PollCreateService
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
+            dd($e);
             throw new PollException('An error occurred while saving the poll.');
         }
     }
@@ -61,18 +63,21 @@ class PollCreateService
 
     private function buildPollArray(array $validatedData, ?Poll $poll): array
     {
-
-        return [
+        $newPoll = [
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'deadline' => $validatedData['deadline'] !== '' ? $validatedData['deadline'] : null,
             'settings' => $validatedData['settings'],
             'password' => $this->setPassword($validatedData['password']),
-
-            // Pro nové ankety
-            'author_name' => ($poll->author_name ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['name'],
-            'author_email' => ($poll->author_email ?? $validatedData['user']['posted_anonymously']) ? null : $validatedData['user']['email'],
         ];
+
+        if(!$poll){
+            $newPoll['author_name'] = Auth::user() ? Auth::user()->name : $validatedData['user']['name'];
+            $newPoll['author_email'] = Auth::user() ? Auth::user()->email : $validatedData['user']['email'];
+        }
+
+
+        return $newPoll;
     }
 
     private function setPassword($password): ?string

@@ -38,7 +38,6 @@ class Voting extends Component
         $this->poll = $poll;
         $this->reloadVoteSection($voteQueryService);
         $this->results = $pollResultsService->getResults($this->poll);
-
     }
 
     public function submitVote(
@@ -103,7 +102,7 @@ class Voting extends Component
     }
 
 
-    private function reloadVoteSection(VoteQueryService $voteQueryService, $voteIndex = null): void
+    private function reloadVoteSection(VoteQueryService $voteQueryService): void
     {
         $this->loaded = false;
         $this->form->loadData($voteQueryService->getPollData($this->poll));

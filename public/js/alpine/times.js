@@ -1,4 +1,4 @@
-function setTimeOptions() {
+function TimeOptionsForm() {
     return {
         dates: this.$wire.entangle('form.dates'),
         removed: this.$wire.entangle('form.removed'),
@@ -31,8 +31,11 @@ function setTimeOptions() {
                 // Nebo možná nepsat nic
                 return;
             }
+            else {
+                this.dates[formattedDate] = [];
+            }
 
-            this.addTimeOption(formattedDate, 'time');
+            this.addTimeOption(formattedDate, false);
         },
 
         // Odstranění data z formuláře
@@ -56,24 +59,6 @@ function setTimeOptions() {
 
         },
 
-        // Funkce pro přidání časové možnosti
-        addOption(date, type, empty) {
-            // Přidání časové možnosti do formuláře
-            if (this.dates[date] === undefined) {
-                this.dates[date] = [];
-            }
-
-            // Kontrola typu možnosti
-            if (type === 'time') {
-                this.addTimeOption(date, empty);
-
-            } else {
-                this.addTextOption(date);
-            }
-
-        },
-
-
         addTextOption(date) {
             this.dates[date].push({
                 type: "text",
@@ -85,21 +70,24 @@ function setTimeOptions() {
         },
 
         addTimeOption(date, empty){
+            let lastEnd;
+            let end;
+
             if(empty) {
-                let lastEnd = this.getLastEnd(date);
-                let end = moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm');
+                lastEnd = this.getLastEnd(date);
+                end = moment(lastEnd, 'HH:mm').add(1, 'hour').format('HH:mm');
 
                 if (lastEnd > end) {
                     return;
                 }
             }
             else {
-                let lastEnd = '';
-                let end = ''
+                lastEnd = '';
+                end = ''
             }
 
             this.dates[date].push({
-                type: type,
+                type: 'time',
                 date: date,
                 content: {
                     start: lastEnd,

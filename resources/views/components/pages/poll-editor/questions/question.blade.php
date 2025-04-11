@@ -5,7 +5,7 @@
          :class="{ 'bg-warning': question.id }">
         {{-- Input pole pro text otázky --}}
         <input type="text" :id="'question_' + questionIndex"
-               x-model="form.questions[questionIndex].text"
+               x-model="questions[questionIndex].text"
                class="form-control"
                :placeholder="'{{ __('pages/poll-editor.questions.label.question') }} ' + (questionIndex + 1)"
                :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.text'] }">
@@ -26,7 +26,7 @@
     {{-- Možnosti odpovědí --}}
     <div class="card-body" x-show="!collapsed" x-collapse>
         <template x-for="(option, optionIndex) in question.options" :key="optionIndex">
-            <x-poll.form.question-card-option/>
+            <x-pages.poll-editor.questions.option/>
             {{-- Zobrazení chybové hlášky, pokud možnost není validní --}}
         </template>
 

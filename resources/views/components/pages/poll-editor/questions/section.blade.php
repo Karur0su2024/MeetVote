@@ -1,4 +1,4 @@
-<div x-data="questionForm" x-init="questions = form.questions">
+<div x-data="questionForm"  @validation-failed.window="duplicateError($event.detail.errors)">
     {{-- Základní informace o anketě --}}
 <x-ui.card collapsable>
     <x-slot:header>{{ __('pages/poll-editor.questions.title') }}</x-slot>
@@ -9,7 +9,8 @@
     <template x-if="questions.length > 0">
         <template x-for="(question, questionIndex) in questions">
             {{-- Základní informace o anketě --}}
-            <x-poll.form.question-card/>
+            <x-pages.poll-editor.questions.question/>
+
         </template>
     </template>
 

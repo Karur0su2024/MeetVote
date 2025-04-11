@@ -4,7 +4,7 @@
     {{-- Input pole pro text možnosti --}}
     <input type="text"
            :id="'question_' + questionIndex + '_option_' + optionIndex"
-           x-model="form.questions[questionIndex].options[optionIndex].text"
+           x-model="questions[questionIndex].options[optionIndex].text"
            :placeholder="'{{ __('pages/poll-editor.questions.label.option') }} ' + (optionIndex + 1)"
            class="form-control"
            required
@@ -18,5 +18,4 @@
         </i>
     </x-ui.button>
 
-    <span
 </div>

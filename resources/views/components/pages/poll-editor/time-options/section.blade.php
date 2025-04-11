@@ -1,4 +1,4 @@
-<div x-data="setTimeOptions" @validation-failed.window="duplicateError($event.detail.errors)">
+<div x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
 
     {{-- Základní informace o anketě --}}
     <x-ui.card>

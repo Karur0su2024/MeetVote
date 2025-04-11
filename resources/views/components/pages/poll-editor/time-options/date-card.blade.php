@@ -45,19 +45,19 @@
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addOption(dateIndex, 'time', true)">
+                         @click="addTimeOption(dateIndex, false)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addOption(dateIndex, 'time', false)">
+                         @click="addTimeOption(dateIndex, true)">
                 <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_hour_time_option') }}
             </x-ui.button>
             <x-ui.button color="outline-secondary"
                          class="w-100 w-md-auto py-2"
                          size="sm"
-                         @click="addOption(dateIndex, 'text')">
+                         @click="addTextOption(dateIndex, 'text')">
                 <i class="bi bi-text-paragraph me-1"></i>{{ __('pages/poll-editor.time_options.button.add_text_option') }}
             </x-ui.button>
         </div>
