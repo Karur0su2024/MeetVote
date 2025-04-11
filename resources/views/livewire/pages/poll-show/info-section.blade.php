@@ -7,10 +7,9 @@
 <div class="g-4 mb-4" x-data="{ showEventDetails: true }">
 
     {{-- Levá strana – základní informace o anketě --}}
-    <div class="info-section-card">
         <x-ui.card header-hidden
                    footer-flex>
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <x-slot:body-header>
                 <h2>{{ $poll->title }}</h2>
                 <div class="d-flex gap-2">
                     @can('isAdmin', $poll)
@@ -55,26 +54,24 @@
                         </x-ui.dropdown.wrapper>
                     @endcan
                 </div>
-            </div>
+            </x-slot:body-header>
 
-            <div class="d-flex align-items-center text-muted mb-2">
-                {{-- Doplnit avatar uživatele --}}
-                <x-ui.icon name="person-fill" /><strong>{{ $poll->author_name }}</strong>
-            </div>
-            <p class="text-muted">
-                @if ($poll->description == null || $poll->description == '')
-                    {{ __('pages/poll-show.info.text.no_description') }}
-                @else
-                    {{ $poll->description }}
-                @endif
-            </p>
+            <x-slot:body>
+                <div class="d-flex align-items-center text-muted mb-2">
+                    {{-- Doplnit avatar uživatele --}}
+                    <x-ui.icon name="person-fill" /><strong>{{ $poll->author_name }}</strong>
+                </div>
+                <p class="text-muted">
+                    @if ($poll->description == null || $poll->description == '')
+                        {{ __('pages/poll-show.info.text.no_description') }}
+                    @else
+                        {{ $poll->description }}
+                    @endif
+                </p>
+            </x-slot:body>
+
+
             <x-slot:footer class="flex-wrap">
-                <x-ui.badge>
-                    <x-slot:tooltip>
-                        Not implemented yet
-                    </x-slot:tooltip>
-                    UTC +00:00 (placeholder)
-                </x-ui.badge>
                 @if ($poll->comments)
                     <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.comments') }}
@@ -105,14 +102,8 @@
                         {{ __('pages/poll-show.info.badges.add_time_options') }}
                     </x-ui.badge>
                 @endif
-                @if ($poll->deadline)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.deadline_in', ['parse_poll_deadline' => now()->startOfDay()->diffInDays(Carbon\Carbon::parse($poll->deadline))]) }}
-                    </x-ui.badge>
-                @endif
             </x-slot:footer>
         </x-ui.card>
-    </div>
 
     @auth
         <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />

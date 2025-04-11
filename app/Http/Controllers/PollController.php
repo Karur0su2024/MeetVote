@@ -27,7 +27,8 @@ class PollController extends Controller
         $pollIndex = $poll->id;
         $publicId = $poll->public_id;
         $pollTitle = $poll->title;
-        return view('pages.polls.edit', compact('pollIndex', 'pollTitle', 'publicId'));
+        $pollDeadline = $poll->deadline;
+        return view('pages.polls.edit', compact('pollIndex', 'pollTitle', 'publicId', 'pollDeadline'));
     }
 
     public function destroy(Poll $poll)

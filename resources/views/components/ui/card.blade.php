@@ -32,6 +32,12 @@
     @endif
     <div class="card-body text-start p-{{ $bodyPadding ?? 4 }} {{ $bodyClass ?? '' }}"
          x-show="show" x-collapse>
+        @if ($bodyHeader ?? null)
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                {{ $bodyHeader }}
+            </div>
+        @endif
+
         {{ $body ?? '' }}
         {{ $slot }}
     </div>

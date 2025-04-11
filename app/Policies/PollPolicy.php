@@ -145,7 +145,7 @@ class PollPolicy
             return true;
         }
 
-        return !$poll->anonymous_votes;
+        return !$poll->hide_results;
     }
 
     public function addNewOption(?User $user, Poll $poll): bool

@@ -19,7 +19,7 @@
 
 
         <div>
-            @if($userVote)
+            @if($userVote && !($userVote->questionOptions->count() > 0) && $userVote->timeOptions->count() > 0)
                 <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
             @else
                 <p class="text-muted mt-2">

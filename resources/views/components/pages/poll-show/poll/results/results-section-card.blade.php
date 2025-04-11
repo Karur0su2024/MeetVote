@@ -4,7 +4,7 @@
     'content' => ''
 ])
 
-<div class="card mt-3 shadow-sm">
+<div class="card mt-3 shadow-sm poll-section-card shadow-sm">
 
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3 align-items-center">

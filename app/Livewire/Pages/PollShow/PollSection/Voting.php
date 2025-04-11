@@ -54,8 +54,10 @@ class Voting extends Component
         $validatedData = $this->form->validate();
         $validatedData['poll_id'] = $this->poll->id;
 
-        if($voteValidationService->isPickedPreferenceValid($validatedData)) {
-            $this->addError('error', 'You must select at least one option.');
+        $errorMessage = $voteValidationService->validateVote($this->poll, $validatedData);
+
+        if($errorMessage !== null) {
+            $this->addError('error', $errorMessage);
             return;
         }
 
@@ -68,8 +70,7 @@ class Voting extends Component
 
     private function saveVote(
         $validatedData,
-        VoteCreateService $voteCreateService,
-        VoteQueryService $voteQueryService): ?Vote
+        VoteCreateService $voteCreateService): ?Vote
     {
         try {
             $voteCreateService->saveVote($validatedData);
@@ -95,9 +96,9 @@ class Voting extends Component
      * @return void
      */
     #[On('refreshPoll')]
-    public function refreshPoll(VoteQueryService $voteQueryService, $voteIndex): void
+    public function refreshPoll(VoteQueryService $voteQueryService): void
     {
-        $this->reloadVoteSection($voteQueryService, $voteIndex);
+        $this->reloadVoteSection($voteQueryService);
         $this->dispatch('show-voting-section');
     }
 

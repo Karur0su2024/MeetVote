@@ -1,16 +1,14 @@
 {{--
 
 TODO: Přidat souhrn výsledků sem, pomocí karet
-TODO: Přidat řádek s odpovědí uživatele, pokud už odpověděl
-TODO: Sloužit s modalem resources/views/livewire/modals/poll/choose-final-options.blade.php
 IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
 --}}
-<div class="p-4">
-
-        <div class="card h-100 mb-3">
+<div>
+    <p class="text-muted">You can see the results of the poll here.</p>
+        <div class="card h-100 mb-3 poll-section-card">
             <div class="card-body">
-                <h4>All votes</h4>
+                <h5>All votes</h5>
                 <div class="d-flex flex-wrap gap-2">
                     @forelse($votes as $vote)
                         <x-ui.button size="sm"
@@ -35,6 +33,10 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
             <x-pages.poll-show.poll.results.view-only :results="$results"/>
         @endcan
 
+    @else
+        <x-ui.alert type="warning">
+            Poll results are hidden by the poll creator.
+        </x-ui.alert>
     @endcan
 
 </div>
