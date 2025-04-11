@@ -31,7 +31,7 @@
                 </x-slot:left>
             @endif
             <x-slot:right>
-                <x-error-alert for="error"/>
+                <x-ui.error-alert for="error"/>
                 <x-ui.button type="submit">
                     {{ __('pages/poll-editor.button.submit') }}
                 </x-ui.button>

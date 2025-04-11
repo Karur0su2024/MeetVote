@@ -8,7 +8,7 @@
             @if($loadedComments)
                 <div class="list-group">
                     @foreach ($poll->pollComments as $commentIndex => $comment)
-                        <x-poll.show.comment-card :comment="$comment" wire:key="commentIndex"/>
+                        <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
                     @endforeach
                 </div>
             @else

@@ -45,7 +45,6 @@ class PollEditor extends Component
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
             return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (ValidationException $e) {
-            dd($e->errors());
             $this->dispatch('validation-failed', errors: $e->errors());
             throw $e;
         } catch (PollException $e) {

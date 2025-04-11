@@ -23,7 +23,7 @@
                      x-data
                      wire:ignore>
                 </div>
-                <x-error-alert for="form.dates"/>
+                <x-ui.error-alert for="form.dates"/>
             </div>
             <div class="col-lg-7">
                 <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.dates') }}</h3>

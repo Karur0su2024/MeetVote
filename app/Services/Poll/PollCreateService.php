@@ -32,7 +32,6 @@ class PollCreateService
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
-            dd($e);
             throw new PollException('An error occurred while saving the poll.');
         }
     }

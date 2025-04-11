@@ -14,9 +14,9 @@
         <div>
             <!-- Pro přesunutí -->
             <div class="py-3 mx-auto w-100 d-flex flex-wrap justify-content-around text-center border-bottom d-none" wire:ignore>
-                <x-poll.show.voting.legend name="yes" value="2"/>
-                <x-poll.show.voting.legend name="maybe" value="1"/>
-                <x-poll.show.voting.legend name="no" value="-1"/>
+                <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
+                <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
+                <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
             </div>
             @if($loaded)
                 <form wire:submit.prevent="submitVote()">
