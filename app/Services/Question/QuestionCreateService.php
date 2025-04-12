@@ -15,10 +15,6 @@ class QuestionCreateService
 
     /**
      * Metoda pro uložení otázek do databáze
-     * @param Poll $poll
-     * @param array $questions
-     * @return void
-     * @throws \Exception
      */
     public function save(Poll $poll, array $questions, array $removedQuestions, array $removedQuestionOptions): void
     {
@@ -57,10 +53,6 @@ class QuestionCreateService
      * Metoda pro uložení možností otázky do databáze.
      * Pokud možnost otázky již existuje, aktualizuje ji.
      * Pokud možnost otázky neexistuje, vytvoří ji.
-     * @param PollQuestion $question
-     * @param array $options
-     * @return void
-     * @throws \Exception
      */
     private function saveQuestionOptions(PollQuestion $question, array $optionsToSave): void
     {

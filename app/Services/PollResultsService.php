@@ -91,7 +91,7 @@ class PollResultsService
     {
         $votes = $poll->votes;
 
-        if ($poll->anonymous_votes) {
+        if ($poll->settings['anonymous_votes'] ?? false) {
             foreach ($votes as $vote) {
                 $vote->voter_name = 'Anonymous';
             }

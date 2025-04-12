@@ -13,14 +13,14 @@
                        :id="'start_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
                        :disabled="option.score !== 0"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.start']">
+                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.start'] }">
 
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.end"
                        :id="'end_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
                        :disabled="option.score !== 0"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'">
+                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
             </div>
         </template>
         <template x-if="option.type === 'text'">
@@ -29,14 +29,13 @@
                    :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
                    :placeholder="'Option ' + (optionIndex + 1)"
                    :disabled="option.score !== 0"
-                   :class="{ 'is-invalid': messages.errors['dates.' + dateIndex + '.' + [optionIndex] + '.content.text']">
+                   :class="{ 'is-invalid': messages.errors['dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
         </template>
-
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
         <x-ui.button @click="removeOption(dateIndex, optionIndex)"
                      color="danger"
-                     ::class="{ 'disabled': dates[dateIndex].length === 1 }">
+                     ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">
             <i :class="{ 'bi bi-exclamation-triangle': dates[dateIndex][optionIndex].score > 0,
                          'bi bi-trash': !dates[dateIndex][optionIndex].score }">
                 <span class="d-md-none ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>

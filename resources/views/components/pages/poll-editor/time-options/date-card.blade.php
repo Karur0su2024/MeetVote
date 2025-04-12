@@ -20,6 +20,7 @@
 
                 <x-ui.button color="danger"
                              size="sm"
+                             ::class="{ 'disabled': Object.keys(dates).length === 1 }"
                              @click="removeDate(dateIndex)">
                     <i class="bi bi-trash"></i>
                     <span class="d-md-inline d-none">

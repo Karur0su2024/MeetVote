@@ -143,7 +143,8 @@
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
                     <div class="mt-4">
                         @guest
-                            <x-pages.poll-show.poll.voting.form/>
+                            <x-pages.poll-show.poll.voting.form :poll="$poll"/>
+
                         @endguest
 
                         <x-ui.form.textbox x-model="form.notes"

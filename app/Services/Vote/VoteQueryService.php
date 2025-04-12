@@ -32,7 +32,7 @@ class VoteQueryService{
         return [
             'poll_index' => $poll->id,
             'user' => [
-                'name' => Auth::user()->name ?? '',
+                'name' => $poll->settings['anonymous_votes'] ? 'Anonymous' : (Auth::user()->name ?? ''),
                 'email' => Auth::user()->email ?? '',
             ],
             'message' => $vote->message ?? '',

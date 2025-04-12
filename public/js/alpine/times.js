@@ -45,7 +45,7 @@ function TimeOptionsForm() {
         // Odstranění data z formuláře
         removeDate(date) {
 
-            if (Object.keys(this.dates).length <= 1) {
+            if (Object.keys(this.dates).length === 1) {
                 // Přidat error message pokud se jedná o poslední datum
                 return;
             }
