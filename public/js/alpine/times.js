@@ -68,6 +68,7 @@ function TimeOptionsForm() {
                 type: "text",
                 date: date,
                 score: 0,
+                invalid: false,
                 content: {
                     text: "",
                 },
@@ -95,6 +96,7 @@ function TimeOptionsForm() {
                 type: 'time',
                 date: date,
                 score: 0,
+                invalid: false,
                 content: {
                     start: lastEnd,
                     end: end,
