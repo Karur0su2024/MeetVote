@@ -79,7 +79,6 @@ class PollEditorForm extends Form
             'settings.hide_results' => 'boolean',
             'settings.invite_only' => 'boolean',
             'settings.add_time_options' => 'boolean',
-            'settings.edit_votes' => 'boolean',
             'password.set' => 'nullable|string',
             'password.enabled' => 'boolean',
             'password.value' => 'nullable|string',

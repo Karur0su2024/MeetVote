@@ -24,9 +24,8 @@ class Poll extends Model
     // Atributy, které lze přiřadit
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',
-        'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status',
-        'deadline', 'password', 'public_id', 'admin_key',
-        'edit_votes', 'add_time_options', 'settings', 'timezone',
+        'status', 'deadline', 'password', 'public_id', 'admin_key',
+        'timezone', 'settings',
 
     ];
 
@@ -42,14 +41,9 @@ class Poll extends Model
     ];
 
     protected $casts = [
-        'anonymous_votes' => 'boolean',
-        'comments' => 'boolean',
-        'invite_only' => 'boolean',
-        'hide_results' => 'boolean',
-        'edit_votes' => 'boolean',
-        'add_time_options' => 'boolean',
         'status' => PollStatus::class,
         'updated_at' => 'string',
+        'settings' => 'array',
     ];
 
 
@@ -66,22 +60,8 @@ class Poll extends Model
     public function settings(): Attribute
     {
         return Attribute::make(
-            get: fn() => [
-                'anonymous_votes' => $this->getAttribute('anonymous_votes') ?? false,
-                'comments' => $this->getAttribute('comments') ?? false,
-                'invite_only' => $this->getAttribute('invite_only') ?? false,
-                'hide_results' => $this->getAttribute('hide_results') ?? false,
-                'edit_votes' => $this->getAttribute('edit_votes') ?? false,
-                'add_time_options' => $this->getAttribute('add_time_options') ?? false,
-            ],
-            set: fn($array) => [
-                'anonymous_votes' => $array['anonymous_votes'] ?? false,
-                'comments' => $array['comments'] ?? false,
-                'invite_only' => $array['invite_only'] ?? false,
-                'hide_results' => $array['hide_results'] ?? false,
-                'edit_votes' => $array['edit_votes'] ?? false,
-                'add_time_options' => $array['add_time_options'] ?? false,
-            ],
+            get: fn() => json_decode($this->attributes['settings'], true),
+            set: fn($array) => json_encode($array, JSON_THROW_ON_ERROR),
         );
     }
 

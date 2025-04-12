@@ -28,7 +28,7 @@
                     <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
                 </div>
 
-                @if ($poll->comments)
+                @if ($poll->settings['comments'])
                     <div class="d-lg-block d-none">
                         <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
                     </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        @if ($poll->comments)
+        @if ($poll->settings['comments'])
             <div class="d-lg-none d-md-block">
                 <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
             </div>

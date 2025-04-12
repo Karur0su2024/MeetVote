@@ -32,7 +32,7 @@ class PollPolicy
     {
         if ($this->hasAdminPermissions($user, $poll)) return true;
 
-        if ($poll->invite_only) {
+        if ($poll->settings['invite_only'] ?? false) {
             $invitationKey = session()->get('poll_invitations.' . $poll->id . '.0', null);
 
             return $poll->invitations->where('key', $invitationKey)->isNotEmpty();
@@ -64,7 +64,7 @@ class PollPolicy
             return false;
         }
 
-        return $poll->add_time_options || $this->isAdmin($user, $poll);
+        return $poll->settings['add_time_options'] || $this->isAdmin($user, $poll);
     }
 
 
@@ -149,7 +149,7 @@ class PollPolicy
             return true;
         }
 
-        return !$poll->hide_results;
+        return !$poll->settings['hide_results'];
     }
 
     public function addNewOption(?User $user, Poll $poll): bool
@@ -162,7 +162,7 @@ class PollPolicy
             return true;
         }
 
-        if($poll->add_time_options) {
+        if($poll->settings['add_time_options']) {
             return true;
         }
 

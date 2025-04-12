@@ -77,37 +77,13 @@
                     {{ $poll->timezone }} ({{  date('P') }})
                 </x-ui.badge>
 
-
-                @if ($poll->comments)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.comments') }}
-                    </x-ui.badge>
-                @endif
-                @if ($poll->anonymous_votes)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.anonymous_voting') }}
-                    </x-ui.badge>
-                @endif
-                @if ($poll->password)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.password_protected') }}
-                    </x-ui.badge>
-                @endif
-                @if ($poll->invite_only)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.invite_only') }}
-                    </x-ui.badge>
-                @endif
-                @if ($poll->edit_votes)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.edit_votes') }}
-                    </x-ui.badge>
-                @endif
-                @if ($poll->add_time_options)
-                    <x-ui.badge>
-                        {{ __('pages/poll-show.info.badges.add_time_options') }}
-                    </x-ui.badge>
-                @endif
+                @foreach($poll->settings as $attributeName => $attribute)
+                    @if($attribute)
+                        <x-ui.badge>
+                            {{  __('pages/poll-show.info.badges.attributes.' . $attributeName) }}
+                        </x-ui.badge>
+                    @endif
+                @endforeach
             </x-slot:footer>
         </x-ui.card>
 

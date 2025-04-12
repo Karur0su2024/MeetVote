@@ -28,14 +28,6 @@
         {{ __('pages/poll-editor.settings.hide_results.label') }}
     </x-ui.form.checkbox>
 
-    {{-- Účástníci mohou změnit své odpovědi --}}
-    <x-ui.form.checkbox id="edit_votes" wire:model="form.settings.edit_votes">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.edit_votes.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.edit_votes.label') }}
-    </x-ui.form.checkbox>
-
     {{-- Přidání časových možností --}}
     <x-ui.form.checkbox id="add_time_options" wire:model="form.settings.add_time_options">
         <x-slot:tooltip>
