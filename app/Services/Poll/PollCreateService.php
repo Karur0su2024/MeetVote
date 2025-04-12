@@ -31,6 +31,7 @@ class PollCreateService
             DB::rollBack();
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
+            dd($e);
             DB::rollBack();
             throw new PollException('An error occurred while saving the poll.');
         }
@@ -67,7 +68,7 @@ class PollCreateService
             'description' => $validatedData['description'],
             'deadline' => $validatedData['deadline'] !== '' ? $validatedData['deadline'] : null,
             'timezone' => $validatedData['timezone'] ?? config('app.timezone'),
-            'settings' => $validatedData['settings'],
+            'settings' => $validatedData['settings'] ?? [],
             'password' => $this->setPassword($validatedData['password']),
         ];
 

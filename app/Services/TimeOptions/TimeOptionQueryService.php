@@ -84,9 +84,10 @@ class TimeOptionQueryService
         return [[
             'type' => 'time',
             'date' => Carbon::today()->format('Y-m-d'),
+            'score' => 0,
             'content' => [
-                'start' => Carbon::now()->addMinutes(60)->format('H:i'),
-                'end' => Carbon::now()->addMinutes(120)->format('H:i'),
+                'start' => '00:00',
+                'end' => '01:00',
             ],
         ]];
     }

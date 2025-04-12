@@ -39,7 +39,7 @@ function TimeOptionsForm() {
                 this.dates[formattedDate] = [];
             }
 
-            this.addTimeOption(formattedDate, false);
+            this.addTimeOption(formattedDate, true);
         },
 
         // Odstranění data z formuláře
@@ -129,7 +129,7 @@ function TimeOptionsForm() {
             });
 
             if (lastEnd === null) {
-                lastEnd = moment().format('HH:mm');
+                lastEnd = '00:00';
             }
 
             return lastEnd;
