@@ -96,7 +96,7 @@ class PollResultsService
                 $vote->voter_name = 'Anonymous';
             }
         }
-        
+
         return $this->setNotZeroPreferences($votes);
 
     }

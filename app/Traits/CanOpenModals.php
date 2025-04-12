@@ -50,20 +50,7 @@ trait CanOpenModals
         ]);
     }
 
-    public function insertToEventModal(EventService $eventService)
-    {
-        $event = $eventService->buildEventFromValidatedData($this->poll, $this->results);
 
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.create-event',
-            'params' => [
-                'eventData' => $event,
-                'pollIndex' => $this->poll->id,
-            ],
-
-        ]);
-
-    }
 
     public function openErrorModal(): void
     {

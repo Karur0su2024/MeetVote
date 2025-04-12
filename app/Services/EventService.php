@@ -36,7 +36,7 @@ class EventService
         ];
     }
 
-    public function buildEventFromValidatedData($poll, $results): array
+    public function buildEventArrayFromValidatedData($poll, $results): array
     {
 
         $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']];

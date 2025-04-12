@@ -3,7 +3,7 @@
 }
 
 [data-bs-theme="light"] .app-background-overlay {
-    background-color: #f0f0f0ce;
+    background-color: rgba(240, 240, 240, 0.5);
     height: auto;
     display: block;
 }

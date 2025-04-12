@@ -27,16 +27,19 @@ class Results extends Component
             'selected' => 0,
         ],
         'questions' => [
-            'questions' => [
-            ],
+            'questions' => [],
         ],
     ];
 
 
 
-    public function mount($poll, PollResultsService $pollResultsService){
+    public function mount($poll, PollResultsService $pollResultsService): void
+    {
         $this->poll = $poll;
         $this->poll->load([
+            'votes',
+            'votes.timeOptions',
+            'votes.questionOptions',
             'timeOptions',
             'questions',
             'questions.options',
@@ -46,7 +49,7 @@ class Results extends Component
         $this->reloadResults();
     }
 
-    public function reloadResults()
+    public function reloadResults(): void
     {
         $this->loadedVotes = false;
         $this->poll->load('votes');
@@ -54,6 +57,25 @@ class Results extends Component
         $this->loadedVotes = true;
     }
 
+    public function insertToEventModal(EventService $eventService): void
+    {
+        if(Gate::denies('hasAdminPermissions', $this->poll)){
+            $this->openErrorModal();
+            return;
+        }
+
+        $event = $eventService->buildEventArrayFromValidatedData($this->poll, $this->results);
+
+        $this->dispatch('showModal', [
+            'alias' => 'modals.poll.create-event',
+            'params' => [
+                'eventData' => $event,
+                'pollIndex' => $this->poll->id,
+            ],
+
+        ]);
+
+    }
 
 
 

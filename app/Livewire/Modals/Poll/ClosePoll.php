@@ -37,17 +37,11 @@ class ClosePoll extends Component
         $this->hasEvent = $this->poll->event()->exists();
     }
 
-    /**
-     * Metoda pro zavření hlasování
-     *
-     * @return \Illuminate\Http\RedirectResponse|void
-     * @throws \Throwable
-     */
     public function closePoll()
     {
 
         if(Gate::allows('close', $this->poll)) {
-            //$this->validate();
+            $this->validate();
             try {
                 DB::beginTransaction();
                 $this->poll->status = $this->poll->status->toggle();
