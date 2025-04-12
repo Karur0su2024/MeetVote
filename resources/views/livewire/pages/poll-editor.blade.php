@@ -31,13 +31,19 @@
                 </x-slot:left>
             @endif
             <x-slot:right>
-                <x-ui.error-alert for="error"/>
+
                 <x-ui.button type="submit">
                     {{ __('pages/poll-editor.button.submit') }}
                 </x-ui.button>
-                <x-ui.saving wire:loading wire:target="submit">
+                @error('error')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+                @enderror
+
+                <x-ui.spinner wire:loading wire:target="submit">
                     {{ __('pages/poll-editor.loading') }}
-                </x-ui.saving>
+                </x-ui.spinner>
             </x-slot:right>
         </x-ui.panel>
 

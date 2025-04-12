@@ -30,6 +30,7 @@ function questionForm() {
         addQuestionOption(questionIndex) {
             this.questions[questionIndex].options.push({
                 text: '',
+                score: 0,
             });
         },
 

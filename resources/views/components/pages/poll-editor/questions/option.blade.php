@@ -8,6 +8,7 @@
            :placeholder="'{{ __('pages/poll-editor.questions.label.option') }} ' + (optionIndex + 1)"
            class="form-control"
            required
+           :disabled="option.score > 0"
            :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.options.' + [optionIndex] + '.text'] }"
     >
 

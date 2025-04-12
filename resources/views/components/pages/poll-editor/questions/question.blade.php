@@ -30,7 +30,7 @@
             {{-- Zobrazení chybové hlášky, pokud možnost není validní --}}
         </template>
 
-        <x-ui.button @click="form.questions[questionIndex].options.push({ text: '' })"
+        <x-ui.button @click="addQuestionOption(questionIndex)"
                      color="outline-secondary">
             {{ __('pages/poll-editor.questions.button.add_option') }}
         </x-ui.button>

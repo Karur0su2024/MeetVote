@@ -70,7 +70,8 @@ class QuestionCreateService
                 if (!$option) {
                     throw new PollException('Question option not found. Please try again.');
                 }
-                if($option['score'] !== 0) {
+
+                if($option->score !== 0) {
                     continue;
                 }
 
@@ -79,7 +80,7 @@ class QuestionCreateService
                 ]);
             } else {
                 $question->options()->create([
-                    'text' => $optionsToSave['text'],
+                    'text' => $optionToSave['text'],
                 ]);
             }
         }
