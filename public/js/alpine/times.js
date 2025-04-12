@@ -7,13 +7,19 @@ function TimeOptionsForm() {
         },
 
         // Inicializace jskalendáře
-        // https://gramthanos.github.io/jsCalendar/docs.html#javascript-method-min-max
+        // https://fullcalendar.io/
         initCalendar: function () {
-            let calendar = new jsCalendar("#js-calendar");
-            calendar.min("now");
-            calendar.onDateClick((event, date) => {
-                this.addDate(date); // Přidání data do formuláře
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                selectable: true,
+                height: 'auto',
+                dateClick: (info) => {
+                    this.addDate(info.dateStr);
+                },
             });
+            calendar.render();
+
+
         },
 
         // Funkce pro přidání data do formuláře

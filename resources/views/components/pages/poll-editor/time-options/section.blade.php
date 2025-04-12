@@ -1,3 +1,10 @@
+@push('scripts')
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="{{ asset('js/alpine/times.js') }}"></script>
+@endpush
+
+
 <div x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
 
     {{-- Základní informace o anketě --}}
@@ -14,31 +21,28 @@
 
 
 
-        <div class="row">
-            <div class="col-lg-5">
-                <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.title') }}</h3>
-                <div id="js-calendar"
-                     class="w-100"
-                     x-init="initCalendar()"
-                     x-data
-                     wire:ignore>
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card p-3 shadow-sm">
+                    <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.title') }}</h3>
+                    <div id="calendar"
+                         x-init="initCalendar()"
+                         x-data
+                         wire:ignore>
+                    </div>
+                    <x-ui.error-alert for="form.dates"/>
                 </div>
-                <x-ui.error-alert for="form.dates"/>
             </div>
-            <div class="col-lg-7">
-                <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.dates') }}</h3>
-
-                <template x-for="(date, dateIndex) in dates" :key="dateIndex">
-                    <x-pages.poll-editor.time-options.date-card />
-                </template>
+            <div class="col-lg-6">
+                <div class="card p-3 h-100">
+                    <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.dates') }}</h3>
+                    <template x-for="(date, dateIndex) in dates" :key="dateIndex">
+                        <x-pages.poll-editor.time-options.date-card />
+                    </template>
+                </div>
             </div>
         </div>
     </x-ui.card>
 
 </div>
 
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/simple-jscalendar@1.4.4/source/jsCalendar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="{{ asset('js/alpine/times.js') }}"></script>
-@endpush

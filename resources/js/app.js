@@ -28,4 +28,4 @@ document.addEventListener('livewire:init', () => {
             }
         })
     })
-})
+});
