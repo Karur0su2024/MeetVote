@@ -4,67 +4,53 @@ namespace App\Services\Google;
 
 use Google\Client;
 use Google\Service\Calendar;
-use Google\Service\Calendar\Event;
+use Google\Service\Calendar\Event as GoogleEvent;
+use App\Models\Event;
+use Illuminate\Support\Facades\Log;
 
 class GoogleCalendarService
 {
-    protected $client;
-    protected $calendar;
+    protected Calendar $calendar;
 
-    public function __construct()
+    public function __construct(Client $client)
     {
-        $this->client = new Client;
-        $this->client->setApplicationName(config('app.name'));
-        $this->client->setScopes(Calendar::CALENDAR); // Rozsah přístupu k Google Kalendáři
-        $this->client->setAuthConfig(config('google.oauth_credentials')); // Cesta k souboru s oauth credentials
-        $this->client->setAccessType('offline');
-        $this->client->setPrompt('select_account consent');
-        $this->calendar = new Calendar($this->client); // Inicializace Google Kalendáře
+        $this->calendar = new Calendar($client); // Inicializace Google Kalendáře
     }
 
     //https://ggomez.dev/blog/how-to-integrate-google-calendar-with-laravel
     // Metoda pro synchronizaci události s Google Kalendářem
     public function syncEvent($googleEvent, $event, $user)
     {
-        $calendarEvent = $this->calendar->events->insert('primary', $googleEvent);
-        $event->syncedEvents()->create([
-            'calendar_event_id' => $calendarEvent->id, // ID události v Google Kalendáři
-            'user_id' => $user->id,
-        ]);
+        $this->desyncEvent($event, $user->id);
+
+        try{
+            $calendarEvent = $this->calendar->events->insert('primary', $googleEvent);
+            $event->syncedEvents()->create([
+                'calendar_event_id' => $calendarEvent->id, // ID události v Google Kalendáři
+                'user_id' => $user->id,
+            ]);
+        }
+        catch (\Exception $e){
+            Log::error('Error while syncing event');
+        }
+
 
     }
 
-    public function desyncEvent($event, $userIndex)
+    public function desyncEvent(Event $event, $userIndex)
     {
-        $syncEvent = $event->syncedEvents->where('user_id', $userIndex)->first();
-        try {
-            $this->calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
-            $this->calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
-        } catch (\Exception $e) {
-            // TODO: možná poslat notifikaci uživateli, nebo logovat chybu
-        }
-
+        $syncEvent = $event->syncedEvents()->where('user_id', $userIndex)->first();
         if($syncEvent) {
+            try {
+                $this->calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
+                $this->calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
+            } catch (\Exception $e) {
+                Log::error('Error while desyncing event');
+            }
+
             $syncEvent->delete();
         }
 
-    }
-
-    private function refreshToken($user)
-    {
-        $this->client->fetchAccessTokenWithRefreshToken($user->google_refresh_token); // Obnovení přístupového tokenu
-        $user->google_token = $this->client->getAccessToken();
-        $user->save();
-    }
-
-    public function checkToken($user)
-    {
-        $this->client->setAccessToken($user->google_token); // Přístupový token uživatele
-
-        if ($this->client->isAccessTokenExpired()) {
-            $this->refreshToken($user);
-        }
-        return true;
     }
 
     public function buildGoogleEvent($event)
@@ -72,36 +58,41 @@ class GoogleCalendarService
         $description = $event->description;
         $description .= "\n\nPoll link: " . route('polls.show', ['poll' => $event->poll->public_id]); // Odkaz na anketu
 
-        $googleEvent = new Event([
+        return new GoogleEvent([
             'summary' => 'MeetVote: ' . $event->title,
             'description' => $description,
             'start' => [
                 'dateTime' => date('Y-m-d\TH:i:s', strtotime($event->start_time)),
-                'timeZone' => 'Europe/Prague',
+                'timeZone' => config('app.timezone'),
             ],
             'end' => [
                 'dateTime' => date('Y-m-d\TH:i:s', strtotime($event->end_time)),
-                'timeZone' => 'Europe/Prague',
+                'timeZone' => config('app.timezone'),
             ],
         ]);
-
-        return $googleEvent;
 
     }
 
 
-    public function getEvents($startTime, $endTime)
+    public function getCalendarEvents($option)
     {
         $calendarId = 'primary';
         $eventDetails = [
-            'timeMin' => $startTime,
-            'timeMax' => $endTime,
+            'timeMin' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['start'] ?? '0:00'),
+            'timeMax' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['end'] ?? '0:00'),
             'singleEvents' => true,
             'timeZone' => date_default_timezone_get(),
         ];
         return $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
-
     }
+
+
+    private function getCalendarDateTimeFormat($date, $time): string
+    {
+        $datetime = $date . ' ' . $time;
+        return date('c', strtotime($datetime));
+    }
+
 
 
 }

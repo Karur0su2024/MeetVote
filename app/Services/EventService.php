@@ -42,7 +42,7 @@ class EventService
         $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']];
         $text = $poll->description ? $poll->description."\n\n" : '';
 
-        if(isset($results['questions'])){
+        if(count($results['questions']) > 0){
             $text .= "Questions:\n";
 
             foreach ($results['questions'] as $question) {
@@ -51,8 +51,7 @@ class EventService
                 $text .= "\n";
             }
         }
-
-
+        
 
         return [
             'poll_id' => $poll->id,

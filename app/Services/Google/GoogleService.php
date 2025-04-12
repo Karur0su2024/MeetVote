@@ -5,8 +5,11 @@ namespace App\Services\Google;
 
 use App\Interfaces\GoogleServiceInterface;
 use App\Models\User;
+use Google\Client;
+use Google\Service\Calendar;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as GoogleUser;
 
@@ -15,26 +18,30 @@ use Laravel\Socialite\Two\User as GoogleUser;
  */
 class GoogleService implements GoogleServiceInterface
 {
+    public Client $client;
 
+    public function __construct()
+    {
+        $this->client = new Client;
+        $this->client->setApplicationName(config('app.name'));
+        $this->client->setScopes([Calendar::CALENDAR]); // Rozsah přístupu k Google Kalendáři
+        $this->client->setAuthConfig(config('google.oauth_credentials')); // Cesta k souboru s oauth credentials
+        $this->client->setAccessType('offline');
+        $this->client->setPrompt('select_account consent');
+    }
 
     public function syncWithGoogleCalendar($users, $event)
     {
-
-        $googleCalendarService = new GoogleCalendarService();
-        app()->instance(GoogleCalendarService::class, $googleCalendarService);
-
-        $event->load('syncedEvents');
-
         try {
+            $event->load('syncedEvents');
+            $googleCalendarService = new GoogleCalendarService($this->client);
             $googleEvent = $googleCalendarService->buildGoogleEvent($event);
 
             foreach ($users as $user) {
                 if (!$user->google_id) {
                     continue;
                 }
-                $googleCalendarService->checkToken($user);
-                $googleCalendarService->desyncEvent($event, $user->id);
-
+                $this->checkToken($user);
                 $googleCalendarService->syncEvent($googleEvent, $event, $user);
             }
         } catch (\Exception $exception) {
@@ -45,14 +52,11 @@ class GoogleService implements GoogleServiceInterface
 
     public function desyncWithGoogleCalendar($event)
     {
-
         try {
-            $googleCalendarService = new GoogleCalendarService();
+            $googleCalendarService = new GoogleCalendarService($this->client);
 
-            $syncedEvents = $event->syncedEvents;
-
-            foreach ($syncedEvents as $syncedEvent) {
-                $googleCalendarService->checkToken($syncedEvent->user);
+            foreach ($event->syncedEvents as $syncedEvent) {
+                $this->checkToken($syncedEvent->user);
                 $googleCalendarService->desyncEvent($syncedEvent->event, $syncedEvent->user->id);
             }
 
@@ -65,17 +69,9 @@ class GoogleService implements GoogleServiceInterface
     public function checkAvailability($user, $option)
     {
         try {
-            $startTime = $option['date'] . ' ' . ($option['content']['start'] ?? '');
-            $endTime = $option['date'] . ' ' . ($option['content']['end'] ?? '');
-
-            $googleCalendarService = new GoogleCalendarService();
-            $googleCalendarService->checkToken($user);
-
-            $start = date('c', strtotime($startTime));
-            $end = date('c', strtotime($endTime));
-
-            $events = $googleCalendarService->getEvents($start, $end) ?? [];
-
+            $this->checkToken($user);
+            $googleCalendarService = new GoogleCalendarService($this->client);
+            $events = $googleCalendarService->getCalendarEvents($option) ?? [];
             return count($events) === 0;
         } catch (\Exception $e) {
             Log::error('Error while checking availability: ' . $e->getMessage());
@@ -83,4 +79,26 @@ class GoogleService implements GoogleServiceInterface
         }
 
     }
+
+    public function checkToken($user)
+    {
+        try{
+            $this->client->setAccessToken($user->google_token); // Přístupový token uživatele
+            if ($this->client->isAccessTokenExpired()) {
+                $this->refreshToken($user);
+            }
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+
+    }
+
+    private function refreshToken($user)
+    {
+        $this->client->fetchAccessTokenWithRefreshToken($user->google_refresh_token); // Obnovení přístupového tokenu
+        $user->google_token = $this->client->getAccessToken();
+        $user->save();
+    }
+
 }
