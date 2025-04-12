@@ -7,6 +7,7 @@ use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Models\VoteTimeOption;
 
@@ -15,41 +16,16 @@ class PollResultsService
 
     public function __construct(
         protected TimeOptionQueryService $timeOptionQueryService,
-        protected QuestionQueryService $questionQueryService,
-    ) {}
+        protected QuestionQueryService   $questionQueryService,
+    )
+    {
+    }
 
     public function getResults($poll): array
     {
-        $preferences = $this->getPreferenceData($poll);
 
-        $timeOptions = $this->timeOptionQueryService->getTimeOptionsArray($poll);
-
-        $timeOptions = $this->addPreferencesToTimeOptions($timeOptions, $preferences['timeOptions']);
-
-
-        usort($timeOptions, function ($a, $b) {
-            return $b['score'] <=> $a['score'];
-        });
-
-        $questions = $this->questionQueryService->getQuestionsArray($poll);
-
-        $questionArray = [];
-
-        foreach ($questions as $question) {
-            $options = $question['options'];
-
-            usort($options, function ($a, $b) {
-                return $b['score'] <=> $a['score'];
-            });
-
-
-            $questionArray[] = [
-                'id' => $question['id'],
-                'text' => $question['text'],
-                'options' => $options,
-                'selected' => 0,
-            ];
-        }
+        $timeOptions = $this->getTimeOptionsResultsArray($this->timeOptionQueryService->getTimeOptionsArray($poll), $this->getPreferenceData($poll));
+        $questionArray = $this->getQuestionResultsArray($this->questionQueryService->getQuestionsArray($poll));
 
         return [
             'timeOptions' => [
@@ -61,6 +37,40 @@ class PollResultsService
 
     }
 
+    private function getTimeOptionsResultsArray($timeOptions, $preferences): array
+    {
+        $timeOptions = $this->addPreferencesToTimeOptions($timeOptions, $preferences['timeOptions']);
+        return $this->sortByScore($timeOptions);
+    }
+
+    private function getQuestionResultsArray($questions): array
+    {
+        $questionArray = [];
+
+        foreach ($questions as $question) {
+            $options = $question['options'];
+            $options = $this->sortByScore($options);
+
+            $questionArray[] = [
+                'id' => $question['id'],
+                'text' => $question['text'],
+                'options' => $options,
+                'selected' => 0,
+            ];
+        }
+
+        return $questionArray;
+    }
+
+    private function sortByScore($array): array
+    {
+        usort($array, function ($a, $b) {
+            return $b['score'] <=> $a['score'];
+        });
+
+        return $array;
+
+    }
 
     public function getUserVote($poll): ?Vote
     {
@@ -77,7 +87,8 @@ class PollResultsService
     }
 
 
-    public function getPreferenceData($poll) {
+    public function getPreferenceData($poll): array
+    {
         $votes = $poll->votes;
 
         if ($poll->anonymous_votes) {
@@ -85,10 +96,13 @@ class PollResultsService
                 $vote->voter_name = 'Anonymous';
             }
         }
+        
+        return $this->setNotZeroPreferences($votes);
 
+    }
 
-
-
+    private function setNotZeroPreferences($votes): array
+    {
         $preferences = [
             'timeOptions' => [],
             'questions' => [],
@@ -105,11 +119,8 @@ class PollResultsService
                     $vote->voter_name;
             }
         }
-
         return $preferences;
-
     }
-
 
     private function addPreferencesToTimeOptions($timeOptions, $preferences): array
     {
