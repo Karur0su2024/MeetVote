@@ -7,6 +7,7 @@ use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
+use DateTimeZone;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -17,6 +18,7 @@ class PollEditor extends Component
     public PollEditorForm $form;
     public $pollIndex;
     public $poll;
+    public $timezones;
 
     /**
      * @return void
@@ -26,6 +28,10 @@ class PollEditor extends Component
         $this->pollIndex = $pollIndex;
         $this->poll = Poll::where('id', $pollIndex)->first();
         $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
+
+        $this->timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+
+        //dd($this->timezones);
     }
 
     /**

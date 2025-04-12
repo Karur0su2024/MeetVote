@@ -4,7 +4,7 @@
     <form wire:submit.prevent="submit">
 
         {{-- Základní informace o anketě --}}
-        <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex"/>
+        <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
 
         {{-- Výběr časových termínů --}}
         <x-pages.poll-editor.time-options.section/>

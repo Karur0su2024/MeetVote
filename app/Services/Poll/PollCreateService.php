@@ -66,6 +66,7 @@ class PollCreateService
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
             'deadline' => $validatedData['deadline'] !== '' ? $validatedData['deadline'] : null,
+            'timezone' => $validatedData['timezone'] ?? config('app.timezone'),
             'settings' => $validatedData['settings'],
             'password' => $this->setPassword($validatedData['password']),
         ];

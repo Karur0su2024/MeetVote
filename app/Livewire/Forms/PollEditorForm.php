@@ -22,6 +22,8 @@ class PollEditorForm extends Form
     // Deadline ankety, po kterém nebude možné hlasovat
     public ?string $deadline = null;
 
+    public string $timezone;
+
     // Nastavení ankety
     public array $settings = [];
     public array $password = [];
@@ -48,6 +50,7 @@ class PollEditorForm extends Form
             'title' => 'required|string|min:3|max:255', // Název ankety
             'description' => 'nullable|max:1000', // Popis ankety
             'deadline' => 'nullable|date|after:today', // Uzávěrka ankety
+            'timezone' => 'nullable|string', // Časové pásmo ankety
 
             'user.name' => 'required|string|min:3|max:255', // Jméno uživatele
             'user.email' => 'required|email', // E-mail uživatele
@@ -94,6 +97,7 @@ class PollEditorForm extends Form
         $this->title = $data['title'] ?? '';
         $this->description = $data['description'] ?? '';
         $this->deadline = $data['deadline'] ?? null;
+        $this->timezone = $data['timezone'] ?? config('app.timezone');
         $this->settings = $data['settings'] ?? [];
         $this->password = $data['password'] ?? null;
         $this->user = $data['user'] ?? [];

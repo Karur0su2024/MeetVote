@@ -14,7 +14,7 @@ Route::prefix('polls')->group(function () {
 
     // Zobrazení ankety
     Route::get('/{poll}', [PollController::class, 'show'])
-        ->middleware(['poll.is_invite_only', 'poll.has_password'])
+        ->middleware(['poll.is_invite_only', 'poll.has_password', 'poll.set_timezone'])
         ->name('polls.show');
 
     // Úprava ankety

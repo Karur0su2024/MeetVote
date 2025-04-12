@@ -75,6 +75,7 @@ class Voting extends Component
             return;
         }
 
+        date_default_timezone_set($this->poll->timezone);
         foreach ($this->form->timeOptions as $optionIndex => $option) {
             if($option['invalid'] ?? false) {
                 continue;

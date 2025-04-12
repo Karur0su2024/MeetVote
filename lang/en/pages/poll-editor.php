@@ -32,9 +32,10 @@ return [
             'tooltip' => 'Set the deadline for the poll. After this date, no new votes will be accepted. Deadline is not
                     required.',
         ],
-        'post_anonymously' => [
-            'label' => 'Post poll anonymously',
-            'tooltip' => 'If you want to post the poll anonymously, you can do so by checking this option. This will hide your name and email from the poll.',
+        'poll_timezone' => [
+            'label' => 'Timezone',
+            'placeholder' => 'Select timezone',
+            'tooltip' => 'Select the timezone for the poll. This will be used to display the poll times.',
         ],
         'user_name' => [
             'label' => 'Your name',

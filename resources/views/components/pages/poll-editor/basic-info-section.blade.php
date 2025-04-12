@@ -38,6 +38,17 @@
                 </x-slot:tooltip>
                 {{ __('pages/poll-editor.basic_info.poll_deadline.label') }}
             </x-ui.form.input>
+
+            <label for="timezone"
+                   class="form-label mt-3">
+                {{ __('pages/poll-editor.basic_info.poll_timezone.label') }}
+            </label>
+            <select class="form-control" wire:model="form.timezone" id="timezone">
+                @foreach($timezones as $timezone)
+                    <option value="{{ $timezone }}">{{$timezone}} ({{ now()->setTimezone($timezone)->format('P') }})</option>
+                @endforeach
+            </select>
+
         </div>
 
 

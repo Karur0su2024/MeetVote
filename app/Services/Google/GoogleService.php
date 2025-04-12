@@ -4,14 +4,9 @@ namespace App\Services\Google;
 
 
 use App\Interfaces\GoogleServiceInterface;
-use App\Models\User;
 use Google\Client;
 use Google\Service\Calendar;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Laravel\Socialite\Facades\Socialite;
-use Laravel\Socialite\Two\User as GoogleUser;
 
 /**
  *
@@ -75,7 +70,7 @@ class GoogleService implements GoogleServiceInterface
             return count($events) === 0;
         } catch (\Exception $e) {
             Log::error('Error while checking availability: ' . $e->getMessage());
-            return null; // V případě chyby vrátíme null (neznámý stav)
+            return null;
         }
 
     }

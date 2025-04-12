@@ -71,7 +71,8 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     private function checkIfCallbackWasSuccessful()
     {
         try {
-            return Socialite::driver('google')->user();
+            $user = Socialite::driver('google')->user();
+            return $user;
         } catch (\Exception $e) {
             if (Auth::check()) {
                 return redirect(route('settings'))->with('error', 'Google authentication failed. Please try again.');
@@ -95,7 +96,7 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return $user->toArray();
     }
 
-    private function googleAccountAlreadyConnected($googleUser): ?User
+    private function googleAccountAlreadyConnected(GoogleUser $googleUser): ?User
     {
         return User::where('google_id', $googleUser->getId())->first();
     }

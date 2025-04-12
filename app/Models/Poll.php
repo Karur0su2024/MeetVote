@@ -26,7 +26,7 @@ class Poll extends Model
         'user_id', 'author_name', 'author_email', 'title', 'description',
         'anonymous_votes', 'comments', 'invite_only', 'hide_results', 'status',
         'deadline', 'password', 'public_id', 'admin_key',
-        'edit_votes', 'add_time_options', 'settings',
+        'edit_votes', 'add_time_options', 'settings', 'timezone',
 
     ];
 

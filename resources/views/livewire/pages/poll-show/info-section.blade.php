@@ -72,6 +72,12 @@
 
 
             <x-slot:footer class="flex-wrap">
+                <x-ui.badge>
+                    Timezone:
+                    {{ $poll->timezone }} ({{  date('P') }})
+                </x-ui.badge>
+
+
                 @if ($poll->comments)
                     <x-ui.badge>
                         {{ __('pages/poll-show.info.badges.comments') }}

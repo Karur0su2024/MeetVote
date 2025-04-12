@@ -56,6 +56,7 @@ class GoogleCalendarService
     public function buildGoogleEvent($event)
     {
         $description = $event->description;
+        $timezone = $event->poll->timezone;
         $description .= "\n\nPoll link: " . route('polls.show', ['poll' => $event->poll->public_id]); // Odkaz na anketu
 
         return new GoogleEvent([
@@ -63,11 +64,11 @@ class GoogleCalendarService
             'description' => $description,
             'start' => [
                 'dateTime' => date('Y-m-d\TH:i:s', strtotime($event->start_time)),
-                'timeZone' => config('app.timezone'),
+                'timeZone' => $timezone,
             ],
             'end' => [
                 'dateTime' => date('Y-m-d\TH:i:s', strtotime($event->end_time)),
-                'timeZone' => config('app.timezone'),
+                'timeZone' => $timezone,
             ],
         ]);
 
@@ -80,9 +81,9 @@ class GoogleCalendarService
         $eventDetails = [
             'timeMin' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['start'] ?? '0:00'),
             'timeMax' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['end'] ?? '0:00'),
-            'singleEvents' => true,
             'timeZone' => date_default_timezone_get(),
         ];
+
         return $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
     }
 

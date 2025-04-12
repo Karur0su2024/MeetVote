@@ -18,8 +18,6 @@ function TimeOptionsForm() {
                 },
             });
             calendar.render();
-
-
         },
 
         // Funkce pro přidání data do formuláře

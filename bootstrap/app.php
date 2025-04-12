@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'poll.is_invite_only' => Poll\IsInviteOnly::class,
             'poll.has_password' => Poll\HasPassword::class,
             'poll.can_edit' => Poll\CanEdit::class,
+            'poll.set_timezone' => Poll\SetTimezone::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
