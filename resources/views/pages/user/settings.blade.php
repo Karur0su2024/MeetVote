@@ -5,6 +5,12 @@
 
     <div class="container text-center">
 
+        @if(session('error'))
+            <x-ui.alert type="danger">
+                {{ session('error') }}
+            </x-ui.alert>
+        @endif
+
         <livewire:user.settings.profile-settings />
 
         <livewire:user.settings.password-settings />

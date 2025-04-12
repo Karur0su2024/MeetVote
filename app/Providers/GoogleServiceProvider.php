@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
-use App\Interfaces\GoogleServiceInterface;
+use App\Services\Google\GoogleAuthService;
+use App\Services\Google\GoogleAuthServiceEmpty;
 use App\Services\Google\GoogleService;
 use App\Services\Google\GoogleServiceEmpty;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\Google\GoogleAuthServiceInterface;
+use App\Interfaces\GoogleServiceInterface;
 
 class GoogleServiceProvider extends ServiceProvider
 {
@@ -15,11 +18,17 @@ class GoogleServiceProvider extends ServiceProvider
     public function register(): void
     {
         if($this->isConfigured()){
+            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
+                return new GoogleAuthService();
+            });
             $this->app->singleton(GoogleServiceInterface::class, function ($app) {
                 return new GoogleService();
             });
         }
         else {
+            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
+                return new GoogleAuthServiceEmpty();
+            });
             $this->app->singleton(GoogleServiceInterface::class, function ($app) {
                 return new GoogleServiceEmpty();
             });

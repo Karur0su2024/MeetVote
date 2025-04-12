@@ -5,6 +5,13 @@
                 {{ session('status') }}
             </x-ui.alert>
         @endif
+        @if(session('error'))
+            <x-ui.alert type="danger">
+                {{ session('error') }}
+            </x-ui.alert>
+        @endif
+
+
         <div class="card shadow p-4">
             <h2 class="text-center mb-4">{{ __('pages/auth.login.title') }}</h2>
             <form wire:submit="login">
@@ -41,7 +48,8 @@
                 </x-ui.form.checkbox>
 
                 <div class="mb-1">
-                    <a href="{{ route('password.request') }}" class="text-decoration-none text-primary">{{ __('pages/auth.login.buttons.forgot_password') }}</a>
+                    <a href="{{ route('password.request') }}"
+                       class="text-decoration-none text-primary">{{ __('pages/auth.login.buttons.forgot_password') }}</a>
                 </div>
 
                 <div class="mb-2">
@@ -51,12 +59,11 @@
                 </div>
 
 
-
-
                 <div class="d-flex justify-content-center align-items-center mb-3 gap-2">
-                    <button type="submit" class="btn btn-primary w-100">{{ __('pages/auth.login.buttons.login') }}</button>
+                    <button type="submit"
+                            class="btn btn-primary w-100">{{ __('pages/auth.login.buttons.login') }}</button>
                     <a href="{{ route('google.login') }}" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-google"></i>  {{ __('pages/auth.login.buttons.with_google') }}
+                        <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
                     </a>
                 </div>
                 <x-ui.saving wire:loading>

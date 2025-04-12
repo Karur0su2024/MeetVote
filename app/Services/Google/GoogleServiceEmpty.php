@@ -4,28 +4,11 @@ namespace App\Services\Google;
 
 use App\Interfaces\GoogleServiceInterface;
 use Laravel\Socialite\Two\User as GoogleUser;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\RedirectResponse;
 
 class GoogleServiceEmpty implements GoogleServiceInterface
 {
-
-    public function redirectToGoogle()
-    {
-        Log::info('Google service is not enabled.');
-        return redirect(route('home'))->with('warning', 'Google service is not enabled.');
-    }
-
-    public function handleGoogleCallback()
-    {
-        Log::info('Google service is not enabled.');
-        return redirect(route('home'))->with('warning', 'Google service is not enabled.');
-    }
-
-    public function disconnectFromGoogle()
-    {
-        Log::info('Google service is not enabled.');
-        return redirect(route('home'))->with('warning', 'Google service is not enabled.');
-    }
-
     public function syncWithGoogleCalendar($users, $eventData)
     {
         // Synchronizace s Google kalendářem nebude provedena

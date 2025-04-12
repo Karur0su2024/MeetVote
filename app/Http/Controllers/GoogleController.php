@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\GoogleServiceInterface;
+use App\Interfaces\Google\GoogleAuthServiceInterface;
 
 class GoogleController extends Controller
 {
 
-    public function __construct(public GoogleServiceInterface $googleService)
+    public function __construct(public GoogleAuthServiceInterface $googleAuthService)
     {}
 
     public function redirectToGoogle()
     {
-        return $this->googleService->redirectToGoogle();
+        return $this->googleAuthService->redirectToGoogle();
     }
 
     public function handleGoogleCallback()
     {
-        return $this->googleService->handleGoogleCallback();
+        return $this->googleAuthService->handleGoogleCallback();
     }
 
     public function disconnectFromGoogle()
     {
-        return $this->googleService->disconnectFromGoogle();
+        return $this->googleAuthService->disconnectFromGoogle();
     }
 }
