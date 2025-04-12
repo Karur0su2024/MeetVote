@@ -14,7 +14,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
                         <x-ui.button size="sm"
                                      color="outline-secondary"
                                      wire:click="openVoteModal({{ $vote }})">
-                            {{ $poll->settings['anonymous_votes'] ? 'Anonymous' : $vote->voter_name }}
+                            {{ ($poll->settings['anonymous_votes'] ?? false) ? 'Anonymous' : (Auth::user()->name ?? $voter->name) }}
                         </x-ui.button>
                     @empty
                         No votes yet.

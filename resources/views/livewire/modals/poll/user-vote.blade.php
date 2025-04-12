@@ -3,7 +3,7 @@
         {{ __('ui/modals.results.title') }}
     </x-ui.modal.header>
     <div class="modal-body">
-        <div class="fw-bold fs-5">{{ $vote->poll->settings['anonymous_votes'] ? 'Anonymous' : $vote->voter_name }}
+        <div class="fw-bold fs-5">{{ ($vote->poll->settings['anonymous_votes'] ?? false) ? 'Anonymous' : (Auth::user()->name ?? $voter->name) }}
             @if (Auth::id() === $vote->user_id )
                 <i class="bi bi-person-fill ms-1"></i>
             @endif
