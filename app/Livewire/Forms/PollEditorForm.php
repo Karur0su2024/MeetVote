@@ -63,13 +63,15 @@ class PollEditorForm extends Form
             'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
             'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
             'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
+            'dates.*.*.score' => 'nullable|int',// Text možnosti*/
 
             'questions' => ['nullable', 'array', new NoQuestionDuplicates()], // Pole otázek
             'questions.*.id' => 'nullable|integer', // ID otázky
             'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
             'questions.*.options' => ['required', 'array', 'min:2', new NoQuestionOptionDuplicates()], // Možnosti otázky
             'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
-            'questions.*.options.*.text' => 'required|string|min:1|max:255', // Text možnosti*/
+            'questions.*.options.*.text' => 'required|string|min:1|max:255',
+            'questions.*.options.*.score' => 'nullable|int',// Text možnosti*/
             'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
             'removed.questions' => 'nullable|array', // ID odstraněných otázek
             'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek

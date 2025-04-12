@@ -62,20 +62,24 @@ class QuestionCreateService
      * @return void
      * @throws \Exception
      */
-    private function saveQuestionOptions(PollQuestion $question, array $options): void
+    private function saveQuestionOptions(PollQuestion $question, array $optionsToSave): void
     {
-        foreach ($options as $option) {
-            if (isset($option['id'])) {
-                $newOption = QuestionOption::find($option['id']);
-                if (!$newOption) {
+        foreach ($optionsToSave as $optionToSave) {
+            if (isset($optionToSave['id'])) {
+                $option = QuestionOption::find($optionToSave['id']);
+                if (!$option) {
                     throw new PollException('Question option not found. Please try again.');
                 }
-                $newOption->update([
-                    'text' => $option['text'],
+                if($option['score'] !== 0) {
+                    continue;
+                }
+
+                $option->update([
+                    'text' => $optionToSave['text'],
                 ]);
             } else {
                 $question->options()->create([
-                    'text' => $option['text'],
+                    'text' => $optionsToSave['text'],
                 ]);
             }
         }

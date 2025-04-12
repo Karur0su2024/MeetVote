@@ -22,6 +22,10 @@ class TimeOptionCreateService
             $optionToAdd = $this->builtTimeOption($option);
 
             if (isset($option['id'])) {
+                if($option['score'] !== 0) {
+                    continue;
+                }
+
                 TimeOption::where('id', $option['id'])->update($optionToAdd);
             } else {
                 $poll->timeOptions()->create($optionToAdd);

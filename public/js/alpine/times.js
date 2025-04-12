@@ -67,6 +67,7 @@ function TimeOptionsForm() {
             this.dates[date].push({
                 type: "text",
                 date: date,
+                score: 0,
                 content: {
                     text: "",
                 },
@@ -93,6 +94,7 @@ function TimeOptionsForm() {
             this.dates[date].push({
                 type: 'time',
                 date: date,
+                score: 0,
                 content: {
                     start: lastEnd,
                     end: end,

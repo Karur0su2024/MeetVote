@@ -12,11 +12,8 @@ function questionForm() {
                 text: '',
                 options: [{
                     text: '',
-                },
-                    {
-                        text: '',
-                    }
-                ],
+                    score: 0,
+                }],
             });
         },
 

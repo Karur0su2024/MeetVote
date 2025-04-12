@@ -12,13 +12,15 @@
                        x-model="dates[dateIndex][optionIndex].content.start"
                        :id="'start_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.start'] }">
+                       :disabled="option.score !== 0"
+                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.start']">
 
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.end"
                        :id="'end_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
+                       :disabled="option.score !== 0"
+                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'">
             </div>
         </template>
         <template x-if="option.type === 'text'">
@@ -26,7 +28,8 @@
                    x-model="dates[dateIndex][optionIndex].content.text"
                    :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
                    :placeholder="'Option ' + (optionIndex + 1)"
-                   :class="{ 'is-invalid': messages.errors['dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
+                   :disabled="option.score !== 0"
+                   :class="{ 'is-invalid': messages.errors['dates.' + dateIndex + '.' + [optionIndex] + '.content.text']">
         </template>
 
 
