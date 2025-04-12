@@ -20,7 +20,7 @@ class InvitationService
             $invitation->save();
         }
 
-        session()->push('poll_invitations.'.$poll->id, $token);
+        session()->put('poll_invitations.'.$poll->id, $token);
 
         return $poll;
     }

@@ -36,7 +36,6 @@ class Invitations extends Component
 
         InvitationSent::dispatch($invitations);
 
-
         $this->poll->refresh();
     }
 
