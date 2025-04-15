@@ -13,7 +13,12 @@ function questionForm() {
                 options: [{
                     text: '',
                     score: 0,
-                }],
+                },
+                    {
+                        text: '',
+                        score: 0,
+                    }
+                ],
             });
         },
 
@@ -21,7 +26,6 @@ function questionForm() {
             if (this.questions[index].id !== undefined) {
                 this.removed['questions'].push(this.questions[index].id);
             }
-
 
 
             this.questions.splice(index, 1);
@@ -49,6 +53,7 @@ function questionForm() {
 
         duplicateError(errors) {
             this.messages.errors = errors;
+
         }
 
     }

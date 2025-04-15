@@ -30,14 +30,21 @@
                          x-data
                          wire:ignore>
                     </div>
-                    <x-ui.error-alert for="form.dates"/>
+                    <div x-show="messages.errors['calendar']">
+                        <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                            <span x-text="messages.errors['calendar']"></span>
+                        </x-ui.alert>
+                    </div>
+
                 </div>
             </div>
             <div class="col-lg-6">
+
                 <div class="card p-3 h-100">
                     <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.dates') }}</h3>
                     <template x-for="(date, dateIndex) in dates" :key="dateIndex">
                         <x-pages.poll-editor.time-options.date-card />
+
                     </template>
                 </div>
             </div>

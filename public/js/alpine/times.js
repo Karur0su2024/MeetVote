@@ -5,6 +5,8 @@ function TimeOptionsForm() {
         messages: {
             errors: {},
         },
+        dateErrors: {},
+        optionErrors: {},
 
         // Inicializace jskalendáře
         // https://fullcalendar.io/
@@ -27,16 +29,17 @@ function TimeOptionsForm() {
 
             if (moment(date).isBefore(moment(), 'day')) {
                 // Přidat error message pokud je datum před dnešním dnem
+                this.messages.errors.calendar = "Date cannot be in the past.";
                 return;
             }
 
             if (this.dates[formattedDate] !== undefined) {
-                // Přidat error message pokud je datum již přidáno
                 // Nebo možná nepsat nic
                 return;
             }
             else {
                 this.dates[formattedDate] = [];
+                this.messages.errors.calendar = null;
             }
 
             this.addTimeOption(formattedDate, true);
@@ -140,7 +143,29 @@ function TimeOptionsForm() {
 
 
         duplicateError(errors) {
-            this.messages.errors = errors;
+            this.dateErrors = {};
+            this.optionErrors = {};
+
+            Object.keys(errors).forEach((key) => {
+                //console.log(key);
+
+                dateIndex = key.split('.')[2];
+
+                if(this.dateErrors[dateIndex] === undefined) {
+                    this.dateErrors[dateIndex] = '';
+                }
+
+                if (!this.dateErrors[dateIndex].includes(errors[key])) {
+                    this.dateErrors[dateIndex] += '<li>' + errors[key] + '</li>';
+                }
+
+
+                this.optionErrors[key] = true;
+
+            });
+
+            console.log(this.dateErrors);
+            console.log(this.optionErrors);
         }
     }
 }

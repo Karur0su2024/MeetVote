@@ -33,6 +33,7 @@ class Poll extends Model
         'deadline' => null,
         'description' => null,
         'status' => PollStatus::ACTIVE,
+        'timezone' => 'UTC',
     ];
 
     protected $hidden = [
@@ -45,6 +46,8 @@ class Poll extends Model
         'updated_at' => 'string',
         'settings' => 'array',
     ];
+
+
 
 
     protected static function booted(): void

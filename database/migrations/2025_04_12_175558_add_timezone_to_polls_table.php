@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('polls', function (Blueprint $table) {
-            $table->string('timezone')->nullable()->after('status');
+            $table->string('timezone')->default('UTC')->after('status');
         });
     }
 

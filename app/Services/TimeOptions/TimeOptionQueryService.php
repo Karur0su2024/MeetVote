@@ -85,6 +85,7 @@ class TimeOptionQueryService
             'type' => 'time',
             'date' => Carbon::today()->format('Y-m-d'),
             'score' => 0,
+            'invalid' => false,
             'content' => [
                 'start' => '00:00',
                 'end' => '01:00',

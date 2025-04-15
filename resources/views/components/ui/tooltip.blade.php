@@ -1,5 +1,4 @@
 @props([
-    /** @var \mixed */
     'tooltip'
 ])
 

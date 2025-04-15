@@ -12,14 +12,14 @@
                        :id="'start_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
                        :disabled="option.score !== 0 || option.invalid"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.start'] }">
+                       :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
 
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.end"
                        :id="'end_' + dateIndex + '_' + optionIndex"
                        class="form-control w-100 w-md-auto"
                        :disabled="option.score !== 0 || option.invalid"
-                       :class="{ 'is-invalid': messages.errors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
+                       :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
             </div>
         </template>
         <template x-if="option.type === 'text'">
@@ -28,7 +28,7 @@
                    :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
                    :placeholder="'Option ' + (optionIndex + 1)"
                    :disabled="option.score !== 0 || option.invalid"
-                   :class="{ 'is-invalid': messages.errors['dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
+                   :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
         </template>
 
         {{-- Tlačítko pro odstranění časové možnosti --}}

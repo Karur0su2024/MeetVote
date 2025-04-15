@@ -58,7 +58,7 @@ return [
             'end' => 'End time',
         ],
         'button' => [
-            'delete' => 'Delete',
+            'delete' => 'Delete date',
             'add_empty_time_option' => 'Add empty time option',
             'add_hour_time_option' => 'Add hour time option',
             'add_text_option' => 'Add text option',

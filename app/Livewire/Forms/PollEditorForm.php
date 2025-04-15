@@ -88,6 +88,20 @@ class PollEditorForm extends Form
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'dates.*.*.content.start.required_if' => 'Start of time option is required',
+            'dates.*.*.content.start.date_format' => 'Start of time option is in wrong format.',
+
+            'dates.*.*.content.end.required_if' => 'End of time option is required',
+            'dates.*.*.content.end.date_format' => 'End of time option is in wrong format.',
+            'dates.*.*.content.end.after' => 'End of time option must be after start.',
+
+            'dates.*.*.content.text.required_if' => 'Text option is required',
+        ];
+    }
+
     /**
      * @param $data
      * @return void
