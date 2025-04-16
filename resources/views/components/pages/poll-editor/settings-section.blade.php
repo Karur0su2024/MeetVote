@@ -2,7 +2,7 @@
     <x-slot:header>{{ __('pages/poll-editor.settings.title') }}</x-slot>
 
     <h4 class="text-muted mb-3">
-        Poll settings
+        {{ __('pages/poll-editor.settings.section_titles.settings') }}
     </h4>
     {{-- Komentáře --}}
     <x-ui.form.checkbox id="comments" wire:model="form.settings.comments">
@@ -39,7 +39,7 @@
 
 
     <h4 class="text-muted mb-3">
-        Poll security
+        {{ __('pages/poll-editor.settings.section_titles.security') }}
     </h4>
 
     @auth

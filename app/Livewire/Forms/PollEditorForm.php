@@ -82,7 +82,7 @@ class PollEditorForm extends Form
             'settings.hide_results' => 'required|boolean',
             'settings.invite_only' => 'required|boolean',
             'settings.add_time_options' => 'required|boolean',
-            
+
             'password.set' => 'nullable|string',
             'password.enabled' => 'boolean',
             'password.value' => 'nullable|string',
@@ -92,14 +92,13 @@ class PollEditorForm extends Form
     public function messages(): array
     {
         return [
-            'dates.*.*.content.start.required_if' => 'Start of time option is required',
-            'dates.*.*.content.start.date_format' => 'Start of time option is in wrong format.',
+            'dates.*.*.content.start.required_if' => __('pages/poll-editor.time_options.error_messages.empty_start'),
+            'dates.*.*.content.start.date_format' => __('pages/poll-editor.time_options.error_messages.format_start'),
+            'dates.*.*.content.end.required_if' => __('pages/poll-editor.time_options.error_messages.empty_end'),
+            'dates.*.*.content.end.date_format' => __('pages/poll-editor.time_options.error_messages.format_end'),
+            'dates.*.*.content.end.after' => __('pages/poll-editor.time_options.error_messages.after_start'),
 
-            'dates.*.*.content.end.required_if' => 'End of time option is required',
-            'dates.*.*.content.end.date_format' => 'End of time option is in wrong format.',
-            'dates.*.*.content.end.after' => 'End of time option must be after start.',
-
-            'dates.*.*.content.text.required_if' => 'Text option is required',
+            'dates.*.*.content.text.required_if' => __('pages/poll-editor.time_options.error_messages.empty_text'),
         ];
     }
 

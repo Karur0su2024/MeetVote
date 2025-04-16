@@ -43,7 +43,7 @@ return [
         ],
         'user_email' => [
             'label' => 'Your email',
-            'placeholder' => 'example@email.com',
+            'placeholder' => 'adress@email.com',
         ],
     ],
     'time_options' => [
@@ -62,6 +62,14 @@ return [
             'add_empty_time_option' => 'Add empty time option',
             'add_hour_time_option' => 'Add hour time option',
             'add_text_option' => 'Add text option',
+        ],
+        'error_messages' => [
+            'empty_start' => 'Start of time option is required.',
+            'empty_end' => 'End of time option is required.',
+            'empty_text' => 'Text option is required.',
+            'format_start' => 'Start of time option is in wrong format.',
+            'format_end' => 'End of time option is in wrong format.',
+            'after_start' => 'End of time option must be after start.',
         ],
     ],
     'questions' => [
@@ -82,6 +90,10 @@ return [
     ],
     'settings' => [
         'title' => 'Settings',
+        'section_titles' => [
+            'security' => 'Poll security',
+            'settings' => 'Poll settings',
+        ],
         'tooltip' => 'Set the poll settings.',
         'comments' => [
             'label' => 'Allow comments',
