@@ -1,5 +1,5 @@
 <div class="row">
-    @if(!$poll->settings['anonymous_votes'])
+    @if(empty($poll->settings['anonymous_votes']))
         <div class="col-md-6 mb-3">
             <x-ui.form.input
                 id="name"

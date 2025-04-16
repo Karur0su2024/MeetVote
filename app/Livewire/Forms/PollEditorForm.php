@@ -76,7 +76,7 @@ class PollEditorForm extends Form
             'removed.questions' => 'nullable|array', // ID odstraněných otázek
             'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
 
-            'settings' => 'required|array', // Nastavení ankety
+            'settings' => 'nullable|array', // Nastavení ankety
             'settings.comments' => 'boolean',
             'settings.anonymous_votes' => 'boolean',
             'settings.hide_results' => 'boolean',

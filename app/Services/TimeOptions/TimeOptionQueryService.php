@@ -87,8 +87,8 @@ class TimeOptionQueryService
             'score' => 0,
             'invalid' => false,
             'content' => [
-                'start' => '00:00',
-                'end' => '01:00',
+                'start' => '',
+                'end' => '',
             ],
         ]];
     }
