@@ -5,19 +5,19 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
 --}}
 <div>
-    <p class="text-muted">You can see the results of the poll here.</p>
+    <p class="text-muted">{{ __('pages/poll-show.results.description') }}</p>
         <div class="card h-100 mb-3 poll-section-card">
             <div class="card-body">
-                <h5>All votes</h5>
+                <h5>{{ __('pages/poll-show.results.sections.all_votes.title') }}</h5>
                 <div class="d-flex flex-wrap gap-2">
                     @forelse($votes as $vote)
                         <x-ui.button size="sm"
                                      color="outline-secondary"
                                      wire:click="openVoteModal({{ $vote }})">
-                            {{ ($poll->settings['anonymous_votes'] ?? false) ? 'Anonymous' : (Auth::user()->name ?? $voter->name) }}
+                            {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $voter->name) }}
                         </x-ui.button>
                     @empty
-                        No votes yet.
+                        {{ __('pages/poll-show.results.sections.all_votes.empty') }}
                     @endforelse
                 </div>
             </div>
@@ -35,7 +35,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
     @else
         <x-ui.alert type="warning">
-            Poll results are hidden by the poll creator.
+            {{ __('pages/poll-show.results.alerts.hidden') }}
         </x-ui.alert>
     @endcan
 

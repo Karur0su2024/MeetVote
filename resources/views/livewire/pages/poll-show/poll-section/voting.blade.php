@@ -7,7 +7,7 @@
 
 <div x-data="votingForm">
     <p class="text-muted">
-        Vote for the time that suits you best for meeting.
+        {{ __('pages/poll-show.voting.description') }}
     </p>
     <div>
         <!-- Pro přesunutí -->
@@ -23,22 +23,22 @@
                 <div>
                     <x-pages.poll-show.poll.results.results-section-card title="Time">
                         <x-slot:title>
-                            <span class="me-2">Times</span>
+                            <span class="me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
                             <x-ui.tooltip>
-                                Choose the time that suits you best for meeting.
+                                {{ __('pages/poll-show.voting.sections.time_options.tooltip') }}
                             </x-ui.tooltip>
                         </x-slot:title>
                         <x-slot:title-right>
                             @can('sync', Auth::user())
                                 <x-ui.saving wire:loading wire:target="checkAvailability">
-                                    Checking availability...
+                                    {{ __('pages/poll-show.voting.buttons.check_availability.loading') }}
                                 </x-ui.saving>
                                 <x-ui.button wire:click="checkAvailability" class="ms-2" size="sm">
                                     <x-ui.icon name="calendar-check"/>
                                     <x-slot:tooltip>
-                                        Check for your Google Calendar availability
+                                        {{ __('pages/poll-show.voting.buttons.check_availability.tooltip') }}
                                     </x-slot:tooltip>
-                                    Check calendar availability
+                                    {{ __('pages/poll-show.voting.buttons.check_availability.label') }}
                                 </x-ui.button>
                             @endcan
                         </x-slot:title-right>
@@ -90,7 +90,7 @@
                                         class="card p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable"
                                         wire:click="openAddNewTimeModal({{ $poll->id }})">
                                             <span class="text-muted fw-bold">
-                                                Add new time
+                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}
                                             </span>
 
                                     </div>
@@ -148,8 +148,8 @@
                         @endguest
 
                         <x-ui.form.textbox x-model="form.notes"
-                                           placeholder="Your additional notes to poll...">
-                            Additional notes
+                                           placeholder="{{ __('pages/poll-show.voting.form.notes.placeholder') }}">
+                            {{ __('pages/poll-show.voting.form.notes.label') }}
                         </x-ui.form.textbox>
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
@@ -160,9 +160,8 @@
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </x-ui.spinner>
                             <x-ui.form.message
-                                form-message="form.form"
+                                form-message="form.error"
                                 color="danger"/>
-
 
                         </div>
                     </div>
@@ -172,7 +171,7 @@
             </form>
         @else
             <x-ui.spinner>
-                Loading...
+                {{ __('pages/poll-show.voting.form.loading') }}
             </x-ui.spinner>
         @endif
     </div>

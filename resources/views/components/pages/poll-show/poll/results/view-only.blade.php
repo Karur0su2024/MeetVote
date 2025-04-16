@@ -5,12 +5,12 @@
 
 <div>
     <h4>
-        Results
+        {{ __('pages/poll-show.results.sections.results.view_only.title') }}
     </h4>
 
     <x-pages.poll-show.poll.results.results-section-card title="Time Options">
         <x-slot:header>
-            Time options
+            {{ __('pages/poll-show.results.sections.results.view_only.section.time_options') }}
         </x-slot:header>
         <x-slot:content>
             @foreach($results['timeOptions']['options'] as $optionIndex => $option)

@@ -11,7 +11,7 @@ use Livewire\Form;
  */
 class VotingForm extends Form
 {
-    public $form;
+    public $error;
     public $pollIndex = null;
 
     public $user = [
@@ -27,7 +27,7 @@ class VotingForm extends Form
 
     protected function rules(): array {
         return [
-            'form' => [new WasEmailAlreadyUsed($this->user['email'], $this->pollIndex), new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
+            'error' => [new WasEmailAlreadyUsed($this->user['email'], $this->pollIndex), new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
             'pollIndex' => 'required|integer',
             'user.name' => 'required|string|min:3|max:255',
             'user.email' => 'required|email',

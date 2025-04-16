@@ -7,26 +7,25 @@
     <form wire:submit.prevent="insertToEventModal">
         <div class="d-flex justify-content-between align-items-center">
             <h3 class="mb-0">
-                Choose results
+                {{ __('pages/poll-show.results.sections.results.pick_from_results.title') }}
             </h3>
 
             <x-ui.button type="submit">
                 <x-slot:tooltip>
-                    Open event creation modal and pre-fill it with picked results.
-                    Then you can share the event with your friends.
+                    {{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.tooltip') }}
                 </x-slot:tooltip>
-                Create event
+                {{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.label') }}
             </x-ui.button>
         </div>
 
         <p class="text-muted mt-2">
-            Pick options you want to use for event creation. Event represent final results of the poll.
+            {{ __('pages/poll-show.results.sections.results.pick_from_results.description') }}
         </p>
 
 
         <x-pages.poll-show.poll.results.results-section-card>
             <x-slot:header>
-                Time options
+                {{ __('pages/poll-show.results.sections.results.pick_from_results.section.time_options') }}
             </x-slot:header>
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)

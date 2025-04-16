@@ -53,9 +53,15 @@ class Voting extends Component
 
         try {
             $voteCreateService->saveVote($this->form->validate());
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
             Log::error('Error saving vote: ' . $e->getMessage());
             $this->addError('error', 'An error occurred while saving the vote.');
+            throw $e;
+        }
+        catch (VoteException $e) {
+            Log::error('Error saving vote: ' . $e->getMessage());
+            $this->addError('error', $e->getMessage());
+            return;
         }
     }
 

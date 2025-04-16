@@ -56,9 +56,13 @@ return [
         ],
     ],
     'voting' => [
-        'title' => '',
-        'accordion' => [
-          'time_options' => 'Time options',
+        'title' => 'Voting',
+        'description' => 'Vote for the time that suits you best for meeting.',
+        'sections' => [
+            'time_options' => [
+                'title' => 'Time options',
+                'tooltip' => 'Choose the time that suits you best for meeting.',
+            ],
         ],
         'form' => [
             'title' => 'Your information',
@@ -70,39 +74,99 @@ return [
                 'label' => 'Email',
                 'placeholder' => 'Enter your email',
             ],
+            'notes' => [
+                'label' => 'Additional notes',
+                'placeholder' => 'Your additional notes to poll...',
+            ],
             'loading' => 'Submitting...',
         ],
         'buttons' => [
+            'add_time_option' => 'Add new time option',
             'results' => 'Results',
             'submit_vote' => 'Submit vote',
+            'check_availability' => [
+                'label' => 'Check calendar availability',
+                'tooltip' => 'Check for your Google Calendar availability',
+                'loading' => 'Checking availability...',
+            ],
+            'show_result_section' => [
+                'label' => 'Show results',
+            ],
         ],
         'alert' => [
             'poll_closed' => 'Poll is closed. You can no longer vote.',
         ],
     ],
+    'results' => [
+        'title' => 'Results',
+        'description' => 'You can see the results of the poll here.',
+        'sections' => [
+            'all_votes' => [
+                'title' => 'All votes',
+                'empty' => 'No votes yet.',
+                'anonymous' => 'Anonymous',
+            ],
+            'results' => [
+                'view_only' => [
+                    'title' => 'Results',
+                    'section' => [
+                        'time_options' => 'Time options',
+                    ],
+                ],
+                'pick_from_results' => [
+                    'title' => 'Choose final results',
+                    'description' => 'Pick options you want to use for event creation.
+                                        Event represent final results of the poll.',
+                    'section' => [
+                        'time_options' => 'Time options',
+                    ],
+                    'buttons' => [
+                        'create_event' => [
+                            'label' => 'Create event',
+                            'tooltip' => 'Open event creation modal and pre-fill it with picked results.
+                                            Then you can share the event with your friends.',
+                        ],
+                    ],
+                ],
+                'buttons' => [
+                    'show_voting_section' => 'Show voting options',
+                ],
+            ],
+        ],
+        'alerts' => [
+            'hidden' => 'Poll results are hidden by the poll creator.',
+        ],
+    ],
     'comments' => [
-    'title' => 'Comments',
-    'form' => [
-        'title' => 'Leave a comment',
-        'username' => [
-            'label' => 'Username',
-            'placeholder' => 'Enter your username',
+        'title' => 'Comments',
+        'form' => [
+            'title' => 'Leave a comment',
+            'username' => [
+                'label' => 'Username',
+                'placeholder' => 'Enter your username',
+            ],
+            'content' => [
+                'label' => 'Comment',
+                'placeholder' => 'Write a comment...',
+            ],
+            'loading' => 'Submitting...',
         ],
-        'content' => [
-            'label' => 'Comment',
-            'placeholder' => 'Write a comment...',
+        'buttons' => [
+            'submit' => 'Submit comment',
+            'delete_comment' => 'Delete comment',
         ],
-        'loading' => 'Submitting...',
-    ],
-    'buttons' => [
-        'submit' => 'Submit comment',
-        'delete_comment' => 'Delete comment',
-    ],
 
-    'alert' => [
-        'disabled' => 'CommentsSection are disabled for this poll.',
-        'no_comments_yet' => 'No comments yet.',
+        'alert' => [
+            'disabled' => 'CommentsSection are disabled for this poll.',
+            'no_comments_yet' => 'No comments yet.',
+        ],
     ],
-],
+    'your_vote' => [
+        'title' => 'Your vote',
+        'no_vote' => 'You have not voted yet.',
+        'buttons' => [
+            'delete' => 'Delete vote',
+        ],
+    ],
 ];
 
