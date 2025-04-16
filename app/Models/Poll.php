@@ -63,7 +63,7 @@ class Poll extends Model
     public function settings(): Attribute
     {
         return Attribute::make(
-            get: fn() => json_decode($this->attributes['settings'] ?? '{}', true),
+            get: fn() => json_decode($this->attributes['settings'] ?? null, true),
             set: fn($array) => json_encode($array, JSON_THROW_ON_ERROR),
         );
     }

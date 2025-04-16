@@ -77,11 +77,12 @@ class PollEditorForm extends Form
             'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
 
             'settings' => 'nullable|array', // Nastavení ankety
-            'settings.comments' => 'boolean',
-            'settings.anonymous_votes' => 'boolean',
-            'settings.hide_results' => 'boolean',
-            'settings.invite_only' => 'boolean',
-            'settings.add_time_options' => 'boolean',
+            'settings.comments' => 'required|boolean',
+            'settings.anonymous_votes' => 'required|boolean',
+            'settings.hide_results' => 'required|boolean',
+            'settings.invite_only' => 'required|boolean',
+            'settings.add_time_options' => 'required|boolean',
+            
             'password.set' => 'nullable|string',
             'password.enabled' => 'boolean',
             'password.value' => 'nullable|string',

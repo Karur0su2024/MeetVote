@@ -83,7 +83,7 @@ class Invitations extends Component
     public function resendInvitation($id)
     {
 
-        $invitation = Invitation::find($id);
+        $invitation = Invitation::where('id', $id)->get();
 
         if ($invitation) {
             InvitationSent::dispatch($invitation);

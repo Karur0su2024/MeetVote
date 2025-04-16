@@ -34,7 +34,7 @@ class PollQueryService
                 'name' => $poll->author_name ?? Auth::user()?->name,
                 'email' => $poll->author_email ?? Auth::user()?->email,
             ],
-            'settings' => $poll->settings ?? [],
+            'settings' => $poll->settings ?? $this->getDefaultSettings(),
             'password' => [
                 'enabled' => $poll?->password ? true : false,
                 'set' => $poll?->password ?? null,
@@ -43,6 +43,17 @@ class PollQueryService
             'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll),
             'questions' => $this->questionQueryService->getQuestionsArray($poll),
             'last_updated' => $poll->updated_at ?? null,
+        ];
+    }
+
+    private function getDefaultSettings()
+    {
+        return [
+            'comments' => false,
+            'anonymous_votes' => false,
+            'hide_results' => false,
+            'add_time_options' => false,
+            'invite_only' => false,
         ];
     }
 
