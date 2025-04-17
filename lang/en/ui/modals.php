@@ -193,6 +193,17 @@ return [
             'insert_to_calendar' => 'Insert to Calendar',
         ],
     ],
+    'delete_poll' => [
+        'title' => 'Delete poll',
+        'text' => [
+            'question' => 'Are you sure you want to delete this poll?',
+            'warning' => 'This action cannot be undone.',
+        ],
+        'buttons' => [
+            'delete' => 'Delete poll',
+            'cancel' => 'Cancel',
+        ],
+    ],
     'error' => [
         'title' => 'Error',
         'text' => 'An error occurred while processing your request. Please try again later.',

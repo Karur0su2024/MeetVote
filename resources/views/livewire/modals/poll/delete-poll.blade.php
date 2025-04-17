@@ -1,10 +1,10 @@
 <div>
     <x-ui.modal.header>
-        Delete pol
+        {{ __('ui/modals.delete_poll.title') }}
     </x-ui.modal.header>
     <div class="modal-body">
-        <p>Are you sure you want to delete this poll?</p>
-        <p>This action cannot be undone.</p>
+        <p>{{ __('ui/modals.delete_poll.text.question') }}</p>
+        <p>{{ __('ui/modals.delete_poll.text.warning') }}</p>
         @if (session()->has('error'))
             <span class="text-danger">
                 {{ session('error') }}
@@ -12,7 +12,7 @@
         @endif
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" wire:click="$dispatch('hideModal')">Cancel</button>
-        <button type="button" class="btn btn-danger" wire:click="deletePoll">Delete</button>
+        <button type="button" class="btn btn-secondary" wire:click="$dispatch('hideModal')">{{ __('ui/modals.close_poll.buttons.cancel') }}</button>
+        <button type="button" class="btn btn-danger" wire:click="deletePoll">{{ __('ui/modals.invitations.table.actions.delete') }}</button>
     </div>
 </div>

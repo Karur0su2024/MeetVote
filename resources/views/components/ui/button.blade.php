@@ -9,6 +9,7 @@
 
 <button type="{{  $type  }}"
         class="btn btn-{{ $color }}
+
                btn-{{ $size }}
                {{ $disabled ? 'disabled' : '' }}
                {{ $attributes->get('class') }}"

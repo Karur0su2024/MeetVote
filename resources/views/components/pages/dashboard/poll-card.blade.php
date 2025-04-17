@@ -6,11 +6,11 @@
                 {{ $poll->title }}
             </h4>
             <div class="d-flex gap-2 align-items-center ms-2">
-                <span class="badge {{ $poll->isActive() ? 'bg-success' : 'bg-secondary' }} ">
+                <span class="badge {{ $poll->isActive() ? 'text-bg-success' : 'text-bg-secondary' }} ">
                     {{ $poll->status }}
                 </span>
                 @can('is-admin', $poll)
-                    <span class="badge bg-warning text-dark">
+                    <span class="badge text-bg-warning">
                         Admin
                     </span>
                 @endcan
