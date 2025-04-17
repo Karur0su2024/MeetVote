@@ -2,7 +2,7 @@
 
     <div class="row mb-3">
         <div class="col-md-4">
-            <div class="card py-2 text-center bg-info-subtle bg-gradient">
+            <div class="py-2 text-center bg-info-subtle shadow-sm rounded-3">
                 <i class="bi bi-check2-square fs-1 mb-2"></i>
                 <p class="fs-5 text-muted fw-bold">
                     {{ __('pages/dashboard.cards.poll_count', ['polls_count' => $polls->count()]) }}

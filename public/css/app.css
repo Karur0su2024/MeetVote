@@ -29,3 +29,15 @@ body {
 .pointer-cursor {
     cursor: pointer !important;
 }
+
+[data-bs-theme="dark"] .fc-theme-bootstrap5 .fc-list,
+[data-bs-theme="dark"] .fc-theme-bootstrap5 .fc-scrollgrid,
+[data-bs-theme="dark"] .fc-theme-bootstrap5 td,
+[data-bs-theme="dark"] .fc-theme-bootstrap5 th {
+    border: 1px solid #363636 !important;
+}
+
+[data-bs-theme="dark"] .fc-col-header {
+    background-color: #4b4b4b !important;
+}
+

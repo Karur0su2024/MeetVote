@@ -5,7 +5,7 @@
     'headerHidden' => false,
 ])
 
-<div class="card shadow-sm rounded-3 mb-4 {{ $attributes->get('class') }}" {{ $attributes }} x-data="{ show: true }" x-transition>
+<div class="card shadow-mt rounded-3 mb-4 {{ $attributes->get('class') }}" {{ $attributes }} x-data="{ show: true }" x-transition>
     @if(!$headerHidden)
         <div class="card-header py-3 text-start">
             <div class="d-flex align-items-center justify-content-between">

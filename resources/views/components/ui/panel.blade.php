@@ -1,4 +1,4 @@
-<div class="card mb-3 p-2">
+<div class="card mb-3 p-2 shadow-mt">
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex gap-2 align-items-start flex-grow-1">
             {{ $left ?? '' }}

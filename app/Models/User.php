@@ -105,8 +105,7 @@ class User extends Authenticatable
 
     public function allPolls()
     {
-        $polls = $this->polls->merge($this->attendeePolls)->unique('id');
-        return $polls;
+        return $this->polls->merge($this->attendeePolls)->unique('id');
     }
 
     public function events()

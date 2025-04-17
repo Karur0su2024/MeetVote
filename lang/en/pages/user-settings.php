@@ -28,10 +28,16 @@ return [
     ],
     'google' => [
 
-        'title' => 'Google & Calenda',
+        'title' => 'Google & Calendar',
         'buttons' => [
             'disconnect' => 'Disconnect from Google',
             'connect' => 'Connect with Google',
+        ],
+        'connected' => [
+            'text' => 'Your account is connected to Google. You can disconnect it if you want.',
+        ],
+        'text' => [
+            'synced_events' => 'You have currently :synced_events_count events synced with your Google Calendar.',
         ],
     ],
     'delete_account' => [
