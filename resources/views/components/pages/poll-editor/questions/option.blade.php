@@ -14,6 +14,7 @@
 
     {{-- Tlačítko pro odstranění možnosti --}}
     <x-ui.button @click="removeQuestionOption(questionIndex, optionIndex)"
+                 ::class="{ 'disabled': questions[questionIndex].options.length <= 2 }"
                  color="danger">
         <i      :class="{ 'bi bi-exclamation-triangle': option.score > 0, 'bi bi-trash': !option.score }">
         </i>

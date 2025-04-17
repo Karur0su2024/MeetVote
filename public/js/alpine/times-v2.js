@@ -111,7 +111,7 @@ function TimeOptionsForm() {
         removeOption(date, index) {
 
             // Odstranění časové možnosti z formuláře
-            if (this.dates[date].length <= 1) {
+            if (this.dates[date].length <= 1 && Object.keys(this.dates).length === 1) {
                 // Přidat error message
                 return;
             }
@@ -121,6 +121,10 @@ function TimeOptionsForm() {
             }
 
             this.dates[date].splice(index, 1);
+
+            if(this.dates[date].length === 0){
+                delete this.dates[date];
+            }
         },
 
         // Zjištění posledního konce časového intervalu pokud existuje
