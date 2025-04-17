@@ -1,5 +1,5 @@
 <div class="d-flex align-items-center gap-2 mb-3 p-2 mb-2 rounded border"
-     :class="{ 'voted-option': option.id }">
+     :class="{ 'existing-option': option.id }">
 
     {{-- Input pole pro text možnosti --}}
     <input type="text"

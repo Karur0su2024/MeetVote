@@ -1,8 +1,13 @@
-<x-ui.card collapsable>
-    {{-- Hlavička --}}
-    <x-slot:header>{{ __('pages/poll-editor.basic_info.title') }}</x-slot:header>
+<x-ui.card header-hidden>
+    <x-slot:body-header>
+        <h2 class="mb-3">
+            {{ __('pages/poll-editor.basic_info.title') }}
+        </h2>
 
-    <div x-show="show">
+    </x-slot:body-header>
+    {{-- Hlavička --}}
+
+    <x-slot:body>
         {{-- Název ankety --}}
 
         <div class="mb-3">
@@ -60,7 +65,7 @@
             @endif
         @endguest
 
-    </div>
+    </x-slot:body>
 
 
 </x-ui.card>

@@ -1,6 +1,6 @@
 <div
     class="p-2 mb-2 rounded border"
-    :class="{ 'voted-option': option.id }">
+    :class="{ 'existing-option': option.id }">
     <!-- Zobrazení časového intervalu -->
     <div
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">

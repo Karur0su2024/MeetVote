@@ -1,10 +1,17 @@
-[data-bs-theme="light"] .voted-option {
-    background-color: #d4edda;
+[data-bs-theme="light"] .existing-option {
+    background-color: #deeae0;
     border-color: #c3e6cb;
 }
 
-[data-bs-theme="dark"] .voted-option {
+[data-bs-theme="dark"] .existing-option {
     background-color: #434643;
     border-color: #272827;
 }
 
+[data-bs-theme="light"] .editor-card-header {
+    background-color: #e1ece3 !important;
+}
+
+[data-bs-theme="dark"] .editor-card-header {
+    background-color: #434643;
+}

@@ -11,7 +11,7 @@ return [
 
     // Základní informace o anketě
     'basic_info' => [
-        'title' => 'Basic information',
+        'title' => 'Poll information',
 
         'section' => [
             'poll' => 'Poll information',

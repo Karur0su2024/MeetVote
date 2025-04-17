@@ -1,7 +1,7 @@
 <div>
     <div class="card mb-3 shadow-sm"
          x-data="{ collapsed: false }">
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header d-flex justify-content-between align-items-center editor-card-header border-bottom-0">
             <p class="m-0">
                 <strong class="card-title m-0"
                         x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"></strong>

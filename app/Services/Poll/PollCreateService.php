@@ -87,12 +87,7 @@ class PollCreateService
         if ($password['set']) {
             return $password['set'];
         }
-        if ($password['enabled']) {
-            return $password['value'] !== "" ? Hash::make($password['value']) : null;
-        }
-
-        return null;
-
+        return $password['value'] !== "" ? Hash::make($password['value']) : null;
 
     }
 

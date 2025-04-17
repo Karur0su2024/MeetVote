@@ -1,7 +1,7 @@
-<div x-data="{ collapsed: false }"
-     class="card mb-3 shadow-sm">
-    <!-- Hlavička otázky -->
-    <div class="card-header d-flex justify-content-between align-items-center gap-2">
+<div class="card mb-3 shadow-sm"
+     x-data="{ collapsed: false }">
+    <div class="card-header d-flex justify-content-between align-items-center editor-card-header border-bottom-0 gap-2">
+
         {{-- Input pole pro text otázky --}}
         <input type="text" :id="'question_' + questionIndex"
                x-model="questions[questionIndex].text"
@@ -11,7 +11,7 @@
 
         {{-- Tlačítko pro odstranění otázky --}}
         <x-ui.button @click="collapsed = !collapsed"
-                     color="secondary"
+                     color="outline-secondary"
                      size="sm">
             <i class="bi" :class="!collapsed ? 'bi-eye' : 'bi-eye-slash'"></i>
         </x-ui.button>
