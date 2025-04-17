@@ -3,9 +3,9 @@
 return [
 
     'page' => [
-        'create' => 'Vytvořit novou anketu',
+        'create' => 'Vytvoření nové anketu',
         'edit' => [
-            'title' => 'Upravit anketu :poll_title',
+            'title' => 'Upravení ankety :poll_title',
         ],
     ],
 

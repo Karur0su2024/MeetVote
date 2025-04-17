@@ -106,8 +106,9 @@ return [
     'invitations' => [
         'title' => 'Invite participants',
         'text' => 'Send new invitation',
-        'email' => [
-            'label' => 'E-mail',
+        'emails' => [
+            'label' => 'E-mails',
+            'placeholder' => 'Insert multiple emails separated by commas (,)',
         ],
         'table' => [
             'headers' => [
@@ -141,6 +142,9 @@ return [
         'alerts' => [
             'error' => [
                 'closed' => 'This poll is closed. You can\'t send invitations.',
+            ],
+            'info' => [
+                'no_invitations' => 'No invitations sent yet.',
             ],
         ],
     ],

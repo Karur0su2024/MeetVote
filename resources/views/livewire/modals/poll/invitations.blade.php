@@ -6,7 +6,7 @@
         @if($poll->isActive())
             @if (count($poll->invitations) === 0)
                 <div class="alert alert-secondary" role="alert">
-                    No invitations added yet
+                    {{ __('ui/modals.invitations.alerts.info.no_invitations') }}
                 </div>
             @else
                 <div class="table-responsive">
@@ -53,8 +53,8 @@
                     <x-ui.form.textbox
                     id="emails"
                     wire:model="emails"
-                    placeholder="Insert multiple emails separated by commas (,)">
-                    Emails
+                    placeholder="{{ __('ui/modals.invitations.emails.placeholder') }}">
+                    {{ __('ui/modals.invitations.emails.label') }}
                     </x-ui.form.textbox>
 
                 <x-ui.button type="submit">
