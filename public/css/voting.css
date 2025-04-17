@@ -55,11 +55,21 @@
 
 
 .voting-card-clickable {
+    transition: all 0.1s ease-in-out;
     cursor: pointer;
 }
 
 .voting-card-clickable:hover {
     background-color: #69696928 !important;
+}
+
+.result-card-clickable {
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.result-card-clickable:hover {
+    background-color: rgba(229, 229, 229, 0.16) !important;
 }
 
 

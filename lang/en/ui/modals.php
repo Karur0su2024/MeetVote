@@ -4,7 +4,7 @@ return [
     'share' => [
         'title' => 'Share the poll',
         'labels' => [
-            'link' => 'Link',
+            'link' => 'Participant link',
             'admin_link' => 'Admin link',
         ],
         'text' => [

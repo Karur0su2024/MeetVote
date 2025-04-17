@@ -30,7 +30,7 @@
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)
                     <div class="col-lg-6 col-md-12" @click="results.timeOptions.selected = {{ $optionIndex }}">
-                        <x-pages.poll-show.poll.results.option-card ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}">
+                        <x-pages.poll-show.poll.results.option-card class="result-card-clickable" ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}">
                             <x-slot:text>
                                 {{ $option['date_formatted'] }}
                             </x-slot:text>
@@ -61,8 +61,8 @@
                     @foreach($question['options'] as $optionIndex => $option)
                         <div class="col-lg-6 col-md-12"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
-                            <x-pages.poll-show.poll.results.option-card :score="$option['score']"
-                                                                        ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">
+                            <x-pages.poll-show.poll.results.option-card  class="result-card-clickable"
+                                                                         ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">
                                 <x-slot:text>
                                     {{ $option['text'] }}
                                 </x-slot:text>

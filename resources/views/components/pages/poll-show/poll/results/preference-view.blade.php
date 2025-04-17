@@ -5,7 +5,7 @@
 
 <div class="row align-items-center g-3">
     <div class="col-md-3 col-6">
-        <div class="d-flex align-items-center text-center border p-2 rounded bg-primary text-light fw-bold justify-content-center"
+        <div class="d-flex align-items-center text-center border p-2 rounded bg-secondary text-light fw-bold justify-content-center"
              data-bs-toggle="tooltip"
              data-bs-placement="top"
              data-bs-html="true"

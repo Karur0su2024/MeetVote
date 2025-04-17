@@ -14,6 +14,7 @@ function TimeOptionsForm() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 selectable: true,
+                themeSystem: 'bootstrap5',
                 height: 'auto',
                 dateClick: (info) => {
                     this.addDate(info.dateStr);

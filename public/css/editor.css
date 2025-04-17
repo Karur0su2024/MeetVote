@@ -1,4 +1,10 @@
-.voted-option {
+[data-bs-theme="light"] .voted-option {
     background-color: #d4edda;
     border-color: #c3e6cb;
 }
+
+[data-bs-theme="dark"] .voted-option {
+    background-color: #434643;
+    border-color: #272827;
+}
+

@@ -57,7 +57,7 @@ return [
     ],
     'voting' => [
         'title' => 'Voting',
-        'description' => 'Vote for the time that suits you best for meeting.',
+        'description' => 'Vote for the time that suits you best for meeting. Click on the options to change preference.',
         'sections' => [
             'time_options' => [
                 'title' => 'Time options',

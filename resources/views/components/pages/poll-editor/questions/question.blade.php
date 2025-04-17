@@ -1,8 +1,7 @@
 <div x-data="{ collapsed: false }"
      class="card mb-3 shadow-sm">
     <!-- Hlavička otázky -->
-    <div class="card-header d-flex justify-content-between align-items-center gap-2"
-         :class="{ 'bg-warning': question.id }">
+    <div class="card-header d-flex justify-content-between align-items-center gap-2">
         {{-- Input pole pro text otázky --}}
         <input type="text" :id="'question_' + questionIndex"
                x-model="questions[questionIndex].text"
