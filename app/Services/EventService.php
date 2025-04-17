@@ -51,14 +51,14 @@ class EventService
                 $text .= "\n";
             }
         }
-        
+
 
         return [
             'poll_id' => $poll->id,
             'title' => $poll->title,
             'all_day' => false,
-            'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? ''),
-            'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? ''),
+            'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? '00:00'),
+            'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? '01:00'),
             'description' => $text,
         ];
     }
