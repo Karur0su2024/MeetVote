@@ -43,7 +43,7 @@
                 </x-ui.dropdown.wrapper>
             </div>
             <x-ui.dropdown.wrapper size="md">
-                <x-slot:header><span x-text="opened"></span></x-slot:header>
+                <x-slot:header><span x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span></x-slot:header>
                 <x-slot:dropdown-items>
                     <x-ui.dropdown.item @click="opened = 'Polls'"
                                         x-bind:class="opened === 'Polls' ? 'active' : ''">

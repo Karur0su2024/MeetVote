@@ -21,9 +21,17 @@ class GoogleAuthService implements GoogleAuthServiceInterface
 
     public function handleGoogleCallback()
     {
-        $googleUser = $this->checkIfCallbackWasSuccessful();
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            if (Auth::check()) {
+                return redirect(route('settings'))->with('error', 'Google authentication failed. Please try again.');
+            }
+            return redirect(route('login'))->with('error', 'Google authentication failed. Please try again.');
+        }
 
         $user = $this->googleAccountAlreadyConnected($googleUser);
+
 
         if ($user) {
             if (Auth::check()) {
