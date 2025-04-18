@@ -26,7 +26,7 @@
 
                     </div>
                     <div class="col-lg-6 mt-4 mt-lg-0 text-center">
-                        <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration" class="img-fluid rounded" style="max-height: 300px;">
+                        <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration" class="img-fluid rounded w-100" style="max-height: 300px;">
                     </div>
                 </div>
             </div>
