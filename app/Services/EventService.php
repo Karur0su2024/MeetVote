@@ -52,7 +52,6 @@ class EventService
             }
         }
 
-
         return [
             'poll_id' => $poll->id,
             'title' => $poll->title,

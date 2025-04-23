@@ -31,7 +31,7 @@ class GoogleCalendarService
             ]);
         }
         catch (\Exception $e){
-            Log::error('Error while syncing event');
+            Log::error('Error while syncing event :' . $e->getMessage());
         }
 
 

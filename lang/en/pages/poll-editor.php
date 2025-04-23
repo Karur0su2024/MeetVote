@@ -119,6 +119,10 @@ return [
             'label' => 'Users can add time options',
             'tooltip' => 'Allow participants to add their own time options to the poll.',
         ],
+        'allow_invalid' => [
+            'label' => 'Allow vote for past options',
+            'tooltip' => 'Allow participants to vote options that already passed.',
+        ],
         'password' => [
             'label' => 'Password',
             'tooltip' => 'Set a password for the poll. Only users with the password can access the poll.',

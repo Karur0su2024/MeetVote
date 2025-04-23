@@ -26,6 +26,7 @@ class TimeOptionQueryService
             return $this->initialTimeOption();
         }
 
+        $allowInvalid = $poll->settings['allow_invalid'] ?? false;
 
         $timeOptions = [];
         foreach ($poll->timeOptions as $timeOption) {
@@ -48,7 +49,7 @@ class TimeOptionQueryService
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $content,
                 'datetime' => $datetime,
-                'invalid' => (now() >= $datetime),
+                'invalid' => $allowInvalid ? false : (now() >= $datetime),
                 'full_content' => implode(' - ', $content),
                 'score' => $this->getOptionScore($timeOption),
                 'picked_preference' => 0,
@@ -59,6 +60,9 @@ class TimeOptionQueryService
         return $timeOptions;
 
     }
+
+
+
 
 
     /**

@@ -33,7 +33,7 @@ class VoteCreateService
             DB::commit();
             $message = $vote->wasRecentlyCreated ? 'Vote successfully saved.' : 'Vote successfully updated.';
             VoteSubmitted::dispatchIf($vote->wasRecentlyCreated, $vote);
-
+            
             redirect(request()->header('Referer'))->with('success', $message);
 
         } catch (\Exception $e) {

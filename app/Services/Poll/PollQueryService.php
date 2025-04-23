@@ -54,6 +54,7 @@ class PollQueryService
             'hide_results' => false,
             'add_time_options' => false,
             'invite_only' => false,
+            'allow_invalid' => false,
         ];
     }
 

@@ -29,6 +29,7 @@ return [
                 'hide_results' => 'Hidden results',
                 'password_protected' => 'Password protected',
                 'add_time_options' => 'Voters can add time options',
+                'allow_invalid' => 'Voters can vote for past options',
             ],
         ],
     ],

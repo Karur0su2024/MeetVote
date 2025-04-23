@@ -20,9 +20,6 @@ class PollEditor extends Component
     public $poll;
     public $timezones;
 
-    /**
-     * @return void
-     */
     public function mount(PollQueryService $pollQueryService, $pollIndex = null): void
     {
         $this->pollIndex = $pollIndex;
@@ -30,21 +27,14 @@ class PollEditor extends Component
         $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
 
         $this->timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
-
-        //dd($this->timezones);
     }
-
-    /**
-     */
     public function submit(PollCreateService $pollCreateService)
     {
 
         if(!$this->canUpdate()){
             $this->addError('error', 'The poll has been updated by another user. Please refresh the page.');
-            return;
+            return null;
         }
-
-
 
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());

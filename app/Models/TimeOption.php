@@ -33,4 +33,5 @@ class TimeOption extends Model
     {
         return $this->hasMany(VoteTimeOption::class);
     }
+
 }
