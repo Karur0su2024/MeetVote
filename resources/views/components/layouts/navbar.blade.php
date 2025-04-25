@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('home') }}"><i class="bi bi-check2-square me-1"></i>MeetVote</a>
+        <a class="navbar-brand fw-bold" href="{{ route('home') }}">
+            <img src="{{ asset('images/app-logo.png') }}" alt="logo" width="30" height="30" class="me-1">
+            {{ config('app.name') }}</a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

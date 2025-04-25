@@ -8,7 +8,9 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
-    <title>{{ $title ?? 'Aplikace' }} - MeetVote</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/app-logo.png') }}">
+
+    <title>{{ isset($title) ? $title . ' - MeetVote' : 'MeetVote - Online app for planning meetings' }}</title>
 
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

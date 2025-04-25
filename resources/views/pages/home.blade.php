@@ -1,7 +1,7 @@
 <x-layouts.app>
 
     <!-- Název stránky -->
-    <x-slot:title>{{ __('pages/homepage.title') }}</x-slot>
+
 
     @if(session()->has('warning'))
         <x-ui.alert type="warning">

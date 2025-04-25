@@ -12,7 +12,7 @@
     {{-- Základní informace o anketě --}}
     <x-ui.card header-hidden>
         <x-slot:body-header>
-            <h2 class="mb-3">
+            <h2 class="mb-3 px-3">
                 {{ __('pages/poll-editor.time_options.title') }}
                 <small>
                     <x-ui.tooltip>
@@ -22,7 +22,7 @@
             </h2>
         </x-slot:body-header>
 
-        <x-slot:body>
+        <x-slot:body class="px-sm-0">
 
 
                 <div class="row g-3">

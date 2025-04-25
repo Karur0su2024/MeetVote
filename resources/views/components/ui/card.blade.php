@@ -30,7 +30,8 @@
             </div>
         </div>
     @endif
-    <div class="card-body text-start p-{{ $bodyPadding ?? 4 }} {{ $bodyClass ?? '' }}"
+    <div class="card-body text-start {{ $bodyClass ?? '' }}  {{  $body->attributes->get('class') }}"
+         {{ $body->attributes }}
          x-show="show" x-collapse>
         @if ($bodyHeader ?? null)
             <div class="d-flex justify-content-between align-items-center mb-2">
