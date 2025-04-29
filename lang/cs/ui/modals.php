@@ -106,8 +106,8 @@ return [
         'text' => 'Odeslat nové pozvání',
         'emails' => [
             'label' => 'E-maily',
-            'placeholder' => 'Vložte více e-mailů oddělených čárkami (,)',
-        ],
+'placeholder' => 'Vložte více e-mailů oddělených čárkami (,), středníky (;) nebo novými řádky.',
+],        ],
         'table' => [
             'headers' => [
                 'email' => 'E-mail',

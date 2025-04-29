@@ -30,7 +30,7 @@ class Invitations extends Component
             return;
         }
 
-        $validEmails = $this->processEmails(explode(',', $this->emails));
+        $validEmails = $this->processEmails(preg_split('/[,;\n]/', $this->emails, -1, PREG_SPLIT_NO_EMPTY));
 
         $invitations = $this->poll->invitations()->createMany($validEmails);
 

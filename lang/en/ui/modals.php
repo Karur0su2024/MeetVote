@@ -108,7 +108,7 @@ return [
         'text' => 'Send new invitation',
         'emails' => [
             'label' => 'E-mails',
-            'placeholder' => 'Insert multiple emails separated by commas (,)',
+            'placeholder' => 'Insert multiple emails separated by commas (,), semicolons (;), or new lines.',
         ],
         'table' => [
             'headers' => [
