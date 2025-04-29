@@ -3,6 +3,7 @@
 namespace App\Services\Mail;
 
 use App\Interfaces\EmailServiceInterface;
+use App\Mail\EventEmail;
 use App\Mail\InvitationEmail;
 use App\Mail\PollCreatedConfirmationEmail;
 use App\Mail\RegistrationEmail;
@@ -53,6 +54,16 @@ class EmailService implements EmailServiceInterface
             Mail::to($user->email)->send(new RegistrationEmail($user));
         } catch (\Exception $e) {
             Log::error('Failed to send registration email: ' . $e->getMessage());
+        }
+    }
+
+    public function sendEventNotification($email, $event): void
+    {
+        try {
+            Log::info('Attempting to send event notification email');
+            Mail::to($email)->send(new EventEmail($event));
+        } catch (\Exception $e) {
+            Log::error('Failed to send event notification email: ' . $e->getMessage());
         }
     }
 

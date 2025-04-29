@@ -4,11 +4,14 @@ namespace App\Providers;
 
 use App\Events\InvitationSent;
 use App\Events\PollCreated;
+use App\Events\PollEventCreated;
 use App\Events\VoteSubmitted;
 use App\Interfaces\EmailServiceInterface;
+use App\Listeners\SendEventEmails;
 use App\Listeners\SendInvitationEmail;
 use App\Listeners\SendPollConfirmationEmail;
 use App\Listeners\SendVoteNotificationEmail;
+use App\Listeners\SyncWithGoogleCalendar;
 use App\Services\Mail\EmailService;
 use App\Services\Mail\EmailServiceEmpty;
 use Illuminate\Support\Facades\Event;
@@ -53,7 +56,10 @@ class EmailServiceProvider extends ServiceProvider
             VoteSubmitted::class,
             SendVoteNotificationEmail::class,
         );
-
+        Event::listen(
+            PollEventCreated::class,
+            SendEventEmails::class,
+        );
     }
 
 }
