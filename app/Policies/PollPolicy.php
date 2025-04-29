@@ -44,6 +44,7 @@ class PollPolicy
     public function hasValidPassword(?User $user, Poll $poll): bool
     {
         if ($this->hasAdminPermissions($user, $poll)) return true;
+        if ($this->hasValidInvitation($user, $poll)) return true;
 
         if ($poll->password !== null) {
             return session()->get('poll_passwords.' . $poll->id) ?? null === $poll->password;

@@ -3,7 +3,6 @@
 namespace App\Livewire\Forms;
 
 use App\Rules\IsPickedAtLeastOnePreference;
-use App\Rules\WasEmailAlreadyUsed;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
 /**
@@ -27,7 +26,7 @@ class VotingForm extends Form
 
     protected function rules(): array {
         return [
-            'error' => [new WasEmailAlreadyUsed($this->user['email'], $this->pollIndex), new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
+            'error' => [new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
             'pollIndex' => 'required|integer',
             'user.name' => 'required|string|min:3|max:255',
             'user.email' => 'required|email',

@@ -60,13 +60,10 @@
                 <x-ui.button type="submit">
                     {{ __('ui/modals.invitations.buttons.send') }}
                 </x-ui.button>
-
-                <div>
-                    <x-ui.saving wire:loading>
-                        {{ __('ui/modals.invitations.loading') }}
-                    </x-ui.saving>
-                    <x-ui.form.error-text error="error" />
-                </div>
+                <x-ui.saving wire:loading>
+                    {{ __('ui/modals.invitations.loading') }}
+                </x-ui.saving>
+                <x-ui.form.error-text error="error" />
             </form>
         @else
             <x-ui.alert type="danger">

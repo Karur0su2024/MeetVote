@@ -48,6 +48,7 @@ class Invitations extends Component
 
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $invalidEmails[] = $email;
+                $this->addError('error', 'Some emails you entered are invalid');
                 continue;
             }
 

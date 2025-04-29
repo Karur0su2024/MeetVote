@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Nette\Schema\ValidationException;
+use App\Models\User;
 
 class Voting extends Component
 {
@@ -51,8 +52,15 @@ class Voting extends Component
             return;
         }
 
+
+        $validatedData = $this->form->validate();
+        if($this->isEmailInvalid()) {
+            return;
+        }
+
+
         try {
-            $voteCreateService->saveVote($this->form->validate());
+            $voteCreateService->saveVote($validatedData);
         } catch (ValidationException $e) {
             Log::error('Error saving vote: ' . $e->getMessage());
             $this->addError('error', 'An error occurred while saving the vote.');
@@ -85,6 +93,23 @@ class Voting extends Component
         $this->form->timeOptions = $googleService->checkAvailability($user, $this->form->timeOptions);
 
 
+    }
+
+    private function isEmailInvalid(): bool
+    {
+        if(Auth::guest()){
+            $vote = $this->poll->votes->where('voter_email', $this->form->user['email'])->first();
+            if($vote) {
+                $this->addError('error', 'You have already voted for this poll.');
+                return true;
+            }
+            $user = User::where('email', $this->form->user['email'])->get()->first();
+            if($user){
+                $this->addError('error', 'You can\'t vote with this address.');
+                return true;
+            }
+        }
+        return false;
     }
 
 
