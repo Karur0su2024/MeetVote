@@ -5,7 +5,7 @@
     'color' => 'outline-secondary',
 ])
 
-<{{ $element }} class="dropdown {{ $class ?? '' }}">
+<{{ $element }} class="dropdown {{ $attributes->get('class') ?? '' }}">
     {{-- Dropdown button --}}
     <a class="btn btn-{{ $size }} btn-{{ $color }}" href="#" id="{{ $id }}" role="button"
         data-bs-toggle="dropdown" aria-expanded="false">

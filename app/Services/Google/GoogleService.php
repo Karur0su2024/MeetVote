@@ -61,23 +61,31 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
-    public function checkAvailability($user, $option)
+    public function checkAvailability($user, $timeOptions)
     {
         try {
-            $this->checkToken($user);
             $googleCalendarService = new GoogleCalendarService($this->client);
-            $events = $googleCalendarService->getCalendarEvents($option) ?? [];
-            return count($events) === 0;
+            foreach ($timeOptions as $optionIndex => &$option) {
+                if ($option['invalid'] ?? false) {
+                    continue;
+                }
+                $this->checkToken($user);
+                $events = $googleCalendarService->getCalendarEvents($option) ?? [];
+                $option['availability'] = count($events) === 0;
+            }
+
+
+            return $timeOptions;
         } catch (\Exception $e) {
             Log::error('Error while checking availability: ' . $e->getMessage());
-            return null;
+            return $timeOptions;
         }
 
     }
 
     public function checkToken($user)
     {
-        try{
+        try {
             $this->client->setAccessToken($user->google_token); // Přístupový token uživatele
             if ($this->client->isAccessTokenExpired()) {
                 $this->refreshToken($user);

@@ -77,14 +77,24 @@ class GoogleCalendarService
 
     public function getCalendarEvents($option)
     {
-        $calendarId = 'primary';
-        $eventDetails = [
-            'timeMin' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['start'] ?? '0:00'),
-            'timeMax' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['end'] ?? '0:00'),
-            'timeZone' => date_default_timezone_get(),
-        ];
+        $calendarList = $this->calendar->calendarList->listCalendarList();
+        $calendars = $calendarList->getItems();
+        $calendarsEvents = [];
 
-        return $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
+        foreach ($calendars as $calendar) {
+            $calendarId = $calendar->id;
+            $eventDetails = [
+                'timeMin' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['start'] ?? '0:00'),
+                'timeMax' => $this->getCalendarDateTimeFormat($option['date'], $option['content']['end'] ?? '0:00'),
+                'timeZone' => date_default_timezone_get(),
+            ];
+            $events = $this->calendar->events->listEvents($calendarId, $eventDetails);
+
+            $calendarsEvents[$calendarId] = $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
+        }
+
+
+        return array_merge(...array_values($calendarsEvents));
     }
 
 
@@ -95,5 +105,10 @@ class GoogleCalendarService
     }
 
 
+    public function getAllCalendars()
+    {
+        $calendarList = $this->calendar->calendarList->listCalendarList();
+        return $calendarList->getItems();
+    }
 
 }

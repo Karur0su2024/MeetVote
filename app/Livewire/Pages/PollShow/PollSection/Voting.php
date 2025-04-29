@@ -82,13 +82,9 @@ class Voting extends Component
         }
 
         date_default_timezone_set($this->poll->timezone);
-        foreach ($this->form->timeOptions as $optionIndex => $option) {
-            if($option['invalid'] ?? false) {
-                continue;
-            }
+        $this->form->timeOptions = $googleService->checkAvailability($user, $this->form->timeOptions);
 
-            $this->form->timeOptions[$optionIndex]['availability'] = $googleService->checkAvailability($user, $option);
-        }
+
     }
 
 

@@ -3,6 +3,7 @@
     'footerFlex' => false,
     'collapsable' => false,
     'headerHidden' => false,
+    'body' => null,
 ])
 
 <div class="card shadow-mt rounded-3 mb-4 {{ $attributes->get('class') }}" {{ $attributes }} x-data="{ show: true }" x-transition>
@@ -30,8 +31,8 @@
             </div>
         </div>
     @endif
-    <div class="card-body text-start {{ $bodyClass ?? '' }}  {{  $body->attributes->get('class') }}"
-         {{ $body->attributes }}
+    <div class="card-body text-start {{ $bodyClass ?? '' }}  {{  $body !== null ? $body->attributes->get('class') : '' }}"
+         {{ $body !== null ? $body->attributes : '' }}
          x-show="show" x-collapse>
         @if ($bodyHeader ?? null)
             <div class="d-flex justify-content-between align-items-center mb-2">
