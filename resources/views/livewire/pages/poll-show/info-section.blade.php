@@ -13,7 +13,13 @@
                 <h2>{{ $poll->title }}</h2>
                 <div class="d-flex gap-2">
                     @can('isAdmin', $poll)
-                        <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" wrapper="div">
+                        <x-ui.button wire:click="openModal('modals.poll.share', '{{ $poll->id }}')"
+                                     color="outline-secondary"
+                                     size="sm">
+
+                            {{ __('pages/poll-show.settings.dropdown.share_poll') }}
+                        </x-ui.button>
+                        <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" wrapper="div" color="outline-primary">
                             <x-slot:header>
                                 <x-ui.icon class="gear me-1"/>
                                 {{ __('pages/poll-show.settings.dropdown.options') }}
@@ -31,10 +37,6 @@
                                         {{ __('pages/poll-show.settings.dropdown.invitations') }}
                                     </x-ui.dropdown.item>
                                 @endauth
-                                <x-ui.dropdown.item wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
-                                    <x-ui.icon class="share me-1"/>
-                                    {{ __('pages/poll-show.settings.dropdown.share_poll') }}
-                                </x-ui.dropdown.item>
                                 <x-ui.dropdown.item wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
                                     @if ($poll->isActive())
                                         <x-ui.icon class="lock me-1"/>
@@ -52,6 +54,7 @@
                                 </x-ui.dropdown.item>
                             </x-slot:dropdown-items>
                         </x-ui.dropdown.wrapper>
+
                     @endcan
                 </div>
             </x-slot:body-header>

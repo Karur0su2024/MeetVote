@@ -41,6 +41,14 @@
                 </span>
                 @enderror
 
+                @if ($errors->any())
+                    <span class="text-danger">
+                        Form contains errors. Please check the fields.
+                    </span>
+
+                 @endif
+                </form>
+
                 <x-ui.spinner wire:loading wire:target="submit">
                     {{ __('pages/poll-editor.loading') }}
                 </x-ui.spinner>

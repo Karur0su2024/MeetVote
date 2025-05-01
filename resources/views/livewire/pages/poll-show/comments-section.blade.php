@@ -3,7 +3,7 @@
         <div wire:init="loadComments">
 
 
-            <div class="p-3">
+            <div>
 
                 {{-- Formulář pro přidání komentáře --}}
                 <h3>{{ __('pages/poll-show.comments.form.title') }}</h3>

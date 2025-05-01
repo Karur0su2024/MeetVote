@@ -7,8 +7,7 @@ use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Services\QuestionService;
-use App\Services\TimeOptionService;
+use Illuminate\Support\Facades\Cookie;
 
 class PollQueryService
 {
@@ -28,7 +27,7 @@ class PollQueryService
             'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
-            'timezone' => $poll->timezone ?? config('app.timezone'),
+            'timezone' => $poll->timezone ?? Cookie::get('timezone', 'CEST'),
             'user' => [
                 'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
