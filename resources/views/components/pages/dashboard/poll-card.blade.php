@@ -9,6 +9,11 @@
                 <span class="badge {{ $poll->isActive() ? 'text-bg-success' : 'text-bg-secondary' }} ">
                     {{ $poll->status }}
                 </span>
+                @if(auth()->user()->votes()->where('poll_id', $poll->id)->exists())
+                    <span class="badge text-bg-info">
+                        Voted
+                    </span>
+                @endif
                 @can('is-admin', $poll)
                     <span class="badge text-bg-warning">
                         Admin
@@ -16,6 +21,8 @@
                 @endcan
             </div>
         </div>
+        @can('is-admin', $poll)
+
 
         <x-ui.dropdown.wrapper>
             <x-slot:header>
@@ -39,6 +46,7 @@
 
             </x-slot:dropdownItems>
         </x-ui.dropdown.wrapper>
+        @endcan
     </div>
 
 

@@ -167,6 +167,7 @@ return [
         'no_vote' => 'You have not voted yet.',
         'buttons' => [
             'delete' => 'Delete vote',
+            'login' => 'Log in',
         ],
     ],
 ];

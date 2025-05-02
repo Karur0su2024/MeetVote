@@ -1,7 +1,5 @@
 @props([
-    /** @var \mixed */
     'timeOptionVote',
-    /** @var \string[] */
     'pref'
 ])
 

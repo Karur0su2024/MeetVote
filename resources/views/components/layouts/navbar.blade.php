@@ -12,6 +12,11 @@
                 <x-ui.navbar.nav-link href="{{ route('polls.create') }}">
                     {{ __('navbar.new_poll') }}
                 </x-ui.navbar.nav-link>
+                @auth
+                    <x-ui.navbar.nav-link href="{{ route('dashboard') }}">
+                        {{ __('navbar.dashboard') }}
+                    </x-ui.navbar.nav-link>
+                @endauth
             </ul>
             <ul class="navbar-nav gap-2 align-items-center">
                 <x-ui.navbar.nav-link href="https://github.com/Karur0su2024/MeetVote">

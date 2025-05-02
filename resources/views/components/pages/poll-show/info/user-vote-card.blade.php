@@ -1,5 +1,6 @@
 <div class="card mb-3 shadow-sm">
     <div class="card-body">
+
         <div class="d-flex justify-content-between align-items-center">
             <h3 class="m-0">
                 {{ __('pages/poll-show.your_vote.title') }}
@@ -15,17 +16,27 @@
         </div>
 
 
-
-
-
         <div>
             @if($userVote && !($userVote->questionOptions->count() > 0) && $userVote->timeOptions->count() > 0)
                 <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
+                @cannot('edit', $userVote)
+
+                    <div class="mt-2">
+                        <p class="text-muted">
+                            You can change your vote only if you are logged in.
+                        </p>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
+                            {{ __('pages/poll-show.your_vote.buttons.login') }}
+                        </a>
+                    </div>
+                @endcannot
             @else
                 <p class="text-muted mt-2">
                     {{ __('pages/poll-show.your_vote.no_vote') }}
                 </p>
             @endif
         </div>
+
+
     </div>
 </div>

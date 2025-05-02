@@ -54,6 +54,7 @@ class VoteQueryService{
 
 
 
+
         //Dopsat pro nepřihlášené uživatele
 
         return null;

@@ -1,13 +1,17 @@
 <div class="text-start" x-data="{ opened: 'Polls' }">
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <div class="py-2 text-center bg-info-subtle shadow-sm rounded-3">
-                <i class="bi bi-check2-square fs-1 mb-2"></i>
-                <p class="fs-5 text-muted fw-bold">
-                    {{ __('pages/dashboard.cards.poll_count', ['polls_count' => $polls->count()]) }}
-                </p>
-            </div>
+    <div class="mb-3">
+        <h3>Polls you voted in</h3>
+        <div class="row">
+            @foreach ($votes as $vote)
+                {{-- Karta ankety --}}
+                @if($vote->poll)
+                    <div class="col-md-6 col-lg-4">
+                        <x-pages.dashboard.poll-card :poll="$vote->poll"/>
+                    </div>
+                @endif
+
+            @endforeach
         </div>
     </div>
 
@@ -43,7 +47,9 @@
                 </x-ui.dropdown.wrapper>
             </div>
             <x-ui.dropdown.wrapper size="md">
-                <x-slot:header><span x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span></x-slot:header>
+                <x-slot:header><span
+                        x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span>
+                </x-slot:header>
                 <x-slot:dropdown-items>
                     <x-ui.dropdown.item @click="opened = 'Polls'"
                                         x-bind:class="opened === 'Polls' ? 'active' : ''">
@@ -59,7 +65,10 @@
     </x-ui.panel>
 
 
+
+
     <div x-show="opened === 'Polls'">
+        <h3>Your polls</h3>
         @if (count($polls) !== 0)
             <div class="row">
                 @foreach ($polls as $poll)
@@ -69,7 +78,6 @@
                     </div>
                 @endforeach
             </div>
-
         @else
             {{-- Upozornění pro žádné ankety --}}
             <x-ui.alert type="info">

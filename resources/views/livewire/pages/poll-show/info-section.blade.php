@@ -90,9 +90,9 @@
             </x-slot:footer>
         </x-ui.card>
 
-    @auth
+
         <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
-    @endauth
+
 
 
 

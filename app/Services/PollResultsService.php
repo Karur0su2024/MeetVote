@@ -75,11 +75,19 @@ class PollResultsService
     public function getUserVote($poll): ?Vote
     {
         $vote = null;
+
+        if(!session()->has('poll.' . $poll->id . '.vote')){
+            session()->remove('poll.' . $poll->id . '.vote');
+        }
+
         if (Auth::check()) {
             $vote = Vote::with(['timeOptions.timeOption', 'questionOptions.questionOption.pollQuestion'])
                 ->where('poll_id', $poll->id)
                 ->where('user_id', Auth::id())
                 ->first();
+        }
+        else {
+            $vote = $poll->votes()->where('id', session()->get('poll.' . $poll->id . '.vote') ?? null)->first();
         }
 
         return $vote;

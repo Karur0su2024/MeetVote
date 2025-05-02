@@ -12,6 +12,8 @@ class Dashboard extends Component
 
     public $polls;
 
+    public $votes;
+
     public $events;
 
     public $status = 'all';
@@ -23,6 +25,8 @@ class Dashboard extends Component
         $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
 
         $this->events = Auth::user()->allPolls()->pluck('event')->unique('id')->filter();
+
+        $this->votes = Auth::user()->votes()->with('poll')->orderBy('created_at', 'desc')->limit(3)->get();
     }
 
     public function filterByStatus($status){

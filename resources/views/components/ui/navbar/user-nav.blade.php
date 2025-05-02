@@ -4,9 +4,6 @@
             <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
         </x-slot:header>
         <x-slot:dropdownItems>
-            <x-ui.dropdown.item href="{{ route('dashboard') }}">
-                <i class="bi bi-check2-square me-1"></i> {{ __('navbar.dashboard') }}
-            </x-ui.dropdown.item>
             <x-ui.dropdown.item href="{{ route('settings') }}">
                 <i class="bi bi-gear me-1"></i> {{ __('navbar.settings') }}
             </x-ui.dropdown.item>

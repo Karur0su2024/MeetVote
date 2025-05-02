@@ -27,7 +27,7 @@ class PollQueryService
             'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
-            'timezone' => $poll->timezone ?? Cookie::get('timezone', 'CEST'),
+            'timezone' => $poll->timezone ?? Cookie::get('timezone', 'UTC'),
             'user' => [
                 'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,

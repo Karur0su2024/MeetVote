@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Poll;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PollPolicy
 {
@@ -55,6 +56,14 @@ class PollPolicy
 
     public function canVote(?User $user, Poll $poll): bool
     {
+        if(!Auth::check()){
+            if(session()->get('poll.' . $poll->id . '.vote')){
+                return false;
+            }
+        }
+
+
+
         return $poll->isActive();
 
     }

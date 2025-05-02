@@ -50,7 +50,6 @@
             {{ __('pages/poll-editor.settings.allow_invalid.label') }}
         </x-ui.form.checkbox>
 
-
         <h4 class="text-muted mb-3">
             {{ __('pages/poll-editor.settings.section_titles.security') }}
         </h4>

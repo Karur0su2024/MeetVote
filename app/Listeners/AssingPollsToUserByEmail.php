@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\Poll;
+use App\Models\Vote;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -29,6 +30,9 @@ class AssingPollsToUserByEmail
             $poll->user_id = $user->id;
             $poll->save();
         }
+
+        $votes = Vote::where('voter_email', $user->email)->get();
+
 
     }
 }

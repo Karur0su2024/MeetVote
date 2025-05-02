@@ -12,21 +12,19 @@ class VotePolicy
     public function edit(?User $user, Vote $vote): bool
     {
 
+
         if (!$vote->poll->isActive()) {
             return true;
         }
 
-        if(Gate::allows('isAdmin', $vote->poll)) {
-            return true;
-        }
-
-        if(!$vote->poll->edit_votes){
+        if(!Auth::check()) {
             return false;
         }
 
 
 
-        return $user && $vote->user_id === $user->id;
+
+        return true;
 
     }
 

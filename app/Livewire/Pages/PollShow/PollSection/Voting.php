@@ -55,6 +55,14 @@ class Voting extends Component
 
         $validatedData = $this->form->validate();
         if($this->isEmailInvalid()) {
+            dd('email invalid');
+            $this->addError('error', 'You can\'t vote with this address.');
+            return;
+        }
+
+        if(session()->has('poll.{$this->poll->id}.vote')){
+            dd('has session');
+            $this->addError('error', 'You have already voted for this poll.');
             return;
         }
 

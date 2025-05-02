@@ -7,8 +7,8 @@
 @endpush
 
 <div x-data="{
-    mode: '{{ $poll->isActive() ? 'Voting' : 'Results' }}'
-}"
+    mode: '{{ Gate::allows('canVote', $poll) ? 'Voting' : 'Results' }}'
+    }"
     @change-section.window="mode = 'Voting'">
 
     <x-ui.card header-hidden>
@@ -16,7 +16,7 @@
         <x-slot:body-header>
             <h2 x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h2>
             <div>
-                @if($poll->isActive())
+                @can('canVote', $poll)
                     <x-ui.button color="outline-secondary"
                                  x-text="mode === 'Results' ?
                                  '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
@@ -24,7 +24,7 @@
                                  @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
                     </x-ui.button>
 
-                @endif
+                @endcan
             </div>
 
         </x-slot:body-header>
@@ -39,9 +39,11 @@
                           {{ (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline) }} days left to vote!
                         </x-ui.alert>
                     @endif
-                    <div x-show="mode === 'Voting'">
-                        <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />
-                    </div>
+                    @can('canVote', $poll)
+                            <div x-show="mode === 'Voting'">
+                                <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />
+                            </div>
+                    @endcan
                 @else
                     <x-ui.alert type="warning">
                         Poll has ended! You can no longer vote.

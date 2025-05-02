@@ -26,5 +26,12 @@ body {
     cursor: pointer !important;
 }
 
+input::placeholder {
+    color: #8f8f8f !important;
+}
+
+textarea::placeholder {
+    color: #8f8f8f !important;
+}
 
 
