@@ -2,12 +2,20 @@
 
 namespace App\Interfaces\Google;
 
+use App\Interfaces\GoogleServiceInterface;
+
 interface GoogleAuthServiceInterface
 {
 
-    public function redirectToGoogle();
+    public function redirectToGoogleOAuth();
 
-    public function handleGoogleCallback();
+    public function handleGoogleOAuthCallback();
 
-    public function disconnectFromGoogle();
+    public function disconnectFromGoogleOAuth();
+
+    public function redirectToGoogleCalendar();
+
+    public function handleGoogleCalendarCallback();
+
+    public function disconnectFromGoogleCalendar(GoogleServiceInterface $googleService);
 }

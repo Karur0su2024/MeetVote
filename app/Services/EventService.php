@@ -29,7 +29,6 @@ class EventService
         return [
             'poll_id' => $event->poll_id ?? null,
             'title' => $event->title ?? null,
-            'all_day' => $event->all_day ?? false,
             'start_time' => $event->start_time ? $event->start_time->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s'),
             'end_time' => $event->end_time ? $event->end_time->format('Y-m-d H:i:s') : now()->addHour()->format('Y-m-d H:i:s'),
             'description' => $event->description ?? null,
@@ -57,7 +56,6 @@ class EventService
         return [
             'poll_id' => $poll->id,
             'title' => $poll->title,
-            'all_day' => false,
             'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? '00:00'),
             'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? '01:00'),
             'description' => $text,

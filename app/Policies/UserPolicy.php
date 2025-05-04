@@ -8,7 +8,7 @@ class UserPolicy
 {
     public function sync(User $user){
         if (config('google.service_enabled')) {
-            if($user->google_id){
+            if($user->calendar_access) {
                 return true;
             }
         }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('poll_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->boolean('all_day')->default(false);
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
             $table->text('description')->nullable();

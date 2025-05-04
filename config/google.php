@@ -13,9 +13,12 @@ return [
     'oauth_scopes' => [
             'openid',
             'email',
-            'profile',
-            'https://www.googleapis.com/auth/calendar',
-            'https://www.googleapis.com/auth/calendar.events'
+            'profile'
+    ],
+
+    'calendar_scopes' => [
+        'https://www.googleapis.com/auth/calendar',
+        'https://www.googleapis.com/auth/calendar.events'
     ],
 
     'oauth_credentials' => storage_path('app/oauth-credentials.json'),

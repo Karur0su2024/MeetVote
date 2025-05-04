@@ -3,6 +3,7 @@
 namespace App\Services\Google;
 
 use App\Interfaces\Google\GoogleAuthServiceInterface;
+use App\Interfaces\GoogleServiceInterface;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,13 @@ use Laravel\Socialite\Two\User as GoogleUser;
 class GoogleAuthService implements GoogleAuthServiceInterface
 {
 
-    public function redirectToGoogle()
+    public function redirectToGoogleOAuth()
     {
         return Socialite::driver('google')
             ->scopes(config('google.oauth_scopes'))->with(['access_type' => 'offline', 'prompt' => 'consent'])->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGoogleOAuthCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
@@ -61,33 +62,68 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return redirect(route('home'));
     }
 
-    public function disconnectFromGoogle()
+    public function disconnectFromGoogleOAuth()
     {
         $user = Auth::user();
         $user->google_id = null;
         $user->google_token = null;
         $user->google_refresh_token = null;
-        $user->google_avatar = null;
+        $user->calendar_access = false;
         $user->save();
 
         return redirect(route('settings'))->with('success', 'Google account disconnected successfully.');
     }
 
 
+    public function redirectToGoogleCalendar()
+    {
+        return Socialite::driver('google')
+            ->scopes(config('google.calendar_scopes'))
+            ->with(['access_type' => 'offline', 'prompt' => 'consent'])
+            ->redirectUrl(route('google.calendar.callback'))
+            ->redirect();
+    }
 
-
-    private function checkIfCallbackWasSuccessful()
+    public function handleGoogleCalendarCallback()
     {
         try {
-            $user = Socialite::driver('google')->user();
-            return $user;
+            $googleUser = Socialite::driver('google')
+                ->redirectUrl(route('google.calendar.callback'))
+                ->user();
         } catch (\Exception $e) {
-            if (Auth::check()) {
-                return redirect(route('settings'))->with('error', 'Google authentication failed. Please try again.');
-            }
-            return redirect(route('login'))->with('error', 'Google authentication failed. Please try again.');
+            return redirect(route('settings'))->with('error', 'Google Calendar authentication failed. Please try again.');
         }
+
+        $user = Auth::user();
+
+        if ($googleUser->id === $user->google_id) {
+
+            $user->update([
+                'calendar_access' => true,
+                'google_token' => $googleUser->token,
+                'google_refresh_token' => $googleUser->refreshToken,
+            ]);
+            return redirect(route('settings'))->with('success', 'Google Calendar access granted successfully.');
+        }
+
+        return redirect(route('settings'))->with('error', 'Google Calendar authentication failed. Please try again.');
     }
+
+    public function disconnectFromGoogleCalendar(GoogleServiceInterface $googleService)
+    {
+        $user = Auth::user()->load('syncedEvents');
+        $user->calendar_access = false;
+        $user->save();
+
+        $syncedEvent = $user->syncedEvents();
+
+        foreach ($user->syncedEvents as $syncedEvent) {
+            $googleService->desyncWithGoogleCalendar($syncedEvent->event);
+        }
+
+        return redirect(route('settings'))->with('success', 'Google Calendar access revoked successfully.');
+    }
+
 
     private function buildGoogleUser(GoogleUser $googleUser, $user = null): array
     {
@@ -97,7 +133,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
             'google_id' => $googleUser->getId(),
             'google_token' => $googleUser->token,
             'google_refresh_token' => $googleUser->refreshToken,
-            'google_avatar' => $googleUser->getAvatar(),
         ]);
 
 

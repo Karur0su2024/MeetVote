@@ -34,7 +34,7 @@
 
                 <div class="d-flex justify-content-center align-items-center mb-3 gap-2">
                     <button type="submit" class="btn btn-primary w-100">{{ __('pages/auth.register.buttons.register') }}</button>
-                    <a href="{{ route('google.login') }}" class="btn btn-outline-primary w-100">
+                    <a href="{{ route('google.oath.login') }}" class="btn btn-outline-primary w-100">
                         <i class="bi bi-google"></i> {{ __('pages/auth.register.buttons.with_google') }}
                     </a>
                 </div>

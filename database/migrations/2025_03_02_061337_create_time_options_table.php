@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('date');
             $table->string('text')->nullable();
             $table->time('start')->nullable();
-            $table->integer('minutes')->nullable();
             $table->timestamps();
         });
     }

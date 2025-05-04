@@ -6,6 +6,7 @@ namespace App\Services\Google;
 use App\Interfaces\GoogleServiceInterface;
 use Google\Client;
 use Google\Service\Calendar;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -33,7 +34,7 @@ class GoogleService implements GoogleServiceInterface
             $googleEvent = $googleCalendarService->buildGoogleEvent($event);
 
             foreach ($users as $user) {
-                if (!$user->google_id) {
+                if (Gate::denies('sync', $user)) {
                     continue;
                 }
                 $this->checkToken($user);

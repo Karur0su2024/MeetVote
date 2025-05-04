@@ -9,7 +9,6 @@ class Event extends Model
     protected $fillable = [
         'poll_id',
         'title',
-        'all_day',
         'start_time',
         'end_time',
         'description',
@@ -18,7 +17,6 @@ class Event extends Model
     protected $casts = [
         'poll_id' => 'integer',
         'title' => 'string',
-        'all_day' => 'boolean',
         'start_time' => 'datetime',
         'end_time' => 'datetime',
         'description' => 'string',

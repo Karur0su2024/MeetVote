@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('time_options', function (Blueprint $table) {
-            $table->time('end')->nullable()->after('start');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('calendar_access')->default(false);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('time_options', function (Blueprint $table) {
-            $table->dropColumn('end');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('calendar_access');
         });
     }
 };

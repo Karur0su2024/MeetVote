@@ -6,11 +6,22 @@ use App\Http\Controllers\GoogleController;
 
 Route::prefix('/google')->group(function () {
     // Google routy
-    Route::get('/', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
-    Route::get('/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+    Route::get('/oauth', [GoogleController::class, 'redirectToOAuthGoogle'])->name('google.oath.login');
+    Route::get('/oauth/callback', [GoogleController::class, 'handleGoogleOAuthCallback'])->name('google.oauth.callback');
 
-    Route::get('/disconnect', [GoogleController::class, 'disconnectFromGoogle'])
-        ->middleware(['auth', 'verified'])
-        ->name('google.disconnect');
+    Route::get('/calendar', [GoogleController::class, 'redirectToCalendarGoogle'])
+        ->middleware(['google.connected'])
+        ->name('google.calendar.login');
+    Route::get('/calendar/callback', [GoogleController::class, 'handleGoogleCalendarCallback'])
+        ->middleware(['google.connected'])
+        ->name('google.calendar.callback');
+
+    Route::get('/oauth/disconnect', [GoogleController::class, 'disconnectFromGoogleOAuth'])
+        ->middleware(['google.connected'])
+        ->name('google.oauth.disconnect');
+
+    Route::get('/calendar/disconnect', [GoogleController::class, 'disconnectFromGoogleCalendar'])
+        ->middleware(['google.connected'])
+        ->name('google.calendar.disconnect');
 
 });

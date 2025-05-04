@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'setLanguage' => SetLanguage::class,
-            'checkIfConnectedToGoogle' => CheckIfConnectedToGoogle::class,
+            'google.connected' => CheckIfConnectedToGoogle::class,
             'poll.already_has_access' => Poll\AlreadyHasAccess::class,
             'poll.is_active' => Poll\IsActive::class,
             'poll.is_invite_only' => Poll\IsInviteOnly::class,

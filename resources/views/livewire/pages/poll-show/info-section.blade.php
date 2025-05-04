@@ -61,7 +61,6 @@
 
             <x-slot:body>
                 <div class="d-flex align-items-center text-muted mb-2">
-                    {{-- Doplnit avatar uživatele --}}
                     <x-ui.icon name="person-fill" /><strong>{{ $poll->author_name }}</strong>
                 </div>
                 <p class="text-muted">

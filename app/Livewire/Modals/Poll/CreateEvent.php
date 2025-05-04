@@ -28,7 +28,6 @@ class CreateEvent extends Component
     {
         return [
             'event.title' => 'required|string|max:255',
-            'event.all_day' => 'boolean',
             'event.start_time' => 'required|date',
             'event.end_time' => 'required|date|after:event.start_time',
             'event.description' => 'nullable|string',
