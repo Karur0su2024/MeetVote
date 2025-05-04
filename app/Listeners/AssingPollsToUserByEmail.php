@@ -33,6 +33,11 @@ class AssingPollsToUserByEmail
 
         $votes = Vote::where('voter_email', $user->email)->get();
 
+        foreach ($votes as $vote) {
+            $vote->user_id = $user->id;
+            $vote->save();
+        }
+
 
     }
 }

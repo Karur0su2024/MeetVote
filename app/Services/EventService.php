@@ -39,9 +39,11 @@ class EventService
     public function buildEventArrayFromValidatedData($poll, $results): array
     {
 
-        $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']];
-        $text = $poll->description ? $poll->description."\n\n" : '';
+        $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']]; // Vybraná časovou možnost
+        $text = $poll->description ? $poll->description."\n\n" : ''; // Popis události podle popisu ankety
 
+
+        // Vložení hodnot vybraných možností otázek do popisu události
         if(count($results['questions']) > 0){
             $text .= "Questions:\n";
 
