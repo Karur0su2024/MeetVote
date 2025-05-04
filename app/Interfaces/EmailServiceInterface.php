@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 interface EmailServiceInterface
 {
-    public function sendConfirmationEmail($poll);
+    public function sendPollConfirmationEmail($poll);
 
     public function sendVoteNotificationEmail($poll, $vote);
 

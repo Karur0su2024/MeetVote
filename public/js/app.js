@@ -9,10 +9,9 @@ import moment from 'moment';
 
 document.addEventListener('DOMContentLoaded', function() {
     // Získání aktuálního stavu tmavého režimu z HTML tagu
-
-    document.documentElement.setAttribute('data-bs-theme', localStorage.getItem('theme') ?? 'light');
+    console.log(document.documentElement.getAttribute('data-bs-theme'));
     let iconElement = document.getElementById('darkmode-toggle-icon');
-    if (localStorage.getItem('theme') === 'dark') {
+    if (document.documentElement.getAttribute('data-bs-theme') === 'dark') {
         iconElement.className = 'bi bi-moon-fill';
     } else {
         iconElement.className = 'bi bi-brightness-high-fill';

@@ -45,7 +45,7 @@ class PollController extends Controller
     public function checkPassword(Request $request, Poll $poll)
     {
         if(Hash::check($request->password, $poll->password)) {
-            session()->put('poll_passwords.'.$poll->id, Hash::make($poll->password));
+            session()->put('poll_passwords.'.$poll->id . '.expiration', now()->addDays(config('poll.password_expiration_days')));
             return redirect()->route('polls.show', $poll);
         }
         return redirect()->back()->with('error', 'Wrong password');

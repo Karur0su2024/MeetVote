@@ -15,7 +15,7 @@ class EmailService implements EmailServiceInterface
 {
 
     // Potvrzení vytvoření ankety
-    public function sendConfirmationEmail($poll): void
+    public function sendPollConfirmationEmail($poll): void
     {
         try {
             Log::info('Attempting to send confirmation email');

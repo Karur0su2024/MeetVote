@@ -32,23 +32,26 @@ class PollPolicy
     public function hasValidInvitation(?User $user, Poll $poll): bool
     {
         if ($this->hasAdminPermissions($user, $poll)) return true;
-
         if ($poll->settings['invite_only']) {
-            $invitationKey = session()->get('poll_invitations.' . $poll->id, null);
-
-            return $poll->invitations->where('key', $invitationKey)->isNotEmpty();
+            return $this->invitationExist($poll);
         }
 
         return true;
     }
 
+    private function invitationExist($poll)
+    {
+        $invitationKey = session()->get('poll_invitations.' . $poll->id, null);
+        return $poll->invitations->where('key', $invitationKey)->isNotEmpty();
+    }
+
     public function hasValidPassword(?User $user, Poll $poll): bool
     {
         if ($this->hasAdminPermissions($user, $poll)) return true;
-        if ($this->hasValidInvitation($user, $poll)) return true;
+        if ($this->invitationExist($poll)) return true;
 
         if ($poll->password !== null) {
-            return session()->get('poll_passwords.' . $poll->id) ?? null === $poll->password;
+            return session()->has('poll_passwords.' . $poll->id . '.expiration') && session()->get('poll_passwords.' . $poll->id . '.expiration') > now();
         }
 
         return true;

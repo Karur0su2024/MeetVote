@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="{{ $_COOKIE['theme'] ?? 'light' }}">
+
 
 <head>
     <meta charset="utf-8">

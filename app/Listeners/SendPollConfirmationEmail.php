@@ -26,7 +26,7 @@ class SendPollConfirmationEmail
         $poll = $event->poll;
 
         if($poll->author_email){
-            $this->emailService->sendConfirmationEmail($poll);
+            $this->emailService->sendPollConfirmationEmail($poll);
         }
     }
 }
