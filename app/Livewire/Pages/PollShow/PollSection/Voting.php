@@ -48,21 +48,19 @@ class Voting extends Component
     ): void
     {
         if(Gate::denies('canVote', $this->poll)) {
-            $this->addError('error', 'You are not allowed to vote on this poll.');
+            $this->addError('error', __('pages/poll-show.voting.messages.errors.not_allowed'));
             return;
         }
 
 
         $validatedData = $this->form->validate();
         if($this->isEmailInvalid()) {
-            dd('email invalid');
-            $this->addError('error', 'You can\'t vote with this address.');
+            $this->addError('error', __('pages/poll-show.voting.messages.errors.email_invalid'));
             return;
         }
 
         if(session()->has('poll.{$this->poll->id}.vote')){
-            dd('has session');
-            $this->addError('error', 'You have already voted for this poll.');
+            $this->addError('error', __('pages/poll-show.voting.messages.errors.already_voted'));
             return;
         }
 
@@ -71,7 +69,7 @@ class Voting extends Component
             $voteCreateService->saveVote($validatedData);
         } catch (ValidationException $e) {
             Log::error('Error saving vote: ' . $e->getMessage());
-            $this->addError('error', 'An error occurred while saving the vote.');
+            $this->addError('error', __('pages/poll-show.voting.messages.errors.saving_error'));
             throw $e;
         }
         catch (VoteException $e) {

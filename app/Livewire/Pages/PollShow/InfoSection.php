@@ -9,8 +9,10 @@ use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
 use App\Traits\HasVoteControls;
 use DateTime;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 
@@ -52,19 +54,19 @@ class InfoSection extends Component
     public function createEvent()
     {
         if (Gate::denies('createEvent', $this->poll)) {
-            return;
+            return null;
         }
 
         $results = $this->pollResultsService->getResults($this->poll);
-        $event = $this->eventService->buildEventFromValidatedData($this->poll, $results);
+        $event = $this->eventService->buildEventArrayFromValidatedData($this->poll, $results);
         $this->eventService->createEvent($this->poll, $event);
         PollEventCreated::dispatch($this->poll);
-        return redirect()->route('polls.show', $this->poll)->with('success', 'Event created successfully.');
+        return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_created'));
 
     }
 
     // https://github.com/spatie/calendar-links
-    public function importToGoogleCalendar()
+    public function importToGoogleCalendar(): RedirectResponse
     {
         $link = $this->buildLink();
         return redirect()->away($link->google());

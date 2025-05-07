@@ -10,11 +10,11 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <x-ui.navbar.nav-link href="{{ route('polls.create') }}">
-                    {{ __('navbar.new_poll') }}
+                    {{ __('ui/navbar.new_poll') }}
                 </x-ui.navbar.nav-link>
                 @auth
                     <x-ui.navbar.nav-link href="{{ route('dashboard') }}">
-                        {{ __('navbar.dashboard') }}
+                        {{ __('ui/navbar.dashboard') }}
                     </x-ui.navbar.nav-link>
                 @endauth
             </ul>

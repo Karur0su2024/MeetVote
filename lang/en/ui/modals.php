@@ -90,6 +90,7 @@ return [
         'event_description' => [
             'label' => 'Event Description',
             'placeholder' => 'Enter event description...',
+            'questions' => 'Questions',
         ],
         'messages' => [
             'error' => [
@@ -176,8 +177,12 @@ return [
                     deleted.'
         ],
         'messages' => [
-            'success' => [],
-            'error' => [],
+            'success' => [
+                'poll_status_updated' => 'Poll status updated successfully.',
+            ],
+            'error' => [
+                'closing' => 'An error occurred while closing the poll.',
+            ],
         ],
 
     ],

@@ -134,5 +134,13 @@ return [
         'submit' => 'Save Poll',
     ],
 
+    'messages' => [
+        'success' => 'Anketa byla úspěšně uložena.',
+        'error' => [
+            'dirty' => 'The poll has been updated by another user. Please refresh the page.',
+            'saving' => 'An error occurred while saving the poll.',
+        ],
+    ],
+
     'loading' => 'Saving...',
 ];

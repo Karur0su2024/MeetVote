@@ -1,6 +1,6 @@
 <x-ui.dropdown.wrapper id="languageDropdown" class="nav-item">
     <x-slot:header>
-        <i class="bi bi-globe me-1"></i> {{ __('navbar.language') }}
+        <i class="bi bi-globe me-1"></i> {{ __('ui/navbar.language') }}
     </x-slot:header>
     <x-slot:dropdownItems>
         <x-ui.dropdown.item href="{{ route('changeLanguage', 'en') }}">

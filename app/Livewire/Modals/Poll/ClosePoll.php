@@ -51,9 +51,9 @@ class ClosePoll extends Component
 
                 PollReopened::dispatchIf(true, $this->poll);
 
-                return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', 'Poll status updated successfully.');
+                return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', __('ui/modals.close_poll.messages.success.poll_status_updated'));
             } catch (\Exception $e) {
-                session()->flash('error', 'An error occurred while closing poll.');
+                session()->flash('error', __('ui/modals.close_poll.messages.error.closing'));
                 DB::rollBack();
                 return;
             }

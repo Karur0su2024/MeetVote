@@ -17,13 +17,24 @@ Route::middleware(['setLanguage'])->group(function () {
     Route::view('/', 'pages.home')->name('home');
 
     //Pozvánky
+
     Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
         ->name('polls.invite');
 
     // Dark mode
-    Route::get('/toggledarkmode', [AppController::class, 'toggleDarkMode'])->name('toggleDarkMode');
+    // Nahrazeno pomocí JS
+    //Route::get('/toggledarkmode', [AppController::class, 'toggleDarkMode'])->name('toggleDarkMode');
 
     // Změna jazyka
     Route::get('/changeLanguage/{lang}', [AppController::class, 'changeLanguage'])
         ->name('changeLanguage');
+
+
+    Route::get('/privacy', function () {
+        return view('pages.other.privacy');
+    })->name('privacy');
+
+    Route::get('/terms', function () {
+        return view('pages.other.terms');
+    })->name('terms');
 });

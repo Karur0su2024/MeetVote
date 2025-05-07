@@ -55,6 +55,10 @@ return [
             'automatically_create_event' => 'Automatically',
             'close_poll' => 'Close poll',
         ],
+        'alerts' => [
+            'event_created' => 'Event created successfully.',
+            'event_updated' => 'Událost byla úspěšně aktualizována.',
+        ],
     ],
     'voting' => [
         'title' => 'Voting',
@@ -94,8 +98,21 @@ return [
                 'label' => 'Show results',
             ],
         ],
+        'messages' => [
+            'vote_submitted' => 'Vote successfully submitted.',
+            'vote_updated' => 'Vote successfully updated.',
+            'errors' => [
+                'email_invalid' => 'You can\'t vote with this address.',
+                'already_voted' => 'You have already voted for this poll.',
+                'not_allowed' => 'You are not allowed to vote on this poll.',
+                'vote_not_found' => 'Hlas nebyl nalezen.',
+                'vote_not_submitted' => 'Hlas nebyl odeslán.',
+                'saving_error' => 'An error occurred while saving the vote.',
+            ],
+        ],
         'alert' => [
             'poll_closed' => 'Poll is closed. You can no longer vote.',
+            'deadline' => ':now_poll_deadline days left to vote!',
         ],
     ],
     'results' => [
@@ -136,6 +153,7 @@ return [
         ],
         'alerts' => [
             'hidden' => 'Poll results are hidden by the poll creator.',
+            'ended' => 'Poll has ended! You can no longer vote.',
         ],
     ],
     'comments' => [

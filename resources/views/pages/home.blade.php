@@ -72,14 +72,5 @@
                 </div>
             </div>
         </div>
-
-        <div class="p-3 card shadow-mt mt-5">
-            <div class="card-body">
-                <h3>{{ __('pages/homepage.section.three.title') }}</h3>
-                <p>
-                    {{ __('pages/homepage.section.three.text', ['email' => config('app.author_mail')]) }}
-                </p>
-            </div>
-        </div>
     </div>
 </x-layouts.app>

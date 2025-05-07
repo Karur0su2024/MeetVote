@@ -54,6 +54,10 @@ return [
             'automatically_create_event' => 'Automaticky',
             'close_poll' => 'Uzavřít anketu',
         ],
+        'alerts' => [
+            'event_created' => 'Událost byla úspěšně vytvořena.',
+            'event_updated' => 'Událost byla úspěšně aktualizována.',
+        ],
     ],
     'voting' => [
         'title' => 'Hlasování',
@@ -93,8 +97,21 @@ return [
                 'label' => 'Zobrazit výsledky',
             ],
         ],
+        'messages' => [
+            'vote_submitted' => 'Hlas byl úspěšně odeslán.',
+            'vote_updated' => 'Hlas byl úspěšně aktualizován.',
+            'errors' => [
+                'email_invalid' => 'Nemůžete hlasovat s touto adresou.',
+                'already_voted' => 'V těto anketě jste již hlasovali.',
+                'not_allowed' => 'Nemáte oprávnění hlasovat v této anketě.',
+                'vote_not_found' => 'Hlas nebyl nalezen.',
+                'vote_not_submitted' => 'Hlas nebyl odeslán.',
+                'saving_error' => 'Došlo k chybě při ukládání hlasu.',
+            ],
+        ],
         'alert' => [
             'poll_closed' => 'Anketa je uzavřena. Nemůžete již hlasovat.',
+            'deadline' => ':now_poll_deadline dní zbývá do konce hlasování!',
         ],
     ],
     'results' => [
@@ -135,6 +152,7 @@ return [
         ],
         'alerts' => [
             'hidden' => 'Výsledky ankety jsou skryté tvůrcem ankety.',
+            'ended' => 'Anketa skončila! Nemůžete již hlasovat.',
         ],
     ],
     'comments' => [

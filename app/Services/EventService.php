@@ -44,7 +44,7 @@ class EventService
 
         // Vložení hodnot vybraných možností otázek do popisu události
         if(count($results['questions']) > 0){
-            $text .= "Questions:\n";
+            $text .= __('ui/modals.create_event.event_description.questions').":\n";
 
             foreach ($results['questions'] as $question) {
                 $text .= $question['text'].': ';

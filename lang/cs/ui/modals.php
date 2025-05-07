@@ -89,6 +89,7 @@ return [
         'event_description' => [
             'label' => 'Popis události',
             'placeholder' => 'Zadejte popis události...',
+            'questions' => 'Otázky',
         ],
         'messages' => [
             'error' => [
@@ -170,8 +171,12 @@ return [
             'event_will_be_deleted' => 'Upozornění: Pokud jste vytvořili událost, bude smazána.',
         ],
         'messages' => [
-            'success' => [],
-            'error' => [],
+            'success' => [
+                'poll_status_updated' => 'Stav ankety byl úspěšně aktualizován.',
+            ],
+            'error' => [
+                'closing' => 'Při uzavírání ankety došlo k chybě.',
+            ],
         ],
     ],
     'choose_final_options' => [

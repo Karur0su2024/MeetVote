@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 
 
+// Routy pro Google OAuth a Google Calendar
 Route::prefix('/google')->group(function () {
     // Google routy
     Route::get('/oauth', [GoogleController::class, 'redirectToOAuthGoogle'])->name('google.oath.login');

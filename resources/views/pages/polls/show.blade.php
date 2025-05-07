@@ -28,23 +28,23 @@
                     <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
                 </div>
 
-                @isset($poll->settings['comments'])
+                @if($poll->settings['comments'])
                     <div class="d-lg-block d-none">
                         <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
                     </div>
-                @endisset
+                @endif
             </div>
             <div class="col-lg-8">
                 <x-pages.poll-show.poll.section :poll="$poll"/>
             </div>
         </div>
 
-        @isset($poll->settings['comments'])
+
+        @if($poll->settings['comments'])
             <div class="d-lg-none d-md-block">
                 <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
             </div>
-        @endisset
-
+        @endif
     </div>
 
 </x-layouts.app>

@@ -125,5 +125,15 @@ return [
         'submit' => 'Uložit anketu',
     ],
 
+    'messages' => [
+        'success' => 'Anketa byla úspěšně uložena.',
+        'error' => [
+            'dirty' => 'Anketa byla upravena jiným uživatelem. Obnovte prosím stránku.',
+            'saving' => 'Při ukládání ankety došlo k chybě.',
+        ],
+
+
+    ],
+
     'loading' => 'Ukládání...',
 ];

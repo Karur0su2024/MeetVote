@@ -32,7 +32,7 @@ class PollEditor extends Component
     {
 
         if(!$this->canUpdate()){
-            $this->addError('error', 'The poll has been updated by another user. Please refresh the page.');
+            $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
             return null;
         }
 
@@ -47,7 +47,7 @@ class PollEditor extends Component
             $this->addError('error', $e->getMessage());
             return null;
         } catch (Exception $e) {;
-            $this->addError('error', 'An error occurred while saving the poll.');
+            $this->addError('error', __('pages/poll-editor.messages.error.saving'));
             return null;
         }
 

@@ -36,7 +36,7 @@
                 @if($poll->isActive())
                     @if($poll->deadline)
                         <x-ui.alert type="info">
-                          {{ (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline) }} days left to vote!
+                          {{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}
                         </x-ui.alert>
                     @endif
                     @can('canVote', $poll)
@@ -46,7 +46,7 @@
                     @endcan
                 @else
                     <x-ui.alert type="warning">
-                        Poll has ended! You can no longer vote.
+                        {{ __('pages/poll-show.results.alerts.ended') }}
                     </x-ui.alert>
                 @endif
                 <div x-show="mode === 'Results'">

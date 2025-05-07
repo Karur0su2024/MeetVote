@@ -31,7 +31,7 @@ class VoteCreateService
             $this->saveQuestionOptionsVotes($vote, $validatedVoteData);
 
             DB::commit();
-            $message = $vote->wasRecentlyCreated ? 'Vote successfully saved.' : 'Vote successfully updated.';
+            $message = $vote->wasRecentlyCreated ? __('pages/poll-show.voting.messages.vote_submitted') : __('pages/poll-show.voting.messages.vote_updated');
             VoteSubmitted::dispatchIf($vote->wasRecentlyCreated, $vote);
 
             session()->put('poll.' . $validatedVoteData['pollIndex'] . '.vote', $vote->id);
