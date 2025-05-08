@@ -17,7 +17,7 @@
 
 
         <div>
-            @if($userVote && !($userVote->questionOptions->count() > 0) && $userVote->timeOptions->count() > 0)
+            @if($userVote && ($userVote->questionOptions->count() > 0 || $userVote->timeOptions->count() > 0))
                 <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
                 @cannot('edit', $userVote)
 

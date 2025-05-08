@@ -162,7 +162,7 @@ class PollPolicy
             return true;
         }
 
-        return $poll->settings['hide_results'];
+        return !$poll->settings['hide_results'];
     }
 
     public function addNewOption(?User $user, Poll $poll): bool

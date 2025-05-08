@@ -30,6 +30,7 @@ Route::middleware(['setLanguage'])->group(function () {
         ->name('changeLanguage');
 
 
+    // Ostatní routy
     Route::get('/privacy', function () {
         return view('pages.other.privacy');
     })->name('privacy');
@@ -37,4 +38,7 @@ Route::middleware(['setLanguage'])->group(function () {
     Route::get('/terms', function () {
         return view('pages.other.terms');
     })->name('terms');
+    Route::get('/about', function () {
+        return view('pages.other.about');
+    })->name('about');
 });

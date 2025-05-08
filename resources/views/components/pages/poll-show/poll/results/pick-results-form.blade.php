@@ -23,10 +23,7 @@
         </p>
 
 
-        <x-pages.poll-show.poll.results.results-section-card>
-            <x-slot:header>
-                {{ __('pages/poll-show.results.sections.results.pick_from_results.section.time_options') }}
-            </x-slot:header>
+        <x-pages.poll-show.poll.results.results-section-card :title="__('pages/poll-show.results.sections.results.pick_from_results.section.time_options')">
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)
                     <div class="col-lg-6 col-md-12" @click="results.timeOptions.selected = {{ $optionIndex }}">
@@ -53,10 +50,7 @@
 
 
         @foreach($results['questions'] as $questionIndex => $question)
-            <x-pages.poll-show.poll.results.results-section-card>
-                <x-slot:header>
-                    {{ $question['text'] }}
-                </x-slot:header>
+            <x-pages.poll-show.poll.results.results-section-card :title="$question['text']" >
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
                         <div class="col-lg-6 col-md-12"

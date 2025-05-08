@@ -105,10 +105,4 @@ class GoogleCalendarService
     }
 
 
-    public function getAllCalendars()
-    {
-        $calendarList = $this->calendar->calendarList->listCalendarList();
-        return $calendarList->getItems();
-    }
-
 }

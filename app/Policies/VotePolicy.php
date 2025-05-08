@@ -49,15 +49,12 @@ class VotePolicy
                 return true;
             }
         }
-        if ($vote->poll->anonymous_votes) {
-            return false;
-        }
 
-        if(Gate::allows('isAdmin', $vote->poll)) {
+        if(session()->get('poll.' . $vote->poll->id . '.vote') === $vote->id) {
             return true;
         }
 
-        return false;
+        return $vote->poll->settings['anonymous_votes'];
     }
 
 

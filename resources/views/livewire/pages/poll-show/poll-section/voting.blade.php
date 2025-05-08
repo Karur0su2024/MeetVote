@@ -159,10 +159,9 @@
                             <x-ui.spinner wire:loading wire:target="submitVote">
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </x-ui.spinner>
-                            <x-ui.form.message
-                                form-message="form.error"
+                            <x-ui.form.message type="flash"
+                                form-message="error"
                                 color="danger"/>
-
                         </div>
                     </div>
 

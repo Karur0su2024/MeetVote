@@ -26,6 +26,7 @@ class GoogleService implements GoogleServiceInterface
         $this->client->setPrompt('select_account consent');
     }
 
+    // Synchronizace události s Google Kalendářem
     public function syncWithGoogleCalendar($users, $event)
     {
         try {

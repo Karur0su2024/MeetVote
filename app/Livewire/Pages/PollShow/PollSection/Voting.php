@@ -48,19 +48,19 @@ class Voting extends Component
     ): void
     {
         if(Gate::denies('canVote', $this->poll)) {
-            $this->addError('error', __('pages/poll-show.voting.messages.errors.not_allowed'));
+            session()->flash('error', __('pages/poll-show.voting.messages.errors.not_allowed'));
             return;
         }
 
 
         $validatedData = $this->form->validate();
         if($this->isEmailInvalid()) {
-            $this->addError('error', __('pages/poll-show.voting.messages.errors.email_invalid'));
+            session()->flash('error', __('pages/poll-show.voting.messages.errors.email_invalid'));
             return;
         }
 
-        if(session()->has('poll.{$this->poll->id}.vote')){
-            $this->addError('error', __('pages/poll-show.voting.messages.errors.already_voted'));
+        if(session()->has('poll.' . $this->poll->id . '.vote')){
+            session()->flash('error', __('pages/poll-show.voting.messages.errors.already_voted'));
             return;
         }
 

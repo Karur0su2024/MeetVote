@@ -4,17 +4,24 @@
         <p>
             {{ __('ui/footer.copyright') }}
         </p>
-        <a href="{{ route('privacy') }}" class="">
-            Privacy Policy
-        </a>
-        <span class="mx-2">|</span>
-        <a href="{{ route('terms') }}">
-            Terms of Service
-        </a>
-        <span class="mx-2">|</span>
-        <a href="https://github.com/Karur0su2024/MeetVote">
-            Github Repository
-        </a>
+        <div>
+            <a href="{{ route('about') }}" class="btn btn-link">
+                About
+            </a>
+            <span class="mx-2">|</span>
+            <a href="{{ route('privacy') }}" class="btn btn-link">
+                Privacy Policy
+            </a>
+            <span class="mx-2">|</span>
+            <a href="{{ route('terms') }}" class="btn btn-link">
+                Terms of Service
+            </a>
+            <span class="mx-2">|</span>
+            <a href="https://github.com/Karur0su2024/MeetVote" class="btn btn-link">
+                Github Repository
+            </a>
+        </div>
+
 
     </div>
 </footer>
