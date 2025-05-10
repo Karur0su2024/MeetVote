@@ -7,12 +7,8 @@ use App\Models\TimeOption;
 
 class TimeOptionCreateService
 {
-    /**
-     * Metoda pro uložení a aktualizaci časových možností.
-     * @param Poll $poll
-     * @param array $timeOptions
-     * @return bool
-     */
+
+    // Uložení časdových možností pro anketu
     public function save(Poll $poll, array $timeOptions, array $removedTimeOptions): bool
     {
         $this->deleteTimeOptions($removedTimeOptions);
@@ -22,6 +18,7 @@ class TimeOptionCreateService
             $optionToAdd = $this->builtTimeOption($option);
 
             if (isset($option['id'])) {
+                // Pokud už někdo pro časovou možnost hlasoval, tak je přeskočena
                 if($option['score'] !== 0) {
                     continue;
                 }
@@ -36,10 +33,7 @@ class TimeOptionCreateService
     }
 
 
-    /**
-     * @param array $deletedOptions
-     * @return void
-     */
+    // Odstranění časových možností
     private function deleteTimeOptions(array $deletedOptions): void
     {
         if(count($deletedOptions) === 0) {
@@ -50,7 +44,7 @@ class TimeOptionCreateService
 
 
 
-
+    // Sestavení časové možnosti
     private function builtTimeOption(array $validatedData): array
     {
         return [

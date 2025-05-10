@@ -29,4 +29,9 @@ class EmailServiceEmpty implements EmailServiceInterface
     {
         Log::info('Email service is disabled, not sending registration email');
     }
+
+    public function sendPollConfirmationEmail($poll)
+    {
+        Log::info('Email service is disabled, not sending poll confirmation email');
+    }
 }

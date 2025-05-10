@@ -10,14 +10,7 @@ use App\Models\Vote;
 class TimeOptionQueryService
 {
 
-    /**
-     * Metoda pro načtení časových možností ankety.
-     * Pokud není anketa nastavena, vrátí jednu časovou možnost.
-     * Pokud je anketa nastavena, vrátí pole časových možností ankety.
-     * Je vhodné použít eager loading pro načtení časových možností.
-     * @param Poll|null $poll
-     * @return array
-     */
+    // Načtení časových možností pro anketu
     public function getTimeOptionsArray(Poll $poll): array
     {
 
@@ -31,11 +24,13 @@ class TimeOptionQueryService
         $timeOptions = [];
         foreach ($poll->timeOptions as $timeOption) {
 
+            // Kontrola typu časové možnosti
             $content = $timeOption->start ? [
+                // Typ čas
                 'start' => Carbon::parse($timeOption->start)->format('H:i'),
                 'end' => Carbon::parse($timeOption->end)->format('H:i'),
             ] : [
-                'text' => $timeOption->text,
+                'text' => $timeOption->text, // Typ text
             ];
 
             $time = $timeOption->start ?? '23:59:59';
@@ -49,10 +44,10 @@ class TimeOptionQueryService
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $content,
                 'datetime' => $datetime,
-                'invalid' => $allowInvalid ? false : (now() >= $datetime),
+                'invalid' => $allowInvalid ? false : (now() >= $datetime), // Nastavení platnosti časové možnosti
                 'full_content' => implode(' - ', $content),
                 'score' => $this->getOptionScore($timeOption),
-                'picked_preference' => 0,
+                'picked_preference' => 0, // Výchozí hodnota preference (nevybráno)
             ];
         }
 
@@ -65,11 +60,7 @@ class TimeOptionQueryService
 
 
 
-    /**
-     * Metoda pro získání celkového skóre časové možnosti.
-     * @param TimeOption $option
-     * @return int
-     */
+    // Metoda pro získání bodového ohodnocení časové možnosti
     private function getOptionScore(TimeOption $option): int
     {
         $score = 0;
@@ -79,10 +70,7 @@ class TimeOptionQueryService
         return $score;
     }
 
-    /**
-     * Metoda pro inicializaci časové možnosti.
-     * @return array
-     */
+    // Nastavení výchozí časové možnosti
     private function initialTimeOption(): array
     {
         return [[
@@ -98,6 +86,7 @@ class TimeOptionQueryService
     }
 
 
+    // Nastavení preferencí pro časové možnosti podle dat odpovědí
     public function getVotingArray(Poll $poll, $vote = null): array
     {
         $options = $this->getTimeOptionsArray($poll); // Získání časových možností

@@ -47,6 +47,7 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
+    // Odstranění události z Google Kalendáře
     public function desyncWithGoogleCalendar($event)
     {
         try {
@@ -63,6 +64,7 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
+    // Kontrola, zda je uživatel dostupný
     public function checkAvailability($user, $timeOptions)
     {
         try {
@@ -85,6 +87,7 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
+    // Kontrola platnosti přístupového tokenu
     public function checkToken($user)
     {
         try {
@@ -99,6 +102,7 @@ class GoogleService implements GoogleServiceInterface
 
     }
 
+    // Obnovení přístupového tokenu
     private function refreshToken($user)
     {
         $this->client->fetchAccessTokenWithRefreshToken($user->google_refresh_token); // Obnovení přístupového tokenu

@@ -24,9 +24,9 @@ class GoogleAuthService implements GoogleAuthServiceInterface
 
 
     // Zpracování callbacku z Google OAuth
-    // Handle the callback from Google OAuth
     public function handleGoogleOAuthCallback()
     {
+        // Kontrola, zda je požadavek platný
         try {
             $googleUser = Socialite::driver('google')->user(); // Získání uživatelských dat z Google
         } catch (\Exception $e) {
@@ -39,6 +39,7 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         $user = $this->googleAccountAlreadyConnected($googleUser);
 
 
+        // Kontrola, zda je účet již připojen
         if ($user) {
             if (Auth::check()) {
                 return redirect(route('settings'))->with('error', 'Google account is already connected to another user.');
@@ -68,7 +69,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     }
 
     // Odpojení Google účtu
-    // Disconnect Google account
     public function disconnectFromGoogleOAuth()
     {
         $user = Auth::user();
@@ -83,7 +83,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
 
 
     // Přesměrování na Google Calendar OAuth
-    // Redirect to Google Calendar OAuth
     public function redirectToGoogleCalendar()
     {
         return Socialite::driver('google')
@@ -94,7 +93,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     }
 
     // Zpracování callbacku z Google Calendar OAuth
-    // Handle the callback from Google Calendar OAuth
     public function handleGoogleCalendarCallback()
     {
         try {
@@ -120,8 +118,7 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return redirect(route('settings'))->with('error', 'Google Calendar authentication failed. Please try again.');
     }
 
-    // Odpojení Google Calendar
-    // Disconnect Google Calendar
+    // Odpojení Google Kalendáře
     public function disconnectFromGoogleCalendar(GoogleServiceInterface $googleService)
     {
         $user = Auth::user()->load('syncedEvents');
@@ -138,8 +135,7 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     }
 
 
-    // Zpracování Google uživatelského účtu
-    // Process Google user account
+    // Zpracování Google účtu
     private function buildGoogleUser(GoogleUser $googleUser, $user = null): array
     {
         $user = new User([
@@ -155,14 +151,12 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     }
 
     // Kontrola, zda je Google účet již připojen
-    // Check if Google account is already connected
     private function googleAccountAlreadyConnected(GoogleUser $googleUser): ?User
     {
         return User::where('google_id', $googleUser->getId())->first();
     }
 
     // Kontrola, zda e-mail již existuje
-    // Check if email already exists
     private function checkIfEmailExists($email): ?User
     {
         return User::where('email', $email)->first();

@@ -21,6 +21,7 @@ class PollCreateService
     {
     }
 
+    // Metoda pro uložení ankety
     public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
@@ -28,7 +29,7 @@ class PollCreateService
             session()->put('poll_admin_keys.' . $poll->id, $poll->admin_key);
             return $poll;
         } catch (PollException $e) {
-            DB::rollBack();
+            DB::rollBack(); // Pokud dojde k chybě, transakce je zrušena
             throw new PollException($e->getMessage());
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -37,12 +38,13 @@ class PollCreateService
     }
 
 
+    // Aktualizace nebo vytvoření ankety
     public function createOrUpdatePoll($validatedData, $pollIndex = null): ?Poll
     {
         $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
         $newPoll = !$poll;
 
-        DB::beginTransaction();
+        DB::beginTransaction(); // Databázová transakce
 
         if ($newPoll) {
             $poll = Poll::create($this->buildPollArray($validatedData, $poll));
@@ -51,8 +53,8 @@ class PollCreateService
             $poll->refresh();
         }
 
-        $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']);
-        $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']);
+        $this->timeOptionCreateService->save($poll, $validatedData['time_options'], $validatedData['removed']['time_options']); // Uložení časových možností
+        $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']); // Uložení otázek
         DB::commit();
         PollCreated::dispatchIf($newPoll, $poll);
         return $poll;
@@ -60,6 +62,7 @@ class PollCreateService
     }
 
 
+    // Sestavení ankety
     private function buildPollArray(array $validatedData, ?Poll $poll): array
     {
         $newPoll = [
@@ -71,6 +74,7 @@ class PollCreateService
             'password' => $this->setPassword($validatedData['password']),
         ];
 
+        // Pokud je anketa nová, nastaví se vlastník ankety
         if(!$poll){
             $newPoll['author_name'] = Auth::user() ? Auth::user()->name : $validatedData['user']['name'];
             $newPoll['author_email'] = Auth::user() ? Auth::user()->email : $validatedData['user']['email'];
@@ -80,6 +84,7 @@ class PollCreateService
         return $newPoll;
     }
 
+    // Nastavení hesla
     private function setPassword($password): ?string
     {
 

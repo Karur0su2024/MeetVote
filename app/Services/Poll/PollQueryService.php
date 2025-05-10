@@ -27,7 +27,7 @@ class PollQueryService
             'title' => $poll->title ?? '',
             'description' => $poll->description ?? '',
             'deadline' => $poll->deadline ? Carbon::parse($poll->deadline)->format('Y-m-d') : null,
-            'timezone' => $poll->timezone ?? Cookie::get('timezone', 'UTC'),
+            'timezone' => $poll->timezone ?? Cookie::get('timezone', 'UTC'), // Získání časového pásma z cookie prohlížeče
             'user' => [
                 'posted_anonymously' => false,
                 'name' => $poll->author_name ?? Auth::user()?->name,
@@ -39,12 +39,13 @@ class PollQueryService
                 'set' => $poll?->password ?? null,
                 'value' => '',
             ],
-            'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll),
-            'questions' => $this->questionQueryService->getQuestionsArray($poll),
+            'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll), // Získání časových možností
+            'questions' => $this->questionQueryService->getQuestionsArray($poll), // Získání otázek
             'last_updated' => $poll->updated_at ?? null,
         ];
     }
 
+    // Nastavení výchozích hodnot parametrů nastavení ankety
     private function getDefaultSettings()
     {
         return [

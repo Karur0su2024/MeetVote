@@ -26,6 +26,7 @@ class EmailService implements EmailServiceInterface
         }
     }
 
+    // Odeslání oznámení o nové odpovědi vlastíkovi ankety
     public function sendVoteNotificationEmail($poll, $vote): void
     {
         try {
@@ -37,6 +38,7 @@ class EmailService implements EmailServiceInterface
         }
     }
 
+    // Odeslání pozvánky
     public function sendInvitation($email, $poll, $key): void
     {
         try {
@@ -47,6 +49,7 @@ class EmailService implements EmailServiceInterface
         }
     }
 
+    // Odeslání registračního emailu
     public function sendRegistrationMail($user): void
     {
         try {
@@ -57,6 +60,7 @@ class EmailService implements EmailServiceInterface
         }
     }
 
+    // Odeslání oznámení o události
     public function sendEventNotification($email, $event): void
     {
         try {
