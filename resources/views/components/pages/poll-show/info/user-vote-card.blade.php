@@ -23,7 +23,7 @@
 
                     <div class="mt-2">
                         <p class="text-muted">
-                            You can change your vote only if you are logged in.
+                            {{ __('pages/poll-show.your_vote.text.login_to_change_vote') }}
                         </p>
                         <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
                             {{ __('pages/poll-show.your_vote.buttons.login') }}

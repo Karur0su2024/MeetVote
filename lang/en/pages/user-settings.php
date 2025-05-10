@@ -32,6 +32,8 @@ return [
         'buttons' => [
             'disconnect' => 'Disconnect from Google',
             'connect' => 'Connect with Google',
+            'connect_calendar' => 'Connect Calendar',
+            'disconnect_calendar' => 'Disconnect Calendar',
         ],
         'connected' => [
             'text' => 'Your account is connected to Google. You can disconnect it if you want.',

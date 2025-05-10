@@ -7,16 +7,16 @@
             </h4>
             <div class="d-flex gap-2 align-items-center ms-2">
                 <span class="badge {{ $poll->isActive() ? 'text-bg-success' : 'text-bg-secondary' }} ">
-                    {{ $poll->status }}
+                    {{ __('pages/dashboard.poll_card.pills.status.' . $poll->status->value) }}
                 </span>
                 @if(auth()->user()->votes()->where('poll_id', $poll->id)->exists())
                     <span class="badge text-bg-info">
-                        Voted
+                        {{ __('pages/dashboard.poll_card.pills.voted') }}
                     </span>
                 @endif
                 @can('is-admin', $poll)
                     <span class="badge text-bg-warning">
-                        Admin
+                        {{ __('pages/dashboard.poll_card.pills.admin') }}
                     </span>
                 @endcan
             </div>

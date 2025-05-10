@@ -8,7 +8,7 @@
                 <x-slot:body-header>
                     <h2 class="mb-3 fs-1 mb-2">Privacy Policy</h2>
                 </x-slot:body-header>
-                <p><strong>Last updated:</strong> May 8, 2025</p>
+                <p><strong>Last updated:</strong> May 10, 2025</p>
                 <hr>
 
                 <h3 class="mt-4">What Data We Collect</h3>
@@ -32,7 +32,7 @@
                 <p>Standard measures such as password encryption and secure connections are in place.</p>
 
                 <h3 class="mt-4">Your Rights</h3>
-                <p>You can request access, correction, or deletion of your data by contacting <a href="mailto:kareltynek2000@gmail.com">kareltynek2000@gmail.com</a>.</p>
+                <p>You can request access, correction, or deletion of your data by contacting <a href="{{ 'mailto:' . config('app.contact_email') }}">{{ config('app.contact_email') }}</a>.</p>
 
                 <h3 class="mt-4">Cookies</h3>
                 <p>We use essential cookies for app functionality and preferences (e.g., dark mode, language).</p>

@@ -2,6 +2,10 @@
 
 return [
     'title' => 'Dashboard',
+    'titles' => [
+        'your_polls' => 'Your polls',
+        'voted_polls' => 'Polls you voted in',
+    ],
     'cards' => [
         'poll_count' => 'You have currently :polls_count polls.',
     ],
@@ -39,6 +43,14 @@ return [
             'share' => 'Share',
             'results' => 'Results',
             'delete' => 'Delete',
+        ],
+        'pills' => [
+            'status' => [
+                'active' => 'Active',
+                'closed' => 'Closed',
+            ],
+            'admin' => 'Admin',
+            'voted' => 'Voted',
         ],
         'stats' => [
             'votes' => 'Votes',

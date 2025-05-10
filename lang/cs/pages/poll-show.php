@@ -132,9 +132,9 @@ return [
                     ],
                 ],
                 'pick_from_results' => [
-                    'title' => 'Vyberte finální výsledky',
+                    'title' => 'Vyberte konečné výsledky',
                     'description' => 'Vyberte možnosti, které chcete použít pro vytvoření události.
-                                    Událost představuje finální výsledky ankety.',
+                                      Událost představuje konečné výsledky ankety.',
                     'section' => [
                         'time_options' => 'Časové možnosti',
                     ],
@@ -182,9 +182,13 @@ return [
     ],
     'your_vote' => [
         'title' => 'Váš hlas',
+        'text' => [
+            'login_to_change_vote' => 'Svůj hlas můžete změnit pouze pokud se přihlásíte.',
+        ],
         'no_vote' => 'Ještě jste nehlasovali.',
         'buttons' => [
             'delete' => 'Smazat hlas',
+            'login' => 'Přihlásit se',
         ],
     ],
 ];

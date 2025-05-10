@@ -23,6 +23,8 @@
 
                 <h3 class="mt-4">Contact</h3>
                 <p>GitHub: <a href="https://github.com/Karur0su2024/MeetVote" target="_blank">Karur0su2024/MeetVote</a></p>
+                <p>Author: <a href="{{ 'mailto:' . config('app.contact_email') }}">{{ config('app.contact_email') }}</a></p>
+
             </x-slot:body>
         </x-ui.card>
     </div>

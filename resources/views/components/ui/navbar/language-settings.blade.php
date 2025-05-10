@@ -7,7 +7,7 @@
             English
         </x-ui.dropdown.item>
         <x-ui.dropdown.item href="{{ route('changeLanguage', 'cs') }}">
-            Čeština (Nedokončeno)
+            Čeština
         </x-ui.dropdown.item>
     </x-slot:dropdownItems>
 </x-ui.dropdown.wrapper>

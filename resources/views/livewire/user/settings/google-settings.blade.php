@@ -22,11 +22,11 @@
                     {{ __('pages/user-settings.google.text.synced_events', ['synced_events_count' => $user->syncedEvents->count()]) }}
                 </p>
                 <a href="{{ route('google.calendar.disconnect') }}" class="btn btn-outline-danger">
-                    <i class="bi bi-google"></i> Disconnect Calendar
+                    <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect_calendar') }}
                 </a>
             @else
                 <a href="{{ route('google.calendar.login') }}" class="btn btn-outline-primary">
-                    <i class="bi bi-google"></i> Connect Calendar
+                    <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect_calendar') }}
                 </a>
 
             @endif

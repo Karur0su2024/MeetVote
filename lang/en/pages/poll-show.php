@@ -32,6 +32,7 @@ return [
                 'allow_invalid' => 'Voters can vote for past options',
             ],
         ],
+
     ],
     'event_details' => [
         'title' => 'Event details',
@@ -105,8 +106,8 @@ return [
                 'email_invalid' => 'You can\'t vote with this address.',
                 'already_voted' => 'You have already voted for this poll.',
                 'not_allowed' => 'You are not allowed to vote on this poll.',
-                'vote_not_found' => 'Hlas nebyl nalezen.',
-                'vote_not_submitted' => 'Hlas nebyl odeslán.',
+                'vote_not_found' => 'Vote not found.',
+                'vote_not_submitted' => 'Vote not submitted.',
                 'saving_error' => 'An error occurred while saving the vote.',
             ],
         ],
@@ -182,6 +183,9 @@ return [
     ],
     'your_vote' => [
         'title' => 'Your vote',
+        'text' => [
+            'login_to_change_vote' => 'You can change your vote only if you are logged in.',
+        ],
         'no_vote' => 'You have not voted yet.',
         'buttons' => [
             'delete' => 'Delete vote',

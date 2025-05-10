@@ -123,7 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'author_mail' => env('AUTHOR_EMAIL', ''),
+    'contact_email' => env('CONTACT_EMAIL', ''),
 
 
 

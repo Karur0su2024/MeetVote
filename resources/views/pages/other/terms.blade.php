@@ -8,7 +8,7 @@
                 <x-slot:body-header>
                     <h2 class="mb-0 fs-1">Terms of Use</h2>
                 </x-slot:body-header>
-                <p><strong>Last updated:</strong> May 8, 2025</p>
+                <p><strong>Last updated:</strong> May 10, 2025</p>
                 <hr>
 
                 <ol>
@@ -37,7 +37,7 @@
                     </li>
                     <li><strong>Termination:</strong> We may restrict or terminate accounts violating terms.</li>
                     <li><strong>Changes to Terms:</strong> Updates may occur; continued use implies agreement.</li>
-                    <li><strong>Contact:</strong> kareltynek2000@gmail.com</li>
+                    <li><strong>Contact:</strong> <a href="{{ 'mailto:' . config('app.contact_email') }}">{{ config('app.contact_email') }}</a>
                 </ol>
             </x-slot:body>
         </x-ui.card>

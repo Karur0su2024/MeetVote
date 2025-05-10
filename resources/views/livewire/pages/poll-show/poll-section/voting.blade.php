@@ -11,7 +11,7 @@
     </p>
     <div>
         <!-- Pro přesunutí -->
-        <div class="card d-none">
+        <div class="card">
             <div class="card-body mx-auto w-100 d-flex flex-wrap justify-content-around text-center ">
                 <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
                 <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
@@ -21,7 +21,7 @@
         @if($loaded)
             <form wire:submit.prevent="submitVote()">
                 <div>
-                    <x-pages.poll-show.poll.results.results-section-card title="Time">
+                    <x-pages.poll-show.poll.section-card title="Time">
                         <x-slot:title>
                             <span class="me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
                             <x-ui.tooltip>
@@ -47,7 +47,7 @@
                             <template x-for="(timeOption, optionIndex) in form.timeOptions">
 
                                 <div class="col-md-12 col-lg-6">
-                                    <x-pages.poll-show.poll.results.option-card
+                                    <x-pages.poll-show.poll.option-card
                                         class="btn-outline-vote"
                                         ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
                                         @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
@@ -79,7 +79,7 @@
 
                                         </x-slot:bottom>
 
-                                    </x-pages.poll-show.poll.results.option-card>
+                                    </x-pages.poll-show.poll.option-card>
                                 </div>
                             </template>
 
@@ -100,13 +100,13 @@
 
 
                         </x-slot:content>
-                    </x-pages.poll-show.poll.results.results-section-card>
+                    </x-pages.poll-show.poll.section-card>
 
 
                     @if(!empty($form->questions))
 
                             <template x-for="(question, questionIndex) in form.questions">
-                                <x-pages.poll-show.poll.results.results-section-card>
+                                <x-pages.poll-show.poll.section-card>
                                     <x-slot:title>
                                         <span x-text="question.text"></span>
                                     </x-slot:title>
@@ -117,7 +117,7 @@
                                         <template x-for="(option, optionIndex) in question.options">
 
                                             <div class="col-md-12 col-lg-6">
-                                                <x-pages.poll-show.poll.results.option-card
+                                                <x-pages.poll-show.poll.option-card
                                                     class="btn-outline-vote"
                                                     ::class="'voting-card-' + option.picked_preference"
                                                     @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))">
@@ -129,11 +129,11 @@
                                                              :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
                                                              :alt="option.picked_preference"/>
                                                     </x-slot:right>
-                                                </x-pages.poll-show.poll.results.option-card>
+                                                </x-pages.poll-show.poll.option-card>
                                             </div>
                                         </template>
                                     </x-slot:content>
-                                </x-pages.poll-show.poll.results.results-section-card>
+                                </x-pages.poll-show.poll.section-card>
                             </template>
                     @endif
 

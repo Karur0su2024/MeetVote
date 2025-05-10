@@ -2,6 +2,10 @@
 
 return [
     'title' => 'Stránka s přehledem',
+    'titles' => [
+        'your_polls' => 'Vaše ankety',
+        'voted_polls' => 'Ankety, ve kterých jste hlasovali',
+    ],
     'cards' => [
         'poll_count' => 'V současnosti máte :polls_count anket.',
     ],
@@ -39,6 +43,14 @@ return [
             'share' => 'Sdílet',
             'results' => 'Výsledky',
             'delete' => 'Odstranit',
+        ],
+        'pills' => [
+            'status' => [
+                'active' => 'Aktivní',
+                'closed' => 'Uzavřeno',
+            ],
+            'admin' => 'Správce',
+            'voted' => 'Odhlasováno',
         ],
         'stats' => [
             'votes' => 'Odpovědi',

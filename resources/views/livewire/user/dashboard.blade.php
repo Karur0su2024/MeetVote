@@ -2,7 +2,7 @@
 <div class="text-start" x-data="{ opened: 'Polls' }">
 
     <div class="mb-3">
-        <h3>Polls you voted in</h3>
+        <h3>{{ __('pages/dashboard.titles.voted_polls') }}</h3>
         <div class="row">
             @foreach ($votes as $vote)
                 {{-- Karta ankety --}}
@@ -69,7 +69,7 @@
 
 
     <div x-show="opened === 'Polls'">
-        <h3>Your polls</h3>
+        <h3>{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
             <div class="row">
                 @foreach ($polls as $poll)

@@ -30,8 +30,10 @@ return [
 
         'title' => 'Google & Kalendář',
         'buttons' => [
-            'disconnect' => 'Odpojitit účet Google',
+            'disconnect' => 'Odpojit účet Google',
             'connect' => 'Připojit účet Google',
+            'connect_calendar' => 'Připojit Kalendář',
+            'disconnect_calendar' => 'Odpojit Kalendář',
         ],
         'connected' => [
             'text' => 'Vaše účet je propojen s Googlem. Můžete jej odpojit, pokud chcete.',
