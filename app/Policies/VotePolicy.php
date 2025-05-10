@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 
 class VotePolicy
 {
+    // Kontroluje zda uživatel může změnit odpověď
     public function edit(?User $user, Vote $vote): bool
     {
 
@@ -25,6 +26,7 @@ class VotePolicy
 
     }
 
+    // Kontroluje zda uživatel může smazat odpověď
     public function delete(?User $user, Vote $vote): bool
     {
         if(!$vote->poll->isActive()){
@@ -37,6 +39,7 @@ class VotePolicy
         return $user && $vote->user_id === $user->id;
     }
 
+    // Kontroluje zda uživatel může zobrazit odpověď
     public function view(?User $user, Vote $vote): bool {
 
         // Přidat podmínku zda jsou výsledky skryté

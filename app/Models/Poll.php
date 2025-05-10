@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Enums\PollStatus;
@@ -18,10 +15,6 @@ use App\Enums\PollStatus;
 class Poll extends Model
 {
 
-    use SoftDeletes;
-    use HasFactory;
-
-    // Atributy, které lze přiřadit
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',
         'status', 'deadline', 'password', 'public_id', 'admin_key',
@@ -49,17 +42,17 @@ class Poll extends Model
 
 
 
-
     protected static function booted(): void
     {
         static::creating(static function (Poll $poll) {
-            $poll->public_id = Str::random(40);
-            $poll->admin_key = Str::random(40);
-            $poll->user_id = Auth::id();
+            $poll->public_id = Str::random(40); // Generováno náhodného ID ankety při vytváření ankety
+            $poll->admin_key = Str::random(40); // Generováno náhodného klíče pro administraci při vytváření ankety
+            $poll->user_id = Auth::id(); // Nastavení ID uživatele, který vytvořil anketu, pokud je přihlášen
         });
     }
 
 
+    // Accessor a mutator pro parametry nastavení ankety, která je uložena jako JSON
     public function settings(): Attribute
     {
         return Attribute::make(

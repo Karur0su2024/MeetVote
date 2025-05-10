@@ -9,6 +9,7 @@ use App\Models\Poll;
 class InvitationService
 {
 
+    // Kontrola pozvánky
     function checkInvitation($token): Poll
     {
         $invitation = Invitation::where('key', $token)->firstOrFail();

@@ -18,11 +18,12 @@ class Invitation extends Model
         'sent_at' => 'datetime',
     ];
 
+    // Automatické přiřazení hodnot při vytváření
     protected static function booted(): void
     {
         static::creating(static function (Invitation $invitation) {
             $invitation->status = 'pending';
-            $invitation->key = Str::random(40);
+            $invitation->key = Str::random(40); // Generování náhodného klíče
             $invitation->sent_at = now();
         });
     }

@@ -16,19 +16,11 @@ class TimeOption extends Model
     ];
 
 
-    /**
-     * Anketa, ke které tato časová možnost patří
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function poll()
     {
         return $this->belongsTo(Poll::class);
     }
 
-    /**
-     * Hlasy k této časové možnosti
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function votes()
     {
         return $this->hasMany(VoteTimeOption::class);

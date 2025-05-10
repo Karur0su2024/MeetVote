@@ -15,7 +15,7 @@ class VoteCreateService
     {
     }
 
-
+    // Uložení odpovědi do databáze
     public function saveVote($validatedVoteData)
     {
         try {
@@ -44,20 +44,22 @@ class VoteCreateService
     }
 
 
+    // Uložení preferencí pro časové možnosti
     private function saveTimeOptionsVotes($vote, $data)
     {
-        $vote->timeOptions()->delete(); // Smazání předchozích hlasů pro časové možnosti, protože nejsou potřeba
+        $vote->timeOptions()->delete(); // Smazání předchozích hlasů pro časové možnosti, protože již nejsou potřeba
 
         if (isset($data['timeOptions'])) {
             $vote->timeOptions()->saveMany($this->buildTimeOptionsVotes($data['timeOptions']));
         }
     }
 
+    // Sestavení odpovědi pro časové možnosti
     private function buildTimeOptionsVotes($options): array
     {
         $timeOptionsVotes = [];
         foreach ($options as $option) {
-            if ($option['picked_preference'] === 0 || $option['invalid']) continue;
+            if ($option['picked_preference'] === 0 || $option['invalid']) continue; // Pokud nebyla preference vybrána, je možnost přeskočena
 
             $timeOptionsVotes[] = New VoteTimeOption([
                 'time_option_id' => $option['id'],
@@ -68,6 +70,7 @@ class VoteCreateService
         return $timeOptionsVotes;
     }
 
+    // Uložení preferencí pro otázky
     private function saveQuestionOptionsVotes($vote, $data)
     {
         $vote->questionOptions()->delete(); // Smazání předchozích hlasů pro otázky, protože nejsou potřeba
@@ -77,6 +80,7 @@ class VoteCreateService
         }
     }
 
+    // Sestavení odpovědi pro otázky
     private function buildQuestionOptionsVotes($questions): array
     {
         $questionOptions = [];
@@ -97,6 +101,7 @@ class VoteCreateService
     }
 
 
+    // Sestavení odpovědi
     private function buildVote($validatedVoteData): array
     {
         return [

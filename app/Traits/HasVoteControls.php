@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 
 trait HasVoteControls
 {
+    // Načtení existujícího odpovědi
     public function loadVote($voteIndex)
     {
         $vote = Vote::where('id', $voteIndex)->firstOrFail();
@@ -20,6 +21,7 @@ trait HasVoteControls
     }
 
 
+    // Odstranění odpovědi
     public function deleteVote($voteIndex)
     {
         $vote = Vote::where('id', $voteIndex)->firstOrFail();

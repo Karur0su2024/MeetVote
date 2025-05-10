@@ -21,6 +21,7 @@ class PollResultsService
     {
     }
 
+    // Získání výsledků ankety
     public function getResults($poll): array
     {
 
@@ -37,12 +38,14 @@ class PollResultsService
 
     }
 
+    // Získání dat časových možností pro výsledky ankety
     private function getTimeOptionsResultsArray($timeOptions, $preferences): array
     {
         $timeOptions = $this->addPreferencesToTimeOptions($timeOptions, $preferences['timeOptions']);
         return $this->sortByScore($timeOptions);
     }
 
+    // Získání dat otázek pro výsledky ankety
     private function getQuestionResultsArray($questions): array
     {
         $questionArray = [];
@@ -62,6 +65,7 @@ class PollResultsService
         return $questionArray;
     }
 
+    // Seřazení podle bodového ohodnocení pomocí usort
     private function sortByScore($array): array
     {
         usort($array, function ($a, $b) {
@@ -72,6 +76,7 @@ class PollResultsService
 
     }
 
+    // Získání dat konkrétní odpovědi uživatele, pokud již hlasoval
     public function getUserVote($poll): ?Vote
     {
         $vote = null;
@@ -95,6 +100,7 @@ class PollResultsService
     }
 
 
+    // Získání dat preferencí
     public function getPreferenceData($poll): array
     {
         $votes = $poll->votes;
@@ -109,6 +115,7 @@ class PollResultsService
 
     }
 
+    // Nastavení časových možností a otázek se všemi preferencemi
     private function setNotZeroPreferences($votes): array
     {
         $preferences = [
@@ -130,6 +137,7 @@ class PollResultsService
         return $preferences;
     }
 
+    // Přiřazení jednotlivých typů preferencí k časovým možnostem
     private function addPreferencesToTimeOptions($timeOptions, $preferences): array
     {
         foreach ($timeOptions as $key => $timeOption) {

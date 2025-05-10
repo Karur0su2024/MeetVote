@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 trait CanOpenModals
 {
 
+    // Zobrazení modálního okna
     public function openModal($modalName, $pollId): void
     {
         $poll = Poll::findOrFail($pollId);
@@ -26,6 +27,7 @@ trait CanOpenModals
         }
     }
 
+    // Zobrazení modálního okna pro přidání nového časové možnosti
     public function openAddNewTimeModal($pollId): void
     {
         $poll = Poll::findOrFail($pollId);
@@ -40,6 +42,7 @@ trait CanOpenModals
 
     }
 
+    // Zobrazení modálního okna s odpovědí uživatele
     public function openVoteModal($vote): void
     {
         $this->dispatch('showModal', [
@@ -51,7 +54,7 @@ trait CanOpenModals
     }
 
 
-
+    // Zobrazení modálního okna s chybovou hláškou
     public function openErrorModal(): void
     {
         $this->dispatch('showModal', [

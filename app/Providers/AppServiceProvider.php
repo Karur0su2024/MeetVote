@@ -24,9 +24,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    // Registrace do Service Containeru
     public function register(): void
     {
         $this->app->singleton(PollCreateService::class, function ($app) {
@@ -65,26 +63,31 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
+        // Pokud se uživatel zaregistruje, odešle se mu registrační email
         Event::listen(
             Registered::class,
             SendRegistrationEmail::class,
         );
 
+        // Pokud se uživatel zaregistruje, přiřadí se mu ankety a odpovědi se stejnou emailovou adresou
         Event::listen(
             Registered::class,
             AssignPollsToNewUser::class,
         );
 
+        // Pokud se vytvoří nový událost, synchronizuje se s Google kalendářem
         Event::listen(
             PollEventCreated::class,
             SyncWithGoogleCalendar::class,
         );
 
+        // Pokud se anketa znovu otevře, odstraní se předchozí synchronizace s Google kalendářem
         Event::listen(
           PollReopened::class,
           DesyncCalendarEvent::class,
         );
 
+        // Pokud se událost odstraní, odstraní se synchronizace s Google kalendářem
         Event::listen(
             PollEventDeleted::class,
             DesyncCalendarEvent::class,

@@ -8,6 +8,7 @@ use App\Models\Poll;
 class EventService
 {
 
+    // Vytvoření události
     public function createEvent(Poll $poll, $validatedEventData): Event
     {
         $event = $poll->event;
@@ -24,6 +25,7 @@ class EventService
         return $event;
     }
 
+    // Sestavení události
     public function buildEvent($event): array
     {
         return [
@@ -35,6 +37,7 @@ class EventService
         ];
     }
 
+    // Sestavení události pro zobrazení v modálním okně
     public function buildEventArrayFromValidatedData($poll, $results): array
     {
 

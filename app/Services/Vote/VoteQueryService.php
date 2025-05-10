@@ -16,12 +16,7 @@ class VoteQueryService{
     ) {}
 
 
-    /**
-     * Metoda pro získaní dat pro hlasování.
-     * @param Poll $poll Anketa, pro kterou se získávají data.
-     * @param $voteId / V případě nenullové hodnoty, se načte existující hlas i se zvolenými preferencemi.
-     * @return array Pole s daty o hlasu.
-     */
+    // Získaní dat pro hlasovací formulář
     public function getPollData($pollIndex): array
     {
         $poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex);
@@ -38,11 +33,12 @@ class VoteQueryService{
             'message' => $vote->message ?? '',
             'time_options' => $this->timeOptionQueryService->getVotingArray($poll, $vote), // Pole časových možností
             'questions' => $this->questionQueryService->getVotingArray($poll, $vote), // Pole otázek
-            'vote_index' => $vote->id ?? null, // Id existujícího hlasu pro případnou její změnu
+            'vote_index' => $vote->id ?? null, // Id existujícího odpovědi pokud je uživatel přihlášený a už hlasoval
         ];
     }
 
 
+    // Získání existují odpovědi, pokud je existuje
     public function getVote(Poll $poll): ?Vote
     {
         if(Auth::check()) {
@@ -51,11 +47,6 @@ class VoteQueryService{
                 return $vote;
             }
         }
-
-
-
-
-        //Dopsat pro nepřihlášené uživatele
 
         return null;
     }

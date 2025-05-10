@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 class CommentPolicy
 {
 
+    // Kontrola zda může uživatel odstranit komentář
     public function delete(?User $user, Comment $comment): bool
     {
         if(Gate::allows('isAdmin', $comment->poll)) {

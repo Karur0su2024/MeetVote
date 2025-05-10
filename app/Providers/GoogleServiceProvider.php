@@ -12,9 +12,8 @@ use App\Interfaces\GoogleServiceInterface;
 
 class GoogleServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
+    // Pokud je Google povoleno, použije se GoogleService
+    // Jinak se použije GoogleServiceEmpty, který neprovádí žádné akce
     public function register(): void
     {
         if($this->isConfigured()){

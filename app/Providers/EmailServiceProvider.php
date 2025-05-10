@@ -24,6 +24,8 @@ class EmailServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Pokud je odesílání emailů povoleno, použije se EmailService
+        // Jinak se použije EmailServiceEmpty, který neprovádí žádné akce
         if(config('mail.allowed')){
             $this->app->singleton(EmailServiceInterface::class, function ($app) {
                 return new EmailService();
@@ -38,9 +40,7 @@ class EmailServiceProvider extends ServiceProvider
 
     }
 
-    /**
-     * Bootstrap services.
-     */
+    // Registrace listenerů pro eventy, které odesílají emaily
     public function boot(): void
     {
         Event::listen(

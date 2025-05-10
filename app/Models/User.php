@@ -11,14 +11,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
-    use HasFactory;
-    use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -29,21 +21,11 @@ class User extends Authenticatable
         'calendar_access',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -60,6 +42,7 @@ class User extends Authenticatable
     }
 
 
+    // Accessor a mutator pro přístupový token
     public function googleToken(): Attribute
     {
         return Attribute::make(
@@ -68,6 +51,7 @@ class User extends Authenticatable
         );
     }
 
+    // Accessor a mutator pro obnovovací token
     public function googleRefreshToken(): Attribute
     {
         return Attribute::make(
