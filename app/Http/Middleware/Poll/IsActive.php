@@ -8,11 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IsActive
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Kontrola, zda je anketa aktivní
     public function handle(Request $request, Closure $next): Response
     {
         if($request->poll->isActive()){

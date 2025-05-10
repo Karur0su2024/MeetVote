@@ -13,7 +13,7 @@ function votingForm() {
                     return
                 }
                 this.form.timeOptions[optionIndex].picked_preference = preference;
-            } else if (type == 'question') {
+            } else if (type === 'question') {
                 this.form.questions[questionIndex].options[optionIndex].picked_preference = preference;
             }
         },

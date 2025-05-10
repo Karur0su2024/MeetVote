@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class IsInviteOnly
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Kontrola, zda je anketa pouze pro pozvané
     public function handle(Request $request, Closure $next): Response
     {
         if(Gate::allows('hasValidInvitation', $request->poll)){

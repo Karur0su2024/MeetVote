@@ -12,16 +12,19 @@ use Illuminate\Support\Facades\Hash;
 
 class PollController extends Controller
 {
+    // Zobrazení formuláře pro vytvoření ankety
     public function create()
     {
         return view('pages.polls.create');
     }
 
+    // Zobrazeny stránky ankety
     public function show(Poll $poll)
     {
         return view('pages.polls.show', compact('poll'));
     }
 
+    // Zobrazení formuláře pro úpravu ankety
     public function edit(Poll $poll)
     {
         $pollIndex = $poll->id;
@@ -31,17 +34,20 @@ class PollController extends Controller
         return view('pages.polls.edit', compact('pollIndex', 'pollTitle', 'publicId', 'pollDeadline'));
     }
 
+    // Odstranění ankety
     public function destroy(Poll $poll)
     {
         $poll->delete();
         return redirect()->route('dashboard')->with('success', 'Poll deleted successfully');
     }
 
+    // Přesměrování na stránku pro ověření heslem
     public function authentication(Poll $poll)
     {
         return view('pages.polls.authenticate', ['poll' => $poll]);
     }
 
+    // Ověření hesla
     public function checkPassword(Request $request, Poll $poll)
     {
         if(Hash::check($request->password, $poll->password)) {
@@ -51,7 +57,7 @@ class PollController extends Controller
         return redirect()->back()->with('error', 'Wrong password');
     }
 
-
+    // Otevření ankety pomocí pozvánky
     public function openPollWithInvitation($token, InvitationService $invitationService)
     {
         $poll = $invitationService->checkInvitation($token);
@@ -60,6 +66,7 @@ class PollController extends Controller
     }
 
 
+    // Nastavení práva pro správce
     public function addAdmin(Poll $poll, $admin_key)
     {
         if ($admin_key !== $poll->admin_key) {

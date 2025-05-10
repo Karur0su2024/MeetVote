@@ -9,11 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CanEdit
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Kontrola, zda má uživatel pravomoci pro úpravu ankety
     public function handle(Request $request, Closure $next): Response
     {
         if(Gate::allows('isAdmin', $request->poll)){

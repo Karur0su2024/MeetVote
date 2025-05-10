@@ -8,11 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckIfConnectedToGoogle
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Kontrola, zda je uživatel připojen k Google
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();

@@ -9,11 +9,8 @@ use Illuminate\Support\Facades\Gate;
 
 class AlreadyHasAccess
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Kontrola, zda se uživatel již prokázal heslem
+    // Pro případ, kdy chce zobrazit stránku s ověřením heslem
     public function handle(Request $request, Closure $next): Response
     {
 

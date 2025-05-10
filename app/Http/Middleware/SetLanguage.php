@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\App;
 
 class SetLanguage
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Nastavení jazyka uloženého v session
     public function handle(Request $request, Closure $next): Response
     {
         App::setLocale(session()->get('language', 'en'));

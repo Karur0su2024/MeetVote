@@ -11,6 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Poll;
 
+// Znovuotevření ankety
 class PollReopened
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

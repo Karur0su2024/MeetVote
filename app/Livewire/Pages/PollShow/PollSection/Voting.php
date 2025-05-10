@@ -106,12 +106,10 @@ class Voting extends Component
         if(Auth::guest()){
             $vote = $this->poll->votes->where('voter_email', $this->form->user['email'])->first();
             if($vote) {
-                $this->addError('error', 'You have already voted for this poll.');
                 return true;
             }
             $user = User::where('email', $this->form->user['email'])->get()->first();
             if($user){
-                $this->addError('error', 'You can\'t vote with this address.');
                 return true;
             }
         }

@@ -37,6 +37,7 @@ class GoogleCalendarService
 
     }
 
+    // Metoda pro odstranění události z Google Kalendáře
     public function desyncEvent(Event $event, $userIndex)
     {
         $syncEvent = $event->syncedEvents()->where('user_id', $userIndex)->first();
@@ -53,6 +54,7 @@ class GoogleCalendarService
 
     }
 
+    // Metoda pro sestavení objektu GoogleEvent
     public function buildGoogleEvent($event)
     {
         $description = $event->description;
@@ -75,6 +77,7 @@ class GoogleCalendarService
     }
 
 
+    // Metoda pro získání událostí z Google Kalendáře pro časovou možnost
     public function getCalendarEvents($option)
     {
         $calendarList = $this->calendar->calendarList->listCalendarList();
@@ -98,6 +101,7 @@ class GoogleCalendarService
     }
 
 
+    // Metoda pro převod data a času do formátu pro Google Kalendář
     private function getCalendarDateTimeFormat($date, $time): string
     {
         $datetime = $date . ' ' . $time;

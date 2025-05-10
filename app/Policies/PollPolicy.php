@@ -64,9 +64,6 @@ class PollPolicy
                 return false;
             }
         }
-
-
-
         return $poll->isActive();
 
     }

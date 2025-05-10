@@ -12,6 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
+// Odeslání pozvánek
 class InvitationSent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;

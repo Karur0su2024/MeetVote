@@ -9,11 +9,7 @@ use Carbon\Carbon;
 
 class SetTimezone
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+    // Nastavení časového pásma na základě nastavení ankety
     public function handle(Request $request, Closure $next): Response
     {
         date_default_timezone_set($request->poll->timezone);

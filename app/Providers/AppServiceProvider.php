@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Events\PollReopened;
-use App\Listeners\AssingPollsToUserByEmail;
+use App\Listeners\AssignPollsToNewUser;
 use App\Listeners\DesyncCalendarEvent;
 use App\Listeners\SendRegistrationEmail;
 use App\Listeners\SyncWithGoogleCalendar;
@@ -72,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(
             Registered::class,
-            AssingPollsToUserByEmail::class,
+            AssignPollsToNewUser::class,
         );
 
         Event::listen(

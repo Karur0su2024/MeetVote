@@ -7,7 +7,7 @@ use App\Models\Vote;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class AssingPollsToUserByEmail
+class AssignPollsToNewUser
 {
     /**
      * Create the event listener.

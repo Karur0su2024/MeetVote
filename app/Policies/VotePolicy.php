@@ -21,9 +21,6 @@ class VotePolicy
             return false;
         }
 
-
-
-
         return true;
 
     }
