@@ -17,7 +17,7 @@
 
             <template x-if="questions.length > 0">
                 <template x-for="(question, questionIndex) in questions">
-                    {{-- Základní informace o anketě --}}
+                    {{-- Komponenta s jednou otázkou --}}
                     <x-pages.poll-editor.questions.question/>
 
                 </template>
@@ -34,7 +34,7 @@
                 {{ __('pages/poll-editor.questions.button.add_question') }}
             </x-ui.button>
 
-            @error('questions')
+            @error('form.questions')
             <span class="text-danger ms-2">{{ $message }}</span>
             @enderror
         </x-slot:body>

@@ -38,6 +38,7 @@
              x-show="!collapsed"
              x-collapse>
             <template x-for="(option, optionIndex) in date" :key="optionIndex">
+                {{-- Časová možnost --}}
                 <x-pages.poll-editor.time-options.date-option/>
             </template>
 
@@ -50,6 +51,7 @@
                 </x-ui.alert>
             </div>
         </span>
+            {{-- Tlačítka pro přidání nové možnosti --}}
             <div class="d-flex flex-wrap flex-md-nowrap align-items-center gap-2 mt-1">
                 <x-ui.button color="outline-secondary"
                              class="w-100 w-md-auto py-2"

@@ -29,6 +29,7 @@ return [
                 'hide_results' => 'Skryté výsledky',
                 'password_protected' => 'Chráněno heslem',
                 'add_time_options' => 'Hlasující mohou přidávat časové možnosti',
+                'allow_invalid' => 'Hlasující mohou hlasovat pro již propadlé možnosti',
             ],
         ],
     ],

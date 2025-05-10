@@ -8,6 +8,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(
 import moment from 'moment';
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Automatické nastavení tmavého režimu
     // Získání aktuálního stavu tmavého režimu z HTML tagu
     console.log(document.documentElement.getAttribute('data-bs-theme'));
     let iconElement = document.getElementById('darkmode-toggle-icon');
@@ -16,10 +17,5 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         iconElement.className = 'bi bi-brightness-high-fill';
     }
-
-
-// Funkce pro přepnutí režimu
-
-
 
 });

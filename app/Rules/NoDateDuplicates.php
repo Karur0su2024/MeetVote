@@ -21,7 +21,7 @@ class NoDateDuplicates implements ValidationRule
             $optionArray[] = $this->convertContentToText($option);
         }
         if(count($optionArray) !== count(array_unique($optionArray))) {
-            $fail('Duplicate time options are not allowed.');
+            $fail(__('pages/poll-editor.time_options.error_messages.duplicate_options'));
             return;
         }
     }

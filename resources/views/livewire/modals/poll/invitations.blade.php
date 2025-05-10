@@ -1,3 +1,4 @@
+{{-- Modální okno s správcem pozvánek --}}
 <div>
     <x-ui.modal.header>
         {{ __('ui/modals.invitations.title') }}

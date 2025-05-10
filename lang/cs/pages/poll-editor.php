@@ -45,6 +45,7 @@ return [
             'placeholder' => 'adresa@email.com',
         ],
     ],
+    // Sekce s časovými možnostmi
     'time_options' => [
         'title' => 'Časové možnosti',
         'section_titles' => [
@@ -73,17 +74,25 @@ return [
             'format_start' => 'Začátek časové možnosti je ve špatném formátu.',
             'format_end' => 'Konec časové možnosti je ve špatném formátu.',
             'after_start' => 'Konec časové možnosti musí být po začátku.',
+        'duplicate_options' => 'Duplicitní časové možnosti nejsou povoleny.',
         ],
     ],
+    // Sekce s otázkami
     'questions' => [
-        'title' => 'Dodatečné otázky',
-        'tooltip' => 'Přidejte dodatečné otázky do ankety. Otázky nejsou povinné.',
+        'title' => 'Otázky',
+        'tooltip' => 'Přidejte dodatečné otázky do ankety, např. pro výběr lokace nebo typu akce.',
         'alert' => [
             'no_questions' => 'Zatím nebyly přidány žádné otázky.',
         ],
         'label' => [
             'question' => 'Otázka',
             'option' => 'Možnost',
+        ],
+        'messages' => [
+            'error' => [
+                'duplicate_titles' => 'Duplicitní názvy otázek nejsou povoleny.',
+                'duplicate_options' => 'Duplicitní možnosti otázek nejsou povoleny.',
+            ],
         ],
         'button' => [
             'add_option' => 'Přidat možnost',
@@ -94,6 +103,10 @@ return [
     'settings' => [
         'title' => 'Nastavení',
         'tooltip' => 'Nastavte možnosti ankety.',
+        'section_titles' => [
+            'security' => 'Zabezpečení ankety',
+            'settings' => 'Nastavení ankety',
+        ],
         'comments' => [
             'label' => 'Povolit komentáře',
             'tooltip' => 'Povolit účastníkům přidávat komentáře k anketě.',
@@ -114,6 +127,10 @@ return [
             'label' => 'Uživatelé mohou přidávat časové možnosti',
             'tooltip' => 'Povolit účastníkům přidávat vlastní časové možnosti do ankety.',
         ],
+        'allow_invalid' => [
+            'label' => 'Povolit hlasování pro již propadlé možnosti',
+            'tooltip' => 'Povolit účastníkům hlasovat pro možnosti, které jsou v minulosti',
+        ],
         'password' => [
             'label' => 'Heslo',
             'tooltip' => 'Nastavte heslo pro anketu. Přístup k anketě budou mít pouze uživatelé s heslem.',
@@ -130,6 +147,7 @@ return [
         'error' => [
             'dirty' => 'Anketa byla upravena jiným uživatelem. Obnovte prosím stránku.',
             'saving' => 'Při ukládání ankety došlo k chybě.',
+            'general' => 'Formulář obsahuje chyby. Zkontrolujte prosím všechna pole.',
         ],
 
 

@@ -1,3 +1,4 @@
+{{-- Sekce s komentáři --}}
 <x-ui.card body-padding="0" header-hidden>
     @if ($poll->pollComments)
         <div wire:init="loadComments">

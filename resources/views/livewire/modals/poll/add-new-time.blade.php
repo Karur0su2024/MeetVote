@@ -1,3 +1,4 @@
+{{-- Modální okno pro přidání nové časové možnosti --}}
 <div>
     <x-ui.modal.header :poll="$poll">
         {{ __('ui/modals.add_new_time_option.title', ['poll_title' => $poll->title]) }}

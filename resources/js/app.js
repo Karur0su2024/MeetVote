@@ -18,6 +18,7 @@ import '../../public/js/modal.js';
 import 'moment';
 
 // https://srwiez.com/posts/improved-handling-of-404-errors-with-livewire
+// Přesměrování na stránku s errorem, pokud je něco špatně při zpracování Livewire requestu
 document.addEventListener('livewire:init', () => {
     Livewire.hook('request', ({ fail }) => {
         fail(({ status, preventDefault }) => {

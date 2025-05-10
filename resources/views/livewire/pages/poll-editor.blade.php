@@ -1,3 +1,4 @@
+{{-- Formulář pro vytvoření a úpravu ankety --}}
 <div>
 
 
@@ -43,7 +44,7 @@
 
                 @if ($errors->any())
                     <span class="text-danger">
-                        Form contains errors. Please check the fields.
+                        {{ __('pages/poll-editor.messages.error.general') }}
                     </span>
 
                  @endif

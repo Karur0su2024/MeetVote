@@ -1,7 +1,6 @@
 <div
     class="p-2 mb-2 rounded border"
     :class="{ 'existing-option': option.id }">
-    <!-- Zobrazení časového intervalu -->
     <div
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">
         {{-- Pole pro zadání začátku časového intervalu  --}}
@@ -22,6 +21,7 @@
                        :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
             </div>
         </template>
+        {{-- Zobrazení textového pole pro zadání textu --}}
         <template x-if="option.type === 'text'">
             <input type="text"
                    x-model="dates[dateIndex][optionIndex].content.text"
@@ -32,8 +32,6 @@
         </template>
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-
-
         <x-ui.button @click="removeOption(dateIndex, optionIndex)"
                      color="danger"
                      ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">

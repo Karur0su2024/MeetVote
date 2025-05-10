@@ -19,7 +19,7 @@
             {{ __('pages/poll-editor.settings.comments.label') }}
         </x-ui.form.checkbox>
 
-        {{-- Tajné hlasování --}}
+        {{-- Anonymní hlasování --}}
         <x-ui.form.checkbox id="anonymous" wire:model="form.settings.anonymous_votes">
             <x-slot:tooltip>
                 {{ __('pages/poll-editor.settings.anonymous.tooltip') }}
@@ -64,7 +64,7 @@
             </x-ui.form.checkbox>
         @endauth
 
-
+        {{-- Nastavení hesla --}}
         <div x-data="{ password:  @entangle('form.password') }">
             <div x-show="password.set !== null">
                 <x-ui.button color="danger"
@@ -92,6 +92,5 @@
         </div>
 
     </x-slot:body>
-    {{-- Heslo --}}
 
 </x-ui.card>

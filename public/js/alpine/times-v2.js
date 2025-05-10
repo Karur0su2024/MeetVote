@@ -8,7 +8,7 @@ function TimeOptionsForm() {
         dateErrors: {},
         optionErrors: {},
 
-        // Inicializace jskalendáře
+        // Inicializace FullCalendar
         // https://fullcalendar.io/
         initCalendar: function () {
             var calendarEl = document.getElementById('calendar');
@@ -23,7 +23,7 @@ function TimeOptionsForm() {
             calendar.render();
         },
 
-        // Funkce pro přidání data do formuláře
+        // Funkce pro přidání nového data do formuláře
         // https://momentjs.com/docs/
         addDate(date) {
             let formattedDate = moment(date).format('YYYY-MM-DD'); // Formát (2025-03-01)
@@ -50,7 +50,6 @@ function TimeOptionsForm() {
         removeDate(date) {
 
             if (Object.keys(this.dates).length === 1) {
-                // Přidat error message pokud se jedná o poslední datum
                 return;
             }
 
@@ -67,6 +66,7 @@ function TimeOptionsForm() {
 
         },
 
+        // Funkce pro přidání nové textové možnosti
         addTextOption(date) {
             this.dates[date].push({
                 type: "text",
@@ -79,6 +79,8 @@ function TimeOptionsForm() {
             });
         },
 
+        // Funkce pro přidání nové časové možnosti typu čas
+        // Může být automatická nebo prázdná
         addTimeOption(date, empty){
             let lastEnd;
             let end;
@@ -108,7 +110,7 @@ function TimeOptionsForm() {
             });
         },
 
-
+        // Funkce pro odstranění časové možnosti
         removeOption(date, index) {
 
             // Odstranění časové možnosti z formuláře
@@ -128,7 +130,7 @@ function TimeOptionsForm() {
             }
         },
 
-        // Zjištění posledního konce časového intervalu pokud existuje
+        // Zjištění posledního konce časové možnosti pokud existuje
         getLastEnd(dateIndex) {
 
             let lastEnd = null;
@@ -147,6 +149,7 @@ function TimeOptionsForm() {
 
 
 
+        // Funkce pro vypsání chybových hlášek
         duplicateError(errors) {
             this.dateErrors = {};
             this.optionErrors = {};

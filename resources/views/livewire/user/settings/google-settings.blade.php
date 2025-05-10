@@ -1,3 +1,4 @@
+{{-- Sekce na stránce nastavení pro připojení Google účtu a Kalendáře --}}
 <x-ui.card header-hidden>
     <x-slot:body-header>
         <h2 class="mb-3">

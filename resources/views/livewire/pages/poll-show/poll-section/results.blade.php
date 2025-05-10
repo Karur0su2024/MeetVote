@@ -1,6 +1,6 @@
 {{--
 
-TODO: Přidat souhrn výsledků sem, pomocí karet
+IDEA: Přidat nějaký hezčí souhrn výsledků
 IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
 --}}

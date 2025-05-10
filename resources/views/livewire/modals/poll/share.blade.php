@@ -1,6 +1,8 @@
+{{-- Modální okno s odkazy pro sdílení --}}
 <div>
     <div x-data="() => {
         return {
+        // Alpine.js pro zkopírování URL adresy
                 link: false,
                 admin_link: false,
                 copyToClipboard(id) {

@@ -1,3 +1,4 @@
+{{-- Modální okno s konkrétní odpovedí --}}
 <div>
     <x-ui.modal.header>
         {{ __('ui/modals.results.title') }}

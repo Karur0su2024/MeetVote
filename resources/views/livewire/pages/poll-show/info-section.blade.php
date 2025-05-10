@@ -19,6 +19,7 @@
 
                             {{ __('pages/poll-show.settings.dropdown.share_poll') }}
                         </x-ui.button>
+                        {{-- Nabídka pro správu ankety --}}
                         <x-ui.dropdown.wrapper id="poll-options-dropdown" size="md" wrapper="div" color="outline-primary">
                             <x-slot:header>
                                 <x-ui.icon class="gear me-1"/>
@@ -75,10 +76,10 @@
 
             <x-slot:footer class="flex-wrap">
                 <x-ui.badge>
-                    Timezone:
                     {{ $poll->timezone }} ({{  date('P') }})
                 </x-ui.badge>
 
+                {{-- Badges s parametry nastavení ankety --}}
                 @foreach($poll->settings as $attributeName => $attribute)
                     @if($attribute)
                         <x-ui.badge>

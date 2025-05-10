@@ -1,3 +1,4 @@
+{{-- Dashboard  uživatele --}}
 <div class="text-start" x-data="{ opened: 'Polls' }">
 
     <div class="mb-3">

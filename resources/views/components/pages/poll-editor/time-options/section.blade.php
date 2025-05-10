@@ -9,7 +9,7 @@
 
 <div x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
 
-    {{-- Základní informace o anketě --}}
+
     <x-ui.card header-hidden>
         <x-slot:body-header>
             <h2 class="mb-3 px-3">
@@ -24,7 +24,7 @@
 
         <x-slot:body class="px-sm-0">
 
-
+                {{-- Blok s kalendářem --}}
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="card p-3 shadow-sm">
@@ -42,6 +42,7 @@
 
                         </div>
                     </div>
+                    {{-- Blok s časovými možnostmi --}}
                     <div class="col-lg-6">
 
                         <div class="card p-3 h-100">

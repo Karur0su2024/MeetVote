@@ -100,6 +100,9 @@ class PollEditorForm extends Form
             'dates.*.*.content.end.after' => __('pages/poll-editor.time_options.error_messages.after_start'),
 
             'dates.*.*.content.text.required_if' => __('pages/poll-editor.time_options.error_messages.empty_text'),
+
+            'questions.*.options.*.text.required' => __('pages/poll-editor.time_options.error_messages.empty_text'),
+
         ];
     }
 

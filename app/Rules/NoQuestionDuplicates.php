@@ -20,7 +20,7 @@ class NoQuestionDuplicates implements ValidationRule
         }
 
         if(count($questionArray) !== count(array_unique($questionArray))) {
-            $fail('Duplicate question titles are not allowed.');
+            $fail(__('pages/poll-editor.questions.messages.error.duplicate_titles'));
             return;
         }
     }

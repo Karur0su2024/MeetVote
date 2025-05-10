@@ -1,3 +1,5 @@
+{{-- Staré modální okno, už nepoužívané --}}
+
 <div>
     <x-ui.modal.header>
         {{ __('ui/modals.choose_final_options.title') }}

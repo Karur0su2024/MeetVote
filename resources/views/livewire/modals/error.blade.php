@@ -1,3 +1,4 @@
+{{-- Modální okno s chybovou hláškou --}}
 <div>
     <div class="modal-header">
         <h5 class="modal-title">Close Poll</h5>

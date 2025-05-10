@@ -1,3 +1,4 @@
+{{-- Modální okno pro odstranění ankety --}}
 <div>
     <x-ui.modal.header>
         {{ __('ui/modals.delete_poll.title') }}

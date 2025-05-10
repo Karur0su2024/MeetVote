@@ -21,7 +21,7 @@ class NoQuestionOptionDuplicates implements ValidationRule
         }
 
         if(count($optionsText) !== count(array_unique($optionsText))) {
-            $fail('Duplicate question option titles are not allowed.');
+            $fail(__('pages/poll-editor.questions.messages.error.duplicate_options'));
             return;
         }
     }

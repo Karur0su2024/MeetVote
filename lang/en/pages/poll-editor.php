@@ -70,6 +70,7 @@ return [
             'format_start' => 'Start of time option is in wrong format.',
             'format_end' => 'End of time option is in wrong format.',
             'after_start' => 'End of time option must be after start.',
+            'duplicate_options' => 'Duplicate time options are not allowed.',
         ],
     ],
     'questions' => [
@@ -81,6 +82,12 @@ return [
         'label' => [
             'question' => 'Question',
             'option' => 'Option',
+        ],
+        'messages' => [
+            'error' => [
+                'duplicate_titles' => 'Duplicate question titles are not allowed.',
+                'duplicate_options' => 'Duplicate question options are not allowed.',
+            ],
         ],
         'button' => [
             'add_option' => 'Add option',
@@ -139,6 +146,7 @@ return [
         'error' => [
             'dirty' => 'The poll has been updated by another user. Please refresh the page.',
             'saving' => 'An error occurred while saving the poll.',
+            'general' => 'Form contains errors. Please check the fields.',
         ],
     ],
 

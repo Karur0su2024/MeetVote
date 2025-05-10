@@ -1,3 +1,4 @@
+{{-- Modální okno pro vytvoření události --}}
 <div>
     <x-ui.modal.header>
         {{ __('ui/modals.create_event.title', ['poll_title' => $poll->title]) }}

@@ -1,3 +1,4 @@
+{{-- Modální okno pro uzavření/znovuotevření ankety --}}
 <div class="modal-content">
     <x-ui.modal.header>
         @if($poll->isActive())
