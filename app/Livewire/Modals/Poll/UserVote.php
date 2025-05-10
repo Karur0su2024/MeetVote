@@ -9,7 +9,7 @@ use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
-
+// Modální okno s konkrétní odpovědí
 class UserVote extends Component
 {
     use HasVoteControls;

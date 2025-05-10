@@ -6,6 +6,7 @@ use App\Models\Poll;
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
 
+// Modální okno pro sdílení ankety
 class Share extends Component
 {
     public $poll;

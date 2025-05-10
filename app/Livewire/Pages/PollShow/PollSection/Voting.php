@@ -43,6 +43,7 @@ class Voting extends Component
         $this->loaded = true;
     }
 
+    // Odeslání odpovědi
     public function submitVote(
         VoteCreateService $voteCreateService,
     ): void
@@ -79,6 +80,7 @@ class Voting extends Component
         }
     }
 
+    // Aktualizace formuláře
     #[On('refreshPoll')]
     public function refreshPoll(VoteQueryService $voteQueryService): void
     {
@@ -87,6 +89,7 @@ class Voting extends Component
     }
 
 
+    // Kontrola dostupnosti
     public function checkAvailability(GoogleService $googleService): void
     {
         $user = Auth::user();
@@ -101,6 +104,7 @@ class Voting extends Component
 
     }
 
+    // Kontrola, zda uživatel může použít zvolenou e-mailovou adresu
     private function isEmailInvalid(): bool
     {
         if(Auth::guest()){

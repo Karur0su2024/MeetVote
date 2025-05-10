@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Rules\CheckIfTimeOptionExists;
 use Illuminate\Support\Facades\Gate;
 
+// Modální okno pro přidání nové časové možnosti na stránce ankety
 class AddNewTime extends Component
 {
     public $poll;

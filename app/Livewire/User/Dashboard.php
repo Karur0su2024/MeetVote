@@ -20,7 +20,6 @@ class Dashboard extends Component
 
     public function mount()
     {
-        //$this->events = Auth::user()->votes()->with('poll')->with('poll.event')->get();
 
         $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
 
@@ -29,6 +28,7 @@ class Dashboard extends Component
         $this->votes = Auth::user()->votes()->with('poll')->orderBy('created_at', 'desc')->limit(3)->get();
     }
 
+    // Načtení anket podle jejich stavu
     public function filterByStatus($status){
         $this->status = $status;
         if ($status === 'all') {
@@ -44,6 +44,5 @@ class Dashboard extends Component
         return view('livewire.user.dashboard');
     }
 
-    // Načtení anket
 
 }

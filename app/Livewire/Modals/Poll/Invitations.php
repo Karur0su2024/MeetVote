@@ -9,9 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
-/**
- *
- */
+// Modální okno pro správu pozvánek
 class Invitations extends Component
 {
     public $poll;
@@ -23,6 +21,7 @@ class Invitations extends Component
         $this->poll->load('invitations');
     }
 
+    // Metoda po odeslání formuláře
     public function addInvitations()
     {
         if(Gate::denies('invite', $this->poll)) {
@@ -30,15 +29,17 @@ class Invitations extends Component
             return;
         }
 
+        // Rozdělení emailů podle čárek, středníků nebo nových řádků
         $validEmails = $this->processEmails(preg_split('/[,;\n]/', $this->emails, -1, PREG_SPLIT_NO_EMPTY));
 
         $invitations = $this->poll->invitations()->createMany($validEmails);
 
-        InvitationSent::dispatch($invitations);
+        InvitationSent::dispatch($invitations); // Odeslání pozvánek
 
         $this->poll->refresh();
     }
 
+    // Zpracování emailů do pozvánek
     private function processEmails($emailArray){
         $invalidEmails = [];
         $validEmails = [];
@@ -46,6 +47,7 @@ class Invitations extends Component
         foreach($emailArray as $email) {
             $email = trim($email);
 
+            // Kontrola formátu emailu
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $invalidEmails[] = $email;
                 $this->addError('error', 'Some emails you entered are invalid');
@@ -63,6 +65,7 @@ class Invitations extends Component
         return $validEmails;
     }
 
+    // Odstranění pozvánky
     public function removeInvitation($id)
     {
         $invitation = Invitation::find($id);
@@ -77,10 +80,7 @@ class Invitations extends Component
         $this->poll->refresh();
     }
 
-    /**
-     * @param $id
-     * @return void
-     */
+    // Znovuodelání pozvánky
     public function resendInvitation($id)
     {
 

@@ -41,6 +41,7 @@ class CommentsSection extends Component
     }
 
 
+    // Načtení komentářů
     public function loadComments()
     {
         $this->loadedComments = false;
@@ -52,7 +53,7 @@ class CommentsSection extends Component
 
 
 
-    // Validace formuláře
+    // Přidání komentáře
     public function addComment()
     {
         $this->validate([

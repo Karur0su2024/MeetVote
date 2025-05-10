@@ -11,7 +11,7 @@ use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
-
+// Modální okno pro uzavření a znovuotevření ankety
 class ClosePoll extends Component
 {
     public $poll;

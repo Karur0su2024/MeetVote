@@ -7,6 +7,7 @@ use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
 use Livewire\Component;
 
+// Nepoužívaná třída
 class PollResultsSection extends Component
 {
     use CanOpenModals;

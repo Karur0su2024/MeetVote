@@ -4,6 +4,7 @@ namespace App\Livewire\Modals;
 
 use Livewire\Component;
 
+// Modální okno s chybovou hláškou
 class Error extends Component
 {
 

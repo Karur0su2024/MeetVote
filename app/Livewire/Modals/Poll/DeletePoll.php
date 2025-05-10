@@ -6,6 +6,7 @@ use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
+// Modální okno pro smazání ankety
 class DeletePoll extends Component
 {
     public $poll;

@@ -10,6 +10,7 @@ use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
+// Přehled výsledků ankety
 class Results extends Component
 {
 
@@ -57,6 +58,7 @@ class Results extends Component
         $this->loadedVotes = true;
     }
 
+    // Vložení výsledků do modálního okna pro vytvoření události
     public function insertToEventModal(EventService $eventService): void
     {
         if(Gate::denies('hasAdminPermissions', $this->poll)){

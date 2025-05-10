@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+// Modální okno pro vytvoření události
 class CreateEvent extends Component
 {
     public $poll;

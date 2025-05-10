@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 
+// Sekce s detaily o anketě
 class InfoSection extends Component
 {
     use CanOpenModals;
@@ -51,6 +52,7 @@ class InfoSection extends Component
         }
     }
 
+
     public function createEvent()
     {
         if (Gate::denies('createEvent', $this->poll)) {
@@ -66,19 +68,21 @@ class InfoSection extends Component
     }
 
     // https://github.com/spatie/calendar-links
+    // Import do Google kalendáře
     public function importToGoogleCalendar(): RedirectResponse
     {
         $link = $this->buildLink();
         return redirect()->away($link->google());
     }
 
+    // Import do kalendáře Outlook
     public function importToOutlookCalendar()
     {
         $link = $this->buildLink();
         return redirect()->away($link->webOutlook());
     }
 
-
+    // Sestavení odkazu pro import do kalendáře
     private function buildLink()
     {
         $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time']);

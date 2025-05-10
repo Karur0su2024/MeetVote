@@ -11,6 +11,8 @@ use App\Services\TimeOptionService;
 use Carbon\Carbon;
 use Livewire\Component;
 
+// Starý modal pro výběr finálních možností
+// Nahrazeno komponentou app/Livewire/Pages/PollShow/PollSection/Results.php
 class ChooseFinalOptions extends Component
 {
     public $poll;

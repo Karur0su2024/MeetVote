@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
+// Formulář pro vytvoření a editaci ankety
 class PollEditor extends Component
 {
 
@@ -26,8 +27,10 @@ class PollEditor extends Component
         $this->poll = Poll::where('id', $pollIndex)->first();
         $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
 
-        $this->timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+        $this->timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL); // Načtení všech časových pásem
     }
+
+    // Odeslání formuláře
     public function submit(PollCreateService $pollCreateService)
     {
 
@@ -41,6 +44,7 @@ class PollEditor extends Component
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
             return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (ValidationException $e) {
+            // Kontrola validace
             $this->dispatch('validation-failed', errors: $e->errors());
             throw $e;
         } catch (PollException $e) {
@@ -53,6 +57,7 @@ class PollEditor extends Component
 
     }
 
+    // Kontrola, zda se anketa mezitím nezměnila
     private function canUpdate(): bool
     {
         if ($this->pollIndex) {
