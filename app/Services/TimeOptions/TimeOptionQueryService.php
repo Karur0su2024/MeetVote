@@ -13,7 +13,6 @@ class TimeOptionQueryService
     // Načtení časových možností pro anketu
     public function getTimeOptionsArray(Poll $poll): array
     {
-
         // Pokud není anketa nastavena, vrátí jednu časovou možnost.
         if ($poll->id === null) {
             return $this->initialTimeOption();
@@ -37,10 +36,11 @@ class TimeOptionQueryService
             $datetime = $timeOption->date . ' ' . $time;
 
 
+
             $timeOptions[$timeOption->id] = [
                 'id' => $timeOption->id,
                 'date' => $timeOption->date,
-                'date_formatted' => Carbon::parse($timeOption->date)->format('l, F d, Y'),
+                'date_formatted' => Carbon::parse($timeOption->date)->locale(session()->get('language', 'en'))->translatedFormat('l, F d, Y'),
                 'type' => $timeOption->start ? 'time' : 'text',
                 'content' => $content,
                 'datetime' => $datetime,
