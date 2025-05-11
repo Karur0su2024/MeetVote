@@ -56,19 +56,24 @@ php artisan key:generate
 
 ### 4. Configure .env file
 ```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_CONNECTION=mariadb
+DB_HOST=mariadb
 DB_PORT=3306
 DB_DATABASE=meetvote
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
+DB_CHARSET=utf8mb4
+DB_COLLATION=utf8mb4_general_ci
 
+MAIL_ALLOWED=true
 MAIL_MAILER=smtp
 MAIL_HOST=your_smtp_host
-MAIL_PORT=587
+MAIL_PORT=2525
 MAIL_USERNAME=your_email
 MAIL_PASSWORD=your_password
 MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_TIMEOUT=10
 ```
 ### 5. Run migrations
 ```bash
@@ -80,6 +85,8 @@ php artisan migrate
 php artisan serve
 npm run dev
 ```
+
+
 
 
 ## Google API Configuration
@@ -95,6 +102,7 @@ For full functionality including Google Calendar synchronization, you need to co
     GOOGLE_CLIENT_ID=your-client-id
     GOOGLE_CLIENT_SECRET=your-client-secret
     GOOGLE_REDIRECT_URI=http://localhost:8000/google/callback
+    GOOGLE_CALENDAR_REDIRECT_URI=http://localhost:8000/google/calendar/callback
     GOOGLE_SERVICE_ENABLED=true
     ```
 ## License
