@@ -48,7 +48,7 @@
                    class="form-label mt-3">
                 {{ __('pages/poll-editor.basic_info.poll_timezone.label') }}
             </label>
-            <div x-data="{ timezone: @entangle('form.timezone') }" x-init="timezone = Intl.DateTimeFormat().resolvedOptions().timeZone">
+            <div x-data="{ timezone: @entangle('form.timezone') }" x-init="timezone = timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone">
 
                 <select class="form-control" wire:model="form.timezone" id="timezone">
                     @foreach($timezones as $timezone)

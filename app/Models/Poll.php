@@ -26,7 +26,6 @@ class Poll extends Model
         'deadline' => null,
         'description' => null,
         'status' => PollStatus::ACTIVE,
-        'timezone' => 'UTC',
     ];
 
     protected $hidden = [

@@ -26,7 +26,6 @@ class PollEditor extends Component
         $this->pollIndex = $pollIndex;
         $this->poll = Poll::where('id', $pollIndex)->first();
         $this->form->loadForm($pollQueryService->getPollArray($this->pollIndex));
-
         $this->timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL); // Načtení všech časových pásem
     }
 
