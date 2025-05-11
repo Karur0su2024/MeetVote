@@ -1,5 +1,5 @@
 <li class="nav-item" x-data="setTheme">
-    <button class="nav-link" href="#" @click="toggleTheme">
+    <button class="nav-link" href="#" @click="toggleTheme" aria-label="theme-toggle">
         <i :class="icon" id="darkmode-toggle-icon"></i>
     </button>
 </li>
@@ -12,7 +12,8 @@
 
             toggleTheme() {
                 this.theme = this.theme === 'light' ? 'dark' : 'light';
-                document.cookie = `theme=${this.theme}`;
+                document.cookie = `theme=${this.theme};path=/`;
+                document.cookie = `theme=${this.theme};path=/polls;` // Pro stránky s prefixem /polls, dočasně
                 document.documentElement.setAttribute('data-bs-theme', this.theme);
                 this.setThemeIcon();
             },

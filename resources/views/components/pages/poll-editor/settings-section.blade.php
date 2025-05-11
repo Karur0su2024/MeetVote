@@ -43,7 +43,7 @@
             {{ __('pages/poll-editor.settings.add_time_options.label') }}
         </x-ui.form.checkbox>
 
-        <x-ui.form.checkbox id="add_time_options" wire:model="form.settings.allow_invalid">
+        <x-ui.form.checkbox id="allow_invalid" wire:model="form.settings.allow_invalid">
             <x-slot:tooltip>
                 {{ __('pages/poll-editor.settings.allow_invalid.tooltip') }}
             </x-slot:tooltip>
