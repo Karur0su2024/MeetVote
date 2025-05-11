@@ -10,7 +10,7 @@
         <x-ui.card header-hidden
                    footer-flex>
             <x-slot:body-header>
-                <h2>{{ $poll->title }}</h2>
+                <h2 class="text-break">{{ $poll->title }}</h2>
                 <div class="d-flex gap-2">
                     @can('isAdmin', $poll)
                         <x-ui.button wire:click="openModal('modals.poll.share', '{{ $poll->id }}')"
