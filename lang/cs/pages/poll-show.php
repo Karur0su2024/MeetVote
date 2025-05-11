@@ -69,6 +69,11 @@ return [
                 'tooltip' => 'Vyberte čas, který vám nejlépe vyhovuje pro schůzku.',
             ],
         ],
+        'preferences' => [
+            'yes' => 'Ano',
+            'maybe' => 'Možná',
+            'no' => 'Ne',
+        ],
         'form' => [
             'title' => 'Vaše informace',
             'username' => [

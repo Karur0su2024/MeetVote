@@ -70,6 +70,11 @@ return [
                 'tooltip' => 'Choose the time that suits you best for meeting.',
             ],
         ],
+        'preferences' => [
+            'yes' => 'Yes',
+            'maybe' => 'Maybe',
+            'no' => 'No',
+        ],
         'form' => [
             'title' => 'Your information',
             'username' => [
