@@ -31,7 +31,56 @@ Try out the live demo at: **[https://meetvote.online](https://meetvote.online)**
 - Composer
 - Node.js and NPM
 - MariaDB or MySQL database
-- (Optional) Google API keys for Google Calendar integration
+- Google API keys for Google Calendar integration
+- SMTP server for email functionality
+
+## Installation
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Karur0su2024/MeetVote.git
+cd MeetVote
+```
+
+### 3. Environment setup
+```bash
+composer install
+npm install
+```
+
+### 3. Install dependencies
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 4. Configure .env file
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=meetvote
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+MAIL_MAILER=smtp
+MAIL_HOST=your_smtp_host
+MAIL_PORT=587
+MAIL_USERNAME=your_email
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+```
+### 5. Run migrations
+```bash
+php artisan migrate
+```
+
+### 6. Start the development server
+```bash
+php artisan serve
+npm run dev
+```
+
 
 ## Google API Configuration
 
