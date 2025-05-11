@@ -36,6 +36,6 @@ class IsPickedAtLeastOnePreference implements ValidationRule
             }
         }
 
-        $fail('You must select at least one option.');
+        $fail(__('pages/poll-show.voting.messages.errors.no_option_selected'));
     }
 }

@@ -13,6 +13,7 @@
                     @guest
                         <x-ui.form.input id="username"
                                          wire:model="username"
+                                         required
                                          placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
                             {{ __('pages/poll-show.comments.form.username.label') }}
                         </x-ui.form.input>

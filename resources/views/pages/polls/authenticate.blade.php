@@ -15,14 +15,14 @@
                         {{ session('error') }}
                     </x-ui.alert>
                 @endif
-                <p>Poll is secured with password</p>
+                <p>{{ __('pages/password.text') }}</p>
                 <form action="{{ route('polls.checkPassword', $poll) }}" method="post">
                     @csrf
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">{{ __('pages/password.labels.password') }}</label>
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Send</button>
+                    <button type="submit" class="btn btn-primary">{{ __('pages/password.buttons.submit') }}</button>
                 </form>
             </div>
         </div>

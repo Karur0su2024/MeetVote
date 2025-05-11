@@ -114,6 +114,7 @@ return [
                 'vote_not_found' => 'Vote not found.',
                 'vote_not_submitted' => 'Vote not submitted.',
                 'saving_error' => 'An error occurred while saving the vote.',
+                'no_option_selected' => 'You must select at least one option.',
             ],
         ],
         'alert' => [

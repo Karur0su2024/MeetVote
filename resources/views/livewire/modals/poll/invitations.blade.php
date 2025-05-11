@@ -29,12 +29,6 @@
                                 </td>
                                 <td>{{ $invitation['sent_at'] }}</td>
                                 <td class="d-flex gap-2">
-                                    <x-ui.button color="outline-primary"
-                                                 size="sm"
-                                                 wire:click="resendInvitation({{ $invitation['id'] }})">
-                                        <x-ui.icon class="envelope"/>
-                                        {{ __('ui/modals.invitations.table.actions.resend') }}
-                                    </x-ui.button>
                                     <x-ui.button color="outline-danger"
                                                  size="sm"
                                                  wire:click="removeInvitation({{ $invitation['id'] }})">

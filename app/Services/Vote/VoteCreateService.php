@@ -39,6 +39,7 @@ class VoteCreateService
 
         } catch (\Exception $e) {
             DB::rollBack();
+            throw new VoteException(__('pages/poll-show.voting.messages.errors.saving_error'));
         }
 
     }

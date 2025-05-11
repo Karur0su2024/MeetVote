@@ -73,6 +73,8 @@ class GoogleService implements GoogleServiceInterface
                 if ($option['invalid'] ?? false) {
                     continue;
                 }
+
+
                 $this->checkToken($user);
                 $events = $googleCalendarService->getCalendarEvents($option) ?? [];
                 $option['availability'] = count($events) === 0;

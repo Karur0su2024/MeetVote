@@ -7,7 +7,7 @@
 
 @endphp
 
-<div class="card m-3 p-3">
+<div class="card my-2 p-3">
     <div class="d-flex justify-content-between">
         <p>
             <span class="fw-bold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>

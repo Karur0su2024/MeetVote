@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poll;
+use App\Models\Vote;
 use App\Services\InvitationService;
 use Illuminate\Http\Request;
 use App\Models\Invitation;
@@ -21,6 +22,14 @@ class PollController extends Controller
     // Zobrazeny stránky ankety
     public function show(Poll $poll)
     {
+        if(session()->has('poll.' . $poll->id . '.vote')){
+            $vote = Vote::find(session()->get('poll.' . $poll->id . '.vote'));
+            if(!$vote) {
+                session()->forget('poll.' . $poll->id . '.vote');
+            }
+        }
+
+
         return view('pages.polls.show', compact('poll'));
     }
 

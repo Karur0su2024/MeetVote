@@ -41,6 +41,7 @@ class VoteQueryService{
     // Získání existují odpovědi, pokud je existuje
     public function getVote(Poll $poll): ?Vote
     {
+
         if(Auth::check()) {
             $vote = $poll->votes()->where('user_id', Auth::id())->first();
             if($vote) {

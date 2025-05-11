@@ -162,6 +162,9 @@
                             <x-ui.form.message type="flash"
                                 form-message="error"
                                 color="danger"/>
+                            <x-ui.form.message
+                                               form-message="form.error"
+                                               color="danger"/>
                         </div>
                     </div>
 

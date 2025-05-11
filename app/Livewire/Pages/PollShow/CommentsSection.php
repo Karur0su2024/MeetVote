@@ -57,7 +57,7 @@ class CommentsSection extends Component
     public function addComment()
     {
         $this->validate([
-            'username' => 'nullable|string|max:255',
+            'username' => 'required|string|max:255',
             'content' => 'required|string|max:1000',
         ]);
 

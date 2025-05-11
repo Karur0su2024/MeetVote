@@ -112,7 +112,8 @@ return [
                 'not_allowed' => 'Nemáte oprávnění hlasovat v této anketě.',
                 'vote_not_found' => 'Hlas nebyl nalezen.',
                 'vote_not_submitted' => 'Hlas nebyl odeslán.',
-                'saving_error' => 'Došlo k chybě při ukládání hlasu.',
+                'saving_error' => 'Došlo k neočekávané chybě při ukládání hlasu.',
+                'no_option_selected' => 'Musíte vybrat alespoň jednu časovou možnost.',
             ],
         ],
         'alert' => [

@@ -31,7 +31,7 @@ class CheckIfTimeOptionExists implements ValidationRule
 
         foreach ($timeOptions as $option) {
             if($newOption === $this->convertContentToText($option)){
-                $fail('Duplicate time options are not allowed.');
+                $fail(__('pages/poll-editor.time_options.error_messages.duplicate_options'));
                 return;
             }
         }

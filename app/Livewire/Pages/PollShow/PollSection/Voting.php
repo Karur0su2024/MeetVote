@@ -46,6 +46,8 @@ class Voting extends Component
         VoteCreateService $voteCreateService,
     ): void
     {
+        session()->forget('error');
+
         if(Gate::denies('canVote', $this->poll)) {
             session()->flash('error', __('pages/poll-show.voting.messages.errors.not_allowed'));
             return;
@@ -73,7 +75,7 @@ class Voting extends Component
         }
         catch (VoteException $e) {
             Log::error('Error saving vote: ' . $e->getMessage());
-            $this->addError('error', $e->getMessage());
+            session()->flash('error',  $e->getMessage());
             return;
         }
     }

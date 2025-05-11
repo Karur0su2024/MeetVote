@@ -16,7 +16,7 @@
                                 <span>{{ $option->timeOption->text }}</span>
                             @else
                                 <div class="d-flex align-items-center">
-                                    <span>{{ $option->timeOption->start }} - {{ $option->timeOption->end }}</span>
+                                    <span>{{ Carbon\Carbon::parse($option->timeOption->start)->format('H:i') }} - {{ Carbon\Carbon::parse( $option->timeOption->end)->format('H:i') }}</span>
                                 </div>
                             @endif
                         </div>
