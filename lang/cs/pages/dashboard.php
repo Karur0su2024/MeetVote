@@ -67,4 +67,9 @@ return [
             'view' => "Zobrazit anketu události",
         ],
     ],
+    'messages' => [
+        'success' => [
+            'poll_deleted' => 'Anketa byla úspěšně smazána.',
+        ],
+    ]
 ];

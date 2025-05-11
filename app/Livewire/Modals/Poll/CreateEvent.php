@@ -81,7 +81,7 @@ class CreateEvent extends Component
             //Doplnit logování chyby
         }
 
-        return redirect()->route('polls.show', $this->poll)->with('success', 'Event created successfully');
+        return redirect()->route('polls.show', $this->poll)->with('success', __('pages/poll-show.messages.success.event_created'));
     }
 
     public function deleteEvent(){

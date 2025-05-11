@@ -192,5 +192,18 @@ return [
             'login' => 'Log in',
         ],
     ],
+    'messages' => [
+        'errors' => [
+            'no_permission_to_access' => 'You don\'t have permission to access this page.',
+            'not_active' => 'You can\'t do this because the poll is not active or it has already ended.',
+            'wrong_admin_key' => 'Wrong poll admin key.',
+            'wrong_password' => 'Wrong password.',
+        ],
+        'success' => [
+            'vote_deleted' => 'Vote deleted successfully.',
+            'event_created' => 'Event created successfully',
+            'admin_acquired' => 'You are in admin mode now!',
+        ],
+    ]
 ];
 

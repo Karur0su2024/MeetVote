@@ -16,6 +16,6 @@ class CanEdit
             return $next($request);
         }
 
-        return redirect()->route('polls.show', $request->poll)->with('error', 'You don\'t have permission to access this page.');
+        return redirect()->route('polls.show', $request->poll)->with('error', __('pages/poll-show.messages.errors.no_permission_to_access'));
     }
 }

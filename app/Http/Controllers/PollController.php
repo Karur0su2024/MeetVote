@@ -38,7 +38,7 @@ class PollController extends Controller
     public function destroy(Poll $poll)
     {
         $poll->delete();
-        return redirect()->route('dashboard')->with('success', 'Poll deleted successfully');
+        return redirect()->route('dashboard')->with('success', __('pages/dashboard.messages.success.poll_deleted'));
     }
 
     // Přesměrování na stránku pro ověření heslem
@@ -54,7 +54,7 @@ class PollController extends Controller
             session()->put('poll_passwords.'.$poll->id . '.expiration', now()->addDays(config('poll.password_expiration_days')));
             return redirect()->route('polls.show', $poll);
         }
-        return redirect()->back()->with('error', 'Wrong password');
+        return redirect()->back()->with('error', __('pages/poll-show.messages.errors.wrong_password'));
     }
 
     // Otevření ankety pomocí pozvánky
@@ -70,12 +70,12 @@ class PollController extends Controller
     public function addAdmin(Poll $poll, $admin_key)
     {
         if ($admin_key !== $poll->admin_key) {
-            return redirect()->back()->with('error', 'Špatný klíč správce ankety');
+            return redirect()->route('polls.show', $poll)->with('error', __('pages/poll-show.messages.errors.wrong_admin_key'));
         }
 
         session()->forget('poll_admin_keys.'.$poll->id);
         session()->put('poll_admin_keys.'.$poll->id, $poll->admin_key);
 
-        return redirect()->route('polls.show', $poll)->with('success', 'You are in admin mode now!');
+        return redirect()->route('polls.show', $poll)->with('success', __('pages/poll-show.messages.success.admin_acquired'));
     }
 }

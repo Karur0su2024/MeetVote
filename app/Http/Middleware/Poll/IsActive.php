@@ -15,6 +15,6 @@ class IsActive
             return $next($request);
         }
 
-        return redirect()->route('polls.show', $request->poll)->with('error', 'You can\'t do this because the poll is not active or it has already ended.');
+        return redirect()->route('polls.show', $request->poll)->with('error', __('pages/poll-show.messages.errors.not_active'));
     }
 }

@@ -23,13 +23,13 @@
         </div>
         @can('is-admin', $poll)
 
-
         <x-ui.dropdown.wrapper>
             <x-slot:header>
                 <i class="bi bi-three-dots"></i>
             </x-slot:header>
             <x-slot:dropdownItems>
-                <x-ui.dropdown.item href="{{ route('polls.edit', $poll) }}">
+                <x-ui.dropdown.item href="{{ route('polls.edit', $poll) }}"
+                                    :disabled="!$poll->isActive()">
                     <x-ui.icon name="pencil"/>
                     {{ __('pages/dashboard.poll_card.dropdown.edit') }}
                 </x-ui.dropdown.item>

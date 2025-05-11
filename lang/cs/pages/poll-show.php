@@ -191,4 +191,17 @@ return [
             'login' => 'Přihlásit se',
         ],
     ],
+    'messages' => [
+        'errors' => [
+            'no_permission_to_access' => 'Nemáte oprávnění pro přístup na tuto stránku.',
+            'not_active' => 'Tuto akci nelze provést, protože anketa není aktivní nebo již skončila.',
+            'wrong_admin_key' => 'Byl zadán špatný klíč správce ankety.',
+            'wrong_password' => 'Špatné heslo.',
+        ],
+        'success' => [
+            'vote_deleted' => 'Odpověď byla úspěšně smazána.',
+            'event_created' => 'Událost byla úspěšně vytvořena.',
+            'admin_acquired' => 'Jste nyní v režimu správce!',
+        ],
+    ]
 ];

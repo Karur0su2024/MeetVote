@@ -67,4 +67,9 @@ return [
             'view' => "View event\'s poll",
         ],
     ],
+    'messages' => [
+        'success' => [
+            'poll_deleted' => 'Poll deleted successfully.',
+        ],
+    ]
 ];
