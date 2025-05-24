@@ -16,14 +16,14 @@
             </h4>
 
 
-            <x-ui.form.input
+            <x-ui.form.input-new
                 id="title"
                 wire:model="form.title"
                 type="text"
                 placeholder="{{ __('pages/poll-editor.basic_info.poll_title.placeholder') }}"
                 required>
                 {{ __('pages/poll-editor.basic_info.poll_title.label') }}
-            </x-ui.form.input>
+            </x-ui.form.input-new>
 
             {{-- Popis ankety --}}
             <x-ui.form.textbox

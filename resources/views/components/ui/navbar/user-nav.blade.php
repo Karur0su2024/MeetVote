@@ -8,7 +8,7 @@
                 <i class="bi bi-gear me-1"></i> {{ __('ui/navbar.settings') }}
             </x-ui.dropdown.item>
             <x-ui.dropdown.divider />
-            <x-ui.dropdown.item class="text-danger" href="{{ route('logout') }}">
+            <x-ui.dropdown.item class="text-red-300" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-right me-1"></i> {{ __('ui/navbar.logout') }}
             </x-ui.dropdown.item>
         </x-slot:dropdownItems>
@@ -21,3 +21,5 @@
         {{ __('ui/navbar.register') }}
     </x-ui.navbar.nav-link>
 @endauth
+
+

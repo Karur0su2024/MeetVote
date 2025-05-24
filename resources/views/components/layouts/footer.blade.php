@@ -1,4 +1,4 @@
-<footer class="bg-body-tertiary py-4 shadow-sm">
+<footer class="bg-body-tertiary py-4 shadow-sm bg-base-100">
     <div class="container text-center">
         <p class="mb-2">&copy; 2025 Karel Tynek</p>
         <p>
@@ -21,7 +21,6 @@
                 Github Repository
             </a>
         </div>
-
 
     </div>
 </footer>

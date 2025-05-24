@@ -1,11 +1,11 @@
-<x-layouts.app>
+<x-layouts.app-new>
 
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/auth.register.title') }}</x-slot>
 
     <div class="container text-start">
         <!-- Registrační formulář -->
-        <livewire:auth.register />
+        <livewire:auth.register-new />
     </div>
 
-</x-layouts.app>
+</x-layouts.app-new>

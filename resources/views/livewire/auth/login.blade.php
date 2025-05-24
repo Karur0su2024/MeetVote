@@ -11,7 +11,6 @@
             </x-ui.alert>
         @endif
 
-
         <div class="card shadow p-4">
             <h2 class="text-center mb-4">{{ __('pages/auth.login.title') }}</h2>
             <form wire:submit="login">
