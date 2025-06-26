@@ -2,23 +2,22 @@
 <div>
 
 
-    <form wire:submit.prevent="submit">
+    <form wire:submit.prevent="submit" class="max-w-5xl mx-auto space-y-12">
 
         {{-- Základní informace o anketě --}}
-        <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
+        <x-pages.poll-editor.basic-info-section-new :poll-index="$pollIndex" :timezones="$timezones"/>
 
         {{-- Výběr časových termínů --}}
-        <x-pages.poll-editor.time-options.section/>
+        <x-pages.poll-editor.time-options-new.section />
+{{--        <x-pages.poll-editor.time-options.scheduler />--}}
 
-        <div class="row">
-            {{-- Výběr doplňujících otázek --}}
-            <x-layouts.col-6>
-                <x-pages.poll-editor.questions.section/>
-            </x-layouts.col-6>
-            {{-- Nastavení ankety --}}
-            <x-layouts.col-6>
-                <x-pages.poll-editor.settings-section/>
-            </x-layouts.col-6>
+        <div class="flex flex-row space-x-3">
+            <div class="flex-1">
+                <x-pages.poll-editor.questions-new.section/>
+            </div>
+            <div class="flex-1">
+                <x-pages.poll-editor.settings-section-new />
+            </div>
         </div>
 
 
@@ -55,9 +54,5 @@
                 </x-ui.spinner>
             </x-slot:right>
         </x-ui.panel>
-
-
-
-
     </form>
 </div>

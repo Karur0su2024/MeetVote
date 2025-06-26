@@ -17,7 +17,7 @@ use Livewire\Component;
 use Spatie\CalendarLinks\Link;
 
 // Sekce s detaily o anketě
-class InfoSection extends Component
+class InfoSectionNew extends Component
 {
     use CanOpenModals;
     use HasVoteControls;

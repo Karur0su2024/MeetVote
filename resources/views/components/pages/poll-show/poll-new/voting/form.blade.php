@@ -3,7 +3,7 @@
 
     @endif
         <div class="col-md-6 mb-3">
-            <x-ui.form.input-new
+            <x-ui.form.input
                 id="name"
                 wire:model="form.user.name"
                 data-class="form-control-lg"
@@ -17,11 +17,11 @@
                 @endif
 
                 {{ __('pages/poll-show.voting.form.username.label') }}
-            </x-ui.form.input-new>
+            </x-ui.form.input>
 
         </div>
     <div class="col-md-6 mb-3">
-        <x-ui.form.input-new
+        <x-ui.form.input
             id="email"
             wire:model="form.user.email"
             type="email"
@@ -33,6 +33,6 @@
                 Your email will not be shared with anyone.
             </x-slot:tooltip>
             {{ __('pages/poll-show.voting.form.email.label') }}
-        </x-ui.form.input-new>
+        </x-ui.form.input>
     </div>
 </div>
