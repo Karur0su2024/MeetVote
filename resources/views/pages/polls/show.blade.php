@@ -5,8 +5,10 @@
 
 
 
-    <div class="max-w-7xl">
+    <div class="container max-w-7xl">
         <div class="mb-3">
+
+            <!-- Zobrazit případné chybové nebo úspěšné zprávy -->
             @if (session('error'))
                 <x-ui.alert type="danger">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>

@@ -23,7 +23,7 @@
 <div class="app-background-overlay">
 
     <!-- Navbar -->
-    <x-layouts.navbar-new />
+    <x-layouts.navbar />
 
     <!-- Obsah stránky -->
     <main class="flex justify-center p-10">

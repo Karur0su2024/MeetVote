@@ -1,8 +1,5 @@
 <x-layouts.app-new>
 
-    <!-- Název stránky -->
-
-
     @if(session()->has('warning'))
         <x-ui.alert type="warning">
             {{ session('warning') }}

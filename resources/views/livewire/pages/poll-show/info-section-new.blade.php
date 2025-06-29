@@ -9,14 +9,14 @@
 
     <div class="card shadow-sm bg-base-100 p-4 mb-3">
         <div class="flex flex-row">
-            <h2 class="text-3xl flex-1">
+            <h2 class="text-3xl flex-1 mb-1">
                 {{ $poll->title }}
             </h2>
         </div>
         <div class="flex flex-row text-sm gap-1 my-2">
             <div class="avatar avatar-placeholder">
                 <div class="bg-neutral text-neutral-content w-6 rounded-full me-1">
-                    <span>{{ $poll->author_name[0] }}</span>
+                    <span class="text-sm">{{ $poll->author_name[0] }}</span>
                 </div>
             </div>
             {{ $poll->author_name }}

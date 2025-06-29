@@ -17,13 +17,12 @@
             x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h2>
         <div>
             @can('canVote', $poll)
-                <x-ui.button color="outline-secondary"
-                             x-text="mode === 'Results' ?
+                <button class="btn btn-sm btn-info btn-soft"
+                        x-text="mode === 'Results' ?
                                  '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
                                  '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"
-                             @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
-                </x-ui.button>
-
+                        @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
+                </button>
             @endcan
         </div>
     </div>
