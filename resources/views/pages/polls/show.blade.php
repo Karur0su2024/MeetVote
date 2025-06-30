@@ -1,4 +1,4 @@
-<x-layouts.app-new>
+<x-layouts.app>
 
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
@@ -44,5 +44,5 @@
         @endif
     </div>
 
-</x-layouts.app-new>
+</x-layouts.app>
 

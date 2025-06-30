@@ -77,8 +77,6 @@
     </x-ui.panel>
 
 
-
-
     <div x-show="opened === 'Polls'">
         <h3>{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)

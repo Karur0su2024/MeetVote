@@ -1,43 +1,46 @@
-<div class="bg-base-100 shadow-sm">
+<nav class="bg-base-100 shadow-sm">
     <div class="navbar max-w-7xl mx-auto">
-        <div class="navbar-start">
-            <a class="btn btn-ghost text-xl">
-                <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="w-8 h-8 mr-2">
-                {{ config('app.name') }}
+        <div class="navbar-start gap-2">
+            <a href="{{ route('dashboard') }}" class="btn btn-ghost normal-case text-xl flex items-center gap-2 px-2">
+                <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="w-8 h-8">
+                <span class="font-bold tracking-tight">{{ config('app.name') }}</span>
             </a>
-            <ul class="menu menu-horizontal px-1">
+            <ul class="menu menu-horizontal px-1 hidden md:flex">
                 <li>
-                    <a href="{{ route('polls.create') }}">{{ __('ui/navbar.new_poll') }}</a>
+                    <a href="{{ route('polls.create') }}" class="hover:bg-base-200 rounded-lg">
+                        {{ __('ui/navbar.new_poll') }}
+                    </a>
                 </li>
                 @auth
                     <li>
-                        <a href="{{ route('dashboard') }}">{{ __('ui/navbar.dashboard') }}</a>
+                        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active font-semibold' : '' }} hover:bg-base-200 rounded-lg">
+                            {{ __('ui/navbar.dashboard') }}
+                        </a>
                     </li>
                 @endauth
             </ul>
         </div>
         <div class="navbar-end flex items-center gap-2">
-            <ul class="menu menu-horizontal px-1 flex gap-2">
+            <ul class="menu menu-horizontal px-1 flex items-center gap-2">
                 <li>
-                    <a href="github.com/Karur0su2024/MeetVote" class="btn btn-ghost btn-sm">
-                        <i class="bi bi-github text-xl"></i>
+                    <a href="https://github.com/Karur0su2024/MeetVote" target="_blank" class="btn btn-ghost btn-sm tooltip text-lg" data-tip="GitHub">
+                        <i class="bi bi-github"></i>
                     </a>
                 </li>
+                <li>
+                    <label class="swap">
+                        <!-- this hidden checkbox controls the state -->
+                        <input type="checkbox" class="theme-controller" value="dark" />
 
+                        <!-- sun icon -->
+                        <i class="bi bi-brightness-high-fill swap-off h-10 w-10 text-2xl"></i>
+
+                        <!-- moon icon -->
+                        <i class="bi bi-moon-fill swap-on h-10 w-10 text-2xl"></i>
+                    </label>
+                </li>
                 <!-- Theme Toggle -->
-                {{--            <div class="dropdown dropdown-end">--}}
-                {{--                <div tabindex="0" role="button" class="btn btn-ghost btn-sm">--}}
-                {{--                    <i id="darkmode-toggle-icon"></i>--}}
-                {{--                </div>--}}
-                {{--                <ul tabindex="0" class="menu dropdown-content p-2 shadow bg-base-100 rounded-box w-32">--}}
-                {{--                    <li>--}}
-                {{--                        <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Light" value="light"/>--}}
-                {{--                    </li>--}}
-                {{--                    <li>--}}
-                {{--                        <input type="radio" name="theme-dropdown" class="theme-controller btn btn-sm btn-block btn-ghost justify-start" aria-label="Dark" value="dark"/>--}}
-                {{--                    </li>--}}
-                {{--                </ul>--}}
-                {{--            </div>--}}
+
                 <div class="dropdown dropdown-end">
                     <button role="button" class="btn btn-sm btn-ghost">
                         {{ __("ui/navbar.language") }}
@@ -55,31 +58,35 @@
                     </ul>
                 </div>
                 @auth
-                    <div class="dropdown dropdown-end">
-                        <button class="btn btn-ghost btn-sm">
-                            <div class="flex-row gap-2">
-                                <div class="avatar avatar-placeholder">
-                                    <div class="w-6 rounded-full bg-neutral text-neutral-content">
-                                        <span class="text-sm">K</span>
+<div class="dropdown dropdown-end">
+                                <button class="btn btn-ghost btn-sm flex items-center gap-2" tabindex="0">
+                                    <div class="avatar avatar-placeholder">
+                                        <div class="w-6 rounded-full bg-neutral text-neutral-content flex items-center justify-center">
+                                            <span class="text-sm">
+                                                {{ mb_substr(Auth::user()->name, 0, 1) }}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <span class="text-sm">
-                                    {{ Auth::user()->name }}
-                                </span>
+                                    <span class="text-sm">
+                                        {{ Auth::user()->name }}
+                                    </span>
+                                </button>
+                                <ul class="menu dropdown-content w-52 z-1 shadow-sm bg-base-100 rounded-box" tabindex="0">
+                                    <li>
+                                        <a href="{{ route('settings') }}">
+                                            {{ __('ui/navbar.settings') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="w-full text-left">
+                                                {{ __('ui/navbar.logout') }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
-                        </button>
-                        <ul class="menu dropdown-content w-52 z-1 shadow-sm bg-base-100 rounded-box">
-                           <li>
-                               <a href="{{ route("settings") }}">
-                                   {{ __("ui/navbar.settings") }}
-                               </a>
-                           </li>
-                            <li>
-                                <a href="{{ route("logout") }}">{{ __("ui/navbar.logout") }}</a>
-                            </li>
-                        </ul>
-                    </div>
-
                 @else
                     <li>
                         <a href="{{ route("login") }}">{{ __("ui/navbar.login") }}</a>
@@ -95,5 +102,5 @@
 
     </div>
 
-</div>
+</nav>
 

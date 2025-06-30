@@ -19,14 +19,14 @@
     <livewire:styles/>
 </head>
 
-<body class="app-background scheme-light">
+<body class="app-background">
 <div class="app-background-overlay">
 
     <!-- Navbar -->
     <x-layouts.navbar />
 
     <!-- Obsah stránky -->
-    <main class="flex justify-center p-10">
+    <main class="container py-5 min-vh-100 px-0">
         {{ $slot }}
     </main>
 

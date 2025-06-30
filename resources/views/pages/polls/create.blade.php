@@ -1,4 +1,4 @@
-<x-layouts.app-new>
+<x-layouts.app>
 
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/poll-editor.page.create') }}</x-slot>
@@ -10,4 +10,4 @@
         <livewire:pages.poll-editor />
     </div>
 
-</x-layouts.app-new>
+</x-layouts.app>
