@@ -2,9 +2,6 @@
 
 MeetVote is a simple open-source alternative to Doodle, created as a bachelor's thesis project. The application allows you to create polls for scheduling meetings, events, or any other occasion where you need to find a suitable time for everyone.
 
-## Demo
-Try out the live demo at: **[https://meetvote.online](https://meetvote.online)**
-
 ## Features
 
 - Create polls with time options and additional questions
