@@ -20,10 +20,11 @@
             @endif
         </div>
 
-
-        <div class="row flex-row-reverse">
-            <div class="col-lg-4">
-                {{-- Základní informace o anketě --}}
+        <div class="tw-grid tw-grid-cols-3 tw-gap-4">
+            <div class="tw-col-span-2">
+                <x-pages.poll-show.poll.section :poll="$poll"/>
+            </div>
+            <div class="tw-col-span-1">
                 <div>
                     <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
                 </div>
@@ -33,11 +34,12 @@
                         <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
                     </div>
                 @endif
-            </div>
-            <div class="col-lg-8">
-                <x-pages.poll-show.poll.section :poll="$poll"/>
+
             </div>
         </div>
+
+
+
 
 
         @if($poll->settings['comments'])

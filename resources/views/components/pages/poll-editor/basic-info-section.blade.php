@@ -1,20 +1,10 @@
-<x-ui.card header-hidden>
-    <x-slot:body-header>
-        <h2 class="mb-3">
-            {{ __('pages/poll-editor.basic_info.title') }}
-        </h2>
+<x-ui.tw-card>
+    <x-slot:title>
+        {{ __('pages/poll-editor.basic_info.section.poll') }}
+    </x-slot:title>
 
-    </x-slot:body-header>
-    {{-- Hlavička --}}
-
-    <x-slot:body>
-        {{-- Název ankety --}}
 
         <div class="mb-3">
-            <h4 class="text-muted mb-3">
-                {{ __('pages/poll-editor.basic_info.section.poll') }}
-            </h4>
-
 
             <x-ui.form.input
                 id="title"
@@ -69,5 +59,4 @@
             @endif
         @endguest
 
-    </x-slot:body>
-</x-ui.card>
+</x-ui.tw-card>

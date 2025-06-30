@@ -14,7 +14,7 @@
     <x-ui.card header-hidden>
 
         <x-slot:body-header>
-            <h2 x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h2>
+            <h2 class="tw-text-2xl" x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h2>
             <div>
                 @can('canVote', $poll)
                     <x-ui.button color="outline-secondary"

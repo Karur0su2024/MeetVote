@@ -7,7 +7,7 @@
 
 <{{ $element }} class="dropdown {{ $attributes->get('class') ?? '' }}">
     {{-- Dropdown button --}}
-    <a class="btn btn-{{ $size }} btn-{{ $color }}" href="#" id="{{ $id }}" role="button"
+    <a class="tw-btn tw-btn-{{ $size }} tw-btn-{{ $color }}" href="#" id="{{ $id }}" role="button"
         data-bs-toggle="dropdown" aria-expanded="false">
         {{ $header ?? '' }}
     </a>
