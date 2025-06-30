@@ -9,6 +9,9 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    prefix: 'tw-',
+
+
     theme: {
         extend: {
             fontFamily: {
@@ -17,5 +20,12 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('daisyui')
+    ],
+
+    daisyui: {
+        themes: ["light", "dark"],
+    },
 };
