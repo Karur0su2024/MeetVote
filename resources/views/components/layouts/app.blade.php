@@ -19,24 +19,27 @@
     <livewire:styles/>
 </head>
 
-<body class="app-background">
-<div class="app-background-overlay">
+<body>
+<div class="app-background">
+    <div class="app-background-overlay">
 
-    <!-- Navbar -->
-    <x-layouts.navbar-new />
+        <!-- Navbar -->
+        <x-layouts.navbar-new />
 
-    <!-- Obsah stránky -->
-    <main class="container py-5 min-vh-100 px-0">
-        {{ $slot }}
-    </main>
+        <!-- Obsah stránky -->
+        <main class="container py-5 min-vh-100 px-0">
+            {{ $slot }}
+        </main>
 
-    <!-- Footer -->
-    <x-layouts.footer/>
+        <!-- Footer -->
+        <x-layouts.footer/>
 
-    <livewire:modals/>
-    <livewire:scripts/>
-    @stack('scripts')
+        <livewire:modals/>
+        <livewire:scripts/>
+        @stack('scripts')
 
+    </div>
 </div>
+
 </body>
 </html>

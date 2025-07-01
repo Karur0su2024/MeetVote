@@ -10,7 +10,7 @@
 <div x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
 
 
-    <x-ui.tw-card header-hidden>
+    <x-ui.tw-card>
         <x-slot:title>
             {{ __('pages/poll-editor.time_options.title') }}
             <small>
@@ -22,7 +22,9 @@
         <div class="row g-3">
             <div class="col-lg-6">
                 <div class="card p-3 shadow-sm">
-                    <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.title') }}</h3>
+                    <h3 class="tw-text-lg mb-3">
+                        {{ __('pages/poll-editor.time_options.calendar.title') }}
+                    </h3>
                     <div id="calendar"
                          x-init="initCalendar()"
                          x-data
@@ -40,7 +42,9 @@
             <div class="col-lg-6">
 
                 <div class="card p-3 h-100">
-                    <h3 class="mb-4">{{ __('pages/poll-editor.time_options.calendar.dates') }}</h3>
+                    <h3 class="tw-text-lg mb-3">
+                        {{ __('pages/poll-editor.time_options.calendar.dates') }}
+                    </h3>
                     <template x-for="(date, dateIndex) in dates" :key="dateIndex">
                         <x-pages.poll-editor.time-options.date-card/>
                     </template>
