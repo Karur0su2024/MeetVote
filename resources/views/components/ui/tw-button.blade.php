@@ -7,7 +7,7 @@
 
 <button class="tw-btn
                tw-btn-{{ $color }}
-               tw-btn-{{ $size }}
+               btn-{{ $size }}
             {{ $disabled ? 'disabled' : '' }}
             {{ $attributes->get('class') }}"
             {{ $attributes }}>

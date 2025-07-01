@@ -1,17 +1,15 @@
 {{-- Sekce na stránce nastavení pro odstranění uživatele --}}
-<x-ui.card header-hidden>
-    <x-slot:body-header>
-        <h2 class="mb-3">
-            {{ __('pages/user-settings.delete_account.title') }}
-        </h2>
-
-    </x-slot:body-header>
+<x-ui.tw-card>
+    <x-slot:title>
+        {{ __('pages/user-settings.delete_account.title') }}
+    </x-slot:title>
     <p class="text-muted">
         {{ __('pages/user-settings.delete_account.description') }}
     </p>
     {{-- Přidat modal pro potvrzení --}}
-    <x-ui.button color="danger"
+    <x-ui.tw-button color="error"
+                    class="tw-mt-2"
                  wire:click="deleteAccount">
         {{ __('pages/user-settings.delete_account.buttons.delete_account') }}
-    </x-ui.button>
-</x-ui.card>
+    </x-ui.tw-button>
+</x-ui.tw-card>
