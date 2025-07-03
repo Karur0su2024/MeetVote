@@ -2,7 +2,7 @@
 <div>
 
 
-    <form wire:submit.prevent="submit">
+    <form class="tw-flex tw-flex-col tw-gap-3" wire:submit.prevent="submit">
 
         {{-- Základní informace o anketě --}}
         <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
@@ -25,16 +25,17 @@
         <x-ui.panel>
             @if($poll)
                 <x-slot:left>
-                    <a class="btn btn-secondary text-start" href="{{ route('polls.show', $poll) }}">
+                    <a class="tw-btn tw-btn-soft text-start" href="{{ route('polls.show', $poll) }}">
                         {{ __('pages/poll-editor.button.return') }}
                     </a>
                 </x-slot:left>
             @endif
             <x-slot:right>
 
-                <x-ui.button type="submit">
+                <button class="tw-btn tw-btn-primary"
+                        type="submit">
                     {{ __('pages/poll-editor.button.submit') }}
-                </x-ui.button>
+                </button>
                 @error('error')
                 <span class="text-danger">
                     {{ $message }}

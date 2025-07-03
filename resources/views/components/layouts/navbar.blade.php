@@ -1,85 +1,96 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ route('home') }}">
-            <img src="{{ asset('images/app-logo.png') }}" alt="logo" width="30" height="30" class="me-1">
-            {{ config('app.name') }}</a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <x-ui.navbar.nav-link href="{{ route('polls.create') }}">
-                    {{ __('ui/navbar.new_poll') }}
-                </x-ui.navbar.nav-link>
+<nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all">
+    <div class="tw-navbar tw-max-w-7xl tw-mx-auto tw-px-4 tw-h-16 tw-flex tw-items-center">
+        <div class="tw-navbar-start tw-gap-4">
+            <a href="{{ route('dashboard') }}"
+               class="tw-btn tw-btn-ghost tw-normal-case tw-text-2xl tw-flex tw-items-center tw-gap-3 tw-px-2 tw-transition-all tw-hover:bg-base-200 tw-rounded-lg">
+                <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="tw-w-7 tw-h-7">
+                <span class="tw-font-bold tw-tracking-tight">{{ config('app.name') }}</span>
+            </a>
+            <ul class="tw-menu tw-menu-horizontal tw-hidden md:tw-flex tw-gap-1">
+                <li>
+                    <a href="{{ route('polls.create') }}"
+                       class="tw-hover:bg-primary/10 tw-rounded-lg tw-transition-all">
+                        {{ __('ui/navbar.new_poll') }}
+                    </a>
+                </li>
                 @auth
-                    <x-ui.navbar.nav-link href="{{ route('dashboard') }}">
-                        {{ __('ui/navbar.dashboard') }}
-                    </x-ui.navbar.nav-link>
+                    <li>
+                        <a href="{{ route('dashboard') }}"
+                           class="{{ request()->routeIs('dashboard') ? 'tw-active tw-font-semibold tw-bg-primary/10 tw-text-primary' : '' }} tw-hover:bg-primary/10 tw-rounded-lg tw-transition-all">
+                            {{ __('ui/navbar.dashboard') }}
+                        </a>
+                    </li>
                 @endauth
-            </ul>
-            <ul class="navbar-nav gap-2 align-items-center">
-                <x-ui.navbar.nav-link href="https://github.com/Karur0su2024/MeetVote">
-                    <i class="bi bi-github"></i>
-                </x-ui.navbar.nav-link>
-                <x-ui.navbar.theme-settings/>
-                <x-ui.navbar.language-settings/>
-                @auth
-                    <x-ui.dropdown.wrapper id="userDropdown" class="nav-item">
-                        <x-slot:header>
-                            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                        </x-slot:header>
-                        <x-slot:dropdownItems>
-                            <x-ui.dropdown.item href="{{ route('settings') }}">
-                                <i class="bi bi-gear me-1"></i> {{ __('ui/navbar.settings') }}
-                            </x-ui.dropdown.item>
-                            <x-ui.dropdown.divider/>
-                            <x-ui.dropdown.item class="text-danger" href="{{ route('logout') }}">
-                                <i class="bi bi-box-arrow-right me-1"></i> {{ __('ui/navbar.logout') }}
-                            </x-ui.dropdown.item>
-                        </x-slot:dropdownItems>
-                    </x-ui.dropdown.wrapper>
-                @else
-                    <x-ui.navbar.nav-link href="{{ route('login') }}">
-                        {{ __('ui/navbar.login') }}
-                    </x-ui.navbar.nav-link>
-                    <x-ui.navbar.nav-link href="{{ route('register') }}">
-                        {{ __('ui/navbar.register') }}
-                    </x-ui.navbar.nav-link>
-                @endauth
-
             </ul>
         </div>
+        <div class="tw-navbar-end tw-flex tw-items-center tw-gap-3">
+            <ul class="tw-menu tw-menu-horizontal tw-px-1 tw-flex tw-items-center tw-gap-2">
+                <li>
+                    <a href="https://github.com/Karur0su2024/MeetVote" target="_blank"
+                       class="tw-btn tw-btn-ghost tw-btn-sm tw-tooltip tw-transition-all tw-hover:bg-base-200 tw-rounded-lg"
+                       data-tip="GitHub">
+                        <i class="bi bi-github tw-text-xl"></i>
+                    </a>
+                </li>
+                <!-- Theme Toggle (odkomentuj pokud chceš použít) -->
+                {{-- <li>
+                    <label class="tw-swap">
+                        <input type="checkbox" class="theme-controller" value="dark" />
+                        <i class="bi bi-brightness-high-fill tw-swap-off tw-h-10 tw-w-10 tw-text-2xl"></i>
+                        <i class="bi bi-moon-fill tw-swap-on tw-h-10 tw-w-10 tw-text-2xl"></i>
+                    </label>
+                </li> --}}
+                <div class="tw-dropdown tw-dropdown-end">
+                    <button class="tw-btn tw-btn-ghost tw-btn-sm tw-flex tw-items-center tw-gap-2" tabindex="0">
+                        {{ __("ui/navbar.language") }}
+                    </button>
+
+                    <ul class="tw-menu tw-dropdown-content tw-w-60 tw-z-1 tw-rounded-box tw-bg-base-100 tw-shadow-sm">
+                        <li>
+                            <a href="{{ route("changeLanguage", "en") }}">
+                                English
+                            </a>
+                            <a href="{{ route("changeLanguage", "cz") }}">
+                                Czech
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                @auth
+                    <div class="tw-dropdown tw-dropdown-end">
+                        <button class="tw-btn tw-btn-ghost tw-btn-sm" tabindex="0">
+                            <x-ui.username :username="Auth::user()->name" />
+                        </button>
+                        <ul class="tw-menu tw-dropdown-content tw-w-52 tw-z-1 tw-shadow-sm tw-bg-base-100 tw-rounded-box"
+                            tabindex="0">
+                            <li>
+                                <a href="{{ route('settings') }}">
+                                    {{ __('ui/navbar.settings') }}
+                                </a>
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="tw-w-full tw-text-left">
+                                        {{ __('ui/navbar.logout') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <li>
+                        <a href="{{ route("login") }}">{{ __("ui/navbar.login") }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ route("register") }}">{{ __("ui/navbar.register") }}</a>
+                    </li>
+                @endauth
+
+            </ul>
+
+        </div>
+
     </div>
+
 </nav>
-
-<div class="dropdown">
-    <button class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</button>
-    <ul class="menu dropdown-content bg-base-100 rounded-box shadow-lg mt-2">
-        @auth
-            <li>
-                <a href="{{ route('settings') }}" class="dropdown-item">
-                    <i class="bi bi-gear
-                                        me-1"></i> {{ __('ui/navbar.settings') }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('logout') }}" class="dropdown-item text-danger">
-                    <i class="bi bi-box-arrow-right me-1"></i> {{ __('ui/navbar.logout') }}
-                </a>
-            </li>
-        @else
-            <li>
-                <a href="{{ route('login') }}" class="dropdown-item">
-                    {{ __('ui/navbar.login') }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('register') }}" class="dropdown-item">
-                    {{ __('ui/navbar.register') }}
-                </a>
-            </li>
-        @endauth
-
-    </ul>
-</div>

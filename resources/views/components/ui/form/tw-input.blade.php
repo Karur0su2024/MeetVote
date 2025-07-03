@@ -5,7 +5,7 @@
     'xError' => null, // Chybová hláška pro inputy používající Alpine.js (jinak řešeno automaticky u Livewire)
 ])
 
-<fieldset class="tw-fieldset mb-2 tw-w-" >
+<fieldset class="tw-fieldset mb-2" >
     <label class="tw-fieldset-legend">
         {{ $label ?? '' }}
 {{--        <x-ui.red-text>--}}

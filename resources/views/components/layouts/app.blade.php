@@ -24,7 +24,7 @@
     <div class="app-background-overlay">
 
         <!-- Navbar -->
-        <x-layouts.navbar-new />
+        <x-layouts.navbar />
 
         <!-- Obsah stránky -->
         <main class="container py-5 min-vh-100 px-0">

@@ -21,16 +21,16 @@
                         </x-ui.form.tw-input>
                     @endguest
 
-                    <x-ui.form.textbox id="content"
+                    <x-ui.form.tw-textbox id="content"
                                        wire:model="content"
                                        required
                                        placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
                         {{ __('pages/poll-show.comments.form.content.label') }}
-                    </x-ui.form.textbox>
+                    </x-ui.form.tw-textbox>
 
-                    <x-ui.button type="submit">
+                    <x-ui.tw-button type="submit">
                         {{ __('pages/poll-show.comments.buttons.submit') }}
-                    </x-ui.button>
+                    </x-ui.tw-button>
                     <x-ui.saving wire:loading wire:target="addComment">
                         {{ __('pages/poll-show.comments.form.loading') }}
                     </x-ui.saving>
