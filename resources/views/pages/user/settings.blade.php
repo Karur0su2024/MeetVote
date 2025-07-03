@@ -19,14 +19,4 @@
         </x-ui.alert>
     @endif
 
-
-    <div class="container text-center">
-
-
-
-
-
-
-    </div>
-
 </x-layouts.app>

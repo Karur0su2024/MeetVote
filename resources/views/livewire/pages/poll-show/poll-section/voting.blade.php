@@ -6,7 +6,7 @@
 @endpush
 
 <div x-data="votingForm">
-    <p class="text-muted">
+    <p class="tw-text-base-600 tw-font-light mb-3">
         {{ __('pages/poll-show.voting.description') }}
     </p>
     <div>
@@ -23,7 +23,7 @@
                 <div>
                     <x-pages.poll-show.poll.section-card title="Time">
                         <x-slot:title>
-                            <span class="me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
+                            <span class="tw-text-lg tw-font-semibold me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
                             <x-ui.tooltip>
                                 {{ __('pages/poll-show.voting.sections.time_options.tooltip') }}
                             </x-ui.tooltip>
@@ -33,13 +33,13 @@
                                 <x-ui.saving wire:loading wire:target="checkAvailability">
                                     {{ __('pages/poll-show.voting.buttons.check_availability.loading') }}
                                 </x-ui.saving>
-                                <x-ui.button wire:click="checkAvailability" class="ms-2" size="sm">
-                                    <x-ui.icon name="calendar-check"/>
-                                    <x-slot:tooltip>
-                                        {{ __('pages/poll-show.voting.buttons.check_availability.tooltip') }}
-                                    </x-slot:tooltip>
+                            <div class="tw-tooltip" data-tip="{{ __('pages/poll-show.voting.buttons.check_availability.tooltip') }}">
+                                <button class="tw-btn tw-btn-primary tw-btn-sm" wire:click="checkAvailability">
+                                    <i class="bi bi-calendar-check me-1"></i>
                                     {{ __('pages/poll-show.voting.buttons.check_availability.label') }}
-                                </x-ui.button>
+                                </button>
+
+                            </div>
                             @endcan
                         </x-slot:title-right>
                         <x-slot:content>

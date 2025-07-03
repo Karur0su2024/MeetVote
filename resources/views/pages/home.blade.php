@@ -15,8 +15,8 @@
                 <div class="row align-items-center">
                     <div class="col-lg-6">
                         <div class="p-4">
-                            <h2 class="mb-3">{{ __('pages/homepage.section.one.title') }}</h2>
-                            <p class="lead">
+                            <h2 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.one.title') }}</h2>
+                            <p class="tw-font-light mb-3">
                                 {{__('pages/homepage.section.one.text') }}
                             </p>
                             <a href="{{ route('polls.create') }}" class="btn btn-primary">
@@ -33,29 +33,29 @@
         </div>
         <div class="p-3 card shadow-mt mt-5">
             <div class="card-body">
-                <h3>{{ __('pages/homepage.section.two.title') }}</h3>
+                <h3 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5>{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
-                                <p>{{ __('pages/homepage.section.two.items.simple.text') }}</p>
+                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
+                                <p class="tw-font-light">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5>{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
-                                <p>{{ __('pages/homepage.section.two.items.invite.text') }}</p>
+                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
+                                <p class="tw-font-light">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5>{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
-                                <p>{{ __('pages/homepage.section.two.items.sync.text') }}
+                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
+                                <p class="tw-font-light">{{ __('pages/homepage.section.two.items.sync.text') }}
                                 </p>
                             </div>
                         </div>
@@ -63,8 +63,8 @@
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5>{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
-                                <p>{{ __('pages/homepage.section.two.items.customizable.text') }}
+                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
+                                <p class="tw-font-light">{{ __('pages/homepage.section.two.items.customizable.text') }}
                                 </p>
                             </div>
                         </div>
