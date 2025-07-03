@@ -1,5 +1,8 @@
 {{-- Sekce s komentáři --}}
-<x-ui.card body-padding="0" header-hidden>
+<x-ui.tw-card body-padding="0" header-hidden>
+    <x-slot:title>
+        {{ __('pages/poll-show.comments.form.title') }}
+    </x-slot:title>
     @if ($poll->pollComments)
         <div wire:init="loadComments">
 
@@ -7,16 +10,15 @@
             <div>
 
                 {{-- Formulář pro přidání komentáře --}}
-                <h3>{{ __('pages/poll-show.comments.form.title') }}</h3>
                 <form class="mt-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
 
                     @guest
-                        <x-ui.form.input id="username"
+                        <x-ui.form.tw-input id="username"
                                          wire:model="username"
                                          required
                                          placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
                             {{ __('pages/poll-show.comments.form.username.label') }}
-                        </x-ui.form.input>
+                        </x-ui.form.tw-input>
                     @endguest
 
                     <x-ui.form.textbox id="content"
@@ -62,4 +64,4 @@
         @endif
     </div>
 
-</x-ui.card>
+</x-ui.tw-card>

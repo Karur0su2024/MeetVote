@@ -24,8 +24,62 @@
                 </x-ui.navbar.nav-link>
                 <x-ui.navbar.theme-settings/>
                 <x-ui.navbar.language-settings/>
-                <x-ui.navbar.user-nav/>
+                @auth
+                    <x-ui.dropdown.wrapper id="userDropdown" class="nav-item">
+                        <x-slot:header>
+                            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                        </x-slot:header>
+                        <x-slot:dropdownItems>
+                            <x-ui.dropdown.item href="{{ route('settings') }}">
+                                <i class="bi bi-gear me-1"></i> {{ __('ui/navbar.settings') }}
+                            </x-ui.dropdown.item>
+                            <x-ui.dropdown.divider/>
+                            <x-ui.dropdown.item class="text-danger" href="{{ route('logout') }}">
+                                <i class="bi bi-box-arrow-right me-1"></i> {{ __('ui/navbar.logout') }}
+                            </x-ui.dropdown.item>
+                        </x-slot:dropdownItems>
+                    </x-ui.dropdown.wrapper>
+                @else
+                    <x-ui.navbar.nav-link href="{{ route('login') }}">
+                        {{ __('ui/navbar.login') }}
+                    </x-ui.navbar.nav-link>
+                    <x-ui.navbar.nav-link href="{{ route('register') }}">
+                        {{ __('ui/navbar.register') }}
+                    </x-ui.navbar.nav-link>
+                @endauth
+
             </ul>
         </div>
     </div>
 </nav>
+
+<div class="dropdown">
+    <button class="btn btn-ghost btn-sm">{{ Auth::user()->name }}</button>
+    <ul class="menu dropdown-content bg-base-100 rounded-box shadow-lg mt-2">
+        @auth
+            <li>
+                <a href="{{ route('settings') }}" class="dropdown-item">
+                    <i class="bi bi-gear
+                                        me-1"></i> {{ __('ui/navbar.settings') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('logout') }}" class="dropdown-item text-danger">
+                    <i class="bi bi-box-arrow-right me-1"></i> {{ __('ui/navbar.logout') }}
+                </a>
+            </li>
+        @else
+            <li>
+                <a href="{{ route('login') }}" class="dropdown-item">
+                    {{ __('ui/navbar.login') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('register') }}" class="dropdown-item">
+                    {{ __('ui/navbar.register') }}
+                </a>
+            </li>
+        @endauth
+
+    </ul>
+</div>

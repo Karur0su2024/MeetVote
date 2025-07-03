@@ -1,42 +1,37 @@
 {{-- Sekce pro nastavení jména a emailové adresy --}}
-<x-ui.card header-hidden>
-    <x-slot:body-header>
-        <h2 class="mb-3">
-            {{ __('pages/user-settings.profile_settings.title') }}
-        </h2>
+<x-ui.tw-card>
+    <x-slot:title>
+        {{ __('pages/user-settings.profile_settings.title') }}
+    </x-slot:title>
 
-    </x-slot:body-header>
-    <x-slot:body>
-
-
-        <form wire:submit.prevent='updateProfile'>
-            {{-- Přezdívka --}}
-
-            <x-ui.form.input
-                id="name"
-                wire:model="name"
-                type="text"
-                required>
+    <form wire:submit.prevent='updateProfile'>
+        {{-- Přezdívka --}}
+        <x-ui.form.tw-input
+            id="name"
+            wire:model="name"
+            type="text"
+            required>
+            <x-slot:label>
                 {{ __('pages/user-settings.profile_settings.labels.name') }}
-            </x-ui.form.input>
+            </x-slot:label>
+        </x-ui.form.tw-input>
 
-            {{-- Email --}}
-            <x-ui.form.input
-                id="email"
-                wire:model="email"
-                type="email"
-                required>
+        <x-ui.form.tw-input
+            id="name"
+            wire:model="email"
+            type="text"
+            required>
+            <x-slot:label>
                 {{ __('pages/user-settings.profile_settings.labels.email') }}
-            </x-ui.form.input>
+            </x-slot:label>
+        </x-ui.form.tw-input>
 
-            <x-ui.button type="submit">
-                {{ __('pages/user-settings.profile_settings.buttons.save') }}
-            </x-ui.button>
-
-            {{-- Zpráva v případě úspěšného uložení --}}
-            @if (session()->has('settings.profile.success'))
-                <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>
-            @endif
-        </form>
-    </x-slot:body>
-</x-ui.card>
+        <x-ui.tw-button type="submit" color="primary">
+            {{ __('pages/user-settings.profile_settings.buttons.save') }}
+        </x-ui.tw-button>
+        {{-- Zpráva v případě úspěšného uložení --}}
+        @if (session()->has('settings.profile.success'))
+            <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>
+        @endif
+    </form>
+</x-ui.tw-card>

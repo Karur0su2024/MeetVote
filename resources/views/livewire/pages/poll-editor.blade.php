@@ -12,13 +12,12 @@
 
         <div class="row">
             {{-- Výběr doplňujících otázek --}}
-            <x-layouts.col-6>
+            <div class="col-6">
                 <x-pages.poll-editor.questions.section/>
-            </x-layouts.col-6>
-            {{-- Nastavení ankety --}}
-            <x-layouts.col-6>
+            </div>
+            <div class="col-6">
                 <x-pages.poll-editor.settings-section/>
-            </x-layouts.col-6>
+            </div>
         </div>
 
 

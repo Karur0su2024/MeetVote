@@ -2,7 +2,7 @@
 
     <div class="p-3 d-flex align-items-center justify-content-between">
         <div class="d-flex gap-2 align-items-center ms-2">
-            <h4 class="mb-0 me-auto text-break">
+            <h4 class="mb-0 me-auto text-break tw-text-lg tw-font-bold">
                 {{ $poll->title }}
             </h4>
 
@@ -10,29 +10,34 @@
 
         @can('is-admin', $poll)
 
-        <x-ui.dropdown.wrapper>
-            <x-slot:header>
-                <i class="bi bi-three-dots"></i>
-            </x-slot:header>
-            <x-slot:dropdownItems>
-                <x-ui.dropdown.item href="{{ route('polls.edit', $poll) }}"
-                                    :disabled="!$poll->isActive()">
-                    <x-ui.icon name="pencil"/>
-                    {{ __('pages/dashboard.poll_card.dropdown.edit') }}
-                </x-ui.dropdown.item>
-                <x-ui.dropdown.item wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
-                    <x-ui.icon name="share"/>
-                    {{ __('pages/dashboard.poll_card.dropdown.share') }}
-                </x-ui.dropdown.item>
-                <x-ui.dropdown.divider/>
-                <x-ui.dropdown.item wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')"
-                                    color="danger">
-                    <x-ui.icon name="trash"/>
-                    {{ __('pages/dashboard.poll_card.dropdown.delete') }}
-                </x-ui.dropdown.item>
-
-            </x-slot:dropdownItems>
-        </x-ui.dropdown.wrapper>
+            <div class="tw-dropdown">
+                <button class="tw-btn tw-btn-ghost">
+                    <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="tw-menu tw-dropdown-content tw-bg-base-100 tw-w-52 tw-border tw-rounded tw-shadow-sm">
+                    <li>
+                        <a  class="{{ !$poll->isActive() ? 'disabled' : '' }}"
+                            href="{{ route('polls.edit', $poll) }}">
+                            <i class="bi bi-pencil me-2"></i>
+                            {{ __('pages/dashboard.poll_card.dropdown.edit') }}
+                        </a>
+                    </li>
+                    <li class="tw-flex"
+                        wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
+                        <a href="#">
+                            <i class="bi bi-share me-2"></i>
+                            {{ __('pages/dashboard.poll_card.dropdown.share') }}
+                        </a>
+                    </li>
+                    <li wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')"
+                        class="tw-text-error">
+                        <a href="#">
+                            <i class="bi bi-trash me-2"></i>
+                            {{ __('pages/dashboard.poll_card.dropdown.delete') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
         @endcan
     </div>
     <div class="px-3 d-flex gap-2 align-items-center ms-2 mb-2">
@@ -74,7 +79,7 @@
 
     <!-- Card Footer -->
     <div class="card-footer">
-        <a href="{{ route('polls.show', $poll) }}" class="btn btn-primary">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
+        <a href="{{ route('polls.show', $poll) }}" class="tw-btn tw-btn-primary">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
     </div>
 </div>
 

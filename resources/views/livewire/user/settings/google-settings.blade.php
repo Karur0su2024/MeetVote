@@ -1,19 +1,16 @@
 {{-- Sekce na stránce nastavení pro připojení Google účtu a Kalendáře --}}
-<x-ui.card header-hidden>
-    <x-slot:body-header>
-        <h2 class="mb-3">
-            {{ __('pages/user-settings.google.title') }}
-        </h2>
-
-    </x-slot:body-header>
-    <x-slot:body>
-
+<x-ui.tw-card>
+    <x-slot:title>
+        {{ __('pages/user-settings.google.title') }}
+    </x-slot:title>
+    <div class="flex">
         @if ($user->google_id)
+
             <p class="text-muted">
                 {{ __('pages/user-settings.google.connected.text') }}
             </p>
 
-            <a href="{{ route('google.oauth.disconnect') }}" class="btn btn-outline-danger">
+            <a href="{{ route('google.oauth.disconnect') }}" class="tw-btn tw-btn-outline tw-btn-error my-3">
                 <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect') }}
             </a>
 
@@ -21,14 +18,13 @@
                 <p class="text-muted">
                     {{ __('pages/user-settings.google.text.synced_events', ['synced_events_count' => $user->syncedEvents->count()]) }}
                 </p>
-                <a href="{{ route('google.calendar.disconnect') }}" class="btn btn-outline-danger">
+                <a href="{{ route('google.calendar.disconnect') }}" class="tw-btn tw-btn-outline tw-btn-error my-3">
                     <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect_calendar') }}
                 </a>
             @else
-                <a href="{{ route('google.calendar.login') }}" class="btn btn-outline-primary">
+                <a href="{{ route('google.calendar.login') }}" class="tw-btn tw-btn-outline tw-btn-primary my-3">
                     <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect_calendar') }}
                 </a>
-
             @endif
 
         @else
@@ -36,12 +32,13 @@
                 <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
             </a>
         @endif
+    </div>
 
-        @if (session()->has('settings.google.success'))
-            <span class="text-success ms-3">{{ session('settings.google.success') }}</span>
-        @endif
-        @if (session()->has('settings.google.error'))
-            <span class="text-danger ms-3">{{ session('settings.google.error') }}</span>
-        @endif
-    </x-slot:body>
-</x-ui.card>
+
+    @if (session()->has('settings.google.success'))
+        <span class="text-success ms-3">{{ session('settings.google.success') }}</span>
+    @endif
+    @if (session()->has('settings.google.error'))
+        <span class="text-danger ms-3">{{ session('settings.google.error') }}</span>
+    @endif
+</x-ui.tw-card>
