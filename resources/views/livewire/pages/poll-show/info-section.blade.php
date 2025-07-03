@@ -96,9 +96,7 @@
 
     {{--Pravá strana – informace o události--}}
     @if($event)
-        <div>
-            <x-pages.poll-show.info.event-details :event="$event" :syncGoogleCalendar="$syncGoogleCalendar" :poll="$poll" />
-        </div>
+        <livewire:page-poll-show-poll-section-event-details :event="$event" :poll="$poll" />
     @endif
 
 </div>
