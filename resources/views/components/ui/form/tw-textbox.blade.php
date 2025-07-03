@@ -1,5 +1,5 @@
 <fieldset class="tw-fieldset mb-3">
-    <span class="tw-fieldset-legend py-0">
+    <span class="tw-fieldset-legend pb-1">
         {{ $slot }}
         @if ($tooltip ?? null)
             <small class="ms-2">

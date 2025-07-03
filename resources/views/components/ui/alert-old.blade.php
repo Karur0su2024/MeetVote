@@ -1,18 +1,16 @@
 @props([
     'icon' => null,
-    'type' => 'info',
+    'type' => 'primary',
     'dismissible' => false,
 ])
 
-<div role="alert" class="tw-alert tw-alert-{{ $type }} tw-alert-soft {{ $attributes->get('class') }}"
-    {{ $attributes }}>
+<div class="alert alert-{{ $type }} shadow-sm d-flex fade show {{ $dismissible ? 'alert-dismissible' : '' }} {{ $attributes->get('class') }}"
+     role="alert"
+     {{ $attributes }}>
     @if ($icon)
         <i class="bi {{ $icon }} me-2"></i>
     @endif
-    <span>
-           {{ $slot }}
-    </span>
-
+    {{ $slot }}
     @if ($dismissible)
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     @endif

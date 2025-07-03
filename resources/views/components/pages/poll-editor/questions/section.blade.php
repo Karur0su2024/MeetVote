@@ -18,15 +18,17 @@
         </template>
 
         <template x-if="questions.length == 0">
-            <x-ui.alert>
+            <x-ui.alert type="info">
                 {{ __('pages/poll-editor.questions.alert.no_questions') }}
             </x-ui.alert>
         </template>
-        {{-- Tlačítko pro přidání další otázky --}}
-        <x-ui.button @click="addQuestion()"
-                     color="outline-secondary">
+
+        <button class="tw-btn tw-btn-soft tw-btn-sm tw-btn-primary"
+                @click="addQuestion()">
             {{ __('pages/poll-editor.questions.button.add_question') }}
-        </x-ui.button>
+        </button>
+        {{-- Tlačítko pro přidání další otázky --}}
+
 
         @error('form.questions')
         <span class="text-danger ms-2">{{ $message }}</span>

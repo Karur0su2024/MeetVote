@@ -7,7 +7,7 @@
     <div class="tw-card-body">
         <div class="flew flex-row">
             <div>
-                <h2 class="card-title mb-1 tw-text-2xl text-break">{{ $title }}</h2>
+                <h2 class="card-title mb-1 tw-text-2xl text-break tw-font-semibold">{{ $title }}</h2>
             </div>
             <div>
                 {{ $headerRight ?? '' }}

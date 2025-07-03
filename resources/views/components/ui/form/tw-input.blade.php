@@ -6,7 +6,7 @@
 ])
 
 <fieldset class="tw-fieldset mb-2" >
-    <label class="tw-fieldset-legend">
+    <label class="tw-fieldset-legend pb-1">
         {{ $label ?? '' }}
 {{--        <x-ui.red-text>--}}
 {{--            {{ $attributes->has('required') ? '*' : '' }}--}}
@@ -20,7 +20,6 @@
     <input type="{{ $type }}"
            class="tw-input w-100"
            {{ $attributes->get('class') ?? '' }}
-           placeholder="{{ $placeholder ?? '' }}"
            aria-label="{{ $label ?? '' }}"
            aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
            {{ $attributes }}
