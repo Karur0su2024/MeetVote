@@ -10,14 +10,14 @@
         {{ __('pages/poll-show.voting.description') }}
     </p>
     <div>
-        <!-- Pro přesunutí -->
-        <div class="card">
-            <div class="card-body mx-auto w-100 d-flex flex-wrap justify-content-around text-center ">
-                <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
-                <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
-                <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
-            </div>
-        </div>
+<div class="tw-card tw-border tw-bg-base-400 tw-flex tw-flex-row tw-p-2 tw-gap-3 tw-items-center tw-shadow-sm">
+    <div class="tw-flex tw-flex-row tw-gap-3">
+        <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
+        <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
+        <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
+    </div>
+</div>
+
         @if($loaded)
             <form wire:submit.prevent="submitVote()">
                 <div>
@@ -147,15 +147,15 @@
 
                         @endguest
 
-                        <x-ui.form.textbox x-model="form.notes"
+                        <x-ui.form.tw-textbox x-model="form.notes"
                                            placeholder="{{ __('pages/poll-show.voting.form.notes.placeholder') }}">
                             {{ __('pages/poll-show.voting.form.notes.label') }}
-                        </x-ui.form.textbox>
+                        </x-ui.form.tw-textbox>
 
                         <div class="d-flex flex-wrap align-items-center gap-3">
-                            <x-ui.button type="submit" >
+                            <x-ui.tw-button type="submit" >
                                 {{ __('pages/poll-show.voting.buttons.submit_vote') }}
-                            </x-ui.button>
+                            </x-ui.tw-button>
                             <x-ui.spinner wire:loading wire:target="submitVote">
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </x-ui.spinner>
