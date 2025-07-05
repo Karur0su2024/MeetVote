@@ -1,13 +1,8 @@
-<div class="card shadow-sm border-1 my-2">
-
-    <div class="p-3 d-flex align-items-center justify-content-between">
-        <div class="d-flex gap-2 align-items-center ms-2">
-            <h4 class="mb-0 me-auto text-break tw-text-lg tw-font-bold">
-                {{ $poll->title }}
-            </h4>
-
-        </div>
-
+<x-ui.tw-card>
+    <x-slot:title>
+        {{ $poll->title }}
+    </x-slot:title>
+    <x-slot:header-right>
         @can('is-admin', $poll)
 
             <div class="tw-dropdown">
@@ -39,47 +34,41 @@
                 </ul>
             </div>
         @endcan
-    </div>
-    <div class="px-3 d-flex gap-2 align-items-center ms-2 mb-2">
-                <span class="badge {{ $poll->isActive() ? 'text-bg-success' : 'text-bg-secondary' }} ">
+    </x-slot:header-right>
+    <div class="tw-flex tw-gap-1 align-items-center">
+
+                <span class="tw-badge tw-badge-sm {{ $poll->isActive() ? 'tw-badge-success' : 'tw-badge-neutral' }} ">
                     {{ __('pages/dashboard.poll_card.pills.status.' . $poll->status->value) }}
                 </span>
         @if(auth()->user()->votes()->where('poll_id', $poll->id)->exists())
-            <span class="badge text-bg-info">
+            <span class="tw-badge tw-badge-sm tw-badge-info">
                         {{ __('pages/dashboard.poll_card.pills.voted') }}
                     </span>
         @endif
         @can('is-admin', $poll)
-            <span class="badge text-bg-warning">
+            <span class="tw-badge tw-badge-sm tw-badge-warning">
                         {{ __('pages/dashboard.poll_card.pills.admin') }}
                     </span>
         @endcan
     </div>
 
-    <div class="card-body">
-
-        <div class="row">
-            <div class="col-4 text-center">
-                <i class="bi bi-check-circle fs-4"></i>
-                <div class="fw-bold">{{ $poll->votes()->count() }}</div>
-                <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
-            </div>
-            <div class="col-4 text-center">
-                <i class="bi bi-clock fs-4"></i>
-                <div class="fw-bold">{{ $poll->timeOptions()->count() }}</div>
-                <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
-            </div>
-            <div class="col-4 text-center">
-                <i class="bi bi-question-circle fs-4"></i>
-                <div class="fw-bold">{{ $poll->questions()->count() }}</div>
-                <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
-            </div>
+    <div class="row tw-mt-2">
+        <div class="col-4 text-center">
+            <i class="bi bi-check-circle fs-4"></i>
+            <div class="fw-bold">{{ $poll->votes()->count() }}</div>
+            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
+        </div>
+        <div class="col-4 text-center">
+            <i class="bi bi-clock fs-4"></i>
+            <div class="fw-bold">{{ $poll->timeOptions()->count() }}</div>
+            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
+        </div>
+        <div class="col-4 text-center">
+            <i class="bi bi-question-circle fs-4"></i>
+            <div class="fw-bold">{{ $poll->questions()->count() }}</div>
+            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
         </div>
     </div>
-
-    <!-- Card Footer -->
-    <div class="card-footer">
-        <a href="{{ route('polls.show', $poll) }}" class="tw-btn tw-btn-primary">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
-    </div>
-</div>
+    <a href="{{ route('polls.show', $poll) }}" class="tw-btn tw-btn-primary tw-mt-4">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
+</x-ui.tw-card>
 

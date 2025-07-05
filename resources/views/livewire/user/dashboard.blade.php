@@ -19,8 +19,8 @@
     <x-ui.panel>
         <x-slot:left>
             <a href="{{ route('polls.create') }}"
-               class="btn btn-outline-secondary">
-                <x-ui.icon name="plus-circle"/>
+               class="tw-btn">
+                <i class="bi bi-plus-circle tw-me-1"></i>
                 {{ __('pages/dashboard.buttons.new_poll') }}
             </a>
         </x-slot:left>
@@ -69,7 +69,7 @@
 
 
     <div x-show="opened === 'Polls'">
-        <h3 class="tw-text-3xl text-center">{{ __('ui/navbar.dashboard') }}</h3>
+        <h3 class="tw-text-3xl text-center tw-mb-4">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
             <div class="row">
                 @foreach ($polls as $poll)

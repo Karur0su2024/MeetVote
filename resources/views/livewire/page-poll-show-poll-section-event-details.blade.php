@@ -9,7 +9,21 @@
         {{ __('pages/poll-show.event_details.title') }}
     </x-slot:title>
     <x-slot:header-right>
-
+        @if ($event)
+            <x-ui.dropdown.wrapper element="div" size="md">
+                <x-slot:header>
+                    {{ __('pages/poll-show.event_details.dropdown.header') }}
+                </x-slot:header>
+                <x-slot:dropdown-items>
+                    <x-ui.dropdown.item wire:click='importToGoogleCalendar()'>
+                        {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
+                    </x-ui.dropdown.item>
+                    <x-ui.dropdown.item wire:click='importToOutlookCalendar()'>
+                        {{ __('pages/poll-show.event_details.dropdown.import_to_outlook') }}
+                    </x-ui.dropdown.item>
+                </x-slot:dropdown-items>
+            </x-ui.dropdown.wrapper>
+        @endif
     </x-slot:header-right>
 
     @if ($event)
@@ -82,20 +96,6 @@
         </x-slot:footer>
     @endcan
 
-    @if ($event)
-        <x-ui.dropdown.wrapper element="div" size="md">
-            <x-slot:header>
-                {{ __('pages/poll-show.event_details.dropdown.header') }}
-            </x-slot:header>
-            <x-slot:dropdown-items>
-                <x-ui.dropdown.item wire:click='importToGoogleCalendar()'>
-                    {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
-                </x-ui.dropdown.item>
-                <x-ui.dropdown.item wire:click='importToOutlookCalendar()'>
-                    {{ __('pages/poll-show.event_details.dropdown.import_to_outlook') }}
-                </x-ui.dropdown.item>
-            </x-slot:dropdown-items>
-        </x-ui.dropdown.wrapper>
-    @endif
+
 
 </x-ui.tw-card>

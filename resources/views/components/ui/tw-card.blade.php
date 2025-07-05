@@ -5,15 +5,14 @@
 
 <div class="tw-card tw-bg-base-100 w-96 tw-shadow-md tw-rounded-lg tw-mb-4 text-start {{ $attributes->get('class') }}" {{ $attributes }}>
     <div class="tw-card-body">
-        <div class="flew flex-row">
-            <div>
+        <div class="tw-flex tw-flex-row">
+            <div class="tw-grow">
                 <h2 class="card-title mb-1 tw-text-2xl text-break tw-font-semibold">{{ $title }}</h2>
             </div>
-            <div>
+            <div class="flex-none">
                 {{ $headerRight ?? '' }}
             </div>
         </div>
-
         {{ $slot }}
     </div>
 </div>
