@@ -13,7 +13,8 @@
             </div>
 
         </div>
-        <div class="tw-grid">
+        <div class="tw-grid tw-grid-flow-row tw-grid-cols-2 tw-gap-2">
+            {{-- Content of the section --}}
             {{ $content }}
         </div>
     </div>

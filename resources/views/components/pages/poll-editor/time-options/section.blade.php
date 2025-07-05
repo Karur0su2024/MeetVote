@@ -19,35 +19,46 @@
                 </x-ui.tooltip>
             </small>
         </x-slot:title>
-        <div class="row g-3">
-            <div class="col-lg-6">
-                <div class="card p-3 shadow-sm">
-                    <h3 class="tw-text-lg mb-3">
-                        {{ __('pages/poll-editor.time_options.calendar.title') }}
-                    </h3>
-                    <div id="calendar"
-                         x-init="initCalendar()"
-                         x-data
-                         wire:ignore>
-                    </div>
-                    <div x-show="messages.errors['calendar']">
-                        <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
-                            <span x-text="messages.errors['calendar']"></span>
-                        </x-ui.alert>
-                    </div>
+        <div class="tw-flex tw-flex-row tw-gap-4">
+            {{-- Blok s kalendářem --}}
+            <div class="tw-flex-1">
+                <div class="tw-card tw-bg-base-200 tw-border h-100">
+                    <div class="tw-card-body">
+                        <h3 class="tw-text-lg tw-card-title mb-3">
+                            {{ __('pages/poll-editor.time_options.calendar.title') }}
+                        </h3>
+                        <div class="tw-card-content">
 
+                            <div id="calendar"
+                                 x-init="initCalendar()"
+                                 x-data
+                                 wire:ignore>
+                            </div>
+                            <div x-show="messages.errors['calendar']">
+                                <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                                    <span x-text="messages.errors['calendar']"></span>
+                                </x-ui.alert>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {{-- Blok s časovými možnostmi --}}
-            <div class="col-lg-6">
+            <div class="tw-flex-1">
 
-                <div class="card p-3 h-100">
-                    <h3 class="tw-text-lg mb-3">
-                        {{ __('pages/poll-editor.time_options.calendar.dates') }}
-                    </h3>
-                    <template x-for="(date, dateIndex) in dates" :key="dateIndex">
-                        <x-pages.poll-editor.time-options.date-card/>
-                    </template>
+                <div class="tw-card tw-border tw-bg-base-200 h-100">
+                    <div class="tw-card-body">
+                        <h3 class="tw-card-title tw-text-lg">
+                            {{ __('pages/poll-editor.time_options.calendar.dates') }}
+                        </h3>
+                        <div class="tw-card-content">
+                            <template x-for="(date, dateIndex) in dates" :key="dateIndex">
+                                <x-pages.poll-editor.time-options.date-card/>
+                            </template>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

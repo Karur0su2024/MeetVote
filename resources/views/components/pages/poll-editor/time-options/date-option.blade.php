@@ -5,18 +5,18 @@
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">
         {{-- Pole pro zadání začátku časového intervalu  --}}
         <template x-if="option.type === 'time'">
-            <div class="d-flex flex-md-nowrap flex-wrap gap-2 w-100">
+            <div class="tw-flex tw-flex-row tw-gap-2 w-100">
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.start"
                        :id="'start_' + dateIndex + '_' + optionIndex"
-                       class="form-control w-100 w-md-auto"
+                       class="tw-input tw-input-sm tw-grow"
                        :disabled="option.score !== 0 || option.invalid"
                        :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
 
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.end"
                        :id="'end_' + dateIndex + '_' + optionIndex"
-                       class="form-control w-100 w-md-auto"
+                       class="tw-input tw-input-sm tw-grow"
                        :disabled="option.score !== 0 || option.invalid"
                        :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
             </div>
@@ -32,18 +32,16 @@
         </template>
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-        <x-ui.button @click="removeOption(dateIndex, optionIndex)"
-                     color="danger"
-                     ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">
+        <button class="tw-btn tw-btn-sm tw-btn-outline tw-btn-error"
+                @click="removeOption(dateIndex, optionIndex)"
+                ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">
             <i class="bi" :class="{
             'bi-calendar-x-fill': option.invalid,
             'bi-trash': option.score === 0 && !option.invalid,
-                            'bi-exclamation-triangle': option.score !== 0,
-
-                          }">
-                <span class="d-md-none ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
-            </i>
-        </x-ui.button>
+                            'bi-exclamation-triangle': option.score !== 0
+                          }"></i>
+            <span class="d-md-none ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
+        </button>
 
 
     </div>
