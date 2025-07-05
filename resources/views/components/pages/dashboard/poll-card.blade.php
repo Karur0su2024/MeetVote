@@ -69,6 +69,8 @@
             <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
         </div>
     </div>
-    <a href="{{ route('polls.show', $poll) }}" class="tw-btn tw-btn-primary tw-mt-4">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
+    <div class="tw-card-actions">
+        <a href="{{ route('polls.show', $poll) }}" class="tw-btn tw-btn-primary tw-btn-outline tw-mt-4">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
+    </div>
 </x-ui.tw-card>
 

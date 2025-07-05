@@ -4,9 +4,6 @@
 
 
 <div>
-    <h4>
-        {{ __('pages/poll-show.results.sections.results.view_only.title') }}
-    </h4>
 
     <x-pages.poll-show.poll.section-card title="Time Options">
         <x-slot:header>
