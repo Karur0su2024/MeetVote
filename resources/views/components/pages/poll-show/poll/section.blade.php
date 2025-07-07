@@ -24,7 +24,6 @@
                                  '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"
                         @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
                 </button>
-
             @endcan
         </x-slot:header-right>
 

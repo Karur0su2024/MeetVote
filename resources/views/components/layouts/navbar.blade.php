@@ -1,7 +1,7 @@
 <nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all">
     <div class="tw-navbar tw-max-w-7xl tw-mx-auto tw-px-4 tw-h-16 tw-flex tw-items-center">
         <div class="tw-navbar-start tw-gap-4">
-            <a href="{{ route('dashboard') }}"
+            <a href="{{ route('home') }}"
                class="tw-btn tw-btn-ghost tw-normal-case tw-text-2xl tw-flex tw-items-center tw-gap-3 tw-px-2 tw-transition-all tw-hover:bg-base-200 tw-rounded-lg">
                 <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="tw-w-7 tw-h-7">
                 <span class="tw-font-bold tw-tracking-tight">{{ config('app.name') }}</span>
@@ -41,7 +41,7 @@
                     </label>
                 </li> --}}
                 <div class="tw-dropdown tw-dropdown-end">
-                    <button class="tw-btn tw-btn-ghost tw-btn-sm tw-flex tw-items-center tw-gap-2" tabindex="0">
+                    <button class="tw-btn tw-btn-ghost tw-btn-sm" tabindex="0">
                         {{ __("ui/navbar.language") }}
                     </button>
 
@@ -69,7 +69,7 @@
                                 </a>
                             </li>
                             <li>
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="GET" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit" class="tw-w-full tw-text-left">
                                         {{ __('ui/navbar.logout') }}

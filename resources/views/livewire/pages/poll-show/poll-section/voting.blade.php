@@ -139,7 +139,6 @@
                     <div class="mt-4">
                         @guest
                             <x-pages.poll-show.poll.voting.form :poll="$poll"/>
-
                         @endguest
 
                         <x-ui.form.tw-textbox x-model="form.notes"
