@@ -11,7 +11,8 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
                 <h5 class="tw-text-lg tw-font-medium tw-mb-2">{{ __('pages/poll-show.results.sections.all_votes.title') }}</h5>
                 <div class="d-flex flex-wrap gap-2">
                     @forelse($votes as $vote)
-                        <button class="tw-btn tw-btn-sm tw-btn-neutral"
+                        <button class="tw-btn tw-btn-sm tw-btn-neutral tw-btn-outline
+                        "
                                 wire:click="openVoteModal({{ $vote }})">
                             {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
                         </button>

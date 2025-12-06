@@ -20,8 +20,8 @@
 </head>
 
 <body>
-<div class="app-background">
-    <div class="app-background-overlay">
+<div class="tw-bg-base-300">
+    <div class="">
 
         <!-- Navbar -->
         <x-layouts.navbar />

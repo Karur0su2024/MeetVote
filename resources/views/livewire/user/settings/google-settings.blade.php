@@ -1,8 +1,4 @@
-{{-- Sekce na stránce nastavení pro připojení Google účtu a Kalendáře --}}
-<x-ui.tw-card>
-    <x-slot:title>
-        {{ __('pages/user-settings.google.title') }}
-    </x-slot:title>
+<div class="tw-mt-3">
     <div class="flex">
         @if ($user->google_id)
 
@@ -41,4 +37,4 @@
     @if (session()->has('settings.google.error'))
         <span class="text-danger ms-3">{{ session('settings.google.error') }}</span>
     @endif
-</x-ui.tw-card>
+</div>
