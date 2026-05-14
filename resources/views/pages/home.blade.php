@@ -9,7 +9,7 @@
         </x-ui.alert>
     @endif
 
-    <div class="tw-max-w-7xl tw-mx-auto tw-p-4">
+    <div class="tw-max-w-7xl tw-mx-auto tw-p-4 tw-text-base-content">
         <div class="tw-card tw-card-side shadow-sm tw-bg-base-100">
             <div class="tw-card-body">
                 <h2 class="mb-3 tw-text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
@@ -26,7 +26,7 @@
                 <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
             </figure>
         </div>
-        <div class="p-3 card shadow-mt mt-5">
+        <div class="p-3 tw-card shadow-mt mt-5">
             <div class="card-body">
                 <h3 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
                 <div class="row mt-4">

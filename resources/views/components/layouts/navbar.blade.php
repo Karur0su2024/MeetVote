@@ -1,8 +1,8 @@
-<nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all">
-    <div class="tw-navbar tw-max-w-7xl tw-mx-auto tw-px-4 tw-h-16 tw-flex tw-items-center">
+<nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all text-base-content tw-text-base-content">
+    <div class="tw-navbar tw-max-w-7xl tw-mx-auto tw-px-4 tw-h-16 tw-flex tw-items-center text-base-content">
         <div class="tw-navbar-start tw-gap-4">
             <a href="{{ route('home') }}"
-               class="tw-btn tw-btn-ghost tw-normal-case tw-text-2xl tw-flex tw-items-center tw-gap-3 tw-px-2 tw-transition-all tw-hover:bg-base-200 tw-rounded-lg">
+               class="tw-btn-ghost tw-normal-case tw-text-2xl tw-flex tw-items-center tw-gap-3 tw-px-2 tw-transition-all tw-hover:bg-base-200 tw-rounded-lg">
                 <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="tw-w-7 tw-h-7">
                 <span class="tw-font-bold tw-tracking-tight">{{ config('app.name') }}</span>
             </a>
