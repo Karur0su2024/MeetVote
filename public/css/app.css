@@ -34,4 +34,7 @@ textarea::placeholder {
     color: #8f8f8f !important;
 }
 
+.fc .fc-scrollgrid-section-sticky > * {
+    background: 0 !important;
+}
 
