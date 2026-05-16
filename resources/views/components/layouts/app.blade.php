@@ -21,7 +21,7 @@
 
 <body>
 <div class="tw-bg-base-300">
-    <div class="">
+    <div class="tw-text-base-content">
 
         <!-- Navbar -->
         <x-layouts.navbar />

@@ -1,5 +1,5 @@
 <div
-    class="p-2 mb-2 rounded border"
+    class="mb-2 tw-bg-base-400 rounded tw-pt-2"
     :class="{ 'existing-option': option.id }">
     <div
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">
@@ -23,12 +23,14 @@
         </template>
         {{-- Zobrazení textového pole pro zadání textu --}}
         <template x-if="option.type === 'text'">
+            <div class="tw-flex tw-flex-row tw-gap-2 w-100">
             <input type="text"
                    x-model="dates[dateIndex][optionIndex].content.text"
-                   :id="'text_' + dateIndex + '_' + optionIndex" class="form-control"
+                   :id="'text_' + dateIndex + '_' + optionIndex" class="tw-input tw-input-sm tw-grow"
                    :placeholder="'Option ' + (optionIndex + 1)"
                    :disabled="option.score !== 0 || option.invalid"
                    :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
+            </div>
         </template>
 
         {{-- Tlačítko pro odstranění časové možnosti --}}

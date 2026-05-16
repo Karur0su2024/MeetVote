@@ -1,5 +1,5 @@
 <div>
-    <div class="tw-card mb-3 shadow-sm tw-border tw-p-3 tw-bg-purple-50 tw-flex tw-flex-col tw-gap-2"
+    <div class="tw-card tw-bg-base-300 mb-3 shadow-sm tw-p-3 tw-flex tw-flex-col tw-gap-2"
          x-data="{ collapsed: false }">
         <div class="tw-flex tw-flex-row tw-items-center tw-gap-2">
             <div class="tw-grow">
@@ -42,12 +42,12 @@
         <div>
             {{-- Tlačítka pro přidání nové možnosti --}}
             <div class="tw-flex flex-md-nowrap align-items-center gap-2">
-                <button class="tw-btn tw-btn-sm tw-btn-outline tw-btn-neutral"
+                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-soft"
                         type="button"
                         @click="addTimeOption(dateIndex, false)">
                     <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
                 </button>
-                <button class="tw-btn tw-btn-sm tw-btn-outline tw-btn-neutral"
+                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-soft"
                         type="button"
                         @click="addTextOption(dateIndex, 'text')">
                     <i class="bi bi-text-paragraph me-1"></i>{{ __('pages/poll-editor.time_options.button.add_text_option') }}

@@ -22,7 +22,7 @@
         <div class="tw-flex tw-flex-row tw-gap-4">
             {{-- Blok s kalendářem --}}
             <div class="tw-flex-1">
-                <div class="tw-card tw-bg-base-200 tw-border h-100">
+                <div class="tw-card tw-bg-base-200 h-100">
                     <div class="tw-card-body">
                         <h3 class="tw-text-lg tw-card-title mb-3">
                             {{ __('pages/poll-editor.time_options.calendar.title') }}
@@ -46,7 +46,7 @@
             {{-- Blok s časovými možnostmi --}}
             <div class="tw-flex-1">
 
-                <div class="tw-card tw-border tw-bg-base-200 h-100">
+                <div class="tw-card tw-bg-base-200 h-100">
                     <div class="tw-card-body">
                         <h3 class="tw-card-title tw-text-lg">
                             {{ __('pages/poll-editor.time_options.calendar.dates') }}
