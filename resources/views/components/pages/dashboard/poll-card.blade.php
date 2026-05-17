@@ -56,17 +56,17 @@
         <div class="col-4 text-center">
             <i class="bi bi-check-circle fs-4"></i>
             <div class="fw-bold">{{ $poll->votes()->count() }}</div>
-            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
+            <div class="tw-text-xs tw-text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
         </div>
         <div class="col-4 text-center">
             <i class="bi bi-clock fs-4"></i>
             <div class="fw-bold">{{ $poll->timeOptions()->count() }}</div>
-            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
+            <div class="tw-text-xs tw-text-inherit">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
         </div>
         <div class="col-4 text-center">
             <i class="bi bi-question-circle fs-4"></i>
             <div class="fw-bold">{{ $poll->questions()->count() }}</div>
-            <div class="small text-muted">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
+            <div class="tw-text-xs tw-text-inherit tw-text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
         </div>
     </div>
     <div class="tw-card-actions">

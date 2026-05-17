@@ -1,6 +1,6 @@
 <footer class="tw-bg-base-200 tw-py-6 tw-shadow-md tw-text-base-content">
     <div class="tw-container tw-mx-auto tw-text-center">
-        <p class="tw-mb-2 tw-text-sm tw-text-base-content/70">&copy; 2025 Karel Tynek</p>
+        <p class="tw-mb-2 tw-text-sm tw-text-base-content/70">&copy; 2025-2026 Karel Tynek</p>
         <p class="tw-mb-4 tw-text-base-content/80">
             {{ __('ui/footer.copyright') }}
         </p>

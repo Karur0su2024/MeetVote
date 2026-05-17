@@ -6,11 +6,11 @@
 @endpush
 
 <div x-data="votingForm">
-    <p class="tw-text-base-600 tw-font-light mb-3">
+    <p class="tw-font-light tw-mb-3">
         {{ __('pages/poll-show.voting.description') }}
     </p>
     <div>
-        <div class="tw-card tw-border tw-bg-base-400 tw-flex tw-flex-row tw-p-2 tw-gap-3 tw-items-center tw-shadow-sm">
+        <div class="tw-card tw-bg-base-300 tw-flex tw-flex-row tw-p-2 tw-gap-3 tw-items-center tw-shadow-sm">
             <div class="tw-flex tw-flex-row tw-gap-3">
                 <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
                 <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
@@ -48,7 +48,7 @@
 
                             <template x-for="(timeOption, optionIndex) in form.timeOptions">
                                 <x-pages.poll-show.poll.option-card
-                                    class="btn-outline-vote"
+                                    class="btn-outline-vote tw-text-base-content"
                                     ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
                                     @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
                                     <x-slot:text>
@@ -85,9 +85,9 @@
 
                             @can('addNewOption', $poll)
                                 <div
-                                    class="card p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable"
+                                    class="tw-card tw-text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw-border tw-border-indigo-400"
                                     wire:click="openAddNewTimeModal({{ $poll->id }})">
-                                            <span class="text-muted fw-bold">
+                                            <span class="fw-bold">
                                                 {{ __('pages/poll-show.voting.buttons.add_time_option') }}
                                             </span>
 

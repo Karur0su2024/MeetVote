@@ -69,7 +69,7 @@
 
 
     <div x-show="opened === 'Polls'">
-        <h3 class="tw-text-3xl text-center tw-mb-4">{{ __('ui/navbar.dashboard') }}</h3>
+        <h3 class="tw-text-3xl tw-text-base-content text-center tw-mb-4">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
             <div class="row">
                 @foreach ($polls as $poll)

@@ -11,7 +11,7 @@
         </x-slot:header>
         <x-slot:content>
             @foreach($results['timeOptions']['options'] as $optionIndex => $option)
-                <div class="col-md-12 col-lg-6">
+                <div class="tw-w-full tw-md:w-1/2 tw-px-2">
                     <x-pages.poll-show.poll.option-card>
                         <x-slot:text>
                             {{ $option['date_formatted'] }}
@@ -20,7 +20,8 @@
                             {{ $option['full_content'] }}
                         </x-slot:subtext>
                         <x-slot:bottom>
-                            <x-pages.poll-show.poll.results.preference-view :score="$option['score']" :preferences="$option['preferences']"/>
+                            <x-pages.poll-show.poll.results.preference-view :score="$option['score']"
+                                                                            :preferences="$option['preferences']"/>
                         </x-slot:bottom>
                     </x-pages.poll-show.poll.option-card>
                 </div>

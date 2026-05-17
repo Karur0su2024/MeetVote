@@ -26,8 +26,8 @@
                 <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
             </figure>
         </div>
-        <div class="p-3 tw-card shadow-mt mt-5">
-            <div class="card-body">
+        <div class="p-3 tw-card shadow-mt mt-5 tw-bg-base-100">
+            <div class="tw-p-4">
                 <h3 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
