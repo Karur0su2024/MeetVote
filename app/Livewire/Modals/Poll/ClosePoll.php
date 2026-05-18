@@ -55,6 +55,7 @@ class ClosePoll extends Component
             } catch (\Exception $e) {
                 session()->flash('error', __('ui/modals.close_poll.messages.error.closing'));
                 DB::rollBack();
+//                dd($e->getMessage());
                 return;
             }
         }

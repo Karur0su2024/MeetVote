@@ -18,12 +18,16 @@ class GoogleService implements GoogleServiceInterface
 
     public function __construct()
     {
-        $this->client = new Client;
-        $this->client->setApplicationName(config('app.name'));
-        $this->client->setScopes([Calendar::CALENDAR]); // Rozsah přístupu k Google Kalendáři
-        $this->client->setAuthConfig(config('google.oauth_credentials')); // Cesta k souboru s oauth credentials
-        $this->client->setAccessType('offline');
-        $this->client->setPrompt('select_account consent');
+        try {
+            $this->client = new Client;
+            $this->client->setApplicationName(config('app.name'));
+            $this->client->setScopes([Calendar::CALENDAR]); // Rozsah přístupu k Google Kalendáři
+            $this->client->setAuthConfig(config('google.oauth_credentials')); // Cesta k souboru s oauth credentials
+            $this->client->setAccessType('offline');
+            $this->client->setPrompt('select_account consent');
+        } catch (\Exception $e) {
+            return;
+        }
     }
 
     // Synchronizace události s Google Kalendářem

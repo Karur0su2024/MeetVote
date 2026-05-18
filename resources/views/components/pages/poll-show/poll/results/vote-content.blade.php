@@ -9,9 +9,8 @@
             <div class="overflow-hidden">
                 <div class="d-flex justify-content-between align-items-center p-3 voting-card-{{$option->preference}}">
                     <div class="d-flex flex-column">
-                        <div
-                            class="fw-bold mb-1">{{ \Carbon\Carbon::parse($option->timeOption->date)->format('d. m. Y') }}</div>
-                        <div class="text-muted small">
+                        <div class="tw-text-md tw-font-medium tw-mb-1">{{ \Carbon\Carbon::parse($option->timeOption->date)->format('d. m. Y') }}</div>
+                        <div class="tw-text-base-content tw-text-xs">
                             @if($option->timeOption->text)
                                 <span>{{ $option->timeOption->text }}</span>
                             @else

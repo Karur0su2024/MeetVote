@@ -5,10 +5,10 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
 --}}
 <div>
-    <p class="tw-text-base-600 tw-font-light tw-mb-3">
-        {{ __('pages/poll-show.results.description') }}
-    </p>
-        <div class="tw-card tw-bg-base-300 h-100 mb-3 poll-section-card tw-p-4">
+{{--    <p class="tw-text-base-600 tw-font-light tw-my-3">--}}
+{{--        {{ __('pages/poll-show.results.description') }}--}}
+{{--    </p>--}}
+        <div class="tw-card tw-bg-base-300 h-100 my-3 poll-section-card tw-p-4">
             <div class="card-body">
                 <h5 class="tw-text-lg tw-font-medium tw-mb-2">{{ __('pages/poll-show.results.sections.all_votes.title') }}</h5>
                 <div class="d-flex flex-wrap gap-2">
