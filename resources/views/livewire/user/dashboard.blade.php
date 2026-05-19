@@ -1,32 +1,16 @@
 {{-- Dashboard  uživatele --}}
-<div class="text-start" x-data="{ opened: 'Polls' }">
-
-    <div class="mb-3">
-        <h3 class="text-center tw-text-3xl mb-3">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
-        <div class="row">
-            @foreach ($votes as $vote)
-                {{-- Karta ankety --}}
-                @if($vote->poll)
-                    <div class="col-md-6 col-lg-4">
-                        <x-pages.dashboard.poll-card :poll="$vote->poll"/>
-                    </div>
-                @endif
-
-            @endforeach
-        </div>
-    </div>
-
+<div x-data="{ opened: 'Polls' }">
     <x-ui.panel>
         <x-slot:left>
             <a href="{{ route('polls.create') }}"
-               class="tw-btn">
+               class="tw-btn tw-btn-outline">
                 <i class="bi bi-plus-circle tw-me-1"></i>
                 {{ __('pages/dashboard.buttons.new_poll') }}
             </a>
         </x-slot:left>
         <x-slot:right>
             <div x-show="opened === 'Polls'">
-                <x-ui.dropdown.wrapper size="md">
+                <x-ui.dropdown.wrapper size="md" color="outline">
                     <x-slot:header>
                         <x-ui.icon name="filter"/>
                         {{ __('pages/dashboard.dropdowns.filter.title') }}
@@ -47,7 +31,7 @@
                     </x-slot:dropdown-items>
                 </x-ui.dropdown.wrapper>
             </div>
-            <x-ui.dropdown.wrapper size="md">
+            <x-ui.dropdown.wrapper size="md" color="outline">
                 <x-slot:header><span
                         x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span>
                 </x-slot:header>
@@ -68,7 +52,7 @@
 
 
 
-    <div x-show="opened === 'Polls'">
+    <div class="tw-mt-6" x-show="opened === 'Polls'">
         <h3 class="tw-text-3xl tw-text-base-content text-center tw-mb-4">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
             <div class="row">
@@ -86,6 +70,21 @@
                 {{ __('pages/dashboard.alerts.no_polls') }}
             </x-ui.alert>
         @endif
+    </div>
+
+    <div class="tw-mt-4">
+        <h3 class="text-center tw-text-3xl mb-3">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
+        <div class="row">
+            @foreach ($votes as $vote)
+                {{-- Karta ankety --}}
+                @if($vote->poll)
+                    <div class="col-md-6 col-lg-4">
+                        <x-pages.dashboard.poll-card :poll="$vote->poll"/>
+                    </div>
+                @endif
+
+            @endforeach
+        </div>
     </div>
 
 

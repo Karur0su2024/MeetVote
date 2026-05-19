@@ -48,10 +48,10 @@ class EmailServiceProvider extends ServiceProvider
             SendInvitationEmail::class,
         );
 
-//        Event::listen(
-//            PollCreated::class,
-//            SendPollConfirmationEmail::class,
-//        );
+        Event::listen(
+            PollCreated::class,
+            SendPollConfirmationEmail::class,
+        );
         Event::listen(
             VoteSubmitted::class,
             SendVoteNotificationEmail::class,

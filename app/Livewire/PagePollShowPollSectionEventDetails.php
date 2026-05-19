@@ -3,6 +3,9 @@
 namespace App\Livewire;
 
 use App\Events\PollEventCreated;
+use App\Services\EventService;
+use App\Services\Google\GoogleService;
+use DateTime;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +18,8 @@ class PagePollShowPollSectionEventDetails extends Component
     public $event;
     public $poll;
     public $syncGoogleCalendar = false;
+
+    protected EventService $eventService;
 
     public function mount($poll, $event)
     {
@@ -29,9 +34,14 @@ class PagePollShowPollSectionEventDetails extends Component
         }
     }
 
+    public function boot(EventService $eventService): void
+    {
+        $this->eventService = $eventService;
+    }
+
     // https://github.com/spatie/calendar-links
     // Import do Google kalendáře
-    public function importToGoogleCalendar(): RedirectResponse
+    public function importToGoogleCalendar()
     {
         $link = $this->buildLink();
         return redirect()->away($link->google());
@@ -65,6 +75,11 @@ class PagePollShowPollSectionEventDetails extends Component
         PollEventCreated::dispatch($this->poll);
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_created'));
 
+    }
+
+    public function deleteEvent(){
+        $this->eventService->deleteEvent($this->poll);
+        return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
     }
 
     public function render()

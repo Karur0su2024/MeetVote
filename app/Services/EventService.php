@@ -65,4 +65,11 @@ class EventService
         ];
     }
 
+    public function deleteEvent(Poll $poll): void
+    {
+        if ($poll->event) {
+            $poll->event()->delete();
+        }
+    }
+
 }

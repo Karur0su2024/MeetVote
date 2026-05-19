@@ -1,6 +1,6 @@
 <div class="tw-mt-3">
     <div class="flex">
-        @if ($user->google_id)
+{{--        @if ($user->google_id)
 
             <p class="text-muted">
                 {{ __('pages/user-settings.google.connected.text') }}
@@ -27,7 +27,14 @@
             <a href="{{ route('google.oath.login') }}" class="btn btn-outline-primary">
                 <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
             </a>
-        @endif
+        @endif--}}
+
+        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+            <button class="tw-btn tw-btn-outline tw-btn-disabled">
+                <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
+            </button>
+        </div>
+
     </div>
 
 

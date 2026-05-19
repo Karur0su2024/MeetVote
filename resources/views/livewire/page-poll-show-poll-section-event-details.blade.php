@@ -10,19 +10,28 @@
     </x-slot:title>
     <x-slot:header-right>
         @if ($event)
-            <x-ui.dropdown.wrapper element="div" size="md">
-                <x-slot:header>
+            <div class="tw-dropdown tw-dropdown-end tw-w-full">
+                <button class="tw-btn tw-btn-outline tw-btn-sm">
                     {{ __('pages/poll-show.event_details.dropdown.header') }}
-                </x-slot:header>
-                <x-slot:dropdown-items>
-                    <x-ui.dropdown.item wire:click='importToGoogleCalendar()'>
-                        {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
-                    </x-ui.dropdown.item>
-                    <x-ui.dropdown.item wire:click='importToOutlookCalendar()'>
-                        {{ __('pages/poll-show.event_details.dropdown.import_to_outlook') }}
-                    </x-ui.dropdown.item>
-                </x-slot:dropdown-items>
-            </x-ui.dropdown.wrapper>
+                </button>
+                <ul class="tw-menu tw-dropdown-content tw-bg-base-200 tw-w-full tw-rounded tw-shadow-sm">
+                    <li>
+                        <a href="#" wire:click='importToGoogleCalendar()'>
+                            {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" wire:click='importToOutlookCalendar()'>
+                            {{ __('pages/poll-show.event_details.dropdown.import_to_outlook') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        @can('isAdmin', $poll)
+                <button class="tw-btn tw-btn-sm tw-btn-outline" wire:click="deleteEvent">
+                    Delete
+                </button>
+        @endcan
         @endif
     </x-slot:header-right>
 

@@ -6,31 +6,31 @@
     @if ($poll->pollComments)
         <div wire:init="loadComments">
 
-
             <div>
-
                 {{-- Formulář pro přidání komentáře --}}
-                <form class="mt-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
+                <form class="tw-mb-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
 
                     @guest
                         <x-ui.form.tw-input id="username"
-                                         wire:model="username"
-                                         required
-                                         placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
+                                            wire:model="username"
+                                            required
+                                            placeholder="{{ __('pages/poll-show.comments.form.username.placeholder') }}">
                             {{ __('pages/poll-show.comments.form.username.label') }}
                         </x-ui.form.tw-input>
                     @endguest
 
                     <x-ui.form.tw-textbox id="content"
-                                       wire:model="content"
-                                       required
-                                       placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
+                                          wire:model="content"
+                                          required
+                                          placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
                         {{ __('pages/poll-show.comments.form.content.label') }}
                     </x-ui.form.tw-textbox>
-
-                    <x-ui.tw-button type="submit">
+                    <button class="tw-btn tw-btn-sm tw-btn-primary"
+                            type="submit"
+                    >
                         {{ __('pages/poll-show.comments.buttons.submit') }}
-                    </x-ui.tw-button>
+                    </button>
+
                     <x-ui.saving wire:loading wire:target="addComment">
                         {{ __('pages/poll-show.comments.form.loading') }}
                     </x-ui.saving>

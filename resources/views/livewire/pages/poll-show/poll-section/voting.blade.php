@@ -83,17 +83,17 @@
                             </template>
 
 
-                            @can('addNewOption', $poll)
-                                <div
-                                    class="tw-card tw-text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw-border tw-border-indigo-400"
-                                    wire:click="openAddNewTimeModal({{ $poll->id }})">
-                                            <span class="fw-bold">
-                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}
-                                            </span>
+{{--                            @can('addNewOption', $poll)--}}
+{{--                                <div--}}
+{{--                                    class="tw-card tw-text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw-border tw-border-indigo-400"--}}
+{{--                                    wire:click="openAddNewTimeModal({{ $poll->id }})">--}}
+{{--                                            <span class="fw-bold">--}}
+{{--                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}--}}
+{{--                                            </span>--}}
 
-                                </div>
+{{--                                </div>--}}
 
-                            @endcan
+{{--                            @endcan--}}
 
 
                         </x-slot:content>

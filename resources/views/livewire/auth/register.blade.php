@@ -40,11 +40,16 @@
                         <a href="{{ route('login') }}" class="tw-link tw-link-primary">{{ __('pages/auth.register.buttons.already_registered') }}</a>
                     </div>
 
-                    <div class="tw-flex tw-justify-center tw-items-center tw-mb-3 tw-gap-2">
+                    <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-2">
                         <button type="submit" class="tw-btn tw-btn-primary tw-flex-1">{{ __('pages/auth.register.buttons.register') }}</button>
-                        <a href="{{ route('google.oath.login') }}" class="tw-btn tw-btn-outline tw-btn-primary tw-flex-1">
+{{--                        <a href="{{ route('google.oath.login') }}" class="tw-btn tw-btn-outline tw-btn-primary tw-flex-1">
                             <i class="bi bi-google"></i> {{ __('pages/auth.register.buttons.with_google') }}
-                        </a>
+                        </a>--}}
+                        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+                            <button class="tw-btn tw-btn-outline tw-btn-disabled">
+                                <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
+                            </button>
+                        </div>
                     </div>
                     <x-ui.saving wire:loading>
                         {{ __('pages/auth.register.loading') }}

@@ -15,4 +15,6 @@ interface EmailServiceInterface
     public function sendInvitation($email, $poll, $key);
 
     public function sendRegistrationMail($user);
+
+    public function sendEventNotification($email, $event);
 }

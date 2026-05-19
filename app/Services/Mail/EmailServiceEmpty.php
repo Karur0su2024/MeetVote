@@ -24,10 +24,14 @@ class EmailServiceEmpty implements EmailServiceInterface
         Log::info('Email service is disabled, not sending vote notification email');
     }
 
-
     public function sendRegistrationMail($user): void
     {
         Log::info('Email service is disabled, not sending registration email');
+    }
+
+    public function sendEventNotification($email, $event): void
+    {
+        Log::info('Email service is disabled, not sending poll confirmation email');
     }
 
     public function sendPollConfirmationEmail($poll)

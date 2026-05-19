@@ -1,4 +1,9 @@
-<nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all tw-text-base-content tw-text-base-content">
+{{--
+TODO: Return dark mode toggle to the navbar
+
+--}}
+
+<nav class="tw-bg-base-100 tw-shadow-sm tw-border-b tw-border-base-200 tw-transition-all tw-text-base-content tw-text-base-content tw-border-gray-400 tw-border-dotted">
     <div class="tw-navbar tw-max-w-7xl tw-mx-auto tw-px-4 tw-h-16 tw-flex tw-items-center">
         <div class="tw-navbar-start tw-gap-4">
             <a href="{{ route('home') }}"
@@ -25,13 +30,15 @@
         </div>
         <div class="tw-navbar-end tw-flex tw-items-center tw-gap-3">
             <ul class="tw-menu tw-menu-horizontal tw-px-1 tw-flex tw-items-center tw-gap-2">
-                <li>
-                    <a href="https://github.com/Karur0su2024/MeetVote" target="_blank"
-                       class="tw-btn tw-btn-ghost tw-btn-sm tw-tooltip tw-transition-all tw-hover:bg-base-200 tw-rounded-lg"
-                       data-tip="GitHub">
-                        <i class="bi bi-github tw-text-xl"></i>
-                    </a>
-                </li>
+
+
+{{--                <li>--}}
+{{--                    <a href="https://github.com/Karur0su2024/MeetVote" target="_blank"--}}
+{{--                       class="tw-btn tw-btn-ghost tw-btn-sm tw-tooltip tw-transition-all tw-hover:bg-base-200 tw-rounded-lg"--}}
+{{--                       data-tip="GitHub">--}}
+{{--                        <i class="bi bi-github tw-text-xl"></i>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <!-- Theme Toggle -->
                 {{-- <li>
                     <label class="tw-swap">
@@ -40,8 +47,10 @@
                         <i class="bi bi-moon-fill tw-swap-on tw-h-10 tw-w-10 tw-text-2xl"></i>
                     </label>
                 </li> --}}
+
+
                 <div class="tw-dropdown tw-dropdown-end">
-                    <button class="tw-btn tw-btn-ghost tw-btn-sm" tabindex="0">
+                    <button class="tw-btn tw-btn-ghost tw-hover:bg-primary/1" tabindex="0">
                         {{ __("ui/navbar.language") }}
                     </button>
 
@@ -58,10 +67,10 @@
                 </div>
                 @auth
                     <div class="tw-dropdown tw-dropdown-end">
-                        <button class="tw-btn tw-btn-ghost tw-btn-sm" tabindex="0">
+                        <button class="tw-btn tw-btn-ghost tw-rounded-box" tabindex="0">
                             <x-ui.username :username="Auth::user()->name" />
                         </button>
-                        <ul class="tw-menu tw-dropdown-content tw-w-52 tw-z-1 tw-shadow-sm tw-bg-base-100 tw-rounded-box"
+                        <ul class="tw-menu tw-dropdown-content tw-w-100 tw-z-1 tw-shadow-md tw-bg-base-200 tw-rounded-box"
                             tabindex="0">
                             <li>
                                 <a href="{{ route('settings') }}">

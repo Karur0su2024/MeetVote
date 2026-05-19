@@ -9,7 +9,7 @@
     @if ($icon)
         <i class="bi {{ $icon }} me-2"></i>
     @endif
-    <span>
+    <span class="tw-flex">
            {{ $slot }}
     </span>
 

@@ -3,18 +3,16 @@
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
 
-    <div class="container-fluid text-start">
-
         <div class="mb-3">
             @if (session('error'))
-                <x-ui.alert type="danger">
+                <x-ui.alert type="error">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>{{ session('error') }}</div>
                 </x-ui.alert>
             @endif
             @if (session('success'))
                 <x-ui.alert type="success">
-                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <i class="bi bi-check-circle-fill tw-me-2"></i>
                     <div>{{ session('success') }}</div>
                 </x-ui.alert>
             @endif
@@ -35,6 +33,12 @@
                     </div>
                 @endif
 
+                @if($poll->settings['comments'])
+                    <div class="d-lg-none d-md-block">
+                        <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                    </div>
+                @endif
+
             </div>
         </div>
 
@@ -42,12 +46,7 @@
 
 
 
-        @if($poll->settings['comments'])
-            <div class="d-lg-none d-md-block">
-                <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
-            </div>
-        @endif
-    </div>
+
 
 </x-layouts.app>
 

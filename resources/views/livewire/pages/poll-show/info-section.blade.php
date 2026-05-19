@@ -38,14 +38,14 @@
 
         <div class="tw-flex tw-gap-2 tw-mt-3">
             @can('isAdmin', $poll)
-                <button class="tw-btn tw-btn-primary tw-btn-sm tw-btn-outline"
+                <button class="tw-btn tw-btn-sm tw-btn-outline"
                         wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
                     {{ __('pages/poll-show.settings.dropdown.share_poll') }}
 
                 </button>
                 {{-- Nabídka pro správu ankety --}}
                 <div class="tw-dropdown tw-w-full">
-                    <button class="tw-btn tw-btn-primary tw-btn-sm tw-btn-outline">
+                    <button class="tw-btn tw-btn-sm tw-btn-outline">
                         <x-ui.icon class="gear me-1"/>
                         {{ __('pages/poll-show.settings.dropdown.options') }}
                     </button>
@@ -86,16 +86,12 @@
 
     </x-ui.tw-card>
 
-    <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
-
-
-
-
-
-
-    {{--Pravá strana – informace o události--}}
     @if($event)
         <livewire:page-poll-show-poll-section-event-details :event="$event" :poll="$poll" />
+    @endif
+
+    @if($poll->isActive())
+        <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
     @endif
 
 </div>
