@@ -6,7 +6,6 @@ use App\Interfaces\GoogleServiceInterface;
 
 interface GoogleAuthServiceInterface
 {
-
     public function redirectToGoogleOAuth();
 
     public function handleGoogleOAuthCallback();

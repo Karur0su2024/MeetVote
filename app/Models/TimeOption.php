@@ -15,7 +15,6 @@ class TimeOption extends Model
         'text' => 'string',
     ];
 
-
     public function poll()
     {
         return $this->belongsTo(Poll::class);
@@ -25,5 +24,4 @@ class TimeOption extends Model
     {
         return $this->hasMany(VoteTimeOption::class);
     }
-
 }

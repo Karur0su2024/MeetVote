@@ -8,8 +8,6 @@ use Livewire\Component;
 
 class PasswordSettings extends Component
 {
-
-
     public $current_password;
 
     public $new_password;
@@ -24,13 +22,13 @@ class PasswordSettings extends Component
         ];
     }
 
-
     public function updatePassword()
     {
 
         // Kontrola aktualního hesla
-        if (!Hash::check($this->current_password, Auth::user()->password)) {
+        if (! Hash::check($this->current_password, Auth::user()->password)) {
             $this->addError('current_password', 'Current password is incorrect.');
+
             return;
         }
 
@@ -38,7 +36,7 @@ class PasswordSettings extends Component
 
         // Aktualizace hesla
         Auth::user()->update([
-            'password' => Hash::make($this->new_password)
+            'password' => Hash::make($this->new_password),
         ]);
 
         // Resetování hodnot

@@ -32,7 +32,6 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
-
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

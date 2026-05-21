@@ -2,16 +2,12 @@
 
 namespace App\Services\Google;
 
-
 use App\Interfaces\GoogleServiceInterface;
 use Google\Client;
 use Google\Service\Calendar;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
-/**
- *
- */
 class GoogleService implements GoogleServiceInterface
 {
     public Client $client;
@@ -46,7 +42,7 @@ class GoogleService implements GoogleServiceInterface
                 $googleCalendarService->syncEvent($googleEvent, $event, $user);
             }
         } catch (\Exception $exception) {
-            Log::error('Error while syncing event: ' . $exception->getMessage());
+            Log::error('Error while syncing event: '.$exception->getMessage());
         }
 
     }
@@ -63,7 +59,7 @@ class GoogleService implements GoogleServiceInterface
             }
 
         } catch (\Exception $e) {
-            Log::error('Error while desyncing event: ' . $e->getMessage());
+            Log::error('Error while desyncing event: '.$e->getMessage());
         }
 
     }
@@ -78,16 +74,15 @@ class GoogleService implements GoogleServiceInterface
                     continue;
                 }
 
-
                 $this->checkToken($user);
                 $events = $googleCalendarService->getCalendarEvents($option) ?? [];
                 $option['availability'] = count($events) === 0;
             }
 
-
             return $timeOptions;
         } catch (\Exception $e) {
-            Log::error('Error while checking availability: ' . $e->getMessage());
+            Log::error('Error while checking availability: '.$e->getMessage());
+
             return $timeOptions;
         }
 
@@ -101,6 +96,7 @@ class GoogleService implements GoogleServiceInterface
             if ($this->client->isAccessTokenExpired()) {
                 $this->refreshToken($user);
             }
+
             return true;
         } catch (\Exception $e) {
             return false;
@@ -115,5 +111,4 @@ class GoogleService implements GoogleServiceInterface
         $user->google_token = $this->client->getAccessToken();
         $user->save();
     }
-
 }

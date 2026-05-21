@@ -1,6 +1,5 @@
 <?php
 
-
 return [
 
     'service_enabled' => env('GOOGLE_SERVICE_ENABLED', false),
@@ -11,17 +10,16 @@ return [
     'calendar_enabled' => env('GOOGLE_CALENDAR_ENABLED', false),
 
     'oauth_scopes' => [
-            'openid',
-            'email',
-            'profile'
+        'openid',
+        'email',
+        'profile',
     ],
 
     'calendar_scopes' => [
         'https://www.googleapis.com/auth/calendar',
-        'https://www.googleapis.com/auth/calendar.events'
+        'https://www.googleapis.com/auth/calendar.events',
     ],
 
     'oauth_credentials' => storage_path('app/oauth-credentials.json'),
-
 
 ];

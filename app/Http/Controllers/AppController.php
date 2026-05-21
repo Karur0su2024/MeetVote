@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-
 
 class AppController extends Controller
 {
-
     public function toggleDarkMode(Request $request)
     {
         if (session('darkmode')) {
@@ -17,6 +13,7 @@ class AppController extends Controller
         } else {
             session(['darkmode' => 'dark']);
         }
+
         return redirect()->back();
     }
 
@@ -28,6 +25,4 @@ class AppController extends Controller
 
         return redirect()->back();
     }
-
-
 }

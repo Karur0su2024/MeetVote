@@ -4,7 +4,7 @@
 
 
 
-<label class="label tw-text-sm mb-2 tw-align-items-center"
+<label class="label tw-text-sm tw-mb-2 tw-align-items-center"
        for="{{ $id }}">
     <input type="checkbox"
            checked="checked"

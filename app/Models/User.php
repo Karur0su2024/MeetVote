@@ -3,16 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
     use Notifiable;
-
 
     protected $fillable = [
         'name',
@@ -44,7 +42,6 @@ class User extends Authenticatable
         });
     }
 
-
     // Accessor a mutator pro přístupový token
     public function googleToken(): Attribute
     {
@@ -62,8 +59,6 @@ class User extends Authenticatable
             set: fn ($value) => $value ? encrypt($value) : null,
         );
     }
-
-
 
     // Vztah k hlasováním (1:N)
     public function comments()
@@ -84,7 +79,6 @@ class User extends Authenticatable
         return $this->hasMany(Poll::class);
     }
 
-
     public function attendeePolls()
     {
         return $this->belongsToMany(Poll::class, 'votes');
@@ -104,7 +98,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(SyncedEvent::class);
     }
-
-
-
 }

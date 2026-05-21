@@ -48,23 +48,6 @@ TODO: Return dark mode toggle to the navbar
                     </label>
                 </li> --}}
 
-
-                <div class="tw-dropdown tw-dropdown-end">
-                    <button class="tw-btn tw-btn-ghost tw-hover:bg-primary/1" tabindex="0">
-                        {{ __("ui/navbar.language") }}
-                    </button>
-
-                    <ul class="tw-menu tw-dropdown-content tw-w-60 tw-z-1 tw-rounded-box tw-bg-base-100 tw-shadow-sm">
-                        <li>
-                            <a href="{{ route("changeLanguage", "en") }}">
-                                English
-                            </a>
-                            <a href="{{ route("changeLanguage", "cz") }}">
-                                Czech
-                            </a>
-                        </li>
-                    </ul>
-                </div>
                 @auth
                     <div class="tw-dropdown tw-dropdown-end">
                         <button class="tw-btn tw-btn-ghost tw-rounded-box" tabindex="0">

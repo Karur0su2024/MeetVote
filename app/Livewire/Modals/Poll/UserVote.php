@@ -2,11 +2,8 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use App\Models\Poll;
 use App\Models\Vote;
-use App\Services\Vote\VoteService;
 use App\Traits\HasVoteControls;
-use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 // Modální okno s konkrétní odpovědí

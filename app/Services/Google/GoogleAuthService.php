@@ -10,10 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as GoogleUser;
 
-
 class GoogleAuthService implements GoogleAuthServiceInterface
 {
-
     // Přesměrování na Google OAuth
     // Redirect to Google OAuth
     public function redirectToGoogleOAuth()
@@ -21,7 +19,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return Socialite::driver('google')
             ->scopes(config('google.oauth_scopes'))->with(['access_type' => 'offline', 'prompt' => 'consent'])->redirect();
     }
-
 
     // Zpracování callbacku z Google OAuth
     public function handleGoogleOAuthCallback()
@@ -33,11 +30,11 @@ class GoogleAuthService implements GoogleAuthServiceInterface
             if (Auth::check()) {
                 return redirect(route('settings'))->with('error', 'Google authentication failed. Please try again.');
             }
+
             return redirect(route('login'))->with('error', 'Google authentication failed. Please try again.');
         }
 
         $user = $this->googleAccountAlreadyConnected($googleUser);
-
 
         // Kontrola, zda je účet již připojen
         if ($user) {
@@ -45,13 +42,14 @@ class GoogleAuthService implements GoogleAuthServiceInterface
                 return redirect(route('settings'))->with('error', 'Google account is already connected to another user.');
             }
             Auth::login($user, true);
+
             return redirect(route('dashboard'))->with('success', 'You were successfully logged in!');
         }
-
 
         if (Auth::check()) {
             $user = Auth::user();
             $user->update($this->buildGoogleUser($googleUser));
+
             return redirect(route('settings'))->with('success', 'Google account connected successfully.');
         } else {
             $user = $this->checkIfEmailExists($googleUser->getEmail());
@@ -63,7 +61,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
             }
             Auth::login($user, true);
         }
-
 
         return redirect(route('home'));
     }
@@ -80,7 +77,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
 
         return redirect(route('settings'))->with('success', 'Google account disconnected successfully.');
     }
-
 
     // Přesměrování na Google Calendar OAuth
     public function redirectToGoogleCalendar()
@@ -112,6 +108,7 @@ class GoogleAuthService implements GoogleAuthServiceInterface
                 'google_token' => $googleUser->token,
                 'google_refresh_token' => $googleUser->refreshToken,
             ]);
+
             return redirect(route('settings'))->with('success', 'Google Calendar access granted successfully.');
         }
 
@@ -134,7 +131,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return redirect(route('settings'))->with('success', 'Google Calendar access revoked successfully.');
     }
 
-
     // Zpracování Google účtu
     private function buildGoogleUser(GoogleUser $googleUser, $user = null): array
     {
@@ -145,7 +141,6 @@ class GoogleAuthService implements GoogleAuthServiceInterface
             'google_token' => $googleUser->token,
             'google_refresh_token' => $googleUser->refreshToken,
         ]);
-
 
         return $user->toArray();
     }

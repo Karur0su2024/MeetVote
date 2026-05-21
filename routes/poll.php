@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\PollController;
-
 use Illuminate\Support\Facades\Route;
-
 
 // Všechny routy pro ankety
 Route::prefix('polls')->group(function () {

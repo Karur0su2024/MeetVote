@@ -125,9 +125,4 @@ return [
 
     'contact_email' => env('CONTACT_EMAIL', ''),
 
-
-
-
-
-
 ];

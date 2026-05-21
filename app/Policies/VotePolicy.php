@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Vote;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,12 +13,11 @@ class VotePolicy
     public function edit(?User $user, Vote $vote): bool
     {
 
-
-        if (!$vote->poll->isActive()) {
+        if (! $vote->poll->isActive()) {
             return true;
         }
 
-        if(!Auth::check()) {
+        if (! Auth::check()) {
             return false;
         }
 
@@ -29,10 +28,10 @@ class VotePolicy
     // Kontroluje zda uživatel může smazat odpověď
     public function delete(?User $user, Vote $vote): bool
     {
-        if(!$vote->poll->isActive()){
+        if (! $vote->poll->isActive()) {
             return false;
         }
-        if(Gate::allows('hasAdminPermissions', $vote->poll)) {
+        if (Gate::allows('hasAdminPermissions', $vote->poll)) {
             return true;
         }
 
@@ -40,22 +39,21 @@ class VotePolicy
     }
 
     // Kontroluje zda uživatel může zobrazit odpověď
-    public function view(?User $user, Vote $vote): bool {
+    public function view(?User $user, Vote $vote): bool
+    {
 
         // Přidat podmínku zda jsou výsledky skryté
 
-        if(auth()->check()) {
+        if (auth()->check()) {
             if ($vote->user_id === $user->id) {
                 return true;
             }
         }
 
-        if(session()->get('poll.' . $vote->poll->id . '.vote') === $vote->id) {
+        if (session()->get('poll.'.$vote->poll->id.'.vote') === $vote->id) {
             return true;
         }
 
         return $vote->poll->settings['anonymous_votes'];
     }
-
-
 }

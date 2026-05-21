@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\Log;
 
 class EmailServiceEmpty implements EmailServiceInterface
 {
-
     public function sendConfirmationEmail($poll): void
     {
         Log::info('Email service is disabled, not sending confirmation email');
     }
-
 
     public function sendInvitation($email, $poll, $key): void
     {

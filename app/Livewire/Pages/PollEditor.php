@@ -15,10 +15,12 @@ use Livewire\Component;
 // Formulář pro vytvoření a editaci ankety
 class PollEditor extends Component
 {
-
     public PollEditorForm $form;
+
     public $pollIndex;
+
     public $poll;
+
     public $timezones;
 
     public function mount(PollQueryService $pollQueryService, $pollIndex = null): void
@@ -33,14 +35,16 @@ class PollEditor extends Component
     public function submit(PollCreateService $pollCreateService)
     {
 
-        if(!$this->canUpdate()){
+        if (! $this->canUpdate()) {
             $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
+
             return null;
         }
 
         try {
             $validatedData = $this->form->prepareValidatedDataArray($this->form->validate());
             $poll = $pollCreateService->savePoll($validatedData, $this->pollIndex);
+
             return redirect()->route('polls.show', ['poll' => $poll->public_id]);
         } catch (ValidationException $e) {
             // Kontrola validace
@@ -48,9 +52,11 @@ class PollEditor extends Component
             throw $e;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
+
             return null;
-        } catch (Exception $e) {;
+        } catch (Exception $e) {
             $this->addError('error', __('pages/poll-editor.messages.error.saving'));
+
             return null;
         }
 
@@ -61,15 +67,14 @@ class PollEditor extends Component
     {
         if ($this->pollIndex) {
             $pollUpdated = Poll::find($this->pollIndex, ['updated_at']);
-            if($pollUpdated->updated_at !== $this->form->lastUpdated){
+            if ($pollUpdated->updated_at !== $this->form->lastUpdated) {
                 return false;
             }
         }
+
         return true;
     }
 
-    /**
-     */
     public function render()
     {
         return view('livewire.pages.poll-editor');

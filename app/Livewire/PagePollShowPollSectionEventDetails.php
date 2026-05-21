@@ -4,9 +4,7 @@ namespace App\Livewire;
 
 use App\Events\PollEventCreated;
 use App\Services\EventService;
-use App\Services\Google\GoogleService;
 use DateTime;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -14,9 +12,10 @@ use Spatie\CalendarLinks\Link;
 
 class PagePollShowPollSectionEventDetails extends Component
 {
-
     public $event;
+
     public $poll;
+
     public $syncGoogleCalendar = false;
 
     protected EventService $eventService;
@@ -26,9 +25,9 @@ class PagePollShowPollSectionEventDetails extends Component
         $this->poll = $poll;
         $this->event = $event;
 
-        if($this->poll && $this->event) {
+        if ($this->poll && $this->event) {
             $this->event = $this->poll->event()->first();
-            if(Auth::check() && $this->event) {
+            if (Auth::check() && $this->event) {
                 $this->syncGoogleCalendar = $this->poll->event->syncedEvents->where('user_id', Auth::user()->id)->isNotEmpty();
             }
         }
@@ -44,6 +43,7 @@ class PagePollShowPollSectionEventDetails extends Component
     public function importToGoogleCalendar()
     {
         $link = $this->buildLink();
+
         return redirect()->away($link->google());
     }
 
@@ -51,6 +51,7 @@ class PagePollShowPollSectionEventDetails extends Component
     public function importToOutlookCalendar()
     {
         $link = $this->buildLink();
+
         return redirect()->away($link->webOutlook());
     }
 
@@ -59,9 +60,9 @@ class PagePollShowPollSectionEventDetails extends Component
     {
         $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time']);
         $to = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['end_time']);
+
         return Link::create($this->event['title'], $from, $to)->description($this->event['description']);
     }
-
 
     public function createEvent()
     {
@@ -73,12 +74,15 @@ class PagePollShowPollSectionEventDetails extends Component
         $event = $this->eventService->buildEventArrayFromValidatedData($this->poll, $results);
         $this->eventService->createEvent($this->poll, $event);
         PollEventCreated::dispatch($this->poll);
+
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_created'));
 
     }
 
-    public function deleteEvent(){
+    public function deleteEvent()
+    {
         $this->eventService->deleteEvent($this->poll);
+
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
     }
 

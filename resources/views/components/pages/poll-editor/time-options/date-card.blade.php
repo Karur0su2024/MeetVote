@@ -41,16 +41,17 @@
         </div>
         <div>
             {{-- Tlačítka pro přidání nové možnosti --}}
-            <div class="tw-flex flex-md-nowrap align-items-center gap-2">
-                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-soft"
+
+            <div class="tw-flex tw-flex-1 align-items-center gap-2">
+                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-outline tw-flex-grow"
                         type="button"
                         @click="addTimeOption(dateIndex, false)">
-                    <i class="bi bi-clock me-1"></i>{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
+                    {{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
                 </button>
-                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-soft"
+                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-outline tw-flex-grow"
                         type="button"
                         @click="addTextOption(dateIndex, 'text')">
-                    <i class="bi bi-text-paragraph me-1"></i>{{ __('pages/poll-editor.time_options.button.add_text_option') }}
+                    {{ __('pages/poll-editor.time_options.button.add_text_option') }}
                 </button>
             </div>
         </div>

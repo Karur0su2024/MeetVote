@@ -3,9 +3,9 @@
 namespace App\Livewire\Pages\PollShow;
 
 use App\Models\Comment;
+use App\Models\Poll;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use App\Models\Poll;
 
 class CommentsSection extends Component
 {
@@ -40,7 +40,6 @@ class CommentsSection extends Component
         $this->content = '';
     }
 
-
     // Načtení komentářů
     public function loadComments()
     {
@@ -50,8 +49,6 @@ class CommentsSection extends Component
 
         $this->loadedComments = true;
     }
-
-
 
     // Přidání komentáře
     public function addComment()

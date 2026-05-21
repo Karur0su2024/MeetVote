@@ -9,9 +9,7 @@ use App\Models\QuestionOption;
 
 class QuestionCreateService
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Metoda pro uložení otázek do databáze
@@ -26,13 +24,12 @@ class QuestionCreateService
         }
     }
 
-
     private function saveQuestion(array $question, $poll)
     {
         if (isset($question['id'])) {
             $newQuestion = PollQuestion::find($question['id']);
 
-            if (!$newQuestion) {
+            if (! $newQuestion) {
                 throw new PollException('Question not found. Please try again.');
             } else {
                 $newQuestion->update([
@@ -48,7 +45,6 @@ class QuestionCreateService
         $this->saveQuestionOptions($newQuestion, $question['options']);
     }
 
-
     /**
      * Metoda pro uložení možností otázky do databáze.
      * Pokud možnost otázky již existuje, aktualizuje ji.
@@ -59,11 +55,11 @@ class QuestionCreateService
         foreach ($optionsToSave as $optionToSave) {
             if (isset($optionToSave['id'])) {
                 $option = QuestionOption::find($optionToSave['id']);
-                if (!$option) {
+                if (! $option) {
                     throw new PollException('Question option not found. Please try again.');
                 }
 
-                if($option->score !== 0) {
+                if ($option->score !== 0) {
                     continue;
                 }
 
@@ -78,16 +74,12 @@ class QuestionCreateService
         }
     }
 
-
-
     /**
      * Metoda pro odstranění otázek a jejich možností
-     * @param array $removedQuestions
-     * @return void
      */
     public function deleteQuestions(array $removedQuestions): void
     {
-        if(count($removedQuestions) === 0) {
+        if (count($removedQuestions) === 0) {
             return;
         }
         PollQuestion::whereIn('id', $removedQuestions)->delete();
@@ -95,12 +87,10 @@ class QuestionCreateService
 
     /**
      * Metoda pro odstranění možností otázek
-     * @param array $removedQuestionOptions
-     * @return void
      */
     public function deleteQuestionOptions(array $removedQuestionOptions): void
     {
-        if(count($removedQuestionOptions) === 0) {
+        if (count($removedQuestionOptions) === 0) {
             return;
         }
         QuestionOption::whereIn('id', $removedQuestionOptions)->delete();

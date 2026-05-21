@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SyncedEvent extends Model
 {
-
     protected $primaryKey = 'id';
 
     protected $fillable = [

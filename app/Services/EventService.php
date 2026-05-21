@@ -7,21 +7,20 @@ use App\Models\Poll;
 
 class EventService
 {
-
     // Vytvoření události
     public function createEvent(Poll $poll, $validatedEventData): Event
     {
         $event = $poll->event;
 
-        if($event){
+        if ($event) {
             $poll->event()->update($validatedEventData);
             $event = $poll->event()->first();
-        }
-        else{
+        } else {
             $event = $poll->event()->create($validatedEventData);
         }
 
         $poll->load('event');
+
         return $event;
     }
 
@@ -44,9 +43,8 @@ class EventService
         $timeOption = $results['timeOptions']['options'][$results['timeOptions']['selected']]; // Vybraná časovou možnost
         $text = $poll->description ? $poll->description."\n\n" : ''; // Popis události podle popisu ankety
 
-
         // Vložení hodnot vybraných možností otázek do popisu události
-        if(count($results['questions']) > 0){
+        if (count($results['questions']) > 0) {
             $text .= __('ui/modals.create_event.event_description.questions').":\n";
 
             foreach ($results['questions'] as $question) {
@@ -59,8 +57,8 @@ class EventService
         return [
             'poll_id' => $poll->id,
             'title' => $poll->title,
-            'start_time' => $timeOption['date'] . ' ' . ($timeOption['content']['start'] ?? '00:00'),
-            'end_time' => $timeOption['date'] . ' ' . ($timeOption['content']['end'] ?? '01:00'),
+            'start_time' => $timeOption['date'].' '.($timeOption['content']['start'] ?? '00:00'),
+            'end_time' => $timeOption['date'].' '.($timeOption['content']['end'] ?? '01:00'),
             'description' => $text,
         ];
     }
@@ -71,5 +69,4 @@ class EventService
             $poll->event()->delete();
         }
     }
-
 }

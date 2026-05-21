@@ -4,8 +4,8 @@ namespace App\Http\Middleware\Poll;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpFoundation\Response;
 
 class AlreadyHasAccess
 {

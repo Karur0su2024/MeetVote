@@ -26,6 +26,7 @@ class PollEditorForm extends Form
 
     // Nastavení ankety
     public array $settings = [];
+
     public array $password = [];
 
     // Informace o uživateli
@@ -56,22 +57,22 @@ class PollEditorForm extends Form
             'user.email' => 'required|email', // E-mail uživatele
 
             'dates' => 'required|array|min:1', // Pole různých dnů
-            'dates.*' => ['nullable', 'array', 'min:1', new NoDateDuplicates()], // Pole časových možností podle data
+            'dates.*' => ['nullable', 'array', 'min:1', new NoDateDuplicates], // Pole časových možností podle data
             'dates.*.*.id' => 'nullable|integer', // ID možnosti
             'dates.*.*.type' => 'required|in:time,text', // Typ možnosti (text nebo čas)
             'dates.*.*.date' => 'required', // Obsah možnosti
             'dates.*.*.content.start' => 'required_if:dates.*.*.type,time|date_format:H:i', // Začátek časové možnosti
             'dates.*.*.content.end' => 'required_if:dates.*.*.type,time|date_format:H:i|after:dates.*.*.content.start', // Konec časové možnosti
             'dates.*.*.content.text' => 'required_if:dates.*.*.type,text|string', // Textová možnost
-            'dates.*.*.score' => 'nullable|int',// Text možnosti*/
+            'dates.*.*.score' => 'nullable|int', // Text možnosti*/
 
-            'questions' => ['nullable', 'array', new NoQuestionDuplicates()], // Pole otázek
+            'questions' => ['nullable', 'array', new NoQuestionDuplicates], // Pole otázek
             'questions.*.id' => 'nullable|integer', // ID otázky
             'questions.*.text' => 'required|string|min:1|max:255', // Text otázky
-            'questions.*.options' => ['required', 'array', 'min:2', new NoQuestionOptionDuplicates()], // Možnosti otázky
+            'questions.*.options' => ['required', 'array', 'min:2', new NoQuestionOptionDuplicates], // Možnosti otázky
             'questions.*.options.*.id' => 'nullable|integer', // ID možnosti
             'questions.*.options.*.text' => 'required|string|min:1|max:255',
-            'questions.*.options.*.score' => 'nullable|int',// Text možnosti*/
+            'questions.*.options.*.score' => 'nullable|int', // Text možnosti*/
             'removed.time_options' => 'nullable|array', // ID odstraněných časových možností
             'removed.questions' => 'nullable|array', // ID odstraněných otázek
             'removed.question_options' => 'nullable|array', // ID odstraněných možností otázek
@@ -107,7 +108,6 @@ class PollEditorForm extends Form
     }
 
     /**
-     * @param $data
      * @return void
      */
     public function loadForm($data)
@@ -126,11 +126,8 @@ class PollEditorForm extends Form
 
     }
 
-
     /**
      * Převede časové možnosti do samostatných položek bez data
-     * @param $validatedData
-     * @return array
      */
     public function prepareValidatedDataArray($validatedData): array
     {
@@ -146,12 +143,4 @@ class PollEditorForm extends Form
 
         return $validatedData;
     }
-
-
-
-
-
-
-
-
 }

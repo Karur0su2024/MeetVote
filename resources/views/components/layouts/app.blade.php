@@ -17,6 +17,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <livewire:styles/>
+    <livewire:scripts/>
 </head>
 
 <body>
@@ -35,7 +36,7 @@
         <x-layouts.footer/>
 
         <livewire:modals/>
-        <livewire:scripts/>
+
         @stack('scripts')
 
     </div>

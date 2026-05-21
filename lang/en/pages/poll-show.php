@@ -210,6 +210,5 @@ return [
             'event_created' => 'Event created successfully',
             'admin_acquired' => 'You are in admin mode now!',
         ],
-    ]
+    ],
 ];
-

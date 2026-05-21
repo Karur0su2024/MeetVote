@@ -11,7 +11,6 @@ use App\Listeners\SendEventEmails;
 use App\Listeners\SendInvitationEmail;
 use App\Listeners\SendPollConfirmationEmail;
 use App\Listeners\SendVoteNotificationEmail;
-use App\Listeners\SyncWithGoogleCalendar;
 use App\Services\Mail\EmailService;
 use App\Services\Mail\EmailServiceEmpty;
 use Illuminate\Support\Facades\Event;
@@ -26,17 +25,15 @@ class EmailServiceProvider extends ServiceProvider
     {
         // Pokud je odesílání emailů povoleno, použije se EmailService
         // Jinak se použije EmailServiceEmpty, který neprovádí žádné akce
-        if(config('mail.allowed')){
+        if (config('mail.allowed')) {
             $this->app->singleton(EmailServiceInterface::class, function ($app) {
-                return new EmailService();
+                return new EmailService;
+            });
+        } else {
+            $this->app->singleton(EmailServiceInterface::class, function ($app) {
+                return new EmailServiceEmpty;
             });
         }
-        else {
-            $this->app->singleton(EmailServiceInterface::class, function ($app) {
-                return new EmailServiceEmpty();
-            });
-        }
-
 
     }
 
@@ -61,5 +58,4 @@ class EmailServiceProvider extends ServiceProvider
             SendEventEmails::class,
         );
     }
-
 }

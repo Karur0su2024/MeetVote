@@ -16,7 +16,8 @@ class PollResultsSection extends Component
 
     public $pollResults = [];
 
-    public function mount($pollIndex, PollResultsService $pollResultsService){
+    public function mount($pollIndex, PollResultsService $pollResultsService)
+    {
         $this->poll = Poll::find($pollIndex);
         $this->pollResults = $pollResultsService->getResults($this->poll);
     }

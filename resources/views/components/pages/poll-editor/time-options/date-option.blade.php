@@ -1,5 +1,5 @@
 <div
-    class="mb-2 tw-bg-base-400 rounded tw-pt-2"
+    class="mb-2 tw-bg-base-400 rounded"
     :class="{ 'existing-option': option.id }">
     <div
         class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">

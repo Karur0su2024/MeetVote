@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Models\Poll;
 use App\Models\Vote;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class AssignPollsToNewUser
 {
@@ -37,7 +35,6 @@ class AssignPollsToNewUser
             $vote->user_id = $user->id;
             $vote->save();
         }
-
 
     }
 }

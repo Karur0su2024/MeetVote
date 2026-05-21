@@ -74,7 +74,7 @@ return [
             'format_start' => 'Začátek časové možnosti je ve špatném formátu.',
             'format_end' => 'Konec časové možnosti je ve špatném formátu.',
             'after_start' => 'Konec časové možnosti musí být po začátku.',
-        'duplicate_options' => 'Duplicitní časové možnosti nejsou povoleny.',
+            'duplicate_options' => 'Duplicitní časové možnosti nejsou povoleny.',
         ],
     ],
     // Sekce s otázkami
@@ -149,7 +149,6 @@ return [
             'saving' => 'Při ukládání ankety došlo k chybě.',
             'general' => 'Formulář obsahuje chyby. Zkontrolujte prosím všechna pole.',
         ],
-
 
     ],
 

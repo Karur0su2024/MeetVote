@@ -23,7 +23,7 @@ return [
                 'polls' => 'Polls',
                 'events' => 'Events',
             ],
-        ]
+        ],
     ],
     'buttons' => [
         'new_poll' => 'New poll',
@@ -34,7 +34,7 @@ return [
         'no_connected_calendar' => [
             'text' => 'You can sync your events with Google Calendar. To do this, please link your Google account in the ',
             'link' => 'settings',
-        ]
+        ],
     ],
 
     'poll_card' => [
@@ -71,5 +71,5 @@ return [
         'success' => [
             'poll_deleted' => 'Poll deleted successfully.',
         ],
-    ]
+    ],
 ];

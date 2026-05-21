@@ -149,8 +149,8 @@ return [
                             'label' => 'Vytvořit událost',
                             'tooltip' => 'Otevřete modální okno pro vytvoření události a předvyplňte jej vybranými výsledky.
                                         Poté můžete událost sdílet se svými přáteli.',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'buttons' => [
                     'show_voting_section' => 'Zobrazit hlasování',
@@ -209,5 +209,5 @@ return [
             'event_created' => 'Událost byla úspěšně vytvořena.',
             'admin_acquired' => 'Jste nyní v režimu správce!',
         ],
-    ]
+    ],
 ];

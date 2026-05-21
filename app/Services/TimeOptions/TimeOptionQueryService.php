@@ -5,11 +5,9 @@ namespace App\Services\TimeOptions;
 use App\Models\Poll;
 use App\Models\TimeOption;
 use Carbon\Carbon;
-use App\Models\Vote;
 
 class TimeOptionQueryService
 {
-
     // Načtení časových možností pro anketu
     public function getTimeOptionsArray(Poll $poll): array
     {
@@ -33,9 +31,7 @@ class TimeOptionQueryService
             ];
 
             $time = $timeOption->start ?? '23:59:59';
-            $datetime = $timeOption->date . ' ' . $time;
-
-
+            $datetime = $timeOption->date.' '.$time;
 
             $timeOptions[$timeOption->id] = [
                 'id' => $timeOption->id,
@@ -51,14 +47,9 @@ class TimeOptionQueryService
             ];
         }
 
-
         return $timeOptions;
 
     }
-
-
-
-
 
     // Metoda pro získání bodového ohodnocení časové možnosti
     private function getOptionScore(TimeOption $option): int
@@ -67,6 +58,7 @@ class TimeOptionQueryService
         foreach ($option->votes as $vote) {
             $score += $vote->preference;
         }
+
         return $score;
     }
 
@@ -85,7 +77,6 @@ class TimeOptionQueryService
         ]];
     }
 
-
     // Nastavení preferencí pro časové možnosti podle dat odpovědí
     public function getVotingArray(Poll $poll, $vote = null): array
     {
@@ -97,5 +88,4 @@ class TimeOptionQueryService
 
         return $options;
     }
-
 }

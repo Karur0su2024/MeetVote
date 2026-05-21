@@ -12,7 +12,6 @@ class VoteTimeOption extends Model
         'preference' => 'integer',
     ];
 
-
     public function vote()
     {
         return $this->belongsTo(Vote::class);

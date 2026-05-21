@@ -2,10 +2,10 @@
 
 namespace App\Services\Google;
 
+use App\Models\Event;
 use Google\Client;
 use Google\Service\Calendar;
 use Google\Service\Calendar\Event as GoogleEvent;
-use App\Models\Event;
 use Illuminate\Support\Facades\Log;
 
 class GoogleCalendarService
@@ -17,23 +17,21 @@ class GoogleCalendarService
         $this->calendar = new Calendar($client); // Inicializace Google Kalendáře
     }
 
-    //https://ggomez.dev/blog/how-to-integrate-google-calendar-with-laravel
+    // https://ggomez.dev/blog/how-to-integrate-google-calendar-with-laravel
     // Metoda pro synchronizaci události s Google Kalendářem
     public function syncEvent($googleEvent, $event, $user)
     {
         $this->desyncEvent($event, $user->id);
 
-        try{
+        try {
             $calendarEvent = $this->calendar->events->insert('primary', $googleEvent);
             $event->syncedEvents()->create([
                 'calendar_event_id' => $calendarEvent->id, // ID události v Google Kalendáři
                 'user_id' => $user->id,
             ]);
+        } catch (\Exception $e) {
+            Log::error('Error while syncing event :'.$e->getMessage());
         }
-        catch (\Exception $e){
-            Log::error('Error while syncing event :' . $e->getMessage());
-        }
-
 
     }
 
@@ -41,7 +39,7 @@ class GoogleCalendarService
     public function desyncEvent(Event $event, $userIndex)
     {
         $syncEvent = $event->syncedEvents()->where('user_id', $userIndex)->first();
-        if($syncEvent) {
+        if ($syncEvent) {
             try {
                 $this->calendar->events->get('primary', $syncEvent->calendar_event_id); // Získání události z Google Kalendáře
                 $this->calendar->events->delete('primary', $syncEvent->calendar_event_id); // Smazání události z Google Kalendáře
@@ -59,10 +57,10 @@ class GoogleCalendarService
     {
         $description = $event->description;
         $timezone = $event->poll->timezone;
-        $description .= "\n\nPoll link: " . route('polls.show', ['poll' => $event->poll->public_id]); // Odkaz na anketu
+        $description .= "\n\nPoll link: ".route('polls.show', ['poll' => $event->poll->public_id]); // Odkaz na anketu
 
         return new GoogleEvent([
-            'summary' => 'MeetVote: ' . $event->title,
+            'summary' => 'MeetVote: '.$event->title,
             'description' => $description,
             'start' => [
                 'dateTime' => date('Y-m-d\TH:i:s', strtotime($event->start_time)),
@@ -75,7 +73,6 @@ class GoogleCalendarService
         ]);
 
     }
-
 
     // Metoda pro získání událostí z Google Kalendáře pro časovou možnost
     public function getCalendarEvents($option)
@@ -96,17 +93,14 @@ class GoogleCalendarService
             $calendarsEvents[$calendarId] = $this->calendar->events->listEvents($calendarId, $eventDetails)->getItems();
         }
 
-
         return array_merge(...array_values($calendarsEvents));
     }
-
 
     // Metoda pro převod data a času do formátu pro Google Kalendář
     private function getCalendarDateTimeFormat($date, $time): string
     {
-        $datetime = $date . ' ' . $time;
+        $datetime = $date.' '.$time;
+
         return date('c', strtotime($datetime));
     }
-
-
 }

@@ -61,10 +61,11 @@
     {{-- Nastavení hesla --}}
     <div x-data="{ password:  @entangle('form.password') }">
         <div x-show="password.set !== null">
-            <x-ui.button color="danger"
-                         @click="password.set = null">
+            <button class="tw-btn tw-btn-error tw-btn-sm tw-btn-outline tw-mt-1"
+                    @click="password.set = null"
+                    type="button">
                 Password is set, click to remove
-            </x-ui.button>
+            </button>
         </div>
 
         <div x-show="password.set === null" x-collapse>

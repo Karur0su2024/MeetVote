@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\Google\GoogleAuthServiceInterface;
 use App\Interfaces\GoogleServiceInterface;
-use App\Services\Google\GoogleService;
 
 class GoogleController extends Controller
 {
-
-    public function __construct(public GoogleAuthServiceInterface $googleAuthService)
-    {}
+    public function __construct(public GoogleAuthServiceInterface $googleAuthService) {}
 
     // Přesměrování na Google OAuth pro přihlášení
     public function redirectToOAuthGoogle()

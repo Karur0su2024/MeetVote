@@ -3,14 +3,15 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Models\Poll;
-use Livewire\Component;
 use App\Rules\CheckIfTimeOptionExists;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
 
 // Modální okno pro přidání nové časové možnosti na stránce ankety
 class AddNewTime extends Component
 {
     public $poll;
+
     public $option = [
         'type' => 'time',
         'date' => '',
@@ -39,18 +40,20 @@ class AddNewTime extends Component
     {
         if (Gate::denies('addNewOption', $this->poll)) {
             $this->addError('error', __('ui/modals.add_new_time_option.messages.error.no_permissions'));
+
             return null;
         }
 
         try {
             $this->saveOption($this->validate());
+
             return redirect()->route('polls.show', $this->poll);
         } catch (\Exception $e) {
             $this->addError('error', $e->getMessage());
+
             return null;
         }
     }
-
 
     private function saveOption($validatedData)
     {

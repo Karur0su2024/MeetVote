@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\Google\GoogleAuthServiceInterface;
+use App\Interfaces\GoogleServiceInterface;
 use App\Services\Google\GoogleAuthService;
 use App\Services\Google\GoogleAuthServiceEmpty;
 use App\Services\Google\GoogleService;
 use App\Services\Google\GoogleServiceEmpty;
 use Illuminate\Support\ServiceProvider;
-use App\Interfaces\Google\GoogleAuthServiceInterface;
-use App\Interfaces\GoogleServiceInterface;
 
 class GoogleServiceProvider extends ServiceProvider
 {
@@ -16,20 +16,19 @@ class GoogleServiceProvider extends ServiceProvider
     // Jinak se použije GoogleServiceEmpty, který neprovádí žádné akce
     public function register(): void
     {
-        if($this->isConfigured()){
+        if ($this->isConfigured()) {
             $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
-                return new GoogleAuthService();
+                return new GoogleAuthService;
             });
             $this->app->singleton(GoogleServiceInterface::class, function ($app) {
-                return new GoogleService();
+                return new GoogleService;
             });
-        }
-        else {
+        } else {
             $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
-                return new GoogleAuthServiceEmpty();
+                return new GoogleAuthServiceEmpty;
             });
             $this->app->singleton(GoogleServiceInterface::class, function ($app) {
-                return new GoogleServiceEmpty();
+                return new GoogleServiceEmpty;
             });
         }
 
@@ -38,10 +37,7 @@ class GoogleServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
-    {
-
-    }
+    public function boot(): void {}
 
     private function isConfigured(): bool
     {

@@ -8,10 +8,10 @@ class GoogleSettings extends Component
 {
     public $user;
 
-    public function mount(){
+    public function mount()
+    {
         $this->user = auth()->user();
     }
-
 
     public function render()
     {

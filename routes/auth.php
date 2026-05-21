@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\UserController;
-
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     // registrační formulář
@@ -17,7 +15,6 @@ Route::middleware('guest')->group(function () {
     Route::get('auth.reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
 });
 
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('user/logout', [UserController::class, 'logout'])->name('logout');
 
@@ -27,4 +24,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Nastavení uživatele
     Route::get('settings', [UserController::class, 'settings'])->name('settings');
 });
-

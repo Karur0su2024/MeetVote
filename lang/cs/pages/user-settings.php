@@ -55,6 +55,6 @@ return [
         'errors' => [
             'google_not_connected' => 'Nejste připojeni k Google.',
         ],
-    ]
+    ],
 
 ];

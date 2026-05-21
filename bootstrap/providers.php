@@ -1,8 +1,13 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\EmailServiceProvider;
+use App\Providers\GoogleServiceProvider;
+use App\Providers\VoltServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\EmailServiceProvider::class,
-    App\Providers\GoogleServiceProvider::class,
-    App\Providers\VoltServiceProvider::class,
+    AppServiceProvider::class,
+    EmailServiceProvider::class,
+    GoogleServiceProvider::class,
+    VoltServiceProvider::class,
 ];

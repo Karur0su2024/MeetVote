@@ -3,26 +3,23 @@
 namespace App\Traits;
 
 use App\Models\Poll;
-use App\Services\EventService;
 use Illuminate\Support\Facades\Gate;
 
 trait CanOpenModals
 {
-
     // Zobrazení modálního okna
     public function openModal($modalName, $pollId): void
     {
         $poll = Poll::findOrFail($pollId);
 
-        if(Gate::allows('isAdmin', $poll)) {
+        if (Gate::allows('isAdmin', $poll)) {
             $this->dispatch('showModal', [
                 'alias' => $modalName,
                 'params' => [
                     'pollIndex' => $pollId,
                 ],
             ]);
-        }
-        else {
+        } else {
             $this->openErrorModal();
         }
     }
@@ -31,7 +28,7 @@ trait CanOpenModals
     public function openAddNewTimeModal($pollId): void
     {
         $poll = Poll::findOrFail($pollId);
-        if(Gate::allows('addNewOption', $poll)) {
+        if (Gate::allows('addNewOption', $poll)) {
             $this->dispatch('showModal', [
                 'alias' => 'modals.poll.add-new-time',
                 'params' => [
@@ -53,14 +50,13 @@ trait CanOpenModals
         ]);
     }
 
-
     // Zobrazení modálního okna s chybovou hláškou
     public function openErrorModal(): void
     {
         $this->dispatch('showModal', [
             'alias' => 'modals.error',
             'params' => [
-                'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.'
+                'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.',
             ],
         ]);
     }

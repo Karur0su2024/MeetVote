@@ -21,7 +21,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
-
 class AppServiceProvider extends ServiceProvider
 {
     // Registrace do Service Containeru
@@ -76,24 +75,22 @@ class AppServiceProvider extends ServiceProvider
         );
 
         // Pokud se vytvoří nový událost, synchronizuje se s Google kalendářem
-//        Event::listen(
-//            PollEventCreated::class,
-//            SyncWithGoogleCalendar::class,
-//        );
+        //        Event::listen(
+        //            PollEventCreated::class,
+        //            SyncWithGoogleCalendar::class,
+        //        );
 
         // Pokud se anketa znovu otevře, odstraní se předchozí synchronizace s Google kalendářem
-//        Event::listen(
-//          PollReopened::class,
-//          DesyncCalendarEvent::class,
-//        );
+        //        Event::listen(
+        //          PollReopened::class,
+        //          DesyncCalendarEvent::class,
+        //        );
 
         // Pokud se událost odstraní, odstraní se synchronizace s Google kalendářem
         Event::listen(
             PollEventDeleted::class,
             DesyncCalendarEvent::class,
         );
-
-
 
     }
 }

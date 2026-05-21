@@ -23,6 +23,11 @@
     <x-ui.tw-button type="submit" color="primary">
         {{ __('pages/user-settings.profile_settings.buttons.save') }}
     </x-ui.tw-button>
+
+    <button class="tw-btn">
+        {{ __('pages/user-settings.profile_settings.buttons.save') }}
+    </button>
+
     {{-- Zpráva v případě úspěšného uložení --}}
     @if (session()->has('settings.profile.success'))
         <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>

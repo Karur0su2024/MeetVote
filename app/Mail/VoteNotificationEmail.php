@@ -3,8 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,6 +14,7 @@ class VoteNotificationEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $poll;
+
     public $vote;
 
     /**
@@ -25,14 +26,13 @@ class VoteNotificationEmail extends Mailable
         $this->vote = $vote;
     }
 
-
     /**
      * Get the message envelope.
      */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your poll ' . $this->poll->title . ' has received a new response',
+            subject: 'Your poll '.$this->poll->title.' has received a new response',
         );
     }
 
@@ -53,7 +53,7 @@ class VoteNotificationEmail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

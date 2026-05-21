@@ -2,18 +2,15 @@
 
 namespace App\Livewire\Pages\PollShow\PollSection;
 
-use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
 use App\Traits\CanOpenModals;
-use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 // Přehled výsledků ankety
 class Results extends Component
 {
-
     use CanOpenModals;
 
     public $votes;
@@ -31,8 +28,6 @@ class Results extends Component
             'questions' => [],
         ],
     ];
-
-
 
     public function mount($poll, PollResultsService $pollResultsService): void
     {
@@ -61,8 +56,9 @@ class Results extends Component
     // Vložení výsledků do modálního okna pro vytvoření události
     public function insertToEventModal(EventService $eventService): void
     {
-        if(Gate::denies('hasAdminPermissions', $this->poll)){
+        if (Gate::denies('hasAdminPermissions', $this->poll)) {
             $this->openErrorModal();
+
             return;
         }
 
@@ -78,8 +74,6 @@ class Results extends Component
         ]);
 
     }
-
-
 
     public function render()
     {

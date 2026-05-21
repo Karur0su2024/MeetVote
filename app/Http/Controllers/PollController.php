@@ -6,10 +6,7 @@ use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\InvitationService;
 use Illuminate\Http\Request;
-use App\Models\Invitation;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
-
 
 class PollController extends Controller
 {
@@ -22,13 +19,12 @@ class PollController extends Controller
     // Zobrazeny stránky ankety
     public function show(Poll $poll)
     {
-        if(session()->has('poll.' . $poll->id . '.vote')){
-            $vote = Vote::find(session()->get('poll.' . $poll->id . '.vote'));
-            if(!$vote) {
-                session()->forget('poll.' . $poll->id . '.vote');
+        if (session()->has('poll.'.$poll->id.'.vote')) {
+            $vote = Vote::find(session()->get('poll.'.$poll->id.'.vote'));
+            if (! $vote) {
+                session()->forget('poll.'.$poll->id.'.vote');
             }
         }
-
 
         return view('pages.polls.show', compact('poll'));
     }
@@ -40,6 +36,7 @@ class PollController extends Controller
         $publicId = $poll->public_id;
         $pollTitle = $poll->title;
         $pollDeadline = $poll->deadline;
+
         return view('pages.polls.edit', compact('pollIndex', 'pollTitle', 'publicId', 'pollDeadline'));
     }
 
@@ -47,6 +44,7 @@ class PollController extends Controller
     public function destroy(Poll $poll)
     {
         $poll->delete();
+
         return redirect()->route('dashboard')->with('success', __('pages/dashboard.messages.success.poll_deleted'));
     }
 
@@ -59,10 +57,12 @@ class PollController extends Controller
     // Ověření hesla
     public function checkPassword(Request $request, Poll $poll)
     {
-        if(Hash::check($request->password, $poll->password)) {
-            session()->put('poll_passwords.'.$poll->id . '.expiration', now()->addDays(config('poll.password_expiration_days')));
+        if (Hash::check($request->password, $poll->password)) {
+            session()->put('poll_passwords.'.$poll->id.'.expiration', now()->addDays(config('poll.password_expiration_days')));
+
             return redirect()->route('polls.show', $poll);
         }
+
         return redirect()->back()->with('error', __('pages/poll-show.messages.errors.wrong_password'));
     }
 
@@ -73,7 +73,6 @@ class PollController extends Controller
 
         return redirect()->route('polls.show', $poll);
     }
-
 
     // Nastavení práva pro správce
     public function addAdmin(Poll $poll, $admin_key)

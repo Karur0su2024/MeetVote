@@ -3,13 +3,11 @@
 namespace App\Listeners;
 
 use App\Services\Google\GoogleService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class DesyncCalendarEvent
 {
-
     protected GoogleService $googleService;
+
     /**
      * Create the event listener.
      */
@@ -27,6 +25,8 @@ class DesyncCalendarEvent
         $poll->load('event');
         $this->googleService->desyncWithGoogleCalendar($poll->event);
 
-        if ($poll->event) $poll->event->delete();
+        if ($poll->event) {
+            $poll->event->delete();
+        }
     }
 }

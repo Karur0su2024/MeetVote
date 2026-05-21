@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
-
+use Illuminate\Support\Facades\Route;
 
 // Routy pro Google OAuth a Google Calendar
 Route::prefix('/google')->group(function () {

@@ -15,7 +15,7 @@ return [
         'button' => [
             'copy' => 'Kopírovat',
             'copied' => 'Zkopírováno',
-        ]
+        ],
     ],
     'add_new_time_option' => [
         'title' => 'Přidat novou časovou možnost do :poll_title',
@@ -100,7 +100,7 @@ return [
                 'event_updated' => 'Událost byla úspěšně aktualizována.',
                 'event_deleted' => 'Událost byla úspěšně smazána.',
             ],
-        ]
+        ],
     ],
     'invitations' => [
         'title' => 'Pozvat účastníky',

@@ -29,20 +29,19 @@ class Dashboard extends Component
     }
 
     // Načtení anket podle jejich stavu
-    public function filterByStatus($status){
+    public function filterByStatus($status)
+    {
         $this->status = $status;
         if ($status === 'all') {
             $this->polls = Auth::user()->polls()->orderBy('created_at', 'desc')->get();
+
             return;
         }
         $this->polls = Auth::user()->polls()->where('status', $status)->orderBy('created_at', 'desc')->get();
     }
 
-
     public function render()
     {
         return view('livewire.user.dashboard');
     }
-
-
 }
