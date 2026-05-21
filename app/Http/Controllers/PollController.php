@@ -67,12 +67,12 @@ class PollController extends Controller
     }
 
     // Otevření ankety pomocí pozvánky
-    public function openPollWithInvitation($token, InvitationService $invitationService)
-    {
-        $poll = $invitationService->checkInvitation($token);
-
-        return redirect()->route('polls.show', $poll);
-    }
+//    public function openPollWithInvitation($token, InvitationService $invitationService)
+//    {
+//        $poll = $invitationService->checkInvitation($token);
+//
+//        return redirect()->route('polls.show', $poll);
+//    }
 
     // Nastavení práva pro správce
     public function addAdmin(Poll $poll, $admin_key)

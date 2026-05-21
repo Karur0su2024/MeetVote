@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Modals\Poll;
+namespace App\Deprecated\Modals;
 
 use App\Models\Poll;
 use App\Rules\CheckIfTimeOptionExists;

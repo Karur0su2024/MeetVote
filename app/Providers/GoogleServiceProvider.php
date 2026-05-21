@@ -16,21 +16,28 @@ class GoogleServiceProvider extends ServiceProvider
     // Jinak se použije GoogleServiceEmpty, který neprovádí žádné akce
     public function register(): void
     {
-        if ($this->isConfigured()) {
-            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
-                return new GoogleAuthService;
-            });
-            $this->app->singleton(GoogleServiceInterface::class, function ($app) {
-                return new GoogleService;
-            });
-        } else {
-            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
-                return new GoogleAuthServiceEmpty;
-            });
-            $this->app->singleton(GoogleServiceInterface::class, function ($app) {
-                return new GoogleServiceEmpty;
-            });
-        }
+//        if ($this->isConfigured()) {
+//            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
+//                return new GoogleAuthService;
+//            });
+//            $this->app->singleton(GoogleServiceInterface::class, function ($app) {
+//                return new GoogleService;
+//            });
+//        } else {
+//            $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
+//                return new GoogleAuthServiceEmpty;
+//            });
+//            $this->app->singleton(GoogleServiceInterface::class, function ($app) {
+//                return new GoogleServiceEmpty;
+//            });
+//        }
+
+        $this->app->singleton(GoogleAuthServiceInterface::class, function ($app) {
+            return new GoogleAuthServiceEmpty;
+        });
+        $this->app->singleton(GoogleServiceInterface::class, function ($app) {
+            return new GoogleServiceEmpty;
+        });
 
     }
 

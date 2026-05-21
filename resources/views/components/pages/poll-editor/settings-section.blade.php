@@ -44,19 +44,19 @@
         {{ __('pages/poll-editor.settings.allow_invalid.label') }}
     </x-ui.form.tw-toggle>
 
-    <h4 class="tw-text-lg mb-1">
-        {{ __('pages/poll-editor.settings.section_titles.security') }}
-    </h4>
+{{--    <h4 class="tw-text-lg mb-1">--}}
+{{--        {{ __('pages/poll-editor.settings.section_titles.security') }}--}}
+{{--    </h4>--}}
 
-    @auth
-        {{-- Pouze pro pozvané --}}
-        <x-ui.form.tw-toggle id="invite_only" wire:model="form.settings.invite_only">
-            <x-slot:tooltip>
-                {{ __('pages/poll-editor.settings.invite_only.tooltip') }}
-            </x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.invite_only.label') }}
-        </x-ui.form.tw-toggle>
-    @endauth
+{{--    @auth--}}
+{{--        --}}{{-- Pouze pro pozvané --}}
+{{--        <x-ui.form.tw-toggle id="invite_only" wire:model="form.settings.invite_only">--}}
+{{--            <x-slot:tooltip>--}}
+{{--                {{ __('pages/poll-editor.settings.invite_only.tooltip') }}--}}
+{{--            </x-slot:tooltip>--}}
+{{--            {{ __('pages/poll-editor.settings.invite_only.label') }}--}}
+{{--        </x-ui.form.tw-toggle>--}}
+{{--    @endauth--}}
 
     {{-- Nastavení hesla --}}
     <div x-data="{ password:  @entangle('form.password') }">

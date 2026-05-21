@@ -21,7 +21,7 @@ class CreateEvent extends Component
 
     protected EventService $eventService;
 
-    protected GoogleService $googleService;
+//    protected GoogleService $googleService;
 
     public bool $update = false;
 
@@ -37,9 +37,15 @@ class CreateEvent extends Component
         ];
     }
 
-    public function boot(EventService $eventService, GoogleService $googleService): void
+//    public function boot(EventService $eventService, GoogleService $googleService): void
+//    {
+//        $this->googleService = $googleService;
+//        $this->eventService = $eventService;
+//    }
+
+
+    public function boot(EventService $eventService): void
     {
-        $this->googleService = $googleService;
         $this->eventService = $eventService;
     }
 

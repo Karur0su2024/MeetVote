@@ -16,9 +16,8 @@ Route::middleware(['setLanguage'])->group(function () {
     Route::view('/', 'pages.home')->name('home');
 
     // Pozvánky
-
-    Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
-        ->name('polls.invite');
+//    Route::get('invite/{token}', [PollController::class, 'openPollWithInvitation'])
+//        ->name('polls.invite');
 
     // Dark mode
     // Nahrazeno pomocí JS
@@ -32,7 +31,6 @@ Route::middleware(['setLanguage'])->group(function () {
     Route::get('/privacy', function () {
         return view('pages.other.privacy');
     })->name('privacy');
-
     Route::get('/terms', function () {
         return view('pages.other.terms');
     })->name('terms');

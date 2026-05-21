@@ -55,12 +55,12 @@
                                 {{ __('pages/poll-show.settings.dropdown.edit_poll') }}
                             </a>
                         </li>
-                        <li>
-                            <a href="#" wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"
-                               :disabled="!$poll->isActive()">
-                                {{ __('pages/poll-show.settings.dropdown.invitations') }}
-                            </a>
-                        </li>
+{{--                        <li>--}}
+{{--                            <a href="#" wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"--}}
+{{--                               :disabled="!$poll->isActive()">--}}
+{{--                                {{ __('pages/poll-show.settings.dropdown.invitations') }}--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                         <li>
                             <a href="#" wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
                                 @if ($poll->isActive())

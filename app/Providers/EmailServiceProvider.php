@@ -25,15 +25,20 @@ class EmailServiceProvider extends ServiceProvider
     {
         // Pokud je odesílání emailů povoleno, použije se EmailService
         // Jinak se použije EmailServiceEmpty, který neprovádí žádné akce
-        if (config('mail.allowed')) {
-            $this->app->singleton(EmailServiceInterface::class, function ($app) {
-                return new EmailService;
-            });
-        } else {
-            $this->app->singleton(EmailServiceInterface::class, function ($app) {
-                return new EmailServiceEmpty;
-            });
-        }
+//        if (config('mail.allowed')) {
+//            $this->app->singleton(EmailServiceInterface::class, function ($app) {
+//                return new EmailService;
+//            });
+//        } else {
+//            $this->app->singleton(EmailServiceInterface::class, function ($app) {
+//                return new EmailServiceEmpty;
+//            });
+//        }
+
+
+        $this->app->singleton(EmailServiceInterface::class, function ($app) {
+            return new EmailServiceEmpty;
+        });
 
     }
 
