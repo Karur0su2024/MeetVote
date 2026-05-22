@@ -1,4 +1,4 @@
-<div class="tw:flex flex-md-nowrap align-items-center gap-2 tw:pb-2 rounded"
+<div class="tw:flex tw:gap-2 tw:pb-2"
      :class="{ 'existing-option': option.id }">
 
     {{-- Input pole pro text možnosti --}}

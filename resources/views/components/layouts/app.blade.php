@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<div class="tw:bg-linear-to-r tw:from-base-300 tw:to-base-200">
+<div class="tw:bg-linear-to-r tw:from-base-300 tw:to-base-200 tw:min-h-100">
     <div class="tw:text-base-content">
 
         <!-- Navbar -->

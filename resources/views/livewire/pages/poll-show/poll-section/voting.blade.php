@@ -11,7 +11,7 @@
     </p>
     <div>
         <div class="tw:card tw:bg-base-300 tw:flex tw:flex-row tw:p-2 tw:gap-3 tw:items-center tw:shadow-sm">
-            <div class="tw:flex tw:flex-row tw:gap-3">
+            <div class="tw:flex tw:justify-center tw:gap-3 tw:w-full">
                 <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
                 <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
                 <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
@@ -24,7 +24,7 @@
                     <x-pages.poll-show.poll.section-card title="Time">
                         <x-slot:title>
                             <span
-                                class="tw:text-lg tw:font-semibold me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
+                                class="tw:text-lg tw:font-semibold tw:me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
                             <x-ui.tooltip>
                                 {{ __('pages/poll-show.voting.sections.time_options.tooltip') }}
                             </x-ui.tooltip>
@@ -63,19 +63,19 @@
                                              :alt="timeOption.picked_preference"/>
                                     </x-slot:right>
                                     <x-slot:bottom>
-                                        @can('sync', Auth::user())
-                                            <div x-show="timeOption.availability !== undefined">
-                                                <x-ui.pill
-                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
-                                                    <i class="bi me-1"
-                                                       :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>
-                                                    <span
-                                                        x-text="timeOption.availability ? 'Available' : 'Not available'">
-                                                            </span>
-                                                </x-ui.pill>
-                                            </div>
+{{--                                        @can('sync', Auth::user())--}}
+{{--                                            <div x-show="timeOption.availability !== undefined">--}}
+{{--                                                <x-ui.pill--}}
+{{--                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">--}}
+{{--                                                    <i class="bi me-1"--}}
+{{--                                                       :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>--}}
+{{--                                                    <span--}}
+{{--                                                        x-text="timeOption.availability ? 'Available' : 'Not available'">--}}
+{{--                                                            </span>--}}
+{{--                                                </x-ui.pill>--}}
+{{--                                            </div>--}}
 
-                                        @endcan
+{{--                                        @endcan--}}
 
                                     </x-slot:bottom>
 
@@ -108,7 +108,9 @@
                                     <span x-text="question.text"></span>
                                 </x-slot:title>
                                 <x-slot:title-right>
-                                    <x-ui.badge color="secondary">Custom question</x-ui.badge>
+                                    <div class="tw:badge tw:badge-secondary">
+                                        Custom question
+                                    </div>
                                 </x-slot:title-right>
                                 <x-slot:content>
                                     <template x-for="(option, optionIndex) in question.options">
@@ -153,12 +155,12 @@
                             <x-ui.spinner wire:loading wire:target="submitVote">
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </x-ui.spinner>
-                            <x-ui.form.message type="flash"
-                                               form-message="error"
-                                               color="danger"/>
-                            <x-ui.form.message
-                                form-message="form.error"
-                                color="danger"/>
+{{--                            <x-ui.form.message type="flash"--}}
+{{--                                               form-message="error"--}}
+{{--                                               color="danger"/>--}}
+{{--                            <x-ui.form.message--}}
+{{--                                form-message="form.error"--}}
+{{--                                color="danger"/>--}}
                         </div>
                     </div>
 

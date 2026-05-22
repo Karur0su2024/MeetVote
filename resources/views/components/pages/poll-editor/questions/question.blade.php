@@ -1,6 +1,6 @@
 <div class="tw:card tw:mb-3 tw:shadow-sm tw:bg-base-200"
      x-data="{ collapsed: false }">
-    <div class="tw:flex flex-md-nowrap align-items-center border-bottom-0 tw:gap-2 tw:px-2 tw:pt-2 tw:pb-1">
+    <div class="tw:flex flex-md-nowrap align-items-center tw:gap-2 tw:px-2 tw:pt-2 tw:pb-1">
 
         {{-- Input pole pro text otázky --}}
         <input type="text" :id="'question_' + questionIndex"
@@ -10,16 +10,15 @@
                :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.text'] }">
 
         {{-- Tlačítko pro odstranění otázky --}}
-        <x-ui.button @click="collapsed = !collapsed"
-                     color="outline-secondary"
-                     size="sm">
-            <i class="bi" :class="!collapsed ? 'bi-eye' : 'bi-eye-slash'"></i>
-        </x-ui.button>
-        <x-ui.button @click="removeQuestion(questionIndex)"
-                     color="danger"
-                     size="sm">
-            <i class="bi bi-trash"></i>
-        </x-ui.button>
+{{--        <x-ui.button @click="collapsed = !collapsed"--}}
+{{--                     color="outline-secondary"--}}
+{{--                     size="sm">--}}
+{{--            <i class="bi" :class="!collapsed ? 'bi-eye' : 'bi-eye-slash'"></i>--}}
+{{--        </x-ui.button>--}}
+        <button  @click="removeQuestion(questionIndex)"
+                 class="tw:btn tw:btn-error tw:btn-sm">
+            Delete <i class="bi bi-trash"></i>
+        </button>
     </div>
 
     {{-- Možnosti odpovědí --}}

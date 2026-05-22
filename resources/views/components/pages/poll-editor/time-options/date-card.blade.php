@@ -7,9 +7,9 @@
             </div>
             <div class="tw:flex tw:flex-row tw:gap-2 ms-auto align-items-center">
                 <div x-show="dateErrors[dateIndex]">
-                    <x-ui.badge class="h-100 px-2 d-flex align-items-center" color="danger">
+                    <div class="tw:badge tw:badge-error tw:badge-sm">
                         <i class="bi bi-exclamation-triangle-fill"></i>
-                    </x-ui.badge>
+                    </div>
                 </div>
 
                 <span class="tw:badge tw:badge-info tw:badge-sm" x-text="dates[dateIndex].length">

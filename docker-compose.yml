@@ -6,7 +6,7 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
                 MYSQL_CLIENT: mariadb-client
-                NODE_VERSION: '20'
+                NODE_VERSION: '24'
         image: sail-8.4/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'

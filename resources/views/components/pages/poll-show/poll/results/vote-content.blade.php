@@ -1,13 +1,13 @@
 @props(['vote'])
 
 <div class="tw:mt-2">
-    <div x-show="open" class="tw-rounded-box tw-bg-base-200">
+    <div x-show="open" class="tw:rounded-box tw:bg-gray-400/10">
         @foreach($vote->timeOptions ?? []  as $option)
             <div class="overflow-hidden">
-                <div class="d-flex justify-content-between align-items-center tw:p-4">
-                    <div class="d-flex flex-column">
-                        <div class="tw-text-md tw:font-medium tw:mb-1">{{ \Carbon\Carbon::parse($option->timeOption->date)->format('d. m. Y') }}</div>
-                        <div class="tw-text-base-content tw:text-xs">
+                <div class="tw:flex tw:justify-between tw:p-4">
+                    <div>
+                        <div class="tw:text-md tw:font-medium tw:mb-1">{{ \Carbon\Carbon::parse($option->timeOption->date)->format('d. m. Y') }}</div>
+                        <div class="tw:text-base-content tw:text-xs">
                             @if($option->timeOption->text)
                                 <span>{{ $option->timeOption->text }}</span>
                             @else

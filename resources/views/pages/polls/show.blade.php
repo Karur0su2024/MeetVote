@@ -24,12 +24,14 @@
             <x-pages.poll-show.poll.section :poll="$poll"/>
         </div>
         <div class="tw:col-span-1">
-            <div>
-                <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
-            </div>
 
+
+            <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
             @if($poll->settings['comments'])
-                <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                <div class="tw:mt-4">
+                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
+                </div>
+
             @endif
 
         </div>

@@ -3,7 +3,7 @@
 
 ])
 
-<div class="tw:card tw:bg-base-100/80 tw:shadow-md tw:rounded-lg tw:mb-4 tw:text-start {{ $attributes->get('class') }}" {{ $attributes }}>
+<div class="tw:card tw:bg-base-100/80 tw:shadow-md tw:rounded-lg tw:text-start {{ $attributes->get('class') }}" {{ $attributes }}>
     <div class="tw:card-body">
         <div class="tw:flex">
             <div class="tw:grow">

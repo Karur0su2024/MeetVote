@@ -13,16 +13,16 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
 
 <div {{ $attributes->class(['tw:card']) }} {{ $attributes }}>
     <div class="tw:p-4 tw:rounded-lg tw:text-base-content tw:bg-base-100/25">
-        <div class="d-flex justify-content-between align-items-start">
+        <div class="tw:flex tw:justify-between">
             <div>
-                <p class="tw:text-lg fw-bold mb-1">{{ $text ?? '' }}</p>
+                <p class="tw:text-lg tw:font-semibold tw:mb-1">{{ $text ?? '' }}</p>
                 <p class="">{{ $subtext ?? '' }}</p>
             </div>
             <div>
                 {{ $right ?? '' }}
             </div>
         </div>
-        <div class="mt-3">
+        <div class="tw:mt-3">
             {{ $bottom ?? '' }}
         </div>
     </div>

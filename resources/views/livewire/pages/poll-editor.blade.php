@@ -25,7 +25,7 @@
         </div>
 
 
-        <div class="tw:card mb-3 p-2 tw:shadow-sm tw:bg-base-100 tw:col-span-2">
+        <div class="tw:card tw:mb-3 tw:p-2 tw:shadow-sm tw:bg-base-100 tw:col-span-2">
             <div class="tw:flex tw:justify--between tw:items-center">
                 <div>
                     @if($poll)
