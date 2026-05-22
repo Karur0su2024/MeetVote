@@ -9,11 +9,11 @@
         </x-ui.alert>
     @endif
 
-    <div class="tw-max-w-7xl tw-mx-auto tw-p-4 tw-text-base-content">
-        <div class="tw-card tw-card-side shadow-sm tw-bg-base-100">
+    <div>
+        <div class="tw-card tw-card-side tw-shadow-sm tw-bg-base-100">
             <div class="tw-card-body">
-                <h2 class="mb-3 tw-text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
-                <p class="tw-font-light mb-3">
+                <h2 class="tw-mb-3 tw-text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
+                <p class="tw-font-light tw-mb-3">
                     {{__('pages/homepage.section.one.text') }}
                 </p>
                 <div class="tw-card-actions">
@@ -26,14 +26,14 @@
                 <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
             </figure>
         </div>
-        <div class="p-3 tw-card shadow-mt mt-5 tw-bg-base-100">
+        <div class="tw-p-3 tw-card tw-shadow-sm tw-mt-5 tw-bg-base-100">
             <div class="tw-p-4">
-                <h3 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
+                <h3 class="tw-mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
+                                <h5 class="tw-mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
                                 <p class="tw-font-light">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
                             </div>
                         </div>

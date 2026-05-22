@@ -35,7 +35,7 @@
                                  wire:ignore>
                             </div>
                             <div x-show="messages.errors['calendar']">
-                                <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                                <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="tw-mt-2 tw-mb-0">
                                     <span x-text="messages.errors['calendar']"></span>
                                 </x-ui.alert>
                             </div>

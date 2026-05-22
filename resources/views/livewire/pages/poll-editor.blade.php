@@ -4,60 +4,62 @@
 
     <form class="tw-flex tw-flex-col tw-gap-3" wire:submit.prevent="submit">
 
-        {{-- Základní informace o anketě --}}
-        <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
+        <div class="tw-grid tw-grid-flow-row tw-grid-cols-2 tw-gap-4">
+            {{-- Základní informace o anketě --}}
+            <div class="tw-col-span-2">
+                <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
+            </div>
 
-        {{-- Výběr časových termínů --}}
-        <x-pages.poll-editor.time-options.section/>
 
-        <div class="row">
-            {{-- Výběr doplňujících otázek --}}
-            <div class="col-6">
+            {{-- Výběr časových termínů --}}
+            <div class="tw-col-span-2">
+                <x-pages.poll-editor.time-options.section/>
+            </div>
+
+            <div class="tw-col-span-1">
                 <x-pages.poll-editor.questions.section/>
             </div>
-            <div class="col-6">
+            <div class="tw-col-span-1">
                 <x-pages.poll-editor.settings-section/>
             </div>
         </div>
 
 
+        <div class="tw-card mb-3 p-2 tw-shadow-sm tw-bg-base-100 tw-col-span-2">
+            <div class="tw-flex justify-content-between tw-items-center">
+                <div class="tw-flex-grow-1">
+                    @if($poll)
+                        <a class="tw-btn tw-btn-soft tw-text-left" href="{{ route('polls.show', $poll) }}">
+                            {{ __('pages/poll-editor.button.return') }}
+                        </a>
+                    @endif
+                </div>
+                <div class="tw-flex tw-gap-2 tw-flex-grow-1 tw-flex-row-reverse tw-items-center">
 
-        <x-ui.panel>
-            @if($poll)
-                <x-slot:left>
-                    <a class="tw-btn tw-btn-soft text-start" href="{{ route('polls.show', $poll) }}">
-                        {{ __('pages/poll-editor.button.return') }}
-                    </a>
-                </x-slot:left>
-            @endif
-            <x-slot:right>
-
-                <button class="tw-btn tw-btn-primary"
-                        type="submit">
-                    {{ __('pages/poll-editor.button.submit') }}
-                </button>
-                @error('error')
-                <span class="text-danger">
+                    <button class="tw-btn tw-btn-primary"
+                            type="submit">
+                        {{ __('pages/poll-editor.button.submit') }}
+                    </button>
+                    @error('error')
+                    <span class="tw-text-error">
                     {{ $message }}
                 </span>
-                @enderror
+                    @enderror
 
-                @if ($errors->any())
-                    <span class="text-danger">
+                    @if ($errors->any())
+                        <span class="tw-text-error">
                         {{ __('pages/poll-editor.messages.error.general') }}
                     </span>
 
-                 @endif
-                </form>
-
-                <x-ui.spinner wire:loading wire:target="submit">
-                    {{ __('pages/poll-editor.loading') }}
-                </x-ui.spinner>
-            </x-slot:right>
-        </x-ui.panel>
-
-
-
-
+        @endif
     </form>
+
+    <div class="ms-2" wire:loading wire:target="submit">
+        <div class="tw-loading tw-loading-spinner tw-loading-sm" role="status">
+        </div>
+        {{ __('pages/poll-editor.loading') }}
+    </div>
+
+
 </div>
+

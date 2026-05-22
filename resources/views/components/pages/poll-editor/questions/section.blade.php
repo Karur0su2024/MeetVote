@@ -31,7 +31,7 @@
 
 
         @error('form.questions')
-        <span class="text-danger ms-2">{{ $message }}</span>
+        <span class="tw-text-error tw-ms-2">{{ $message }}</span>
         @enderror
     </x-ui.tw-card>
 

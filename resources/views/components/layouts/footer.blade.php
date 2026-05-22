@@ -46,8 +46,8 @@
             </div>
         </div>
         <div class="tw-mt-4 tw-text-xs tw-text-base-content/50">
-            Meetvote v0.2.0 <br>
-            &copy; 2025-2026 Karel Tynek
+            Meetvote v{{ config('app.version') }} <br>
+            &copy; {{ config('app.copyright.years') }} {{ config('app.copyright.author') }}
         </div>
     </div>
 </footer>

@@ -3,7 +3,7 @@
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
 
-    <div class="mb-3">
+    <div class="tw-mb-3">
         @if (session('error'))
             <x-ui.alert type="error">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -29,15 +29,7 @@
             </div>
 
             @if($poll->settings['comments'])
-                <div class="d-lg-block d-none">
-                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
-                </div>
-            @endif
-
-            @if($poll->settings['comments'])
-                <div class="d-lg-none d-md-block">
-                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
-                </div>
+                <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
             @endif
 
         </div>

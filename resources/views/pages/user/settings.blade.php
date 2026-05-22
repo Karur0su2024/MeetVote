@@ -4,7 +4,7 @@
     <x-slot:title>{{ __('pages/user-settings.title') }}</x-slot>
 
     <!-- name of each tab group should be unique -->
-    <div class="tw-tabs tw-tabs-lift tw-max-w-6xl tw-mx-auto tw-py-4">
+    <div class="tw-tabs tw-tabs-lift">
         <label class="tw-tab">
             <input type="radio" name="settings_tabs" />
             {{ __('pages/user-settings.profile_settings.title') }}

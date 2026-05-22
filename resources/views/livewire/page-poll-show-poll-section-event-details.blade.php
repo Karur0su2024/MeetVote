@@ -4,7 +4,7 @@
     '$syncGoogleCalendar = false',
 ])
 
-<x-ui.tw-card header-size="h3" class="w-100 h-100" footer-flex>
+<x-ui.tw-card header-size="h3" class="tw-w-100 tw-h-100" footer-flex>
     <x-slot:title>
         {{ __('pages/poll-show.event_details.title') }}
     </x-slot:title>

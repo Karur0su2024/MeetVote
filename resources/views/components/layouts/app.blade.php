@@ -21,14 +21,18 @@
 </head>
 
 <body>
-<div class="tw-bg-base-300">
+<div class="tw-bg-gradient-to-r tw-from-base-300 tw-to-base-200">
     <div class="tw-text-base-content">
 
         <!-- Navbar -->
         <x-layouts.navbar />
 
         <!-- Obsah stránky -->
-        <main class="container py-5 min-vh-100 px-0">
+{{--        <main class="container py-5 min-vh-100 px-0">--}}
+{{--            {{ $slot }}--}}
+{{--        </main>--}}
+
+        <main class="tw-max-w-7xl tw-mx-auto tw-p-7 tw-my-7">
             {{ $slot }}
         </main>
 
