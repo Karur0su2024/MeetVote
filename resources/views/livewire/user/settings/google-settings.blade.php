@@ -1,4 +1,4 @@
-<div class="tw-mt-3">
+<div class="tw:mt-3">
     <div class="flex">
 {{--        @if ($user->google_id)
 
@@ -6,7 +6,7 @@
                 {{ __('pages/user-settings.google.connected.text') }}
             </p>
 
-            <a href="{{ route('google.oauth.disconnect') }}" class="tw-btn tw-btn-outline tw-btn-error my-3">
+            <a href="{{ route('google.oauth.disconnect') }}" class="tw:btn tw:btn-outline tw:btn-error my-3">
                 <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect') }}
             </a>
 
@@ -14,11 +14,11 @@
                 <p class="text-muted">
                     {{ __('pages/user-settings.google.text.synced_events', ['synced_events_count' => $user->syncedEvents->count()]) }}
                 </p>
-                <a href="{{ route('google.calendar.disconnect') }}" class="tw-btn tw-btn-outline tw-btn-error my-3">
+                <a href="{{ route('google.calendar.disconnect') }}" class="tw:btn tw:btn-outline tw:btn-error my-3">
                     <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.disconnect_calendar') }}
                 </a>
             @else
-                <a href="{{ route('google.calendar.login') }}" class="tw-btn tw-btn-outline tw-btn-primary my-3">
+                <a href="{{ route('google.calendar.login') }}" class="tw:btn tw:btn-outline tw:btn-primary my-3">
                     <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect_calendar') }}
                 </a>
             @endif
@@ -29,9 +29,11 @@
             </a>
         @endif--}}
 
-        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
-            <button class="tw-btn tw-btn-outline tw-btn-disabled">
-                <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
+        <div class="tw:tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+
+            <button class="tw:btn tw:bg-white tw:text-black tw:btn-disabled">
+                <i class="bi bi-google"></i>
+                {{ __('pages/user-settings.google.buttons.connect') }}
             </button>
         </div>
 

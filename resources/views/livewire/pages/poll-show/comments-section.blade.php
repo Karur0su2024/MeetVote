@@ -8,7 +8,7 @@
 
             <div>
                 {{-- Formulář pro přidání komentáře --}}
-                <form class="tw-mb-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
+                <form class="tw:mb-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
 
                     @guest
                         <x-ui.form.tw-input id="username"
@@ -25,7 +25,7 @@
                                           placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
                         {{ __('pages/poll-show.comments.form.content.label') }}
                     </x-ui.form.tw-textbox>
-                    <button class="tw-btn tw-btn-sm tw-btn-primary"
+                    <button class="tw:btn tw:btn-sm tw:btn-primary"
                             type="submit"
                     >
                         {{ __('pages/poll-show.comments.buttons.submit') }}

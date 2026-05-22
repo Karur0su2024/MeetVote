@@ -26,6 +26,6 @@
 
     {{-- Zpráva v případě úspěšného uložení --}}
     @if (session()->has('settings.profile.success'))
-        <span class="text-success ms-3">{{ session('settings.profile.success') }}</span>
+        <span class="tw:text-success tw:ms-3">{{ session('settings.profile.success') }}</span>
     @endif
 </form>

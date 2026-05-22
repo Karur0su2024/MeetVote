@@ -11,7 +11,7 @@
         </x-slot:header>
         <x-slot:content>
             @foreach($results['timeOptions']['options'] as $optionIndex => $option)
-                <div class="tw-w-full tw-md:w-1/2 tw-px-2">
+                <div class="tw:w-full tw-md:w-1/2 tw:px-2">
                     <x-pages.poll-show.poll.option-card>
                         <x-slot:text>
                             {{ $option['date_formatted'] }}

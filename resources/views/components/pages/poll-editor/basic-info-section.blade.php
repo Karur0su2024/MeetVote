@@ -37,12 +37,12 @@
                 </x-slot:label>
             </x-ui.form.tw-input>
 
-            <fieldset class="tw-fieldset mb-2" x-data="{ timezone: @entangle('form.timezone') }" x-init="timezone = timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone">
-                <label class="tw-fieldset-legend pb-1">
+            <fieldset class="tw:fieldset mb-2" x-data="{ timezone: @entangle('form.timezone') }" x-init="timezone = timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone">
+                <label class="tw:fieldset-legend pb-1">
                     {{ __('pages/poll-editor.basic_info.poll_timezone.label') }}
                 </label>
 
-                <select class="tw-select w-100" wire:model="form.timezone" id="timezone">
+                <select class="tw:select w-100" wire:model="form.timezone" id="timezone">
                     @foreach($timezones as $timezone)
                         <option value="{{ $timezone }}">{{$timezone}} ({{ now()->setTimezone($timezone)->format('P') }})</option>
                     @endforeach
