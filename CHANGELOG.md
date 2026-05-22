@@ -1,6 +1,22 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v0.1.0...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v0.2.0...main)
+
+## [v0.2.0](https://github.com/laravel/laravel/compare/v0.1.0...v0.2.0) - 2026-05-22
+
+Almost the entire frontend has been rewritten from Bootstrap to Tailwind CSS with DaisyUI. A few parts of the application still use Bootstrap classes — these will be fully replaced and removed in the next update.
+
+### Removed features
+
+Several features have been removed due to implementation quality concerns. They were originally built quickly to meet a university thesis deadline, and will be reintroduced properly in the future once the core functionality is stable and well-optimized:
+
+- Invitations
+- Email messaging
+- Google account integration
+
+### Notes
+
+This project was put on hold for several months. Returning to it, I decided to draw a line under the old codebase and approach development more deliberately going forward. Future releases should come more frequently — hopefully something meaningful grows out of this. 😄
 
 ## [v0.1.0](https://github.com/laravel/laravel/compare/v11.0.0...v0.1.0) - 2025-05-11
 
