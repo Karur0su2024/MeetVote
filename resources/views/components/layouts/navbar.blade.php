@@ -4,14 +4,14 @@ TODO: Return dark mode toggle to the navbar
 --}}
 
 <nav class="tw:bg-base-100 tw:shadow-sm tw:border-b tw:transition-all tw:text-base-content tw:border-gray-400 tw:border-dotted">
-    <div class="tw:navbar tw:max-w-7xl tw:mx-auto tw:px-4 tw:h-16 tw:flex tw:items-center">
+    <div class="tw:navbar tw:max-w-7xl tw:mx-auto tw:px-4 tw:h-16  tw:items-center">
         <div class="tw:navbar-start tw:gap-4">
             <a href="{{ route('home') }}"
-               class="tw:btn-ghost tw:normal-case tw:text-2xl tw:flex tw:items-center tw:gap-3 tw:px-2 tw:transition-all tw:hover:bg-base-200 tw:rounded-lg">
+               class="tw:btn-ghost tw:normal-case tw:text-2xl tw:flex tw:items-center tw:gap-3 tw:px-2 tw:transition-all tw:m-0 tw:hover:bg-base-200 tw:rounded-lg">
                 <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="tw:w-7 tw:h-7">
                 <span class="tw:font-bold tw:tracking-tight">{{ config('app.name') }}</span>
             </a>
-            <ul class="tw:menu tw:menu-horizontal tw:hidden tw:md:flex tw:gap-1">
+            <ul class="tw:menu tw:menu-horizontal tw:hidden tw:md:flex tw:items-center tw:m-0">
                 <li>
                     <a href="{{ route('polls.create') }}"
                        class="tw:hover:bg-primary/10 tw:rounded-lg tw:transition-all">
@@ -28,8 +28,8 @@ TODO: Return dark mode toggle to the navbar
                 @endauth
             </ul>
         </div>
-        <div class="tw:navbar-end tw:flex tw:items-center tw:gap-3">
-            <ul class="tw:menu tw:menu-horizontal tw:px-1 tw:flex tw:items-center tw:gap-2">
+        <div class="tw:navbar-end tw:flex tw:items-center tw:gap-3 tw-justify-between">
+            <ul class="tw:menu tw:menu-horizontal tw:px-1 tw:flex tw:items-center tw:gap-2 tw:m-0">
 
 
 {{--                <li>--}}
@@ -53,7 +53,7 @@ TODO: Return dark mode toggle to the navbar
                         <button class="tw:btn tw:btn-ghost tw:rounded-box" tabindex="0">
                             <x-ui.username :username="Auth::user()->name" />
                         </button>
-                        <ul class="tw:menu tw:dropdown-content tw:w-100 tw:z-1 tw:shadow-md tw:bg-base-200 tw:rounded-box"
+                        <ul class="tw:menu tw:dropdown-content tw:w-32 tw:z-1 tw:shadow-md tw:bg-base-200 tw:rounded-box"
                             tabindex="0">
                             <li>
                                 <a href="{{ route('settings') }}">

@@ -50,8 +50,8 @@
 <x-layouts.app>
     <x-slot:title>Terms of Use</x-slot>
 
-    <div class="tw:max-w-4xl tw:m-auto">
-        <div class="tw-card tw:p-4 tw-bg-base-100 tw:shadow-sm">
+    <div class="tw:m-auto">
+        <div class="tw:card tw:p-8 tw:bg-base-100 tw:shadow-sm">
             <h2 class="tw:text-2xl tw:mb-3">
                 Terms of Use
             </h2>
@@ -61,7 +61,7 @@
             </p>
             <hr class="tw:mb-6">
 
-            <ol class="tw:list-decimal tw:list-inside tw:space-y-3 tw-text-md">
+            <ol class="tw:list-decimal tw:list-inside tw:space-y-3 tw:text-md">
                 <li><strong>Acceptance of Terms:</strong> By using MeetVote, you agree to these terms.</li>
                 <li><strong>Registration and Accounts:</strong>
                     <ul class="tw:text-sm  tw:list-disc tw:list-inside tw:mb-2">

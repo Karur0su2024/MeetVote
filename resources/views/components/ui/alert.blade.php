@@ -4,7 +4,7 @@
     'dismissible' => false,
 ])
 
-<div role="alert" class="tw-alert tw-alert-{{ $type }} tw-alert-soft {{ $attributes->get('class') }}"
+<div role="alert" class="tw:alert tw:alert-{{ $type }} tw:alert-soft {{ $attributes->get('class') }}"
     {{ $attributes }}>
     @if ($icon)
         <i class="bi {{ $icon }} me-2"></i>

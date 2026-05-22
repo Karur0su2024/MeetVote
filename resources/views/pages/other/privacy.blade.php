@@ -45,8 +45,8 @@
 <x-layouts.app>
     <x-slot:title>Privacy Policy</x-slot>
 
-    <div class="tw:max-w-4xl tw:m-auto">
-        <div class="tw-card tw:p-4 tw-bg-base-100 tw:border tw-border-base-300">
+    <div class="tw:m-auto">
+        <div class="tw:card tw:p-8 tw:bg-base-100 tw:border tw:border-base-300">
             <h2 class="tw:text-3xl tw:mb-3">
                 Privacy Policy
             </h2>
