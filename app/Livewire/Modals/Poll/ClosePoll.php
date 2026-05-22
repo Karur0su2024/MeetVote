@@ -2,20 +2,19 @@
 
 namespace App\Livewire\Modals\Poll;
 
-use App\Enums\PollStatus;
 use App\Events\PollReopened;
-use App\Services\PollResultsService;
-use Livewire\Component;
 use App\Models\Poll;
-use App\Services\EventService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
 
 // Modální okno pro uzavření a znovuotevření ankety
 class ClosePoll extends Component
 {
     public $poll;
+
     public $status;
+
     public $hasEvent;
 
     public $newDeadline;
@@ -28,8 +27,7 @@ class ClosePoll extends Component
     }
 
     /**
-     * @param $pollId
-     * @return void
+     * @param  $pollId
      */
     public function mount($pollIndex): void
     {
@@ -40,7 +38,7 @@ class ClosePoll extends Component
     public function closePoll()
     {
 
-        if(Gate::allows('close', $this->poll)) {
+        if (Gate::allows('close', $this->poll)) {
             $this->validate();
             try {
                 DB::beginTransaction();
@@ -55,15 +53,15 @@ class ClosePoll extends Component
             } catch (\Exception $e) {
                 session()->flash('error', __('ui/modals.close_poll.messages.error.closing'));
                 DB::rollBack();
+
+                //                dd($e->getMessage());
                 return;
             }
         }
     }
 
-
     public function render()
     {
         return view('livewire.modals.poll.close-poll');
     }
-
 }

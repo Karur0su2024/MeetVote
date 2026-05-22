@@ -11,7 +11,7 @@ class IsActive
     // Kontrola, zda je anketa aktivní
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->poll->isActive()){
+        if ($request->poll->isActive()) {
             return $next($request);
         }
 

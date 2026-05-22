@@ -4,11 +4,10 @@ return [
     'title' => 'Homepage',
 
     'section' => [
-        'one' =>
-            [
-                'title' => 'Welcome to MeetVote',
-                'text' => 'MeetVote is simple open-source alternative to Doodle. It allows you to create polls and share them with your friends.'
-            ],
+        'one' => [
+            'title' => 'Welcome to MeetVote',
+            'text' => 'MeetVote is simple open-source alternative to Doodle. It allows you to create polls and share them with your friends.',
+        ],
         'two' => [
             'title' => 'What MeetVote offers',
             'items' => [
@@ -45,5 +44,5 @@ return [
     ],
     'button' => [
         'create_poll' => 'Create your first poll',
-    ]
+    ],
 ];

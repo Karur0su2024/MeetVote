@@ -7,7 +7,6 @@ use App\Models\TimeOption;
 
 class TimeOptionCreateService
 {
-
     // Uložení časdových možností pro anketu
     public function save(Poll $poll, array $timeOptions, array $removedTimeOptions): bool
     {
@@ -19,7 +18,7 @@ class TimeOptionCreateService
 
             if (isset($option['id'])) {
                 // Pokud už někdo pro časovou možnost hlasoval, tak je přeskočena
-                if($option['score'] !== 0) {
+                if ($option['score'] !== 0) {
                     continue;
                 }
 
@@ -32,17 +31,14 @@ class TimeOptionCreateService
         return true;
     }
 
-
     // Odstranění časových možností
     private function deleteTimeOptions(array $deletedOptions): void
     {
-        if(count($deletedOptions) === 0) {
+        if (count($deletedOptions) === 0) {
             return;
         }
         TimeOption::whereIn('id', $deletedOptions)->delete();
     }
-
-
 
     // Sestavení časové možnosti
     private function builtTimeOption(array $validatedData): array

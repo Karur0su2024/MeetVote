@@ -2,26 +2,27 @@
 
 namespace App\Mail;
 
+use App\Models\Event;
+use DateTime;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Event;
 use Spatie\CalendarLinks\Link;
-use DateTime;
 
 class EventEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $event;
-    public $poll;
-    public $calendarLink;
-    public $googleCalendarLink;
 
+    public $poll;
+
+    public $calendarLink;
+
+    public $googleCalendarLink;
 
     /**
      * Create a new message instance.
@@ -37,6 +38,7 @@ class EventEmail extends Mailable
     {
         $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time']);
         $to = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['end_time']);
+
         return Link::create($this->event['title'], $from, $to)->description($this->event['description']);
     }
 
@@ -67,7 +69,7 @@ class EventEmail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

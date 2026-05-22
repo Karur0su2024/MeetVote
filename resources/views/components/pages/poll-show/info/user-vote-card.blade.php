@@ -2,13 +2,18 @@
     <x-slot:title>
         {{ __('pages/poll-show.your_vote.title') }}
     </x-slot:title>
-    @can('delete', $userVote)
-        <button class="tw-btn tw-btn-error tw-btn-sm tw-float-end"
-                wire:click="deleteVote({{ $userVote->id }})">
-            <i class="bi bi-trash"></i>
-            {{ __('pages/poll-show.your_vote.buttons.delete') }}
-        </button>
-    @endcan
+
+    <x-slot:header-right>
+        @can('delete', $userVote)
+            <button class="tw-btn tw-btn-error tw-btn-sm tw-float-end tw-btn-outline"
+                    wire:click="deleteVote({{ $userVote->id }})">
+                <i class="bi bi-trash"></i>
+                {{ __('pages/poll-show.your_vote.buttons.delete') }}
+            </button>
+        @endcan
+    </x-slot:header-right>
+
+
 
     @if($userVote && ($userVote->questionOptions->count() > 0 || $userVote->timeOptions->count() > 0))
         <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>

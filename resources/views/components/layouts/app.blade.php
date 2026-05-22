@@ -17,17 +17,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <livewire:styles/>
+    <livewire:scripts/>
 </head>
 
 <body>
-<div class="app-background">
-    <div class="app-background-overlay">
+<div class="tw-bg-gradient-to-r tw-from-base-300 tw-to-base-200">
+    <div class="tw-text-base-content">
 
         <!-- Navbar -->
         <x-layouts.navbar />
 
         <!-- Obsah stránky -->
-        <main class="container py-5 min-vh-100 px-0">
+{{--        <main class="container py-5 min-vh-100 px-0">--}}
+{{--            {{ $slot }}--}}
+{{--        </main>--}}
+
+        <main class="tw-max-w-7xl tw-mx-auto tw-p-7 tw-my-7">
             {{ $slot }}
         </main>
 
@@ -35,7 +40,7 @@
         <x-layouts.footer/>
 
         <livewire:modals/>
-        <livewire:scripts/>
+
         @stack('scripts')
 
     </div>

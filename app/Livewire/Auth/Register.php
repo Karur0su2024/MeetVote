@@ -3,7 +3,6 @@
 namespace App\Livewire\Auth;
 
 use App\Livewire\Forms\RegisterForm;
-use App\Models\Poll;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -35,5 +34,4 @@ class Register extends Component
     {
         return view('livewire.auth.register');
     }
-
 }

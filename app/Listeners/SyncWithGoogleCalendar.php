@@ -4,14 +4,12 @@ namespace App\Listeners;
 
 use App\Events\PollEventCreated;
 use App\Services\Google\GoogleService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
 class SyncWithGoogleCalendar
 {
-
     protected GoogleService $googleService;
+
     /**
      * Create the event listener.
      */
@@ -34,7 +32,7 @@ class SyncWithGoogleCalendar
             $event = $poll->event;
             $this->googleService->syncWithGoogleCalendar($users, $event);
         } catch (\Exception $e) {
-            Log::error('Error while syncing calendar: ' . $e->getMessage());
+            Log::error('Error while syncing calendar: '.$e->getMessage());
         }
 
     }

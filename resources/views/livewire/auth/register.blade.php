@@ -1,47 +1,61 @@
-<div class="container d-flex justify-content-center align-items-center text-start pt-5">
-    <div class="col-md-6">
+<div class="tw-flex tw-justify-center tw-items-center tw-pt-10">
+    <div class="tw-w-full tw-max-w-md">
         @if (session()->has('status'))
             <x-ui.alert type="info">
                 {{ session('status') }}
             </x-ui.alert>
         @endif
-        <div class="card shadow p-4">
-            <h2 class="text-center mb-4">{{ __('pages/auth.register.title') }}</h2>
-            <form wire:submit="register">
+        <div class="tw-shadow-lg tw-bg-base-100">
+            <div class="tw-card-body">
+                <h2 class="tw-card-title card-title tw-justify-center tw-mb-4">{{ __('pages/auth.register.title') }}</h2>
+                <form wire:submit="register">
+                    <!-- Name -->
+                    <x-ui.form.tw-input id="name" wire:model="form.name" type="text" required error="form.name">
+                        <x-slot:label>
+                            {{ __('pages/auth.register.labels.name') }}
+                        </x-slot:label>
+                    </x-ui.form.tw-input>
 
-                <!-- Name -->
-                <x-ui.form.input id="name" wire:model="form.name" type="text" required error="form.name">
-                    {{ __('pages/auth.register.labels.name') }}
-                </x-ui.form.input>
+                    <!-- Email -->
+                    <x-ui.form.tw-input id="email" wire:model="form.email" type="email" required error="form.email">
+                        <x-slot:label>
+                            {{ __('pages/auth.register.labels.email') }}
+                        </x-slot:label>
+                    </x-ui.form.tw-input>
+                    <!-- Password -->
+                    <x-ui.form.tw-input id="password" wire:model="form.password" type="password" required error="form.password">
+                        <x-slot:label>
+                            {{ __('pages/auth.register.labels.password') }}
+                        </x-slot:label>
+                    </x-ui.form.tw-input>
 
-                <!-- Email -->
-                <x-ui.form.input id="email" wire:model="form.email" type="email" required error="form.email">
-                    {{ __('pages/auth.register.labels.email') }}
-                </x-ui.form.input>
-                <!-- Password -->
-                <x-ui.form.input id="password" wire:model="form.password" type="password" required error="form.password">
-                    {{ __('pages/auth.register.labels.password') }}
-                </x-ui.form.input>
+                    <!-- Confirm Password -->
+                    <x-ui.form.tw-input id="password_confirmation" wire:model="form.password_confirmation" type="password" required  error="form.password_confirmation">
+                        <x-slot:label>
+                            {{ __('pages/auth.register.labels.confirm_password') }}
+                        </x-slot:label>
+                    </x-ui.form.tw-input>
 
-                <!-- Confirm Password -->
-                <x-ui.form.input id="password_confirmation" wire:model="form.password_confirmation" type="password" required  error="form.password_confirmation">
-                    {{ __('pages/auth.register.labels.confirm_password') }}
-                </x-ui.form.input>
+                    <div class="tw-mb-3">
+                        <a href="{{ route('login') }}" class="tw-link tw-link-primary">{{ __('pages/auth.register.buttons.already_registered') }}</a>
+                    </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="{{ route('login') }}" class="text-decoration-none text-primary">{{ __('pages/auth.register.buttons.already_registered') }}</a>
-                </div>
-
-                <div class="d-flex justify-content-center align-items-center mb-3 gap-2">
-                    <button type="submit" class="btn btn-primary w-100">{{ __('pages/auth.register.buttons.register') }}</button>
-                    <a href="{{ route('google.oath.login') }}" class="btn btn-outline-primary w-100">
-                        <i class="bi bi-google"></i> {{ __('pages/auth.register.buttons.with_google') }}
-                    </a>
-                </div>
-                <x-ui.saving wire:loading>
-                    {{ __('pages/auth.register.loading') }}
-                </x-ui.saving>
-            </form>
+                    <div class="tw-flex tw-justify-center tw-items-center tw-mt-5 tw-gap-2">
+                        <button type="submit" class="tw-btn tw-btn-primary tw-flex-1">{{ __('pages/auth.register.buttons.register') }}</button>
+{{--                        <a href="{{ route('google.oath.login') }}" class="tw-btn tw-btn-outline tw-btn-primary tw-flex-1">
+                            <i class="bi bi-google"></i> {{ __('pages/auth.register.buttons.with_google') }}
+                        </a>--}}
+                        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+                            <button class="tw-btn tw-btn-outline tw-btn-disabled">
+                                <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
+                            </button>
+                        </div>
+                    </div>
+                    <x-ui.saving wire:loading>
+                        {{ __('pages/auth.register.loading') }}
+                    </x-ui.saving>
+                </form>
+            </div>
         </div>
     </div>
 </div>

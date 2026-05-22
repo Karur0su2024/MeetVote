@@ -7,7 +7,6 @@ use Livewire\Component;
 
 class ProfileSettings extends Component
 {
-
     public $name;
 
     public $email;
@@ -25,7 +24,6 @@ class ProfileSettings extends Component
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
     }
-
 
     // Metoda pro aktualizaci jména a emailu
     public function updateProfile()

@@ -7,7 +7,6 @@ use Livewire\Component;
 // Modální okno s chybovou hláškou
 class Error extends Component
 {
-
     public $errorMessage = '';
 
     public function mount($errorMessage)

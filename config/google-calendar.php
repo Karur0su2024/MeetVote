@@ -37,7 +37,7 @@ return [
      */
     'calendar_id' => 'primary',
 
-     /*
+    /*
      *  The email address of the user account to impersonate.
      */
     'user_to_impersonate' => null,

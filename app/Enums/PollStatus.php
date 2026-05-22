@@ -9,9 +9,10 @@ enum PollStatus: string
 
     public function toggle(): self
     {
-        if($this === self::ACTIVE) {
+        if ($this === self::ACTIVE) {
             return self::CLOSED;
         }
+
         return self::ACTIVE;
     }
 }

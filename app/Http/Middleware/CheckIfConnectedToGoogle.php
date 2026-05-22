@@ -13,10 +13,9 @@ class CheckIfConnectedToGoogle
     {
         $user = $request->user();
 
-        if(!$user->google_id) {
+        if (! $user->google_id) {
             return redirect()->back()->withErrors(['error' => __('pages/user-settings.message.errors.google_not_connected')]);
         }
-
 
         return $next($request);
     }

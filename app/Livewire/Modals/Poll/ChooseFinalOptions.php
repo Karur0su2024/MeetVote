@@ -3,12 +3,8 @@
 namespace App\Livewire\Modals\Poll;
 
 use App\Models\Poll;
-use App\Models\QuestionOption;
 use App\Services\EventService;
 use App\Services\PollResultsService;
-use App\Services\QuestionService;
-use App\Services\TimeOptionService;
-use Carbon\Carbon;
 use Livewire\Component;
 
 // Starý modal pro výběr finálních možností

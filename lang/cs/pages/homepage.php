@@ -4,11 +4,10 @@ return [
     'title' => 'Domovská stránka',
 
     'section' => [
-        'one' =>
-            [
-                'title' => 'Vítejte na MeetVote',
-                'text' => 'MeetVote je jednoduchá open-source alternativa k Doodle. Umožňuje vám vytvářet ankety a sdílet je s přáteli.'
-            ],
+        'one' => [
+            'title' => 'Vítejte na MeetVote',
+            'text' => 'MeetVote je jednoduchá open-source alternativa k Doodle. Umožňuje vám vytvářet ankety a sdílet je s přáteli.',
+        ],
         'two' => [
             'title' => 'Co MeetVote nabízí',
             'items' => [
@@ -41,5 +40,5 @@ return [
     ],
     'button' => [
         'create_poll' => 'Vytvořte svou první anketu',
-    ]
+    ],
 ];

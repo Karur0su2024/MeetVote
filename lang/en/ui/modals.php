@@ -16,7 +16,7 @@ return [
         'button' => [
             'copy' => 'Copy',
             'copied' => 'Copied',
-        ]
+        ],
     ],
     'add_new_time_option' => [
         'title' => 'Add new time option to :poll_title',
@@ -102,7 +102,7 @@ return [
                 'event_updated' => 'Event updated successfully.',
                 'event_deleted' => 'Event deleted successfully.',
             ],
-        ]
+        ],
     ],
     'invitations' => [
         'title' => 'Invite participants',
@@ -170,11 +170,11 @@ return [
             'new_deadline_placeholder' => 'Select new deadline',
         ],
         'alerts' => [
-            'no_votes' =>   'This poll has no votes.
+            'no_votes' => 'This poll has no votes.
                             Poll can be closed only if
                             there is at least one vote.',
             'event_will_be_deleted' => 'Warning: If you created event, it will be
-                    deleted.'
+                    deleted.',
         ],
         'messages' => [
             'success' => [
@@ -218,4 +218,3 @@ return [
         'text' => 'An error occurred while processing your request. Please try again later.',
     ],
 ];
-

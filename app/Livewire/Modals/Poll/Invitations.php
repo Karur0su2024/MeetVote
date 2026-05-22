@@ -5,7 +5,6 @@ namespace App\Livewire\Modals\Poll;
 use App\Events\InvitationSent;
 use App\Models\Invitation;
 use App\Models\Poll;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
@@ -13,6 +12,7 @@ use Livewire\Component;
 class Invitations extends Component
 {
     public $poll;
+
     public $emails;
 
     public function mount($pollIndex): void
@@ -24,8 +24,9 @@ class Invitations extends Component
     // Metoda po odeslání formuláře
     public function addInvitations()
     {
-        if(Gate::denies('invite', $this->poll)) {
+        if (Gate::denies('invite', $this->poll)) {
             $this->addError('error', __('ui/modals.invitations.message.error.no_permissions'));
+
             return;
         }
 
@@ -40,17 +41,19 @@ class Invitations extends Component
     }
 
     // Zpracování emailů do pozvánek
-    private function processEmails($emailArray){
+    private function processEmails($emailArray)
+    {
         $invalidEmails = [];
         $validEmails = [];
 
-        foreach($emailArray as $email) {
+        foreach ($emailArray as $email) {
             $email = trim($email);
 
             // Kontrola formátu emailu
-            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $invalidEmails[] = $email;
                 $this->addError('error', 'Some emails you entered are invalid');
+
                 continue;
             }
 
@@ -62,6 +65,7 @@ class Invitations extends Component
         }
 
         $this->emails = implode(',', $invalidEmails);
+
         return $validEmails;
     }
 
@@ -93,7 +97,6 @@ class Invitations extends Component
             session()->flash('error', 'Invitation not found.');
         }
     }
-
 
     public function render()
     {

@@ -4,14 +4,14 @@
     */
 @endphp
 
-<div class="g-4 mb-4" x-data="{ showEventDetails: true }">
+<div class="tw-mb-2" x-data="{ showEventDetails: true }">
     <x-ui.tw-card>
         <x-slot:title>
             {{ $poll->title }}
         </x-slot:title>
 
         <x-ui.username :username="$poll->author_name" />
-        <p class="tw-break-normal tw-text-sm tw-text-gray-600">
+        <p class="tw-break-normal tw-text-sm tw-text-gray-400 tw-font-light">
             @if ($poll->description == null || $poll->description == '')
                 {{ __('pages/poll-show.info.text.no_description') }}
             @else
@@ -19,55 +19,8 @@
             @endif
         </p>
 
-        <div class="d-flex gap-2">
-            @can('isAdmin', $poll)
-                <x-ui.tw-button wire:click="openModal('modals.poll.share', '{{ $poll->id }}')"
-                             color="outline-secondary"
-                             size="sm">
 
-                    {{ __('pages/poll-show.settings.dropdown.share_poll') }}
-                </x-ui.tw-button>
-                {{-- Nabídka pro správu ankety --}}
-                <x-ui.dropdown.wrapper id="poll-options-dropdown" size="sm" wrapper="div" color="primary">
-                    <x-slot:header>
-                        <x-ui.icon class="gear me-1"/>
-                        {{ __('pages/poll-show.settings.dropdown.options') }}
-                    </x-slot:header>
-                    <x-slot:dropdown-items>
-                        <x-ui.dropdown.item href="{{ route('polls.edit', $poll) }}"
-                                            :disabled="!$poll->isActive()">
-                            <x-ui.icon class="pencil-square me-1"/>
-                            {{ __('pages/poll-show.settings.dropdown.edit_poll') }}
-                        </x-ui.dropdown.item>
-                        @auth
-                            <x-ui.dropdown.item wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"
-                                                :disabled="!$poll->isActive()">
-                                <x-ui.icon class="person-plus me-1"/>
-                                {{ __('pages/poll-show.settings.dropdown.invitations') }}
-                            </x-ui.dropdown.item>
-                        @endauth
-                        <x-ui.dropdown.item wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
-                            @if ($poll->isActive())
-                                <x-ui.icon class="lock me-1"/>
-                                {{ __('pages/poll-show.settings.dropdown.close_poll') }}
-                            @else
-                                <x-ui.icon class="unlock me-1"/>
-                                {{ __('pages/poll-show.settings.dropdown.reopen_poll') }}
-                            @endif
-                        </x-ui.dropdown.item>
-                        <x-ui.dropdown.divider />
-                        <x-ui.dropdown.item wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')"
-                                            color="danger">
-                            <x-ui.icon class="trash me-1"/>
-                            {{ __('pages/poll-show.settings.dropdown.delete_poll') }}
-                        </x-ui.dropdown.item>
-                    </x-slot:dropdown-items>
-                </x-ui.dropdown.wrapper>
-
-            @endcan
-        </div>
-
-        <div class="tw-flex tw-flex-wrap tw-gap-1 mt-3">
+        <div class="tw-flex tw-flex-wrap tw-gap-1 mt-1">
             {{-- Badge s počtem hlasů --}}
             <x-ui.tw-badge>
                 {{ $poll->timezone }} ({{  date('P') }})
@@ -83,20 +36,62 @@
             @endforeach
         </div>
 
+        <div class="tw-flex tw-gap-2 tw-mt-3">
+            @can('isAdmin', $poll)
+                <button class="tw-btn tw-btn-sm tw-btn-outline"
+                        wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
+                    {{ __('pages/poll-show.settings.dropdown.share_poll') }}
+
+                </button>
+                {{-- Nabídka pro správu ankety --}}
+                <div class="tw-dropdown tw-w-full">
+                    <button class="tw-btn tw-btn-sm tw-btn-outline">
+                        <x-ui.icon class="gear me-1"/>
+                        {{ __('pages/poll-show.settings.dropdown.options') }}
+                    </button>
+                    <ul class="tw-menu tw-dropdown-content tw-bg-base-200 tw-shadow-md tw-rounded-box tw-w-72 tw-z-50">
+                        <li>
+                            <a href="{{ route('polls.edit', $poll) }}">
+                                {{ __('pages/poll-show.settings.dropdown.edit_poll') }}
+                            </a>
+                        </li>
+{{--                        <li>--}}
+{{--                            <a href="#" wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"--}}
+{{--                               :disabled="!$poll->isActive()">--}}
+{{--                                {{ __('pages/poll-show.settings.dropdown.invitations') }}--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+                        <li>
+                            <a href="#" wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')">
+                                @if ($poll->isActive())
+                                    {{ __('pages/poll-show.settings.dropdown.close_poll') }}
+                                @else
+                                    {{ __('pages/poll-show.settings.dropdown.reopen_poll') }}
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a class="tw-text-red-500" href="#" wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')">
+                                {{ __('pages/poll-show.settings.dropdown.delete_poll') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            @endcan
+        </div>
+
+
+
 
 
     </x-ui.tw-card>
 
-    <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
-
-
-
-
-
-
-    {{--Pravá strana – informace o události--}}
     @if($event)
         <livewire:page-poll-show-poll-section-event-details :event="$event" :poll="$poll" />
+    @endif
+
+    @if($poll->isActive())
+        <x-pages.poll-show.info.user-vote-card :user-vote="$userVote" />
     @endif
 
 </div>

@@ -12,7 +12,7 @@ class CanEdit
     // Kontrola, zda má uživatel pravomoci pro úpravu ankety
     public function handle(Request $request, Closure $next): Response
     {
-        if(Gate::allows('isAdmin', $request->poll)){
+        if (Gate::allows('isAdmin', $request->poll)) {
             return $next($request);
         }
 

@@ -11,12 +11,12 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
 
 
 
-<div {{ $attributes->class(['card']) }} {{ $attributes }}>
-    <div class="card-body">
+<div {{ $attributes->class(['tw-card']) }} {{ $attributes }}>
+    <div class="tw-p-4 tw-rounded-lg tw-text-base-content tw-bg-base-100">
         <div class="d-flex justify-content-between align-items-start">
             <div>
                 <p class="fs-6 fw-bold mb-1">{{ $text ?? '' }}</p>
-                <p class="card-text text-muted">{{ $subtext ?? '' }}</p>
+                <p class="">{{ $subtext ?? '' }}</p>
             </div>
             <div>
                 {{ $right ?? '' }}

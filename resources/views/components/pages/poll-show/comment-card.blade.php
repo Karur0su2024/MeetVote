@@ -7,8 +7,8 @@
 
 @endphp
 
-<div class="card my-2 p-3">
-    <div class="d-flex justify-content-between">
+<div class="tw-card my-2 p-3 tw-border-dashed tw-border tw-border-gray-500/75">
+    <div class="tw-flex tw-items-center tw-mb-3">
         <p>
             <span class="fw-bold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
             <span class="text-muted">{{ $comment->created_at->diffForHumans() }}</span>
@@ -17,15 +17,15 @@
         {{-- V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat --}}
 
         @can('delete', $comment)
-            <x-ui.button color="outline-danger"
-                         wire:click='deleteComment({{ $comment->id }})'>
+            <button class="tw-btn tw-btn-outline tw-btn-error tw-btn-sm"
+                    wire:click='deleteComment({{ $comment->id }})'>
                 <i class="bi bi-trash"></i>
 
-            </x-ui.button>
+            </button>
         @endcan
     </div>
 
-    <p class="mb-0">
+    <p class="tw-font-light">
         {{ $comment->content }}
     </p>
 

@@ -76,6 +76,7 @@
 
 .voting-card-invalid {
     opacity: 0.5 !important;
+    cursor: not-allowed;
 }
 
 /* Vzhled pozadí karet pro alpine, protože už jsem línej to předělávat */
@@ -97,11 +98,11 @@
 
 
 [data-bs-theme="light"] .poll-section-card {
-    background: #efefef !important;
+    /*background: #efefef !important;*/
     border: 0 !important;
 }
 
 [data-bs-theme="dark"] .poll-section-card {
-    background: #2c2c2c !important;
+    /*background: #2c2c2c !important;*/
     border: 0 !important;
 }

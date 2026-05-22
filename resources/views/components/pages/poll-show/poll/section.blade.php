@@ -16,18 +16,16 @@
             <span x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'">
             </span>
         </x-slot:title>
-
-        <div>
+        <x-slot:header-right>
             @can('canVote', $poll)
-                <button class="tw-btn tw-btn-outline"
+                <button class="tw-btn tw-btn-dash"
                         x-text="mode === 'Results' ?
                                  '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
                                  '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"
                         @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
                 </button>
-
             @endcan
-        </div>
+        </x-slot:header-right>
 
         <div>
 
@@ -53,7 +51,7 @@
             </div>
         </div>
 
-        
+
     </x-ui.tw-card>
 
 </div>

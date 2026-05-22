@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\App;
+use Symfony\Component\HttpFoundation\Response;
 
 class SetLanguage
 {
@@ -15,11 +15,11 @@ class SetLanguage
 
         // Rozšíření o kontrolu jazyka v session
         // Pokud není jazyk v session, nastavíme ho na základě hlavičky Accept-Language
-        if(!session()->has('language')) {
+        if (! session()->has('language')) {
             $lang = substr($request->header('Accept-Language'), 0, 2);
-            if(in_array($lang, ['en', 'cs'])) {
+            if (in_array($lang, ['en', 'cs'])) {
                 session()->put('language', $lang);
-            } else{
+            } else {
                 session()->put('language', 'en');
             }
         }

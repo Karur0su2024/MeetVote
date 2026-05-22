@@ -3,7 +3,7 @@
     {{-- Název stránky --}}
     <x-slot:title>{{ __('pages/dashboard.title') }}</x-slot>
 
-    <div class="container text-center">
+    <div class="tw-text-center">
         <livewire:user.dashboard />
     </div>
 

@@ -3,18 +3,17 @@
 namespace App\Services\Vote;
 
 use App\Models\Poll;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Vote;
 use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
-use App\Models\Vote;
+use Illuminate\Support\Facades\Auth;
 
-class VoteQueryService{
-
+class VoteQueryService
+{
     public function __construct(
         protected TimeOptionQueryService $timeOptionQueryService,
         protected QuestionQueryService $questionQueryService,
     ) {}
-
 
     // Získaní dat pro hlasovací formulář
     public function getPollData($pollIndex): array
@@ -22,7 +21,6 @@ class VoteQueryService{
         $poll = Poll::with(['timeOptions', 'questions', 'questions.options'])->findOrFail($pollIndex);
 
         $vote = $this->getVote($poll);
-
 
         return [
             'poll_index' => $poll->id,
@@ -37,21 +35,17 @@ class VoteQueryService{
         ];
     }
 
-
     // Získání existují odpovědi, pokud je existuje
     public function getVote(Poll $poll): ?Vote
     {
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             $vote = $poll->votes()->where('user_id', Auth::id())->first();
-            if($vote) {
+            if ($vote) {
                 return $vote;
             }
         }
 
         return null;
     }
-
-
-
 }

@@ -4,20 +4,17 @@ namespace App\Services\Question;
 
 use App\Models\Poll;
 use App\Models\QuestionOption;
-use App\Models\Vote;
 
 class QuestionQueryService
 {
     /**
      * Metoda pro načtení otázek ankety
-     * @param Poll $poll
-     * @return array
      */
     public function getQuestionsArray(Poll $poll): array
     {
         $questions = [];
 
-        if (!isset($poll->id)) {
+        if (! isset($poll->id)) {
             return $questions;
         }
 
@@ -42,14 +39,13 @@ class QuestionQueryService
         return $questions;
     }
 
-
     // NOTE: dočasné řešení
     // Ass jako associative, ne nic jiného :D
     public function getQuestionsAssArray(Poll $poll): array
     {
         $questions = [];
 
-        if (!isset($poll->id)) {
+        if (! isset($poll->id)) {
             return $questions;
         }
 
@@ -74,12 +70,8 @@ class QuestionQueryService
         return $questions;
     }
 
-
-
     /**
      * Metoda pro získání celkového skóre možnosti otázky.
-     * @param QuestionOption $option
-     * @return int
      */
     private function getOptionScore(QuestionOption $option): int
     {
@@ -87,17 +79,16 @@ class QuestionQueryService
         foreach ($option->votes as $vote) {
             $score += $vote->preference;
         }
+
         return $score;
     }
-
-
 
     /**
      * Metoda pro získání dat o otázkách pro hlasování
      * Vratí pole s daty s otázkami
-     * @param $data
-     * @param $voteIndex
-     * @return array
+     *
+     * @param  $data
+     * @param  $voteIndex
      */
     public function getVotingArray(Poll $poll, $vote = null): array
     {
@@ -110,5 +101,4 @@ class QuestionQueryService
         return $pollQuestions;
 
     }
-
 }

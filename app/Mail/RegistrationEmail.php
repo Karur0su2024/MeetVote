@@ -3,8 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -16,8 +16,7 @@ class RegistrationEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public $user)
-    {}
+    public function __construct(public $user) {}
 
     /**
      * Get the message envelope.
@@ -45,7 +44,7 @@ class RegistrationEmail extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {

@@ -1,10 +1,6 @@
-{{-- Sekce na stránce nastavení pro připojení Google účtu a Kalendáře --}}
-<x-ui.tw-card>
-    <x-slot:title>
-        {{ __('pages/user-settings.google.title') }}
-    </x-slot:title>
+<div class="tw-mt-3">
     <div class="flex">
-        @if ($user->google_id)
+{{--        @if ($user->google_id)
 
             <p class="text-muted">
                 {{ __('pages/user-settings.google.connected.text') }}
@@ -31,7 +27,14 @@
             <a href="{{ route('google.oath.login') }}" class="btn btn-outline-primary">
                 <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
             </a>
-        @endif
+        @endif--}}
+
+        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+            <button class="tw-btn tw-btn-outline tw-btn-disabled">
+                <i class="bi bi-google"></i> {{ __('pages/user-settings.google.buttons.connect') }}
+            </button>
+        </div>
+
     </div>
 
 
@@ -41,4 +44,4 @@
     @if (session()->has('settings.google.error'))
         <span class="text-danger ms-3">{{ session('settings.google.error') }}</span>
     @endif
-</x-ui.tw-card>
+</div>

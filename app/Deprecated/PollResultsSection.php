@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\PollShow;
+namespace App\Deprecated;
 
 use App\Models\Poll;
 use App\Services\PollResultsService;
@@ -16,7 +16,8 @@ class PollResultsSection extends Component
 
     public $pollResults = [];
 
-    public function mount($pollIndex, PollResultsService $pollResultsService){
+    public function mount($pollIndex, PollResultsService $pollResultsService)
+    {
         $this->poll = Poll::find($pollIndex);
         $this->pollResults = $pollResultsService->getResults($this->poll);
     }

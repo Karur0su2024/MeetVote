@@ -3,15 +3,15 @@
     'size' => 'sm',
     'element' => 'div',
     'color' => 'outline-secondary',
+    'disabled' => true,
 ])
 
-<{{ $element }} class="dropdown {{ $attributes->get('class') ?? '' }}">
+<{{ $element }} class="tw-dropdown {{ $attributes->get('class') ?? '' }}">
     {{-- Dropdown button --}}
-    <a class="tw-btn tw-btn-{{ $size }} tw-btn-{{ $color }}" href="#" id="{{ $id }}" role="button"
-        data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="tw-btn tw-btn-{{ $size }} tw-btn-{{ $color }} {{ $disabled === true ? 'tw-disabled' : "" }}" href="#" id="{{ $id }}">
         {{ $header ?? '' }}
     </a>
-    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-light" aria-labelledby="{{ $id }}">
+    <ul class="tw-menu tw-dropdown-content tw-bg-base-300 tw-rounded-box" aria-labelledby="{{ $id }}">
         {{ $dropdownItems ?? '' }}
     </ul>
 </{{ $element }}>

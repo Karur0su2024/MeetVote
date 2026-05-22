@@ -1,10 +1,10 @@
 [data-bs-theme="light"] .existing-option {
-    background-color: #deeae0;
+    /*background-color: #deeae0;*/
     border-color: #c3e6cb;
 }
 
 [data-bs-theme="dark"] .existing-option {
-    background-color: #434643;
+    /*background-color: #434643;*/
     border-color: #272827;
 }
 

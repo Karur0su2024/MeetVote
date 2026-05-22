@@ -9,5 +9,4 @@ interface GoogleServiceInterface
     public function desyncWithGoogleCalendar($event);
 
     public function checkAvailability($user, $timeOptions);
-
 }

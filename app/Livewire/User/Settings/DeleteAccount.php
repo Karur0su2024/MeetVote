@@ -7,8 +7,6 @@ use Livewire\Component;
 
 class DeleteAccount extends Component
 {
-
-
     // Metoda pro smazání účtu
     public function deleteAccount()
     {
@@ -17,7 +15,6 @@ class DeleteAccount extends Component
 
         return redirect()->route('login');
     }
-
 
     public function render()
     {

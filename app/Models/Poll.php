@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
+use App\Enums\PollStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Enums\PollStatus;
 
-/**
- *
- */
 class Poll extends Model
 {
-
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',
         'status', 'deadline', 'password', 'public_id', 'admin_key',
@@ -39,8 +35,6 @@ class Poll extends Model
         'settings' => 'array',
     ];
 
-
-
     protected static function booted(): void
     {
         static::creating(static function (Poll $poll) {
@@ -50,19 +44,18 @@ class Poll extends Model
         });
     }
 
-
     // Accessor a mutator pro parametry nastavení ankety, která je uložena jako JSON
     public function settings(): Attribute
     {
         return Attribute::make(
-            get: fn() => json_decode($this->attributes['settings'] ?? null, true),
-            set: fn($array) => json_encode($array, JSON_THROW_ON_ERROR),
+            get: fn () => json_decode($this->attributes['settings'] ?? null, true),
+            set: fn ($array) => json_encode($array, JSON_THROW_ON_ERROR),
         );
     }
 
-
     /**
      * Vztah k uživateli (M:1)
+     *
      * @return BelongsTo
      */
     public function user()
@@ -107,10 +100,10 @@ class Poll extends Model
 
     public function isActive(): bool
     {
-        if($this->deadline && $this->deadline <= today()) {
+        if ($this->deadline && $this->deadline <= today()) {
             return false;
         }
+
         return $this->status === PollStatus::ACTIVE;
     }
-
 }

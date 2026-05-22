@@ -2,24 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\Event;
-use App\Models\Poll;
 use App\Models\Vote;
 use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use App\Models\VoteTimeOption;
 
 class PollResultsService
 {
-
     public function __construct(
         protected TimeOptionQueryService $timeOptionQueryService,
-        protected QuestionQueryService   $questionQueryService,
-    )
-    {
-    }
+        protected QuestionQueryService $questionQueryService,
+    ) {}
 
     // Získání výsledků ankety
     public function getResults($poll): array
@@ -42,6 +35,7 @@ class PollResultsService
     private function getTimeOptionsResultsArray($timeOptions, $preferences): array
     {
         $timeOptions = $this->addPreferencesToTimeOptions($timeOptions, $preferences['timeOptions']);
+
         return $this->sortByScore($timeOptions);
     }
 
@@ -81,8 +75,8 @@ class PollResultsService
     {
         $vote = null;
 
-        if(!session()->has('poll.' . $poll->id . '.vote')){
-            session()->remove('poll.' . $poll->id . '.vote');
+        if (! session()->has('poll.'.$poll->id.'.vote')) {
+            session()->remove('poll.'.$poll->id.'.vote');
         }
 
         if (Auth::check()) {
@@ -90,15 +84,13 @@ class PollResultsService
                 ->where('poll_id', $poll->id)
                 ->where('user_id', Auth::id())
                 ->first();
-        }
-        else {
-            $vote = $poll->votes()->where('id', session()->get('poll.' . $poll->id . '.vote') ?? null)->first();
+        } else {
+            $vote = $poll->votes()->where('id', session()->get('poll.'.$poll->id.'.vote') ?? null)->first();
         }
 
         return $vote;
 
     }
-
 
     // Získání dat preferencí
     public function getPreferenceData($poll): array
@@ -134,6 +126,7 @@ class PollResultsService
                     $vote->voter_name;
             }
         }
+
         return $preferences;
     }
 
@@ -150,5 +143,4 @@ class PollResultsService
 
         return $timeOptions;
     }
-
 }

@@ -3,9 +3,7 @@
 namespace App\Services\Google;
 
 use App\Interfaces\GoogleServiceInterface;
-use Laravel\Socialite\Two\User as GoogleUser;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\RedirectResponse;
 
 class GoogleServiceEmpty implements GoogleServiceInterface
 {

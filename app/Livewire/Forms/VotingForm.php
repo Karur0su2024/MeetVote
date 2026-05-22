@@ -5,26 +5,28 @@ namespace App\Livewire\Forms;
 use App\Rules\IsPickedAtLeastOnePreference;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Form;
-/**
- *
- */
+
 class VotingForm extends Form
 {
     public $error;
+
     public $pollIndex = null;
 
     public $user = [
         'name' => '',
         'email' => '',
     ];
+
     public $notes = '';
 
-
     public $timeOptions = [];
+
     public $questions = [];
+
     public $existingVote;
 
-    protected function rules(): array {
+    protected function rules(): array
+    {
         return [
             'error' => [new IsPickedAtLeastOnePreference($this->timeOptions, $this->questions)],
             'pollIndex' => 'required|integer',
@@ -40,7 +42,6 @@ class VotingForm extends Form
             'notes' => 'nullable|string',
         ];
     }
-
 
     public function loadData($data)
     {
@@ -61,6 +62,4 @@ class VotingForm extends Form
         $this->existingVote = $data['vote_index'] ?? null;
 
     }
-
-
 }

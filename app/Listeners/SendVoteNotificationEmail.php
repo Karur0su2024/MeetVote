@@ -8,6 +8,7 @@ use App\Services\Mail\EmailService;
 class SendVoteNotificationEmail
 {
     protected EmailService $notificationService;
+
     /**
      * Create the event listener.
      */

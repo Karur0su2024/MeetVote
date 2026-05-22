@@ -7,20 +7,17 @@ use App\Services\Question\QuestionQueryService;
 use App\Services\TimeOptions\TimeOptionQueryService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 
 class PollQueryService
 {
-
-    public function __construct
-    (
+    public function __construct(
         protected TimeOptionQueryService $timeOptionQueryService,
         protected QuestionQueryService $questionQueryService,
     ) {}
 
     public function getPollArray($pollIndex = null): array
     {
-        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['*']) ?? new Poll();
+        $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['*']) ?? new Poll;
 
         return [
             'pollIndex' => $poll->id ?? null,
@@ -57,5 +54,4 @@ class PollQueryService
             'allow_invalid' => false,
         ];
     }
-
 }

@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class VoteCreateService
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     // Uložení odpovědi do databáze
     public function saveVote($validatedVoteData)
@@ -34,7 +32,7 @@ class VoteCreateService
             $message = $vote->wasRecentlyCreated ? __('pages/poll-show.voting.messages.vote_submitted') : __('pages/poll-show.voting.messages.vote_updated');
             VoteSubmitted::dispatchIf($vote->wasRecentlyCreated, $vote);
 
-            session()->put('poll.' . $validatedVoteData['pollIndex'] . '.vote', $vote->id);
+            session()->put('poll.'.$validatedVoteData['pollIndex'].'.vote', $vote->id);
             redirect(request()->header('Referer'))->with('success', $message);
 
         } catch (\Exception $e) {
@@ -43,7 +41,6 @@ class VoteCreateService
         }
 
     }
-
 
     // Uložení preferencí pro časové možnosti
     private function saveTimeOptionsVotes($vote, $data)
@@ -60,9 +57,11 @@ class VoteCreateService
     {
         $timeOptionsVotes = [];
         foreach ($options as $option) {
-            if ($option['picked_preference'] === 0 || $option['invalid']) continue; // Pokud nebyla preference vybrána, je možnost přeskočena
+            if ($option['picked_preference'] === 0 || $option['invalid']) {
+                continue;
+            } // Pokud nebyla preference vybrána, je možnost přeskočena
 
-            $timeOptionsVotes[] = New VoteTimeOption([
+            $timeOptionsVotes[] = new VoteTimeOption([
                 'time_option_id' => $option['id'],
                 'preference' => $option['picked_preference'],
             ]);
@@ -88,9 +87,11 @@ class VoteCreateService
         foreach ($questions as $question) {
             foreach ($question['options'] as $option) {
 
-                if ($option['picked_preference'] === 0) continue; // Pokud není preference vybrána, je tato možnost přeskočena
+                if ($option['picked_preference'] === 0) {
+                    continue;
+                } // Pokud není preference vybrána, je tato možnost přeskočena
 
-                $questionOptions[] = New VoteQuestionOption([
+                $questionOptions[] = new VoteQuestionOption([
                     'poll_question_id' => $question['id'],
                     'question_option_id' => $option['id'],
                     'preference' => $option['picked_preference'],
@@ -100,7 +101,6 @@ class VoteCreateService
 
         return $questionOptions;
     }
-
 
     // Sestavení odpovědi
     private function buildVote($validatedVoteData): array
@@ -112,5 +112,4 @@ class VoteCreateService
             'message' => $validatedVoteData['notes'] ?? null,
         ];
     }
-
 }

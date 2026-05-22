@@ -3,9 +3,8 @@
     'disabled' => false,
 ])
 
-<li class="py-1">
-    <a class="
-        dropdown-item pointer-cursor
+<li class="tw-py-1">
+    <a  class="
         {{ $color ? 'text-' . $color : '' }}
         {{ $disabled ? 'disabled' : '' }}
         {{ $attributes->get('class') }}"

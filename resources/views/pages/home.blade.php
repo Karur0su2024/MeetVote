@@ -9,36 +9,31 @@
         </x-ui.alert>
     @endif
 
-    <div class="container">
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="row align-items-center">
-                    <div class="col-lg-6">
-                        <div class="p-4">
-                            <h2 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.one.title') }}</h2>
-                            <p class="tw-font-light mb-3">
-                                {{__('pages/homepage.section.one.text') }}
-                            </p>
-                            <a href="{{ route('polls.create') }}" class="btn btn-primary">
-                                {{ __('pages/homepage.button.create_poll') }}
-                            </a>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-6 mt-4 mt-lg-0 text-center">
-                        <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration" class="img-fluid rounded w-100" style="max-height: 300px;">
-                    </div>
+    <div>
+        <div class="tw-card tw-card-side tw-shadow-sm tw-bg-base-100">
+            <div class="tw-card-body">
+                <h2 class="tw-mb-3 tw-text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
+                <p class="tw-font-light tw-mb-3">
+                    {{__('pages/homepage.section.one.text') }}
+                </p>
+                <div class="tw-card-actions">
+                    <a href="{{ route('polls.create') }}" class="tw-btn tw-btn-primary">
+                        {{ __('pages/homepage.button.create_poll') }}
+                    </a>
                 </div>
             </div>
+            <figure class="tw-max-w-2xl">
+                <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
+            </figure>
         </div>
-        <div class="p-3 card shadow-mt mt-5">
-            <div class="card-body">
-                <h3 class="mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
+        <div class="tw-p-3 tw-card tw-shadow-sm tw-mt-5 tw-bg-base-100">
+            <div class="tw-p-4">
+                <h3 class="tw-mb-3 tw-text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
                 <div class="row mt-4">
                     <div class="col-md-6 mb-4">
                         <div class="d-flex align-items-start">
                             <div>
-                                <h5 class="mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
+                                <h5 class="tw-mb-2 tw-text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
                                 <p class="tw-font-light">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
                             </div>
                         </div>

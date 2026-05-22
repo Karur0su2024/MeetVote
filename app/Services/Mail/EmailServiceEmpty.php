@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\Log;
 
 class EmailServiceEmpty implements EmailServiceInterface
 {
-
     public function sendConfirmationEmail($poll): void
     {
         Log::info('Email service is disabled, not sending confirmation email');
     }
-
 
     public function sendInvitation($email, $poll, $key): void
     {
@@ -24,10 +22,14 @@ class EmailServiceEmpty implements EmailServiceInterface
         Log::info('Email service is disabled, not sending vote notification email');
     }
 
-
     public function sendRegistrationMail($user): void
     {
         Log::info('Email service is disabled, not sending registration email');
+    }
+
+    public function sendEventNotification($email, $event): void
+    {
+        Log::info('Email service is disabled, not sending poll confirmation email');
     }
 
     public function sendPollConfirmationEmail($poll)

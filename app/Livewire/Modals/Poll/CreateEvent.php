@@ -16,10 +16,12 @@ use Livewire\Component;
 class CreateEvent extends Component
 {
     public $poll;
+
     use CanOpenModals;
 
     protected EventService $eventService;
-    protected GoogleService $googleService;
+
+//    protected GoogleService $googleService;
 
     public bool $update = false;
 
@@ -35,25 +37,30 @@ class CreateEvent extends Component
         ];
     }
 
+//    public function boot(EventService $eventService, GoogleService $googleService): void
+//    {
+//        $this->googleService = $googleService;
+//        $this->eventService = $eventService;
+//    }
 
-    public function boot(EventService $eventService, GoogleService $googleService): void
+
+    public function boot(EventService $eventService): void
     {
-        $this->googleService = $googleService;
         $this->eventService = $eventService;
     }
 
-    public function mount($pollIndex, array $eventData = null)
+    public function mount($pollIndex, ?array $eventData = null)
     {
         $this->poll = Poll::with('event')->find($pollIndex, ['*']);
 
-        if($eventData){
+        if ($eventData) {
             $this->event = $eventData;
+
             return;
         }
 
         $this->update = true;
         $this->event = $this->eventService->buildEvent($this->poll->event);
-
 
     }
 
@@ -75,18 +82,19 @@ class CreateEvent extends Component
             $this->eventService->createEvent($this->poll, $validatedData['event']);
             PollEventCreated::dispatch($this->poll);
 
-
         } catch (\Exception $e) {
             return;
-            //Doplnit logování chyby
+            // Doplnit logování chyby
         }
 
         return redirect()->route('polls.show', $this->poll)->with('success', __('pages/poll-show.messages.success.event_created'));
     }
 
-    public function deleteEvent(){
+    public function deleteEvent()
+    {
         PollEventDeleted::dispatch($this->poll);
         $this->poll->event()->delete();
+
         return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
     }
 

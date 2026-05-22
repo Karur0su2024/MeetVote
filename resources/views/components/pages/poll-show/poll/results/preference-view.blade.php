@@ -16,12 +16,9 @@
     </div>
 
     @foreach($preferences ?? [] as $preferenceName => $preference)
-        <div class="col-md-3 col-6">
-            <div class="d-flex align-items-center text-center border p-2 rounded fw-bold justify-content-center"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="top"
-                 data-bs-html="true"
-                 data-bs-title="{{ count($preference) !== 0 ? implode('<br>', array_slice($preference, 0, 10)) : 'No votes' }}">
+        <div class="col-md-3 col-6"
+             data-tip="{{ count($preference) !== 0 ? implode('<br>', array_slice($preference, 0, 10)) : 'No votes' }}">
+            <div class="d-flex align-items-center text-center border p-2 rounded fw-bold justify-content-center">
                 <img src="{{ asset('icons/' . $preferenceName . '.svg') }}"
                      alt="{{ $preferenceName  }}" class="me-2">
                 {{ count($preference) }}

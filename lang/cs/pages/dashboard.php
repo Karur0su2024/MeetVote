@@ -23,7 +23,7 @@ return [
                 'polls' => 'Ankety',
                 'events' => 'Události',
             ],
-        ]
+        ],
     ],
     'buttons' => [
         'new_poll' => 'Nová anketa',
@@ -34,7 +34,7 @@ return [
         'no_connected_calendar' => [
             'text' => 'Můžete synchronizovat své události s Google Kalendářem. Chcete-li to provést, prosím, propojte svůj účet Google v ',
             'link' => 'nastavení',
-        ]
+        ],
     ],
 
     'poll_card' => [
@@ -64,12 +64,12 @@ return [
 
     'event_card' => [
         'buttons' => [
-            'view' => "Zobrazit anketu události",
+            'view' => 'Zobrazit anketu události',
         ],
     ],
     'messages' => [
         'success' => [
             'poll_deleted' => 'Anketa byla úspěšně smazána.',
         ],
-    ]
+    ],
 ];

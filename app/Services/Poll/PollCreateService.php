@@ -13,20 +13,18 @@ use Illuminate\Support\Facades\Hash;
 
 class PollCreateService
 {
-
     public function __construct(
         protected TimeOptionCreateService $timeOptionCreateService,
-        protected QuestionCreateService   $questionCreateService,
-    )
-    {
-    }
+        protected QuestionCreateService $questionCreateService,
+    ) {}
 
     // Metoda pro uložení ankety
     public function savePoll($validatedData, $pollIndex = null): Poll
     {
         try {
             $poll = $this->createOrUpdatePoll($validatedData, $pollIndex);
-            session()->put('poll_admin_keys.' . $poll->id, $poll->admin_key);
+            session()->put('poll_admin_keys.'.$poll->id, $poll->admin_key);
+
             return $poll;
         } catch (PollException $e) {
             DB::rollBack(); // Pokud dojde k chybě, transakce je zrušena
@@ -37,12 +35,11 @@ class PollCreateService
         }
     }
 
-
     // Aktualizace nebo vytvoření ankety
     public function createOrUpdatePoll($validatedData, $pollIndex = null): ?Poll
     {
         $poll = Poll::with('timeOptions', 'questions', 'questions.options')->find($pollIndex, ['id', 'public_id']);
-        $newPoll = !$poll;
+        $newPoll = ! $poll;
 
         DB::beginTransaction(); // Databázová transakce
 
@@ -57,10 +54,10 @@ class PollCreateService
         $this->questionCreateService->save($poll, $validatedData['questions'], $validatedData['removed']['questions'], $validatedData['removed']['question_options']); // Uložení otázek
         DB::commit();
         PollCreated::dispatchIf($newPoll, $poll);
+
         return $poll;
 
     }
-
 
     // Sestavení ankety
     private function buildPollArray(array $validatedData, ?Poll $poll): array
@@ -75,11 +72,10 @@ class PollCreateService
         ];
 
         // Pokud je anketa nová, nastaví se vlastník ankety
-        if(!$poll){
+        if (! $poll) {
             $newPoll['author_name'] = Auth::user() ? Auth::user()->name : $validatedData['user']['name'];
             $newPoll['author_email'] = Auth::user() ? Auth::user()->email : $validatedData['user']['email'];
         }
-
 
         return $newPoll;
     }
@@ -91,9 +87,8 @@ class PollCreateService
         if ($password['set']) {
             return $password['set'];
         }
-        return $password['value'] !== "" ? Hash::make($password['value']) : null;
+
+        return $password['value'] !== '' ? Hash::make($password['value']) : null;
 
     }
-
-
 }
