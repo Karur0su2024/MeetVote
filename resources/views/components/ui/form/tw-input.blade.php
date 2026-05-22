@@ -5,8 +5,8 @@
     'xError' => null, // Chybová hláška pro inputy používající Alpine.js (jinak řešeno automaticky u Livewire)
 ])
 
-<fieldset class="tw-fieldset mb-2" >
-    <label class="tw-fieldset-legend pb-1">
+<fieldset class="tw:fieldset mb-2" >
+    <label class="tw:fieldset-legend pb-1">
         {{ $label ?? '' }}
 {{--        <x-ui.red-text>--}}
 {{--            {{ $attributes->has('required') ? '*' : '' }}--}}
@@ -18,7 +18,7 @@
 {{--        @endif--}}
     </label>
     <input type="{{ $type }}"
-           class="tw-input w-100"
+           class="tw:input w-100"
            {{ $attributes->get('class') ?? '' }}
            aria-label="{{ $label ?? '' }}"
            aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"

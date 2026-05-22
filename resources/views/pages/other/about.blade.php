@@ -35,21 +35,21 @@
 <!-- resources/views/pages/terms.blade.php -->
 <x-layouts.app>
     <x-slot:title>About</x-slot>
-    <div class="tw-max-w-4xl tw-mx-auto tw-px-4">
-        <div class="tw-card tw-p-8 tw-shadow-md tw-bg-base-100 tw-border tw-border-base-300">
-            <h2 class="tw-card-title tw-mb-6 tw-text-3xl tw-font-bold">
+    <div class="tw:max-w-4xl tw:mx-auto tw:px-4">
+        <div class="tw-card tw:p-8 tw:shadow-md tw-bg-base-100 tw:border tw-border-base-300">
+            <h2 class="tw-card-title tw:mb-6 tw:text-3xl tw:font-bold">
                 About MeetVote
             </h2>
-            <p class="tw-mb-6 tw-leading-relaxed tw-text-base-content">
+            <p class="tw:mb-6 tw:leading-relaxed tw-text-base-content">
                 MeetVote is an open-source alternative to Doodle, developed as a bachelor's thesis at the University
                 of Economics in Prague. The application allows users to schedule meetings through group polls where
                 participants can vote on dates and other aspects of the meeting.
             </p>
 
-            <div class="tw-divider tw-my-6"></div>
+            <div class="tw-divider tw:my-6"></div>
 
-            <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Key Features</h3>
-            <ul class="tw-list-disc tw-list-inside tw-mb-6 tw-space-y-2 tw-text-base-content">
+            <h3 class="tw:text-lg tw:font-semibold tw:mb-4">Key Features</h3>
+            <ul class="tw:list-disc tw:list-inside tw:mb-6 tw:space-y-2 tw-text-base-content">
                 <li>Create group polls for scheduling</li>
                 <li>Additional questions (e.g. location, agenda)</li>
                 <li>Poll comments</li>
@@ -60,10 +60,10 @@
                 <li>Dark mode</li>
             </ul>
 
-            <div class="tw-divider tw-my-6"></div>
+            <div class="tw-divider tw:my-6"></div>
 
-            <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Contact</h3>
-            <p class="tw-mb-2">
+            <h3 class="tw:text-lg tw:font-semibold tw:mb-4">Contact</h3>
+            <p class="tw:mb-2">
                 GitHub: <a href="https://github.com/Karur0su2024/MeetVote" target="_blank" class="tw-link tw-link-primary">Karur0su2024/MeetVote</a>
             </p>
             <p>

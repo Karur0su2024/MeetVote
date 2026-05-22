@@ -1,5 +1,5 @@
-<fieldset class="tw-fieldset mb-3">
-    <span class="tw-fieldset-legend pb-1">
+<fieldset class="tw:fieldset mb-3">
+    <span class="tw:fieldset-legend pb-1">
         {{ $slot }}
         @if ($tooltip ?? null)
             <small class="ms-2">
@@ -10,7 +10,7 @@
     <textarea {{ $attributes }}
               aria-label="{{ $slot }}"
               aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
-              class="tw-textarea tw-h-24 w-100">
+              class="tw:textarea tw:h-24 w-100">
 
     </textarea>
     @if($error ?? null)

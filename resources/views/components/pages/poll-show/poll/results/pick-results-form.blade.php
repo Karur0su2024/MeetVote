@@ -2,11 +2,11 @@
     'results'
 ])
 
-<div class="tw-mt-5" x-data="{ results: @entangle('results') }">
+<div class="tw:mt-5" x-data="{ results: @entangle('results') }">
 
     <form wire:submit.prevent="insertToEventModal">
         <div class="d-flex justify-content-between align-items-center">
-            <h3 class="tw-mb-2 tw-text-xl tw-font-medium">
+            <h3 class="tw:mb-2 tw:text-xl tw:font-medium">
                 {{ __('pages/poll-show.results.sections.results.pick_from_results.title') }}
             </h3>
 
@@ -18,7 +18,7 @@
 
         </div>
 
-        <p class="tw-text-sm tw-font-light mt-2">
+        <p class="tw:text-sm tw:font-light mt-2">
             {{ __('pages/poll-show.results.sections.results.pick_from_results.description') }}
         </p>
 
@@ -26,7 +26,7 @@
         <x-pages.poll-show.poll.section-card :title="__('pages/poll-show.results.sections.results.pick_from_results.section.time_options')">
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)
-                    <div class="tw-w-full tw-md:w-1/2" @click="results.timeOptions.selected = {{ $optionIndex }}">
+                    <div class="tw:w-full tw-md:w-1/2" @click="results.timeOptions.selected = {{ $optionIndex }}">
                         <x-pages.poll-show.poll.option-card class="result-card-clickable"{{-- ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}"--}}>
                             <x-slot:text>
                                 {{ $option['date_formatted'] }}
@@ -53,7 +53,7 @@
             <x-pages.poll-show.poll.section-card :title="$question['text']" >
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
-                        <div  class="tw-w-full tw-md:w-1/2 tw-px-2"
+                        <div  class="tw:w-full tw-md:w-1/2 tw:px-2"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
                             <x-pages.poll-show.poll.option-card  class="result-card-clickable"
                                                                          ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">

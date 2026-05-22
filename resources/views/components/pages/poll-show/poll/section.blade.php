@@ -18,7 +18,7 @@
         </x-slot:title>
         <x-slot:header-right>
             @can('canVote', $poll)
-                <button class="tw-btn tw-btn-dash"
+                <button class="tw:btn tw:btn-dash"
                         x-text="mode === 'Results' ?
                                  '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
                                  '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"

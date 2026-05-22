@@ -7,17 +7,17 @@
 
 @endphp
 
-<div class="tw-card my-2 p-3 tw-border-dashed tw-border tw-border-gray-500/75">
-    <div class="tw-flex tw-items-center tw-mb-3">
-        <p>
-            <span class="fw-bold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
-            <span class="text-muted">{{ $comment->created_at->diffForHumans() }}</span>
+<div class="tw:card tw:my-2 tw:p-3 tw:border-dashed tw:border tw:border-gray-500/75">
+    <div class="tw:flex tw:items-center">
+        <p class="tw:flex tw:gap-2">
+            <span class="tw:font-semibold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
+            <span class="tw:font-base-content tw:font-light">{{ $comment->created_at->diffForHumans() }}</span>
         </p>
 
         {{-- V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat --}}
 
         @can('delete', $comment)
-            <button class="tw-btn tw-btn-outline tw-btn-error tw-btn-sm"
+            <button class="tw:btn tw:btn-outline tw:btn-error tw:btn-sm"
                     wire:click='deleteComment({{ $comment->id }})'>
                 <i class="bi bi-trash"></i>
 
@@ -25,7 +25,7 @@
         @endcan
     </div>
 
-    <p class="tw-font-light">
+    <p class="tw:font-light tw:text-sm tw:text-balance tw:break-all">
         {{ $comment->content }}
     </p>
 

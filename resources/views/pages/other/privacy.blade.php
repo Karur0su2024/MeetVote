@@ -45,41 +45,41 @@
 <x-layouts.app>
     <x-slot:title>Privacy Policy</x-slot>
 
-    <div class="tw-max-w-4xl tw-m-auto">
-        <div class="tw-card tw-p-4 tw-bg-base-100 tw-border tw-border-base-300">
-            <h2 class="tw-text-3xl tw-mb-3">
+    <div class="tw:max-w-4xl tw:m-auto">
+        <div class="tw-card tw:p-4 tw-bg-base-100 tw:border tw-border-base-300">
+            <h2 class="tw:text-3xl tw:mb-3">
                 Privacy Policy
             </h2>
-            <p class="tw-font-light tw-text-sm">
+            <p class="tw:font-light tw:text-sm">
                 Last updated: May 10, 2025
             </p>
-            <hr class="tw-mb-8">
+            <hr class="tw:mb-8">
 
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">What Data We Collect:</h3>
-            <ul class="tw-list-disc tw-list-inside tw-space-y-2 mb-4">
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">What Data We Collect:</h3>
+            <ul class="tw:list-disc tw:list-inside tw:space-y-2 mb-4">
                 <li>Registration data: Name and email</li>
                 <li>Poll data: Content, responses, comments</li>
                 <li>Technical data: Device info, IP address, cookies</li>
                 <li>Google account data (when used for login or calendar sync)</li>
             </ul>
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">How We Use the Data:</h3>
-            <ul class="tw-list-disc tw-list-inside tw-space-y-2 mb-4">
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">How We Use the Data:</h3>
+            <ul class="tw:list-disc tw:list-inside tw:space-y-2 mb-4">
                 <li>To send email notifications</li>
                 <li>To sync with Google Calendar (if enabled)</li>
             </ul>
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">Data Sharing</h3>
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">Data Sharing</h3>
             <p class="mb-4">We only share data with service providers (hosting, email) or when required by law</p>
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">Security</h3>
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">Security</h3>
             <p class="mb-4">Standard measures such as password encryption and secure connections are in place.</p>
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">Your Rights</h3>
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">Your Rights</h3>
             <p class="mb-4">You can request access, correction, or deletion of your data by contacting <a href="{{ 'mailto:' . config('app.contact_email') }}">{{ config('app.contact_email') }}</a>.</p>
 
-            <h3 class="tw-mb-2 tw-text-lg tw-font-medium">Cookies</h3>
+            <h3 class="tw:mb-2 tw:text-lg tw:font-medium">Cookies</h3>
             <p class="mb-4">We use essential cookies for app functionality and preferences (e.g., dark mode, language).</p>
         </div>
     </div>

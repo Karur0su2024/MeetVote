@@ -5,9 +5,9 @@
 ])
 
 
-<button class="tw-btn
-               tw-btn-primary
-               tw-btn-{{ $size }}
+<button class="tw:btn
+               tw:btn-primary
+               tw:btn-{{ $size }}
             {{ $disabled ? 'disabled' : '' }}
             {{ $attributes->get('class') }}"
             {{ $attributes }}>

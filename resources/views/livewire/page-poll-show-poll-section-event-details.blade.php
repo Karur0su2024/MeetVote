@@ -4,17 +4,17 @@
     '$syncGoogleCalendar = false',
 ])
 
-<x-ui.tw-card header-size="h3" class="tw-w-100 tw-h-100" footer-flex>
+<x-ui.tw-card header-size="h3" footer-flex>
     <x-slot:title>
         {{ __('pages/poll-show.event_details.title') }}
     </x-slot:title>
     <x-slot:header-right>
         @if ($event)
-            <div class="tw-dropdown tw-dropdown-end tw-w-full">
-                <button class="tw-btn tw-btn-outline tw-btn-sm">
+            <div class="tw:dropdown tw:dropdown-end tw:w-full">
+                <button class="tw:btn tw:btn-outline tw:btn-sm">
                     {{ __('pages/poll-show.event_details.dropdown.header') }}
                 </button>
-                <ul class="tw-menu tw-dropdown-content tw-bg-base-200 tw-w-full tw-rounded tw-shadow-sm">
+                <ul class="tw:menu tw:dropdown-content tw:bg-base-200 tw:w-full tw:rounded tw:shadow-sm">
                     <li>
                         <a href="#" wire:click='importToGoogleCalendar()'>
                             {{ __('pages/poll-show.event_details.dropdown.import_to_google') }}
@@ -28,7 +28,7 @@
                 </ul>
             </div>
         @can('isAdmin', $poll)
-                <button class="tw-btn tw-btn-sm tw-btn-outline" wire:click="deleteEvent">
+                <button class="tw:btn tw:btn-sm tw:btn-outline" wire:click="deleteEvent">
                     Delete
                 </button>
         @endcan
@@ -36,6 +36,7 @@
     </x-slot:header-right>
 
     @if ($event)
+
         <p><strong>Title:</strong> {{ $event->title }}</p>
 
         @if ($syncGoogleCalendar ?? false)

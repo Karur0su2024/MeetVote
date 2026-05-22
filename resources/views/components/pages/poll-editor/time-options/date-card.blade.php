@@ -1,20 +1,20 @@
 <div>
-    <div class="tw-card tw-bg-base-300 mb-3 shadow-sm tw-p-3 tw-flex tw-flex-col tw-gap-2"
+    <div class="tw:card tw:bg-base-300 mb-3 shadow-sm tw:p-3 tw:flex tw:flex-col tw:gap-2"
          x-data="{ collapsed: false }">
-        <div class="tw-flex tw-flex-row tw-items-center tw-gap-2">
-            <div class="tw-grow">
-                <span class="tw-text-md tw-font-semibold" x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"</span>
+        <div class="tw:flex tw:flex-row tw:items-center tw:gap-2">
+            <div class="tw:grow">
+                <span class="tw:text-md tw:font-semibold" x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"</span>
             </div>
-            <div class="tw-flex tw-flex-row tw-gap-2 ms-auto align-items-center">
+            <div class="tw:flex tw:flex-row tw:gap-2 ms-auto align-items-center">
                 <div x-show="dateErrors[dateIndex]">
                     <x-ui.badge class="h-100 px-2 d-flex align-items-center" color="danger">
                         <i class="bi bi-exclamation-triangle-fill"></i>
                     </x-ui.badge>
                 </div>
 
-                <span class="tw-badge tw-badge-info tw-badge-sm" x-text="dates[dateIndex].length">
+                <span class="tw:badge tw:badge-info tw:badge-sm" x-text="dates[dateIndex].length">
                 </span>
-                <button class="tw-btn tw-btn-xs tw-btn-outline tw-btn-error"
+                <button class="tw:btn tw:btn-xs tw:btn-outline tw:btn-error"
                         ::class="{ 'disabled': Object.keys(dates).length === 1 }"
                         @click="removeDate(dateIndex)">
                     <i class="bi bi-trash"></i>
@@ -42,13 +42,13 @@
         <div>
             {{-- Tlačítka pro přidání nové možnosti --}}
 
-            <div class="tw-flex tw-flex-1 align-items-center gap-2">
-                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-outline tw-flex-grow"
+            <div class="tw:flex tw:flex-1 align-items-center gap-2">
+                <button class="tw:btn tw:btn-sm tw:btn-primary tw:btn-outline tw:grow"
                         type="button"
                         @click="addTimeOption(dateIndex, false)">
                     {{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
                 </button>
-                <button class="tw-btn tw-btn-sm tw-btn-primary tw-btn-outline tw-flex-grow"
+                <button class="tw:btn tw:btn-sm tw:btn-primary tw:btn-outline tw:grow"
                         type="button"
                         @click="addTextOption(dateIndex, 'text')">
                     {{ __('pages/poll-editor.time_options.button.add_text_option') }}

@@ -3,7 +3,7 @@
     'disabled' => false,
 ])
 
-<li class="tw-py-1">
+<li class="tw:py-1">
     <a  class="
         {{ $color ? 'text-' . $color : '' }}
         {{ $disabled ? 'disabled' : '' }}
