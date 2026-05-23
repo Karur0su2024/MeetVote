@@ -1,6 +1,17 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v0.2.0...main)
+## [Unreleased](https://github.com/laravel/laravel/compare/v0.2.1...main)
+
+## [v0.2.1](https://github.com/laravel/laravel/compare/v0.2.0...v0.2.1) - 2026-05-23
+
+A small maintenance update focused on dependency cleanup and getting the project into a clean state for future development.
+
+### Changes
+
+- Updated Tailwind CSS from v3 to v4 and DaisyUI to the latest version
+- Removed unused and outdated dependencies
+- Continued migrating remaining components from Bootstrap to Tailwind — only a few parts of the app still use Bootstrap classes, which will be fully removed in the next update
+- Minor Docker and application configuration adjustments
 
 ## [v0.2.0](https://github.com/laravel/laravel/compare/v0.1.0...v0.2.0) - 2026-05-22
 
