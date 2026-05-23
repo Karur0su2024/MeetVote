@@ -125,7 +125,7 @@ return [
 
     'contact_email' => env('CONTACT_EMAIL', ''),
 
-    'version' => '0.2.0',
+    'version' => '0.3.0',
     'copyright' => [
         'author' => env('APP_COPYRIGHT_AUTHOR', 'karur0su'),
         'years' => env('APP_COPYRIGHT_YEARS', '2025-2026'),

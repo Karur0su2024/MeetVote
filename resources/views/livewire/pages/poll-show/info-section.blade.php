@@ -11,31 +11,30 @@
                 <x-slot:trigger class="btn btn-sm btn-primary btn-outline">
                     {{ __('Settings') }}
                 </x-slot:trigger>
+
                 <x-mary-menu-item href="{{ route('polls.edit', $poll) }}"
                                   title="{{ __('pages/poll-show.settings.dropdown.edit_poll') }}"/>
-                <x-mary-menu-item href="#"
-                                  class="opacity-25"
+
+                <x-mary-menu-item class="opacity-25"
                                   {{--wire:click="openModal('modals.poll.invitations', '{{ $poll->id }}')"--}}
                                   {{--:disabled="!$poll->isActive()"--}}
                                   title="{{ __('pages/poll-show.settings.dropdown.invitations') }}"/>
                 <x-mary-menu-item
                     title="{{ $poll->isActive() ? __('pages/poll-show.settings.dropdown.close_poll') : __('pages/poll-show.settings.dropdown.reopen_poll') }}"
-                    href="#"
-                    @click="$wire.myModal1 = true"
-                    {{--                    wire:click="openModal('modals.poll.close-poll', '{{ $poll->id }}')"--}}
+                    @click="$wire.dispatch('openClosePollModal')"
                 />
+
                 <x-mary-menu-separator/>
                 <x-mary-menu-item class="text-red-500"
                                   title="{{ __('pages/poll-show.settings.dropdown.delete_poll') }}"
-                                  @click="$wire.myModal2 = true"/>
+                                  @click="$wire.dispatch('openPollDeleteModal')"/>
             </x-mary-dropdown>
 
 
             @can('isAdmin', $poll)
                 <x-mary-button class="btn-outline btn-sm"
                                label="{{ __('pages/poll-show.settings.dropdown.share_poll') }}"
-                               wire:click="openModal('modals.poll.share', '{{ $poll->id }}')"/>
-                {{-- Nabídka pro správu ankety --}}
+                               @click="$wire.dispatch('openShareModal')"/>
             @endcan
         </div>
     </div>
@@ -88,77 +87,14 @@
         <x-pages.poll-show.info.user-vote-card :user-vote="$userVote"/>
     @endif
 
-    <x-mary-modal wire:model="myModal1"
-                  title="{{ $poll->isActive() ? __('ui/modals.close_poll.title.close') : __('ui/modals.close_poll.title.reopen') }}"
-                  class="backdrop-blur z-10">
-        @if (session()->has('error'))
-            <span class="text-error">
-                {{ session('error') }}
-            </span>
-        @else
-            @if ($poll->isActive())
-                @if (count($poll->votes) === 0)
-                    <x-mary-alert title="{{ __('ui/modals.close_poll.alerts.no_votes') }}"
-                                  class="alert-error"
-                                  icon="o-exclamation-triangle"/>
-                @else
-                    <x-mary-alert class="alert-warning"
-                                  title="{{ __('ui/modals.close_poll.text.poll_count', ['count_poll_votes' => count($poll->votes)]) . ' ' . __('ui/modals.close_poll.text.is_user_sure') }}"
-                                  icon="o-exclamation-triangle"/>
 
-                @endif
-            @else
-                <x-mary-alert class="alert-warning"
-                              title="{{ __('ui/modals.close_poll.text.reopen') }}"
-                              icon="o-exclamation-triangle"/>
 
-                @if($hasEvent)
-                    <x-mary-alert class="alert-warning"
-                                  title="{{ __('ui/modals.close_poll.alerts.event_will_be_deleted') }}"
-                                  icon="o-exclamation-triangle"/>
-                @endif
-                <x-mary-datetime label="{{ __('ui/modals.close_poll.labels.new_deadline') }}"
-                              wire:model="newDeadline"
-                />
 
-            @endif
-        @endif
-        <x-slot:actions>
-            <x-mary-button label="{{ __('ui/modals.close_poll.buttons.cancel') }}"
-                           class="btn-neutral"
-                           @click="$wire.myModal1 = false"
-            />
-            <x-mary-button
-                label="{{ $poll->isActive() ? __('ui/modals.close_poll.buttons.close') : __('ui/modals.close_poll.buttons.reopen') }}"
-                class="btn-error {{ count($poll->votes) === 0 ? 'btn-disabled' : '' }}"
-                wire:click="closePoll()"
-            />
-        </x-slot:actions>
-    </x-mary-modal>
+    <livewire:modals.poll.close :poll="$poll" />
 
-    <x-mary-modal wire:model="myModal2"
-                  title="{{ __('ui/modals.delete_poll.title') }}"
-                  class="backdrop-blur z-10">
-        <x-mary-alert title="{{ __('ui/modals.delete_poll.text.question') . ' ' . __('ui/modals.delete_poll.text.warning') }}"
-                      class="alert-error"
-                      icon="o-exclamation-triangle"/>
+    <livewire:modals.poll.share :poll="$poll" />
 
-        @if (session()->has('error'))
-            <span class="text-danger">
-                {{ session('error') }}
-            </span>
-        @endif
-        <x-slot:actions>
-            <x-mary-button label="{{ __('ui/modals.close_poll.buttons.cancel') }}"
-                           class="btn-neutral"
-                           @click="$wire.myModal2 = false"
-            />
-            <x-mary-button
-                label="{{ __('ui/modals.invitations.table.actions.delete') }}"
-                class="btn-error"
-                wire:click="deletePoll()"
-            />
-        </x-slot:actions>
-    </x-mary-modal>
+    <livewire:modals.poll.delete :poll="$poll" />
+
 </div>
 

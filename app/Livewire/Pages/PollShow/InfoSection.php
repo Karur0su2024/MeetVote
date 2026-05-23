@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Pages\PollShow;
 
-use App\Events\PollReopened;
+
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
@@ -22,10 +22,6 @@ class InfoSection extends Component
 
     public $event;
 
-    public bool $myModal1 = false;
-
-    public bool $myModal2 = false;
-
     public $userVote;
 
     protected PollResultsService $pollResultsService;
@@ -35,15 +31,6 @@ class InfoSection extends Component
     public $status;
 
     public $hasEvent;
-
-    public $newDeadline;
-
-    public function rules(): array
-    {
-        return [
-            'newDeadline' => 'nullable|date|after:today', // Uzávěrka ankety
-        ];
-    }
 
     public function boot(PollResultsService $pollResultsService, EventService $eventService): void
     {
@@ -61,44 +48,7 @@ class InfoSection extends Component
         }
 
         $this->hasEvent = $this->poll->event()->exists();
-    }
 
-    public function closePoll()
-    {
-
-        if (Gate::allows('close', $this->poll)) {
-            $this->validate();
-            try {
-                DB::beginTransaction();
-                $this->poll->status = $this->poll->status->toggle();
-                $this->poll->deadline = $this->newDeadline;
-                $this->poll->save();
-                DB::commit();
-
-                PollReopened::dispatchIf(true, $this->poll);
-
-                return redirect()->route('polls.show', ['poll' => $this->poll->public_id])->with('success', __('ui/modals.close_poll.messages.success.poll_status_updated'));
-            } catch (\Exception $e) {
-                session()->flash('error', __('ui/modals.close_poll.messages.error.closing'));
-                DB::rollBack();
-
-                //                dd($e->getMessage());
-                return;
-            }
-        }
-    }
-
-    public function deletePoll()
-    {
-        try {
-            $this->poll->delete();
-        } catch (\Exception $e) {
-            session()->flash('error', 'An error occurred while deleting the poll.');
-
-            return;
-        }
-
-        return redirect()->route('dashboard');
     }
 
 

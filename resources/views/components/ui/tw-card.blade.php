@@ -3,7 +3,7 @@
 
 ])
 
-<div class="card bg-base-100/80 shadow-md rounded-lg text-start {{ $attributes->get('class') }}" {{ $attributes }}>
+<div class="card bg-base-100 shadow-sm rounded-lg text-start {{ $attributes->get('class') }}" {{ $attributes }}>
     <div class="card-body">
         <div class="flex">
             <div class="grow">

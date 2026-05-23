@@ -3,25 +3,23 @@ TODO: Return dark mode toggle to the navbar
 
 --}}
 
-<nav class="bg-base-100 shadow-sm border-b transition-all text-base-content border-gray-400 border-dotted">
-    <div class="navbar max-w-7xl mx-auto px-4 h-16  items-center">
+<nav class=" bg-gray-900 shadow-sm transition-all rounded-box text-white">
+    <div class="navbar max-w-7xl mx-auto px-2 h-10  items-center">
         <div class="navbar-start gap-4">
             <a href="{{ route('home') }}"
-               class="btn-ghost normal-case text-2xl flex items-center gap-3 px-2 transition-all m-0 hover:bg-base-200 rounded-lg">
+               class="normal-case text-2xl flex items-center gap-3 px-2 transition-all m-0 rounded-lg">
                 <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="w-7 h-7">
                 <span class="font-bold tracking-tight">{{ config('app.name') }}</span>
             </a>
             <ul class="menu menu-horizontal hidden md:flex items-center m-0 gap-3">
                 <li>
-                    <a href="{{ route('polls.create') }}"
-                       class="hover:bg-primary/10 rounded-lg transition-all">
+                    <a href="{{ route('polls.create') }}">
                         {{ __('ui/navbar.new_poll') }}
                     </a>
                 </li>
                 @auth
                     <li>
-                        <a href="{{ route('dashboard') }}"
-                           class="{{ request()->routeIs('dashboard') ? 'active font-semibold bg-primary/10 text-primary' : '' }} hover:bg-primary/10 rounded-lg transition-all">
+                        <a href="{{ route('dashboard') }}">
                             {{ __('ui/navbar.dashboard') }}
                         </a>
                     </li>
@@ -42,10 +40,10 @@ TODO: Return dark mode toggle to the navbar
 
                 @auth
                     <div class="dropdown dropdown-end">
-                        <button class="btn btn-ghost rounded-box" tabindex="0">
+                        <button class="ps-4 rounded-box cursor-pointer" tabindex="0">
                             <x-ui.username :username="Auth::user()->name" />
                         </button>
-                        <ul class="menu dropdown-content w-32 z-1 shadow-md bg-base-200 rounded-box"
+                        <ul class="menu dropdown-content w-32 z-1 shadow-md bg-base-200 rounded-box  text-base-content"
                             tabindex="0">
                             <li>
                                 <a href="{{ route('settings') }}">

@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<div class="bg-linear-to-r from-base-300 to-base-200">
+<div class="bg-linear-to-r from-violet-100/90 dark:from-base-200 to-base-200/80 p-1">
     <div class="text-base-content">
 
         <!-- Navbar -->
@@ -33,8 +33,6 @@
 
         <!-- Footer -->
         <x-layouts.footer/>
-
-        <livewire:modals/>
 
         @stack('scripts')
 
