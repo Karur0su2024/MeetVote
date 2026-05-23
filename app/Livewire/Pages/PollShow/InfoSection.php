@@ -19,6 +19,8 @@ class InfoSection extends Component
 
     public $event;
 
+    public bool $modalSharePoll = false;
+
     public $userVote;
 
     protected PollResultsService $pollResultsService;
