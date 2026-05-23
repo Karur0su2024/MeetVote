@@ -6,9 +6,9 @@
 @endpush
 
 <div x-data="votingForm">
-    <p class="tw:font-light tw:mb-3">
-        {{ __('pages/poll-show.voting.description') }}
-    </p>
+{{--    <p class="tw:font-light tw:mb-3">--}}
+{{--        {{ __('pages/poll-show.voting.description') }}--}}
+{{--    </p>--}}
     <div>
         <div class="tw:card tw:bg-base-300 tw:flex tw:flex-row tw:p-2 tw:gap-3 tw:items-center tw:shadow-sm">
             <div class="tw:flex tw:justify-center tw:gap-3 tw:w-full">
@@ -65,19 +65,19 @@
                                              :alt="timeOption.picked_preference"/>
                                     </x-slot:right>
                                     <x-slot:bottom>
-{{--                                        @can('sync', Auth::user())--}}
-{{--                                            <div x-show="timeOption.availability !== undefined">--}}
-{{--                                                <x-ui.pill--}}
-{{--                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">--}}
-{{--                                                    <i class="bi me-1"--}}
-{{--                                                       :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>--}}
-{{--                                                    <span--}}
-{{--                                                        x-text="timeOption.availability ? 'Available' : 'Not available'">--}}
-{{--                                                            </span>--}}
-{{--                                                </x-ui.pill>--}}
-{{--                                            </div>--}}
+                                       {{-- @can('sync', Auth::user())
+                                            <div x-show="timeOption.availability !== undefined">
+                                                <x-ui.pill
+                                                    ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
+                                                    <i class="bi me-1"
+                                                       :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>
+                                                    <span
+                                                        x-text="timeOption.availability ? 'Available' : 'Not available'">
+                                                            </span>
+                                                </x-ui.pill>
+                                            </div>
 
-{{--                                        @endcan--}}
+                                        @endcan--}}
 
                                     </x-slot:bottom>
 
@@ -85,17 +85,17 @@
                             </template>
 
 
-{{--                            @can('addNewOption', $poll)--}}
-{{--                                <div--}}
-{{--                                    class="tw:card tw:text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw:border tw:border-indigo-400"--}}
-{{--                                    wire:click="openAddNewTimeModal({{ $poll->id }})">--}}
-{{--                                            <span class="fw-bold">--}}
-{{--                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}--}}
-{{--                                            </span>--}}
+                            {{--@can('addNewOption', $poll)
+                                <div
+                                    class="tw:card tw:text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw:border tw:border-indigo-400"
+                                    wire:click="openAddNewTimeModal({{ $poll->id }})">
+                                            <span class="fw-bold">
+                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}
+                                            </span>
 
-{{--                                </div>--}}
+                                </div>
 
-{{--                            @endcan--}}
+                            @endcan--}}
 
 
                         </x-slot:content>
@@ -160,12 +160,12 @@
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </div>
 
-{{--                            <x-ui.form.message type="flash"--}}
-{{--                                               form-message="error"--}}
-{{--                                               color="danger"/>--}}
-{{--                            <x-ui.form.message--}}
-{{--                                form-message="form.error"--}}
-{{--                                color="danger"/>--}}
+                           {{-- <x-ui.form.message type="flash"
+                                               form-message="error"
+                                               color="danger"/>
+                            <x-ui.form.message
+                                form-message="form.error"
+                                color="danger"/>--}}
                         </div>
                     </div>
 
