@@ -10,14 +10,14 @@
             @endif
 
         </div>
-        <x-ui.pill>
+        <div class="tw:badge tw:badge-outline tw:badge-sm tw:badge-primary">
             {{ Carbon\Carbon::parse($vote->updated_at)->diffForHumans() }}
-        </x-ui.pill>
+        </div>
         @if(session()->has('poll.' . $vote->poll->id .'.vote'))
             @cannot('edit', $vote)
 
-                <div class="mt-2">
-                    <p class="text-muted mb-1">
+                <div class="tw:mt-2">
+                    <p class="tw:mb-1">
                         You can change your vote only if you are logged in.
                     </p>
                     <a href="{{ route('login') }}" class="btn btn-outline-primary btn">
@@ -27,16 +27,16 @@
             @endcannot
         @endif
 
-        <div class="text-muted mt-1">
+        <div class="tw:mt-1">
             {{ $vote->message ?? '' }}
         </div>
 
 
         @can('delete', $vote)
-            <div class="mt-3">
-                <x-ui.button color="outline-danger" wire:click="deleteVote({{$vote->id}})">
+            <div class="tw:mt-3">
+                <x-ui.tw-button color="error" wire:click="deleteVote({{$vote->id}})">
                     <x-ui.icon name="trash" /> Delete
-                </x-ui.button>
+                </x-ui.tw-button>
             </div>
         @endcan
 

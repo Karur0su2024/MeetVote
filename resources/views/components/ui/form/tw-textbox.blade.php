@@ -3,7 +3,7 @@
         {{ $slot }}
         @if ($tooltip ?? null)
             <small class="tw:ms-2">
-                <x-ui.tooltip :tooltip="$tooltip" />
+                <x-ui.tooltip :tooltip="$tooltip"/>
             </small>
         @endif
     </span>
@@ -15,9 +15,10 @@
     </textarea>
     @if($error ?? null)
         @error($error)
-        <x-ui.red-text>
+        <span class="tw:text-danger tw:pt-3">">
             {{ $message }}
-        </x-ui.red-text>
+        </span>
+
         @enderror
     @endif
 

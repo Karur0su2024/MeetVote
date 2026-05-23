@@ -55,13 +55,12 @@
             @endforeach
         @else
 
-            <div class="text-center py-2">
-                <x-ui.spinner>
-                    Loading comments...
-                </x-ui.spinner>
+            <div class="tw:text-center tw:py-2">
+                <span class="tw:loading tw:loading-spinner tw:me-2"></span>Loading comments...
             </div>
 
         @endif
     </div>
+
 
 </x-ui.tw-card>

@@ -84,9 +84,7 @@
             @foreach ($votes as $vote)
                 {{-- Karta ankety --}}
                 @if($vote->poll)
-                    <div class="col-md-6 col-lg-4">
-                        <x-pages.dashboard.poll-card :poll="$vote->poll"/>
-                    </div>
+                    <x-pages.dashboard.poll-card :poll="$vote->poll"/>
                 @endif
 
             @endforeach
@@ -107,11 +105,9 @@
 
 
         @if(count($events) !== 0)
-            <div class="row g-4">
+            <div class="tw:grid tw:grid-cols-3 tw:gap-5">
                 @foreach($events as $event)
-                    <div class="col-lg-4 col-md-6">
-                        <x-pages.dashboard.event-card :event="$event"/>
-                    </div>
+                    <x-pages.dashboard.event-card :event="$event"/>
                 @endforeach
             </div>
         @else

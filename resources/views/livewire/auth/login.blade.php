@@ -11,9 +11,9 @@
             </x-ui.alert>
         @endif
 
-        <div class="tw:shadow-lg tw-bg-base-100">
-            <div class="tw-card-body">
-                <h2 class="tw-card-title card-title tw:justify-center tw:mb-4">{{ __('pages/auth.login.title') }}</h2>
+        <div class="tw:card tw:shadow-lg tw:bg-base-100">
+            <div class="tw:card-body">
+                <h2 class="tw:card-title card-title tw:justify-center tw:mb-4">{{ __('pages/auth.login.title') }}</h2>
                 <form wire:submit="login">
                     @csrf
                     <x-ui.form.tw-input id="email"
@@ -45,11 +45,11 @@
                         </x-ui.form.tw-toggle>
                         <div class="tw:mb-1">
                             <a href="{{ route('password.request') }}"
-                               class="tw-link tw-link-primary">{{ __('pages/auth.login.buttons.forgot_password') }}</a>
+                               class="tw:link tw:link-primary">{{ __('pages/auth.login.buttons.forgot_password') }}</a>
                         </div>
 
                         <div class="tw:mb-2">
-                            <a href="{{ route('register') }}" class="tw-link tw-link-primary">
+                            <a href="{{ route('register') }}" class="tw:link tw:link-primary">
                                 {{ __('pages/auth.login.buttons.not_registered') }}
                             </a>
                         </div>
@@ -58,13 +58,13 @@
 
                     <div class="tw:flex tw:flex-row tw:justify-center tw:items-center tw:mb-3 tw:gap-2">
                         <button type="submit"
-                                class="tw-btn tw-btn-primary tw:flex-1">{{ __('pages/auth.login.buttons.login') }}</button>
+                                class="tw:btn tw:btn-primary tw:flex-1">{{ __('pages/auth.login.buttons.login') }}</button>
 {{--                        <a href="{{ route('google.oath.login') }}"
-                           class="tw-btn tw-btn-outline tw-btn-primary tw:flex-1">
+                           class="tw:btn tw:btn-outline tw:btn-primary tw:flex-1">
                             <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
                         </a>--}}
-                        <div class="tw-tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
-                            <button class="tw-btn tw-btn-outline tw-btn-disabled">
+                        <div class="tw:tooltip" data-tip="This feature is deprecated and will be reimplemented in the future.">
+                            <button class="tw:btn tw:btn-outline tw:btn-disabled">
                                 <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
                             </button>
                         </div>

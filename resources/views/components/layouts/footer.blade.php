@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="tw:mt-4 tw:text-xs tw:text-base-content/50">
-            Meetvote v{{ config('app.version') }} <br>
+            {{ config('app.name') }} v{{ config('app.version') }} <br>
             &copy; {{ config('app.copyright.years') }} {{ config('app.copyright.author') }}
         </div>
     </div>

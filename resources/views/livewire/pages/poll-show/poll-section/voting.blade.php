@@ -25,12 +25,14 @@
                         <x-slot:title>
                             <span
                                 class="tw:text-lg tw:font-semibold tw:me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
-                            <x-ui.tooltip>
-                                {{ __('pages/poll-show.voting.sections.time_options.tooltip') }}
-                            </x-ui.tooltip>
+
+                                <div class="tw:tooltip tw:text-sm" data-tip="{{ __('pages/poll-show.voting.sections.time_options.tooltip') }}">
+                                    <i class="bi bi-question-circle-fill small"></i>
+                                </div>
+
                         </x-slot:title>
                         <x-slot:title-right>
-                            @can('sync', Auth::user())
+{{--                            @can('sync', Auth::user())
                                 <x-ui.saving wire:loading wire:target="checkAvailability">
                                     {{ __('pages/poll-show.voting.buttons.check_availability.loading') }}
                                 </x-ui.saving>
@@ -42,7 +44,7 @@
                                     </button>
 
                                 </div>
-                            @endcan
+                            @endcan--}}
                         </x-slot:title-right>
                         <x-slot:content>
 
@@ -138,7 +140,7 @@
 
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
-                    <div class="mt-4">
+                    <div class="tw:mt-4">
                         @guest
                             <x-pages.poll-show.poll.voting.form :poll="$poll"/>
                         @endguest
@@ -148,13 +150,16 @@
                             {{ __('pages/poll-show.voting.form.notes.label') }}
                         </x-ui.form.tw-textbox>
 
-                        <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="tw:flex tw:flex-nowrap tw:items-center tw:gap-3">
                             <x-ui.tw-button type="submit">
                                 {{ __('pages/poll-show.voting.buttons.submit_vote') }}
                             </x-ui.tw-button>
-                            <x-ui.spinner wire:loading wire:target="submitVote">
+                            <div wire:loading
+                                 wire:target="submitVote">
+                                <span class="tw:loading tw:loading-spinner"></span>
                                 {{ __('pages/poll-show.voting.form.loading') }}
-                            </x-ui.spinner>
+                            </div>
+
 {{--                            <x-ui.form.message type="flash"--}}
 {{--                                               form-message="error"--}}
 {{--                                               color="danger"/>--}}
@@ -168,9 +173,7 @@
 
             </form>
         @else
-            <x-ui.spinner>
-                {{ __('pages/poll-show.voting.form.loading') }}
-            </x-ui.spinner>
+            <span class="tw:loading tw:loading-spinner"></span>{{ __('pages/poll-show.voting.form.loading') }}
         @endif
     </div>
 

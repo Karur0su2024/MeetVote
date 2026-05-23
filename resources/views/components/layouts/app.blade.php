@@ -27,11 +27,6 @@
         <!-- Navbar -->
         <x-layouts.navbar />
 
-        <!-- Obsah stránky -->
-{{--        <main class="container py-5 min-vh-100 px-0">--}}
-{{--            {{ $slot }}--}}
-{{--        </main>--}}
-
         <main class="tw:max-w-7xl tw:mx-auto tw:p-7 tw:my-7">
             {{ $slot }}
         </main>

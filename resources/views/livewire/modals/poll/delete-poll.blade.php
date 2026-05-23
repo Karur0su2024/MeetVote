@@ -13,7 +13,7 @@
         @endif
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" wire:click="$dispatch('hideModal')">{{ __('ui/modals.close_poll.buttons.cancel') }}</button>
-        <button type="button" class="btn btn-danger" wire:click="deletePoll">{{ __('ui/modals.invitations.table.actions.delete') }}</button>
+        <button type="button" class="tw:btn tw:btn-neutral" wire:click="$dispatch('hideModal')">{{ __('ui/modals.close_poll.buttons.cancel') }}</button>
+        <button type="button" class="tw:btn tw:btn-error" wire:click="deletePoll">{{ __('ui/modals.invitations.table.actions.delete') }}</button>
     </div>
 </div>

@@ -31,14 +31,6 @@ TODO: Return dark mode toggle to the navbar
         <div class="tw:navbar-end tw:flex tw:items-center tw:gap-3 tw-justify-between">
             <ul class="tw:menu tw:menu-horizontal tw:px-1 tw:flex tw:items-center tw:gap-2 tw:m-0">
 
-
-{{--                <li>--}}
-{{--                    <a href="https://github.com/Karur0su2024/MeetVote" target="_blank"--}}
-{{--                       class="tw:btn tw:btn-ghost tw:btn-sm tw:tooltip tw:transition-all tw:hover:bg-base-200 tw:rounded-lg"--}}
-{{--                       data-tip="GitHub">--}}
-{{--                        <i class="bi bi-github tw:text-xl"></i>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
                 <!-- Theme Toggle -->
                 {{-- <li>
                     <label class="tw:swap">
