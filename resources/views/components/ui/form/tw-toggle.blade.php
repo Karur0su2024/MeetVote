@@ -4,15 +4,15 @@
 
 
 
-<label class="tw:label tw:text-sm tw:mb-2 tw:align-items-center"
+<label class="label text-sm mb-2 align-items-center"
        for="{{ $id }}">
     <input type="checkbox"
            checked="checked"
-           class="tw:toggle tw:toggle-sm tw:me-1 tw:toggle-primary"
+           class="toggle toggle-sm me-1 toggle-primary"
         {{ $attributes }}/>
     {{ $slot }}
     @if ($tooltip ?? null)
-        <small class="tw:ms-1">
+        <small class="ms-1">
             <x-ui.tooltip :tooltip="$tooltip"/>
         </small>
     @endif

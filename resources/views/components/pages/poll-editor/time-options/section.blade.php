@@ -19,14 +19,14 @@
                 </x-ui.tooltip>
             </small>
         </x-slot:title>
-        <div class="tw:flex tw:gap-4">
+        <div class="flex gap-4">
             {{-- Blok s kalendářem --}}
-            <div class="tw:card tw:bg-base-200 tw:basis-1/2">
-                <div class="tw:card-body">
-                    <h3 class="tw:text-lg tw:card-title mb-3">
+            <div class="card bg-base-200 basis-1/2">
+                <div class="card-body">
+                    <h3 class="text-lg card-title mb-3">
                         {{ __('pages/poll-editor.time_options.calendar.title') }}
                     </h3>
-                    <div class="tw:card-content">
+                    <div class="card-content">
 
                         <div id="calendar"
                              x-init="initCalendar()"
@@ -34,7 +34,7 @@
                              wire:ignore>
                         </div>
                         <div x-show="messages.errors['calendar']">
-                            <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="tw:mt-2 tw:mb-0">
+                            <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
                                 <span x-text="messages.errors['calendar']"></span>
                             </x-ui.alert>
                         </div>
@@ -42,12 +42,12 @@
                 </div>
             </div>
             {{-- Blok s časovými možnostmi --}}
-            <div class="tw:card tw:bg-base-200 tw:basis-1/2">
-                <div class="tw:card-body">
-                    <h3 class="tw:card-title tw:text-lg">
+            <div class="card bg-base-200 basis-1/2">
+                <div class="card-body">
+                    <h3 class="card-title text-lg">
                         {{ __('pages/poll-editor.time_options.calendar.dates') }}
                     </h3>
-                    <div class="tw:card-content">
+                    <div class="card-content">
                         <template x-for="(date, dateIndex) in dates" :key="dateIndex">
                             <x-pages.poll-editor.time-options.date-card/>
                         </template>

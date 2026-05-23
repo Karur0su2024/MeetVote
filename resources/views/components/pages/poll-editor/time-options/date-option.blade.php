@@ -1,32 +1,32 @@
 <div
-    class="tw:mb-2"
+    class="mb-2"
     :class="{ 'existing-option': option.id }">
     <div
-        class="tw:flex flex-wrap flex-md-nowrap align-items-between tw:gap-2">
+        class="flex flex-md-nowrap gap-2 flex-nowrap">
         {{-- Pole pro zadání začátku časového intervalu  --}}
         <template x-if="option.type === 'time'">
-            <div class="tw:flex tw:flex-row tw:gap-2 tw:w-full tw:grow">
+            <div class="flex flex-row gap-2 w-full grow">
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.start"
                        :id="'start_' + dateIndex + '_' + optionIndex"
-                       class="tw:input tw:input-sm tw:grow"
+                       class="input input-sm grow"
                        :disabled="option.score !== 0 || option.invalid"
                        :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
 
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.end"
                        :id="'end_' + dateIndex + '_' + optionIndex"
-                       class="tw:input tw:input-sm tw:grow"
+                       class="input input-sm grow"
                        :disabled="option.score !== 0 || option.invalid"
                        :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.end'] }">
             </div>
         </template>
         {{-- Zobrazení textového pole pro zadání textu --}}
         <template x-if="option.type === 'text'">
-            <div class="tw:flex tw:flex-row tw:gap-2 w-100">
+            <div class="flex flex-row gap-2 w-100 grow">
             <input type="text"
                    x-model="dates[dateIndex][optionIndex].content.text"
-                   :id="'text_' + dateIndex + '_' + optionIndex" class="tw:input tw:input-sm tw:grow"
+                   :id="'text_' + dateIndex + '_' + optionIndex" class="input input-sm grow"
                    :placeholder="'Option ' + (optionIndex + 1)"
                    :disabled="option.score !== 0 || option.invalid"
                    :class="{ 'is-invalid': optionErrors['form.dates.' + dateIndex + '.' + [optionIndex] + '.content.text'] }">
@@ -34,7 +34,7 @@
         </template>
 
         {{-- Tlačítko pro odstranění časové možnosti --}}
-        <button class="tw:btn tw:btn-sm tw:btn-outline tw:btn-error"
+        <button class="btn btn-sm btn-outline btn-error"
                 @click="removeOption(dateIndex, optionIndex)"
                 ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">
             <i class="bi" :class="{
@@ -42,7 +42,7 @@
             'bi-trash': option.score === 0 && !option.invalid,
                             'bi-exclamation-triangle': option.score !== 0
                           }"></i>
-            <span class="tw:md:hidden tw:ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
+            <span class="md:hidden ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
         </button>
 
 

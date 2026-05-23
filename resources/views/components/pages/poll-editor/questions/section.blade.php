@@ -23,7 +23,7 @@
             </x-ui.alert>
         </template>
 
-        <button class="tw:btn tw:btn-soft tw:btn-sm tw:btn-primary"
+        <button class="btn btn-soft btn-sm btn-primary"
                 @click="addQuestion()">
             {{ __('pages/poll-editor.questions.button.add_question') }}
         </button>
@@ -31,7 +31,7 @@
 
 
         @error('form.questions')
-        <span class="tw:text-error tw:ms-2">{{ $message }}</span>
+        <span class="text-error ms-2">{{ $message }}</span>
         @enderror
     </x-ui.tw-card>
 

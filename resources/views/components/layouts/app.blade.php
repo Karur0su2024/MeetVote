@@ -21,13 +21,13 @@
 </head>
 
 <body>
-<div class="tw:bg-linear-to-r tw:from-base-300 tw:to-base-200">
-    <div class="tw:text-base-content">
+<div class="bg-linear-to-r from-base-300 to-base-200">
+    <div class="text-base-content">
 
         <!-- Navbar -->
         <x-layouts.navbar />
 
-        <main class="tw:max-w-7xl tw:mx-auto tw:p-7 tw:my-7 tw:min-h-screen">
+        <main class="max-w-7xl mx-auto p-7 my-7 min-h-screen">
             {{ $slot }}
         </main>
 

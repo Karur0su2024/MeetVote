@@ -5,7 +5,7 @@
 
     <x-slot:header-right>
         @can('delete', $userVote)
-            <button class="tw:btn tw:btn-error tw:btn-sm tw:float-end tw:btn-outline"
+            <button class="btn btn-error btn-sm float-end btn-outline"
                     wire:click="deleteVote({{ $userVote->id }})">
                 <i class="bi bi-trash"></i>
                 {{ __('pages/poll-show.your_vote.buttons.delete') }}
@@ -19,17 +19,17 @@
         <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
         @cannot('edit', $userVote)
 
-            <div class="tw:mt-2">
-                <p class="tw:text-md tw:font-light tw:color-gray-500">
+            <div class="mt-2">
+                <p class="text-md font-light color-gray-500">
                     {{ __('pages/poll-show.your_vote.text.login_to_change_vote') }}
                 </p>
-                <a href="{{ route('login') }}" class="tw:btn tw:btn-primary tw:btn-sm">
+                <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
                     {{ __('pages/poll-show.your_vote.buttons.login') }}
                 </a>
             </div>
         @endcannot
     @else
-        <p class="tw:text-md tw:font-light tw:text-gray-500">
+        <p class="text-md font-light text-gray-500">
             {{ __('pages/poll-show.your_vote.no_vote') }}
         </p>
     @endif

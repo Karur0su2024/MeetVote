@@ -7,17 +7,17 @@
 
 @endphp
 
-{{--<div class="tw:card tw:my-2 tw:p-3 tw:border-dashed tw:border tw:border-gray-500/75">
-    <div class="tw:flex tw:items-center">
-        <p class="tw:flex tw:gap-2">
-            <span class="tw:font-semibold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
-            <span class="tw:font-base-content tw:font-light">{{ $comment->created_at->diffForHumans() }}</span>
+{{--<div class="card my-2 p-3 border-dashed border border-gray-500/75">
+    <div class="flex items-center">
+        <p class="flex gap-2">
+            <span class="font-semibold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
+            <span class="font-base-content font-light">{{ $comment->created_at->diffForHumans() }}</span>
         </p>
 
          V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat
 
         @can('delete', $comment)
-            <button class="tw:btn tw:btn-outline tw:btn-error tw:btn-sm"
+            <button class="btn btn-outline btn-error btn-sm"
                     wire:click='deleteComment({{ $comment->id }})'>
                 <i class="bi bi-trash"></i>
 
@@ -25,29 +25,29 @@
         @endcan
     </div>
 
-    <p class="tw:font-light tw:text-sm tw:text-balance tw:break-all">
+    <p class="font-light text-sm text-balance break-all">
         {{ $comment->content }}
     </p>
 
 </div>--}}
 
-<div class="tw:chat tw:chat-start">
-    <div class="tw:chat-header">
+<div class="chat chat-start">
+    <div class="chat-header">
         {{ $comment->user ? $comment->user->name : $comment->author_name }}
         <time class="text-xs opacity-50">{{ $comment->created_at->diffForHumans() }}</time>
 
     </div>
-    <div class="tw:chat-image tw:avatar tw:avatar-placeholder">
-        <div class="tw:w-10 tw:rounded-full tw:bg-purple-600 tw:text-neutral-content tw:flex tw:items-center tw:justify-center">
-            <span class="tw:text-sm">
+    <div class="chat-image avatar avatar-placeholder">
+        <div class="w-10 rounded-full bg-purple-600 text-neutral-content flex items-center justify-center">
+            <span class="text-sm">
                 {{ mb_substr($comment->user ? $comment->user->name : $comment->author_name, 0, 1) }}
             </span>
         </div>
     </div>
-    <div class="tw:chat-bubble tw:break-all">{{ $comment->content }}</div>
-    <div class="tw:chat-footer tw:mt-1 ">
+    <div class="chat-bubble break-all">{{ $comment->content }}</div>
+    <div class="chat-footer mt-1 ">
         @can('delete', $comment)
-            <button class="tw:text-gray-600/75"
+            <button class="text-gray-600/75"
                     wire:click='deleteComment({{ $comment->id }})'>
                 Delete
             </button>

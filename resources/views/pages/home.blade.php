@@ -10,42 +10,42 @@
     @endif
 
     <div>
-        <div class="tw:card tw:card-side tw:shadow-sm tw:bg-base-100">
-            <div class="tw:card-body">
-                <h2 class="tw:mb-3 tw:text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
-                <p class="tw:font-light tw:mb-3">
+        <div class="card card-side shadow-sm bg-base-100">
+            <div class="card-body">
+                <h2 class="mb-3 text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
+                <p class="font-light mb-3">
                     {{__('pages/homepage.section.one.text') }}
                 </p>
-                <div class="tw:card-actions">
-                    <a href="{{ route('polls.create') }}" class="tw:btn tw:btn-primary">
+                <div class="card-actions">
+                    <a href="{{ route('polls.create') }}" class="btn btn-primary">
                         {{ __('pages/homepage.button.create_poll') }}
                     </a>
                 </div>
             </div>
-            <figure class="tw:max-w-2xl">
+            <figure class="max-w-2xl">
                 <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
             </figure>
         </div>
-        <div class="tw:p-3 tw:card tw:shadow-sm tw:mt-5 tw:bg-base-100">
-            <div class="tw:p-4">
-                <h3 class="tw:mb-3 tw:text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
-                <div class="tw:grid tw:mt-4 tw:grid-cols-2 tw:gap-8">
-                    <div class="tw:mb-4">
-                        <h5 class="tw:mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
+        <div class="p-3 card shadow-sm mt-5 bg-base-100">
+            <div class="p-4">
+                <h3 class="mb-3 text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
+                <div class="grid mt-4 grid-cols-2 gap-8">
+                    <div class="mb-4">
+                        <h5 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
+                        <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
                     </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
+                    <div class="mb-4">
+                        <h5 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
+                        <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
                     </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
+                    <div class="mb-4">
+                        <h5 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
+                        <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
                         </p>
                     </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
+                    <div class="mb-4">
+                        <h5 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
+                        <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
                         </p>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
     <x-slot:title>
         {{ __('pages/poll-editor.settings.title') }}
     </x-slot:title>
-    <h4 class="tw:text-lg mb-1">
+    <h4 class="text-lg mb-1">
         {{ __('pages/poll-editor.settings.section_titles.settings') }}
     </h4>
     {{-- Komentáře --}}
@@ -44,7 +44,7 @@
         {{ __('pages/poll-editor.settings.allow_invalid.label') }}
     </x-ui.form.tw-toggle>
 
-{{--    <h4 class="tw:text-lg mb-1">--}}
+{{--    <h4 class="text-lg mb-1">--}}
 {{--        {{ __('pages/poll-editor.settings.section_titles.security') }}--}}
 {{--    </h4>--}}
 
@@ -61,7 +61,7 @@
     {{-- Nastavení hesla --}}
     <div x-data="{ password:  @entangle('form.password') }">
         <div x-show="password.set !== null">
-            <button class="tw-btn tw-btn-error tw-btn-sm tw-btn-outline tw:mt-1"
+            <button class="tw-btn tw-btn-error tw-btn-sm tw-btn-outline mt-1"
                     @click="password.set = null"
                     type="button">
                 Password is set, click to remove

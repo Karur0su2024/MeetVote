@@ -6,12 +6,12 @@
 @endpush
 
 <div x-data="votingForm">
-{{--    <p class="tw:font-light tw:mb-3">--}}
+{{--    <p class="font-light mb-3">--}}
 {{--        {{ __('pages/poll-show.voting.description') }}--}}
 {{--    </p>--}}
     <div>
-        <div class="tw:card tw:bg-base-300 tw:flex tw:flex-row tw:p-2 tw:gap-3 tw:items-center tw:shadow-sm">
-            <div class="tw:flex tw:justify-center tw:gap-3 tw:w-full">
+        <div class="card bg-base-300 flex flex-row p-2 gap-3 items-center shadow-sm">
+            <div class="flex justify-center gap-3 w-full">
                 <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
                 <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
                 <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
@@ -24,9 +24,9 @@
                     <x-pages.poll-show.poll.section-card title="Time">
                         <x-slot:title>
                             <span
-                                class="tw:text-lg tw:font-semibold tw:me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
+                                class="text-lg font-semibold me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
 
-                                <div class="tw:tooltip tw:text-sm" data-tip="{{ __('pages/poll-show.voting.sections.time_options.tooltip') }}">
+                                <div class="tooltip text-sm" data-tip="{{ __('pages/poll-show.voting.sections.time_options.tooltip') }}">
                                     <i class="bi bi-question-circle-fill small"></i>
                                 </div>
 
@@ -36,9 +36,9 @@
                                 <x-ui.saving wire:loading wire:target="checkAvailability">
                                     {{ __('pages/poll-show.voting.buttons.check_availability.loading') }}
                                 </x-ui.saving>
-                                <div class="tw:tooltip"
+                                <div class="tooltip"
                                      data-tip="{{ __('pages/poll-show.voting.buttons.check_availability.tooltip') }}">
-                                    <button class="tw:btn tw:btn-primary tw:btn-sm" wire:click="checkAvailability">
+                                    <button class="btn btn-primary btn-sm" wire:click="checkAvailability">
                                         <i class="bi bi-calendar-check me-1"></i>
                                         {{ __('pages/poll-show.voting.buttons.check_availability.label') }}
                                     </button>
@@ -50,7 +50,7 @@
 
                             <template x-for="(timeOption, optionIndex) in form.timeOptions">
                                 <x-pages.poll-show.poll.option-card
-                                    class="btn-outline-vote tw:text-base-content"
+                                    class="btn-outline-vote text-base-content"
                                     ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
                                     @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
                                     <x-slot:text>
@@ -87,7 +87,7 @@
 
                             {{--@can('addNewOption', $poll)
                                 <div
-                                    class="tw:card tw:text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw:border tw:border-indigo-400"
+                                    class="card text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable border border-indigo-400"
                                     wire:click="openAddNewTimeModal({{ $poll->id }})">
                                             <span class="fw-bold">
                                                 {{ __('pages/poll-show.voting.buttons.add_time_option') }}
@@ -110,7 +110,7 @@
                                     <span x-text="question.text"></span>
                                 </x-slot:title>
                                 <x-slot:title-right>
-                                    <div class="tw:badge tw:badge-secondary">
+                                    <div class="badge badge-secondary">
                                         Custom question
                                     </div>
                                 </x-slot:title-right>
@@ -140,7 +140,7 @@
 
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
-                    <div class="tw:mt-4">
+                    <div class="mt-4">
                         @guest
                             <x-pages.poll-show.poll.voting.form :poll="$poll"/>
                         @endguest
@@ -150,13 +150,13 @@
                             {{ __('pages/poll-show.voting.form.notes.label') }}
                         </x-ui.form.tw-textbox>
 
-                        <div class="tw:flex tw:flex-nowrap tw:items-center tw:gap-3">
+                        <div class="flex flex-nowrap items-center gap-3">
                             <x-ui.tw-button type="submit">
                                 {{ __('pages/poll-show.voting.buttons.submit_vote') }}
                             </x-ui.tw-button>
                             <div wire:loading
                                  wire:target="submitVote">
-                                <span class="tw:loading tw:loading-spinner"></span>
+                                <span class="loading loading-spinner"></span>
                                 {{ __('pages/poll-show.voting.form.loading') }}
                             </div>
 
@@ -173,7 +173,7 @@
 
             </form>
         @else
-            <span class="tw:loading tw:loading-spinner"></span>{{ __('pages/poll-show.voting.form.loading') }}
+            <span class="loading loading-spinner"></span>{{ __('pages/poll-show.voting.form.loading') }}
         @endif
     </div>
 

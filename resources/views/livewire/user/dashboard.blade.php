@@ -3,8 +3,8 @@
     <x-ui.panel>
         <x-slot:left>
             <a href="{{ route('polls.create') }}"
-               class="tw:btn tw:btn-outline">
-                <i class="bi bi-plus-circle tw:me-1"></i>
+               class="btn btn-outline">
+                <i class="bi bi-plus-circle me-1"></i>
                 {{ __('pages/dashboard.buttons.new_poll') }}
             </a>
         </x-slot:left>
@@ -31,7 +31,7 @@
 {{--                    </x-slot:dropdown-items>--}}
 {{--                </x-ui.dropdown.wrapper>--}}
 
-                <button class="tw:btn tw:btn-outline tw:btn-disabled">
+                <button class="btn btn-outline btn-disabled">
                     {{ __('pages/dashboard.dropdowns.filter.title') }}
                 </button>
             </div>
@@ -51,7 +51,7 @@
 {{--                </x-slot:dropdown-items>--}}
 {{--            </x-ui.dropdown.wrapper>--}}
 
-            <button class="tw:btn tw:btn-outline tw:btn-disabled">
+            <button class="btn btn-outline btn-disabled">
                 {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
             </button>
         </x-slot:right>
@@ -60,10 +60,10 @@
 
 
 
-    <div class="tw:mt-6" x-show="opened === 'Polls'">
-        <h3 class="tw:text-3xl tw:text-base-content tw:mb-6">{{ __('ui/navbar.dashboard') }}</h3>
+    <div class="mt-6" x-show="opened === 'Polls'">
+        <h3 class="text-3xl text-base-content mb-6">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
-            <div class="tw:grid tw:grid-cols-3 tw:gap-5">
+            <div class="grid grid-cols-3 gap-5">
                 @foreach ($polls as $poll)
                     {{-- Karta ankety --}}
                     <x-pages.dashboard.poll-card :poll="$poll"/>
@@ -78,9 +78,9 @@
         @endif
     </div>
 
-    <div class="tw:mt-6">
-        <h3 class="tw:text-3xl tw:mb-6">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
-        <div class="tw:grid tw:grid-cols-3 tw:gap-5">
+    <div class="mt-6">
+        <h3 class="text-3xl mb-6">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
+        <div class="grid grid-cols-3 gap-5">
             @foreach ($votes as $vote)
                 {{-- Karta ankety --}}
                 @if($vote->poll)
@@ -105,7 +105,7 @@
 
 
         @if(count($events) !== 0)
-            <div class="tw:grid tw:grid-cols-3 tw:gap-5">
+            <div class="grid grid-cols-3 gap-5">
                 @foreach($events as $event)
                     <x-pages.dashboard.event-card :event="$event"/>
                 @endforeach

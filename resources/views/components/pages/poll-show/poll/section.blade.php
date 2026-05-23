@@ -18,7 +18,7 @@
         </x-slot:title>
         <x-slot:header-right>
             @can('canVote', $poll)
-                <button class="tw:btn tw:btn-dash"
+                <button class="btn btn-dash"
                         x-text="mode === 'Results' ?
                                  '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
                                  '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"
@@ -29,11 +29,11 @@
 
         <div>
 
-            <div class="tw:flex tw:flex-col tw:gap-2">
+            <div class="flex flex-col gap-2">
             @if($poll->isActive())
                 @if($poll->deadline)
-                    <div class="tw:alert tw:alert-info tw:alert-soft">
-                        <i class="bi bi-check-circle-fill tw:me-1"></i>
+                    <div class="alert alert-info alert-soft">
+                        <i class="bi bi-check-circle-fill me-1"></i>
                         <span>{{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}</span>
                     </div>
                 @endif

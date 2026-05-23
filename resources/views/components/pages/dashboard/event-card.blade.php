@@ -7,23 +7,23 @@
             <i class="bi bi-calendar-check-fill" data-bs-toggle="tooltip" data-bs-placement="top" title="Synced"></i>
         @endif
     </x-slot:header-right>
-    <div class="tw:mb-3">
-        <div class="tw:flex tw:items-center tw:mb-2">
+    <div class="mb-3">
+        <div class="flex items-center mb-2">
             <i class="bi bi-calendar-date me-2"></i>
             <span>{{ Carbon\Carbon::parse($event->start_time)->format('d. m. Y') }}</span>
         </div>
-        <div class="tw:flex tw:items-center tw:mb-2">
+        <div class="flex items-center mb-2">
             <i class="bi bi-clock  me-2"></i>
             <span>{{ Carbon\Carbon::parse($event->start_time)->format('H:i') }} - {{ Carbon\Carbon::parse($event->end_time)->format('H:i') }}</span>
         </div>
         @if($event->description)
-            <div class="tw:mt-3">
-                <small class="tw:text-gray-700">{{ Str::limit($event->description, 80) }}</small>
+            <div class="mt-3">
+                <small class="text-gray-700">{{ Str::limit($event->description, 80) }}</small>
             </div>
         @endif
     </div>
     <x-slot:footer>
-        <a href="{{ route('polls.show', $event->poll) }}" class="tw:btn tw:btn-outline tw:btn-sm">
+        <a href="{{ route('polls.show', $event->poll) }}" class="btn btn-outline btn-sm">
             {{ __('pages/dashboard.event_card.buttons.view') }}
         </a>
     </x-slot:footer>

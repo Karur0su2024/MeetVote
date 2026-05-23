@@ -5,11 +5,11 @@
     <x-slot:header-right>
         @can('is-admin', $poll)
 
-            <div class="tw:dropdown">
-                <button class="tw:btn tw:btn-ghost">
+            <div class="dropdown">
+                <button class="btn btn-ghost">
                     <i class="bi bi-three-dots"></i>
                 </button>
-                <ul class="tw:menu tw:dropdown-content tw:bg-base-100 tw:w-52 tw:rounded tw:shadow-md">
+                <ul class="menu dropdown-content bg-base-100 w-52 rounded shadow-md">
                     <li>
                         <a class="{{ !$poll->isActive() ? 'disabled' : '' }}"
                            href="{{ route('polls.edit', $poll) }}">
@@ -17,7 +17,7 @@
                             {{ __('pages/dashboard.poll_card.dropdown.edit') }}
                         </a>
                     </li>
-                    <li class="tw:flex"
+                    <li class="flex"
                         wire:click="openModal('modals.poll.share', '{{ $poll->id }}')">
                         <a href="#">
                             <i class="bi bi-share me-2"></i>
@@ -25,7 +25,7 @@
                         </a>
                     </li>
                     <li wire:click="openModal('modals.poll.delete-poll', '{{ $poll->id }}')"
-                        class="tw:text-error">
+                        class="text-error">
                         <a href="#">
                             <i class="bi bi-trash me-2"></i>
                             {{ __('pages/dashboard.poll_card.dropdown.delete') }}
@@ -35,64 +35,64 @@
             </div>
         @endcan
     </x-slot:header-right>
-    <div class="tw:flex tw:gap-1 align-items-center">
+    <div class="flex gap-1 align-items-center">
 
-                <span class="tw:badge tw:badge-sm {{ $poll->isActive() ? 'tw:badge-success' : 'tw:badge-neutral' }} ">
+                <span class="badge badge-sm {{ $poll->isActive() ? 'badge-success' : 'badge-neutral' }} ">
                     {{ __('pages/dashboard.poll_card.pills.status.' . $poll->status->value) }}
                 </span>
         @if(auth()->user()->votes()->where('poll_id', $poll->id)->exists())
-            <span class="tw:badge tw:badge-sm tw:badge-info">
+            <span class="badge badge-sm badge-info">
                         {{ __('pages/dashboard.poll_card.pills.voted') }}
                     </span>
         @endif
         @can('is-admin', $poll)
-            <span class="tw:badge tw:badge-sm tw:badge-warning">
+            <span class="badge badge-sm badge-warning">
                         {{ __('pages/dashboard.poll_card.pills.admin') }}
                     </span>
         @endcan
     </div>
 
-    {{--    <div class="row tw:mt-2">--}}
+    {{--    <div class="row mt-2">--}}
     {{--        <div class="col-4 text-center">--}}
     {{--            <i class="bi bi-check-circle fs-4"></i>--}}
     {{--            <div class="fw-bold">{{ $poll->votes()->count() }}</div>--}}
-    {{--            <div class="tw:text-xs tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>--}}
+    {{--            <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>--}}
     {{--        </div>--}}
     {{--        <div class="col-4 text-center">--}}
     {{--            <i class="bi bi-clock fs-4"></i>--}}
     {{--            <div class="fw-bold">{{ $poll->timeOptions()->count() }}</div>--}}
-    {{--            <div class="tw:text-xs tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>--}}
+    {{--            <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>--}}
     {{--        </div>--}}
     {{--        <div class="col-4 text-center">--}}
     {{--            <i class="bi bi-question-circle fs-4"></i>--}}
     {{--            <div class="fw-bold">{{ $poll->questions()->count() }}</div>--}}
-    {{--            <div class="tw:text-xs tw:text-inherit tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>--}}
+    {{--            <div class="text-xs text-inherit text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>--}}
     {{--        </div>--}}
     {{--    </div>--}}
 
 
-    <div class="tw:flex tw:gap-4 tw:mt-3">
-        <div class="tw:flex-1 tw:text-center">
-            <i class="bi bi-check-circle tw:text-2xl"></i>
-            <div class="tw:font-bold">{{ $poll->votes()->count() }}</div>
-            <div class="tw:text-xs tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
+    <div class="flex gap-4 mt-3">
+        <div class="flex-1 text-center">
+            <i class="bi bi-check-circle text-2xl"></i>
+            <div class="font-bold">{{ $poll->votes()->count() }}</div>
+            <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
         </div>
-        <div class="tw:flex-1 tw:text-center">
-            <i class="bi bi-clock tw:text-2xl"></i>
-            <div class="tw:font-bold">{{ $poll->timeOptions()->count() }}</div>
-            <div class="tw:text-xs tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
+        <div class="flex-1 text-center">
+            <i class="bi bi-clock text-2xl"></i>
+            <div class="font-bold">{{ $poll->timeOptions()->count() }}</div>
+            <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
         </div>
-        <div class="tw:flex-1 tw:text-center">
-            <i class="bi bi-question-circle tw:text-2xl"></i>
-            <div class="tw:font-bold">{{ $poll->questions()->count() }}</div>
-            <div class="tw:text-xs tw:text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
+        <div class="flex-1 text-center">
+            <i class="bi bi-question-circle text-2xl"></i>
+            <div class="font-bold">{{ $poll->questions()->count() }}</div>
+            <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
         </div>
     </div>
 
 
-    <div class="tw:card-actions">
+    <div class="card-actions">
         <a href="{{ route('polls.show', $poll) }}"
-           class="tw:btn tw:btn-outline tw:mt-4">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
+           class="btn btn-outline mt-4">{{ __('pages/dashboard.poll_card.buttons.view') }}</a>
     </div>
 </x-ui.tw-card>
 

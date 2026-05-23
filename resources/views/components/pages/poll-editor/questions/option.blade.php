@@ -1,4 +1,4 @@
-<div class="tw:flex tw:gap-2 tw:pb-2"
+<div class="flex gap-2 pb-2"
      :class="{ 'existing-option': option.id }">
 
     {{-- Input pole pro text možnosti --}}
@@ -6,7 +6,7 @@
            :id="'question_' + questionIndex + '_option_' + optionIndex"
            x-model="questions[questionIndex].options[optionIndex].text"
            :placeholder="'{{ __('pages/poll-editor.questions.label.option') }} ' + (optionIndex + 1)"
-           class="tw:input tw:input-sm tw:grow"
+           class="input input-sm grow"
            required
            :disabled="option.score > 0"
            :class="{ 'is-invalid': messages.errors['form.questions.' + questionIndex + '.options.' + [optionIndex] + '.text'] }"
@@ -20,7 +20,7 @@
 {{--        </i>--}}
 {{--    </x-ui.button>--}}
 
-    <button  class="tw:btn tw:btn-sm tw:btn-outline tw:btn-error"
+    <button  class="btn btn-sm btn-outline btn-error"
              ::class="{ 'disabled': questions[questionIndex].options.length <= 2 }"
              color="danger">
         <i      :class="{ 'bi bi-exclamation-triangle': option.score > 0, 'bi bi-trash': !option.score }">

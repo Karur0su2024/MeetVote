@@ -8,7 +8,7 @@
 
             <div>
                 {{-- Formulář pro přidání komentáře --}}
-                <form class="tw:mb-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
+                <form class="mb-3" wire:submit.prevent='addComment' wire:key='{{ now() }}'>
 
                     @guest
                         <x-ui.form.tw-input id="username"
@@ -25,7 +25,7 @@
                                           placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
                         {{ __('pages/poll-show.comments.form.content.label') }}
                     </x-ui.form.tw-textbox>
-                    <button class="tw:btn tw:btn-sm tw:btn-primary"
+                    <button class="btn btn-sm btn-primary"
                             type="submit"
                     >
                         {{ __('pages/poll-show.comments.buttons.submit') }}
@@ -49,15 +49,15 @@
     <div>
 
         @if($loadedComments)
-            <div class="tw:flex tw:flex-col tw:gap-3">
+            <div class="flex flex-col gap-3">
                 @foreach ($poll->pollComments as $commentIndex => $comment)
                     <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
                 @endforeach
             </div>
         @else
 
-            <div class="tw:text-center tw:py-2">
-                <span class="tw:loading tw:loading-spinner tw:me-2"></span>Loading comments...
+            <div class="text-center py-2">
+                <span class="loading loading-spinner me-2"></span>Loading comments...
             </div>
 
         @endif
