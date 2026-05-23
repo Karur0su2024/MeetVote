@@ -29,40 +29,24 @@
         <div class="tw:p-3 tw:card tw:shadow-sm tw:mt-5 tw:bg-base-100">
             <div class="tw:p-4">
                 <h3 class="tw:mb-3 tw:text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
-                <div class="row mt-4">
-                    <div class="col-md-6 mb-4">
-                        <div class="d-flex align-items-start">
-                            <div>
-                                <h5 class="tw:mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
-                                <p class="tw:font-light">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
-                            </div>
-                        </div>
+                <div class="tw:grid tw:mt-4 tw:grid-cols-2 tw:gap-8">
+                    <div class="tw:mb-4">
+                        <h5 class="tw:mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
+                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="d-flex align-items-start">
-                            <div>
-                                <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
-                                <p class="tw:font-light">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
-                            </div>
-                        </div>
+                    <div class="tw:mb-4">
+                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
+                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="d-flex align-items-start">
-                            <div>
-                                <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
-                                <p class="tw:font-light">{{ __('pages/homepage.section.two.items.sync.text') }}
-                                </p>
-                            </div>
-                        </div>
+                    <div class="tw:mb-4">
+                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
+                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
+                        </p>
                     </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="d-flex align-items-start">
-                            <div>
-                                <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
-                                <p class="tw:font-light">{{ __('pages/homepage.section.two.items.customizable.text') }}
-                                </p>
-                            </div>
-                        </div>
+                    <div class="tw:mb-4">
+                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
+                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
+                        </p>
                     </div>
                 </div>
             </div>

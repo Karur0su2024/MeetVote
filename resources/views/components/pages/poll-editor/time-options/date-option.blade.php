@@ -1,11 +1,11 @@
 <div
-    class="mb-2 tw:bg-base-400 rounded"
+    class="tw:mb-2"
     :class="{ 'existing-option': option.id }">
     <div
-        class="d-flex flex-wrap flex-md-nowrap align-items-between gap-2">
+        class="tw:flex flex-wrap flex-md-nowrap align-items-between tw:gap-2">
         {{-- Pole pro zadání začátku časového intervalu  --}}
         <template x-if="option.type === 'time'">
-            <div class="tw:flex tw:flex-row tw:gap-2 w-100">
+            <div class="tw:flex tw:flex-row tw:gap-2 tw:w-full tw:grow">
                 <input type="time"
                        x-model="dates[dateIndex][optionIndex].content.start"
                        :id="'start_' + dateIndex + '_' + optionIndex"
@@ -42,7 +42,7 @@
             'bi-trash': option.score === 0 && !option.invalid,
                             'bi-exclamation-triangle': option.score !== 0
                           }"></i>
-            <span class="d-md-none ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
+            <span class="tw:md:hidden tw:ms-1">{{ __('pages/poll-editor.time_options.button.delete') }}</span>
         </button>
 
 

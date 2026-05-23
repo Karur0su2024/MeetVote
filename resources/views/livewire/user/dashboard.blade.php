@@ -61,14 +61,12 @@
 
 
     <div class="tw:mt-6" x-show="opened === 'Polls'">
-        <h3 class="tw:text-3xl tw:text-base-content text-center tw:mb-4">{{ __('ui/navbar.dashboard') }}</h3>
+        <h3 class="tw:text-3xl tw:text-base-content tw:mb-6">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
-            <div class="row">
+            <div class="tw:grid tw:grid-cols-3 tw:gap-5">
                 @foreach ($polls as $poll)
                     {{-- Karta ankety --}}
-                    <div class="col-md-6 col-lg-4">
-                        <x-pages.dashboard.poll-card :poll="$poll"/>
-                    </div>
+                    <x-pages.dashboard.poll-card :poll="$poll"/>
                 @endforeach
             </div>
         @else
@@ -80,15 +78,13 @@
         @endif
     </div>
 
-    <div class="tw:mt-4">
-        <h3 class="text-center tw:text-3xl mb-3">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
-        <div class="row">
+    <div class="tw:mt-6">
+        <h3 class="tw:text-3xl tw:mb-6">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
+        <div class="tw:grid tw:grid-cols-3 tw:gap-5">
             @foreach ($votes as $vote)
                 {{-- Karta ankety --}}
                 @if($vote->poll)
-                    <div class="col-md-6 col-lg-4">
-                        <x-pages.dashboard.poll-card :poll="$vote->poll"/>
-                    </div>
+                    <x-pages.dashboard.poll-card :poll="$vote->poll"/>
                 @endif
 
             @endforeach
@@ -109,11 +105,9 @@
 
 
         @if(count($events) !== 0)
-            <div class="row g-4">
+            <div class="tw:grid tw:grid-cols-3 tw:gap-5">
                 @foreach($events as $event)
-                    <div class="col-lg-4 col-md-6">
-                        <x-pages.dashboard.event-card :event="$event"/>
-                    </div>
+                    <x-pages.dashboard.event-card :event="$event"/>
                 @endforeach
             </div>
         @else

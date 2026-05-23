@@ -4,7 +4,7 @@
     */
 @endphp
 
-<div class="tw:mb-2" x-data="{ showEventDetails: true }">
+<div class="tw:mb-2 tw:flex tw:flex-col tw:gap-4" x-data="{ showEventDetails: true }">
     <x-ui.tw-card>
         <x-slot:title>
             {{ $poll->title }}
@@ -20,7 +20,7 @@
         </p>
 
 
-        <div class="tw:flex tw:flex-wrap tw:gap-1 mt-1">
+        <div class="tw:flex tw:flex-wrap tw:gap-1 tw:mt-1">
             {{-- Badge s počtem hlasů --}}
             <x-ui.tw-badge>
                 {{ $poll->timezone }} ({{  date('P') }})
@@ -29,7 +29,7 @@
             {{-- Badges s parametry nastavení ankety --}}
             @foreach($poll->settings as $attributeName => $attribute)
                 @if($attribute)
-                    <x-ui.tw-badge class="my-1">
+                    <x-ui.tw-badge class="tw:my-1">
                         {{  __('pages/poll-show.info.badges.attributes.' . $attributeName) }}
                     </x-ui.tw-badge>
                 @endif

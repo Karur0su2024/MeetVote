@@ -17,7 +17,7 @@ MeetVote is a simple open-source alternative to Doodle, created as a bachelor's 
 
 - PHP 8.3 with Laravel 12
 - Livewire 3 for reactive components
-- Bootstrap 5 for UI
+- Tailwind 4 and DaisyUI for UI
 - Alpine.js for client-side interactivity
 - Google API for Google Calendar integration
 - MariaDB for data storage
@@ -26,10 +26,11 @@ MeetVote is a simple open-source alternative to Doodle, created as a bachelor's 
 
 - PHP 8.3+
 - Composer
-- Node.js and NPM
+- Node 24+ and NPM
 - MariaDB or MySQL database
-- Google API keys for Google Calendar integration
-- SMTP server for email functionality
+- Docker (optional, for local development)
+- ~~Google API keys for Google Calendar integration~~
+- ~~SMTP server for email functionality~~
 
 ## Installation
 

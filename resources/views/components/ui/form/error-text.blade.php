@@ -1,5 +1,5 @@
 @props(['error', 'margin' => 'mb-3'])
 
 @error($error)
-    <span class="text-danger {{ $margin }}">{{ $message }}</span>
+    <span class="tw:text-error {{ $margin }}">{{ $message }}</span>
 @enderror

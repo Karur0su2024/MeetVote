@@ -24,7 +24,7 @@
             {{ __('ui/modals.share.title') }}
         </x-ui.modal.header>
         <div class="modal-body">
-            <div class="mb-3">
+            <div class="tw:mb-3">
                 <label for="link" class="form-label">{{ __('ui/modals.share.labels.link') }}</label>
                 <div class="mb-2">
                     <small class="text-muted">

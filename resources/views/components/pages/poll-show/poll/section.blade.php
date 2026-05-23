@@ -29,12 +29,13 @@
 
         <div>
 
-
+            <div class="tw:flex tw:flex-col tw:gap-2">
             @if($poll->isActive())
                 @if($poll->deadline)
-                    <x-ui.alert type="info">
-                        {{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}
-                    </x-ui.alert>
+                    <div class="tw:alert tw:alert-info tw:alert-soft">
+                        <i class="bi bi-check-circle-fill tw:me-1"></i>
+                        <span>{{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}</span>
+                    </div>
                 @endif
                 @can('canVote', $poll)
                     <div x-show="mode === 'Voting'">
@@ -48,6 +49,7 @@
             @endif
             <div x-show="mode === 'Results'">
                 <livewire:pages.poll-show.poll-section.results :poll="$poll" />
+            </div>
             </div>
         </div>
 

@@ -19,11 +19,11 @@
         <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
         @cannot('edit', $userVote)
 
-            <div class="mt-2">
+            <div class="tw:mt-2">
                 <p class="tw:text-md tw:font-light tw:color-gray-500">
                     {{ __('pages/poll-show.your_vote.text.login_to_change_vote') }}
                 </p>
-                <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
+                <a href="{{ route('login') }}" class="tw:btn tw:btn-primary tw:btn-sm">
                     {{ __('pages/poll-show.your_vote.buttons.login') }}
                 </a>
             </div>

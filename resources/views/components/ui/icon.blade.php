@@ -1,1 +1,1 @@
-<i class="bi bi-{{ $name ?? '' }}{{$attributes->get('class')}} me-2"></i>
+<i class="bi bi-{{ $name ?? '' }}{{$attributes->get('class')}} tw:me-2"></i>

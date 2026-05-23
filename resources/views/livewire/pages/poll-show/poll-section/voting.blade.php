@@ -6,12 +6,12 @@
 @endpush
 
 <div x-data="votingForm">
-    <p class="tw:font-light tw:mb-3">
-        {{ __('pages/poll-show.voting.description') }}
-    </p>
+{{--    <p class="tw:font-light tw:mb-3">--}}
+{{--        {{ __('pages/poll-show.voting.description') }}--}}
+{{--    </p>--}}
     <div>
         <div class="tw:card tw:bg-base-300 tw:flex tw:flex-row tw:p-2 tw:gap-3 tw:items-center tw:shadow-sm">
-            <div class="tw:flex tw:flex-row tw:gap-3">
+            <div class="tw:flex tw:justify-center tw:gap-3 tw:w-full">
                 <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
                 <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
                 <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
@@ -24,13 +24,15 @@
                     <x-pages.poll-show.poll.section-card title="Time">
                         <x-slot:title>
                             <span
-                                class="tw:text-lg tw:font-semibold me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
-                            <x-ui.tooltip>
-                                {{ __('pages/poll-show.voting.sections.time_options.tooltip') }}
-                            </x-ui.tooltip>
+                                class="tw:text-lg tw:font-semibold tw:me-2">{{ __('pages/poll-show.voting.sections.time_options.title') }}</span>
+
+                                <div class="tw:tooltip tw:text-sm" data-tip="{{ __('pages/poll-show.voting.sections.time_options.tooltip') }}">
+                                    <i class="bi bi-question-circle-fill small"></i>
+                                </div>
+
                         </x-slot:title>
                         <x-slot:title-right>
-                            @can('sync', Auth::user())
+{{--                            @can('sync', Auth::user())
                                 <x-ui.saving wire:loading wire:target="checkAvailability">
                                     {{ __('pages/poll-show.voting.buttons.check_availability.loading') }}
                                 </x-ui.saving>
@@ -42,7 +44,7 @@
                                     </button>
 
                                 </div>
-                            @endcan
+                            @endcan--}}
                         </x-slot:title-right>
                         <x-slot:content>
 
@@ -63,7 +65,7 @@
                                              :alt="timeOption.picked_preference"/>
                                     </x-slot:right>
                                     <x-slot:bottom>
-                                        @can('sync', Auth::user())
+                                       {{-- @can('sync', Auth::user())
                                             <div x-show="timeOption.availability !== undefined">
                                                 <x-ui.pill
                                                     ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
@@ -75,7 +77,7 @@
                                                 </x-ui.pill>
                                             </div>
 
-                                        @endcan
+                                        @endcan--}}
 
                                     </x-slot:bottom>
 
@@ -83,17 +85,17 @@
                             </template>
 
 
-{{--                            @can('addNewOption', $poll)--}}
-{{--                                <div--}}
-{{--                                    class="tw:card tw:text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw:border tw:border-indigo-400"--}}
-{{--                                    wire:click="openAddNewTimeModal({{ $poll->id }})">--}}
-{{--                                            <span class="fw-bold">--}}
-{{--                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}--}}
-{{--                                            </span>--}}
+                            {{--@can('addNewOption', $poll)
+                                <div
+                                    class="tw:card tw:text-base-content p-4 h-100 d-flex justify-content-center align-items-center voting-card-clickable tw:border tw:border-indigo-400"
+                                    wire:click="openAddNewTimeModal({{ $poll->id }})">
+                                            <span class="fw-bold">
+                                                {{ __('pages/poll-show.voting.buttons.add_time_option') }}
+                                            </span>
 
-{{--                                </div>--}}
+                                </div>
 
-{{--                            @endcan--}}
+                            @endcan--}}
 
 
                         </x-slot:content>
@@ -108,7 +110,9 @@
                                     <span x-text="question.text"></span>
                                 </x-slot:title>
                                 <x-slot:title-right>
-                                    <x-ui.badge color="secondary">Custom question</x-ui.badge>
+                                    <div class="tw:badge tw:badge-secondary">
+                                        Custom question
+                                    </div>
                                 </x-slot:title-right>
                                 <x-slot:content>
                                     <template x-for="(option, optionIndex) in question.options">
@@ -136,7 +140,7 @@
 
 
                     {{-- Formulář pro vyplnění jména a e-mailu --}}
-                    <div class="mt-4">
+                    <div class="tw:mt-4">
                         @guest
                             <x-pages.poll-show.poll.voting.form :poll="$poll"/>
                         @endguest
@@ -146,19 +150,22 @@
                             {{ __('pages/poll-show.voting.form.notes.label') }}
                         </x-ui.form.tw-textbox>
 
-                        <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="tw:flex tw:flex-nowrap tw:items-center tw:gap-3">
                             <x-ui.tw-button type="submit">
                                 {{ __('pages/poll-show.voting.buttons.submit_vote') }}
                             </x-ui.tw-button>
-                            <x-ui.spinner wire:loading wire:target="submitVote">
+                            <div wire:loading
+                                 wire:target="submitVote">
+                                <span class="tw:loading tw:loading-spinner"></span>
                                 {{ __('pages/poll-show.voting.form.loading') }}
-                            </x-ui.spinner>
-                            <x-ui.form.message type="flash"
+                            </div>
+
+                           {{-- <x-ui.form.message type="flash"
                                                form-message="error"
                                                color="danger"/>
                             <x-ui.form.message
                                 form-message="form.error"
-                                color="danger"/>
+                                color="danger"/>--}}
                         </div>
                     </div>
 
@@ -166,9 +173,7 @@
 
             </form>
         @else
-            <x-ui.spinner>
-                {{ __('pages/poll-show.voting.form.loading') }}
-            </x-ui.spinner>
+            <span class="tw:loading tw:loading-spinner"></span>{{ __('pages/poll-show.voting.form.loading') }}
         @endif
     </div>
 

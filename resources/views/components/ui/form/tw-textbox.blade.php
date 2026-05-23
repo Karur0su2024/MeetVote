@@ -1,23 +1,24 @@
-<fieldset class="tw:fieldset mb-3">
-    <span class="tw:fieldset-legend pb-1">
+<fieldset class="tw:fieldset tw:mb-3">
+    <span class="tw:fieldset-legend tw:pb-1">
         {{ $slot }}
         @if ($tooltip ?? null)
-            <small class="ms-2">
-                <x-ui.tooltip :tooltip="$tooltip" />
+            <small class="tw:ms-2">
+                <x-ui.tooltip :tooltip="$tooltip"/>
             </small>
         @endif
     </span>
     <textarea {{ $attributes }}
               aria-label="{{ $slot }}"
               aria-required="{{ $attributes->has('required') ? 'true' : 'false' }}"
-              class="tw:textarea tw:h-24 w-100">
+              class="tw:textarea tw:h-24 tw:w-full">
 
     </textarea>
     @if($error ?? null)
         @error($error)
-        <x-ui.red-text>
+        <span class="tw:text-danger tw:pt-3">">
             {{ $message }}
-        </x-ui.red-text>
+        </span>
+
         @enderror
     @endif
 

@@ -3,10 +3,7 @@
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/auth.login.title') }}</x-slot>
 
-    <div class="container text-center">
-        <!-- Přihlašovací formulář -->
-        <livewire:auth.login />
-    </div>
+    <livewire:auth.login />
 
 
 </x-layouts.app>
