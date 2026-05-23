@@ -3,9 +3,9 @@ layer(base);
 
 /* Vaše custom CSS */
 @import url('/public/css/voting.css');
-@import url('/public/css/app.css');
-@import url('/public/css/card.css');
-@import url('/public/css/light-mode.css');
+/*@import url('/public/css/app.css');*/
+/*@import url('/public/css/card.css');*/
+/*@import url('/public/css/light-mode.css');*/
 @import url('/public/css/editor.css');
 
 
