@@ -49,10 +49,11 @@
     <div>
 
         @if($loadedComments)
-
-            @foreach ($poll->pollComments as $commentIndex => $comment)
-                <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
-            @endforeach
+            <div class="tw:flex tw:flex-col tw:gap-3">
+                @foreach ($poll->pollComments as $commentIndex => $comment)
+                    <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
+                @endforeach
+            </div>
         @else
 
             <div class="tw:text-center tw:py-2">
