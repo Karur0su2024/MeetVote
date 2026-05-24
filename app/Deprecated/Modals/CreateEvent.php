@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Livewire\Modals\Poll;
+namespace App\Deprecated\Modals;
 
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Models\Poll;
 use App\Services\EventService;
-use App\Services\Google\GoogleService;
 use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;

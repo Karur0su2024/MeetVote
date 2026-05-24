@@ -10,7 +10,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
         <div class="flex gap-2">
             @forelse($votes as $vote)
                 <button class="btn btn-sm btn-dash btn-outline"
-                        wire:click="openVoteModal({{ $vote }})">
+                        @click="$wire.dispatch('openUserVoteModal', { voteId: {{ $vote->id }} })">
                     {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
                 </button>
             @empty

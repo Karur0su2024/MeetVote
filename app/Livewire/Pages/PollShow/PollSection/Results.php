@@ -58,19 +58,13 @@ class Results extends Component
     {
         if (Gate::denies('hasAdminPermissions', $this->poll)) {
             $this->openErrorModal();
-
             return;
         }
 
         $event = $eventService->buildEventArrayFromValidatedData($this->poll, $this->results);
-
-        $this->dispatch('showModal', [
-            'alias' => 'modals.poll.create-event',
-            'params' => [
-                'eventData' => $event,
-                'pollIndex' => $this->poll->id,
-            ],
-
+        $this->dispatch('openCreateEventModal', [
+            'pollId' => $this->poll->id,
+            'eventData' => $event,
         ]);
 
     }
