@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('polls')->group(function () {
 
     // Vytvoření ankety
-    Route::get('/create', [PollController::class, 'create'])
-        ->name('polls.create');
+/*    Route::get('/create', [PollController::class, 'create'])
+        ->name('polls.create');*/
+
+    Route::livewire('polls/create', 'pages::polls.create')->name('polls.create');
 
     // Zobrazení ankety
     Route::get('/{poll}', [PollController::class, 'show'])

@@ -4,24 +4,19 @@ IDEA: Přidat nějaký hezčí souhrn výsledků
 IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
 
 --}}
-<div>
-    {{--    <p class="tw:text-base-600 tw:font-light tw:my-3">--}}
-    {{--        {{ __('pages/poll-show.results.description') }}--}}
-    {{--    </p>--}}
-    <div class="tw:card tw:bg-base-300 tw:my-3 poll-section-card ">
-        <div class="tw:card-body">
-            <h5 class="tw:text-lg tw:font-medium tw:mb-2">{{ __('pages/poll-show.results.sections.all_votes.title') }}</h5>
-            <div class="tw:flex tw:gap-2">
-                @forelse($votes as $vote)
-                    <button class="tw:btn tw:btn-sm tw:btn-dash tw:btn-outline"
-                            wire:click="openVoteModal({{ $vote }})">
-                        {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
-                    </button>
-                @empty
-                    {{ __('pages/poll-show.results.sections.all_votes.empty') }}
-                @endforelse
+<div class="flex flex-col gap-1">
+    <div class="card bg-base-100 poll-section-card p-3">
+        <h5 class="text-lg font-medium mb-2">{{ __('pages/poll-show.results.sections.all_votes.title') }}</h5>
+        <div class="flex gap-2">
+            @forelse($votes as $vote)
+                <button class="btn btn-sm btn-dash btn-outline"
+                        wire:click="openVoteModal({{ $vote }})">
+                    {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
+                </button>
+            @empty
+                {{ __('pages/poll-show.results.sections.all_votes.empty') }}
+            @endforelse
 
-            </div>
         </div>
     </div>
 

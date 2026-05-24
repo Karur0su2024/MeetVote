@@ -2,25 +2,30 @@
     'results'
 ])
 
-<div class="tw:mt-5" x-data="{ results: @entangle('results') }">
+<div class="" x-data="{ results: @entangle('results') }">
 
-    <form wire:submit.prevent="insertToEventModal">
-        <div class="tw:flex tw:justify-between tw:items-center">
-            <h3 class="tw:mb-2 tw:text-xl tw:font-medium">
-                {{ __('pages/poll-show.results.sections.results.pick_from_results.title') }}
-            </h3>
+    <form wire:submit.prevent="insertToEventModal" class="flex flex-col gap-1">
+        <div class="card bg-base-100 shadow-sm p-3">
+            <div class="flex flex-row justify-between">
+                <h3 class="text-lg font-medium">
+                    {{ __('pages/poll-show.results.sections.results.pick_from_results.title') }}
+                </h3>
 
-            <div class="tw:tooltip" data-tip="{{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.tooltip') }}">
-                <button class="tw:btn tw:btn-primary tw:btn-outline">
-                    {{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.label') }}
-                </button>
+                <div class="tooltip" data-tip="{{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.tooltip') }}">
+                    <button class="btn btn-primary btn-outline btn-sm">
+                        {{ __('pages/poll-show.results.sections.results.pick_from_results.buttons.create_event.label') }}
+                    </button>
+                </div>
             </div>
 
+            <div>
+                <p class="text-sm font-light mt-2">
+                    {{ __('pages/poll-show.results.sections.results.pick_from_results.description') }}
+                </p>
+            </div>
         </div>
 
-        <p class="tw:text-sm tw:font-light mt-2">
-            {{ __('pages/poll-show.results.sections.results.pick_from_results.description') }}
-        </p>
+
 
 
         <x-pages.poll-show.poll.section-card :title="__('pages/poll-show.results.sections.results.pick_from_results.section.time_options')">
@@ -53,7 +58,7 @@
             <x-pages.poll-show.poll.section-card :title="$question['text']" >
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
-                        <div  class="tw:w-full tw:md:w-1/2 tw:px-2"
+                        <div  class="w-full md:w-1/2 px-2"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
                             <x-pages.poll-show.poll.option-card  class="result-card-clickable"
                                                                          ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">

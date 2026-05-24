@@ -4,7 +4,7 @@
     'content' => ''
 ])
 
-<div class="card bg-base-300/80 mt-3 shadow-sm poll-section-card text-base-content">
+<div class="card bg-base-100 shadow-sm poll-section-card text-base-content">
     <div class="card-body">
         <div class="flex flex-row">
             <h4 class="grow mb-1 text-2xl font-semibold flex-nowrap">{{ $title }}</h4>

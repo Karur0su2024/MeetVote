@@ -10,7 +10,7 @@ function TimeOptionsForm() {
 
         // Inicializace FullCalendar
         // https://fullcalendar.io/
-        initCalendar: function () {
+/*        initCalendar: function () {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 selectable: true,
@@ -21,7 +21,7 @@ function TimeOptionsForm() {
                 },
             });
             calendar.render();
-        },
+        },*/
 
         // Funkce pro přidání nového data do formuláře
         // https://momentjs.com/docs/
@@ -31,6 +31,11 @@ function TimeOptionsForm() {
             if (moment(date).isBefore(moment(), 'day')) {
                 // Přidat error message pokud je datum před dnešním dnem
                 this.messages.errors.calendar = "Date cannot be in the past.";
+                return;
+            }
+            if (!moment(date).isValid()) {
+                // Přidat error message pokud je datum před dnešním dnem
+                this.messages.errors.calendar = "Date is not valid.";
                 return;
             }
 

@@ -72,11 +72,16 @@
 
 
     <div class="flex gap-4 mt-3">
-        <div class="flex-1 text-center">
+        {{--<div class="flex-1 text-center">
             <i class="bi bi-check-circle text-2xl"></i>
             <div class="font-bold">{{ $poll->votes()->count() }}</div>
             <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
         </div>
+
+
+
+
+
         <div class="flex-1 text-center">
             <i class="bi bi-clock text-2xl"></i>
             <div class="font-bold">{{ $poll->timeOptions()->count() }}</div>
@@ -86,7 +91,25 @@
             <i class="bi bi-question-circle text-2xl"></i>
             <div class="font-bold">{{ $poll->questions()->count() }}</div>
             <div class="text-xs text-inherit">{{ __('pages/dashboard.poll_card.stats.questions') }}</div>
+        </div>--}}
+
+
+        <div class="stats mx-auto">
+            <div class="stat place-items-center">
+                <div class="stat-title">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
+                <div class="stat-value">{{ $poll->votes()->count() }}</div>
+            </div>
+            <div class="stat place-items-center">
+                <div class="stat-title">{{ __('pages/dashboard.poll_card.stats.time_options') }}</div>
+                <div class="stat-value">{{ $poll->timeOptions()->count() }}</div>
+            </div>
+
+            <div class="stat place-items-center">
+                <div class="stat-title">{{ __('pages/dashboard.poll_card.stats.votes') }}</div>
+                <div class="stat-value">{{ $poll->questions()->count() }}</div>
+            </div>
         </div>
+
     </div>
 
 

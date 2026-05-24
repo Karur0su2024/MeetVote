@@ -1,25 +1,17 @@
 {{-- Formulář pro vytvoření a úpravu ankety --}}
 <div>
-
+    <x-mary-toast />
 
     <form class="flex flex-col gap-3" wire:submit.prevent="submit">
 
         <div class="grid grid-flow-row grid-cols-2 gap-4">
             {{-- Základní informace o anketě --}}
-            <div class="col-span-2">
+            <div class="col-span-1 grid grid-cols-1 gap-4">
                 <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
-            </div>
-
-
-            {{-- Výběr časových termínů --}}
-            <div class="col-span-2">
-                <x-pages.poll-editor.time-options.section/>
-            </div>
-
-            <div class="col-span-1">
                 <x-pages.poll-editor.questions.section/>
             </div>
-            <div class="col-span-1">
+            <div class="col-span-1 grid grid-cols-1 gap-4">
+                <x-pages.poll-editor.time-options.section/>
                 <x-pages.poll-editor.settings-section/>
             </div>
         </div>
@@ -40,25 +32,23 @@
                             type="submit">
                         {{ __('pages/poll-editor.button.submit') }}
                     </button>
+                    <div class="ms-2" wire:loading wire:target="submit">
+                        <div class="loading loading-spinner loading-sm" role="status">
+                        </div>
+                        {{ __('pages/poll-editor.loading') }}
+                    </div>
                     @error('error')
                     <span class="text-error">
                     {{ $message }}
                 </span>
                     @enderror
+                </div>
+            </div>
 
-                    @if ($errors->any())
-                        <span class="text-error">
-                        {{ __('pages/poll-editor.messages.error.general') }}
-                    </span>
-
-        @endif
+        </div>
     </form>
 
-    <div class="ms-2" wire:loading wire:target="submit">
-        <div class="loading loading-spinner loading-sm" role="status">
-        </div>
-        {{ __('pages/poll-editor.loading') }}
-    </div>
+
 
 
 </div>

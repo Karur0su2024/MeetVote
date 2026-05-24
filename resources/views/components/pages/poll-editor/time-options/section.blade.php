@@ -1,5 +1,8 @@
 @push('scripts')
     {{--    https://stackoverflow.com/questions/42169051/bootstrap-css-overriding-fullcalendar-css-even-if-the-fullcalendar-css-is-placed --}}
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.1.0/index.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.1.0/styles/index.min.css" rel="stylesheet">
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.0.2/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -19,43 +22,25 @@
                 </x-ui.tooltip>
             </small>
         </x-slot:title>
-        <div class="flex gap-4">
+        <div class="flex flex-col gap-2">
             {{-- Blok s kalendářem --}}
-            <div class="card bg-base-200 basis-1/2">
-                <div class="card-body">
-                    <h3 class="text-lg card-title mb-3">
-                        {{ __('pages/poll-editor.time_options.calendar.title') }}
-                    </h3>
-                    <div class="card-content">
-
-                        <div id="calendar"
-                             x-init="initCalendar()"
-                             x-data
-                             wire:ignore>
-                        </div>
-                        <div x-show="messages.errors['calendar']">
-                            <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
-                                <span x-text="messages.errors['calendar']"></span>
-                            </x-ui.alert>
-                        </div>
-                    </div>
+            <div class="card bg-base-200 p-2" x-data="{ myDate: null}">
+                <x-mary-datetime x-model="myDate">
+                    <x-slot:append>
+                        <x-mary-button label="Add date" @click="addDate(myDate)" class="btn-primary join-item "/>
+                    </x-slot:append>
+                </x-mary-datetime>
+                <div x-show="messages.errors['calendar']">
+                    <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                        <span x-text="messages.errors['calendar']"></span>
+                    </x-ui.alert>
                 </div>
+
             </div>
             {{-- Blok s časovými možnostmi --}}
-            <div class="card bg-base-200 basis-1/2">
-                <div class="card-body">
-                    <h3 class="card-title text-lg">
-                        {{ __('pages/poll-editor.time_options.calendar.dates') }}
-                    </h3>
-                    <div class="card-content">
-                        <template x-for="(date, dateIndex) in dates" :key="dateIndex">
-                            <x-pages.poll-editor.time-options.date-card/>
-                        </template>
-                    </div>
-                </div>
-
-
-            </div>
+            <template x-for="(date, dateIndex) in dates" :key="dateIndex">
+                <x-pages.poll-editor.time-options.date-card/>
+            </template>
         </div>
     </x-ui.tw-card>
 

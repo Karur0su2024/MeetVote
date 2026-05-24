@@ -1,19 +1,15 @@
 <?php
 
 use Livewire\Component;
+use App\Models\Poll;
 
 new class extends Component {
-    public $poll;
+    public $poll = null;
     public $showModal = false;
 
     public $listeners = [
         'openPollDeleteModal' => 'openModal',
     ];
-
-    public function mount($poll)
-    {
-        $this->poll = $poll;
-    }
 
     public function deletePoll()
     {
@@ -28,8 +24,9 @@ new class extends Component {
         return redirect()->route('dashboard');
     }
 
-    public function openModal()
+    public function openModal($pollId)
     {
+        $this->poll = Poll::find($pollId);
         $this->showModal = true;
     }
 
@@ -39,25 +36,28 @@ new class extends Component {
 <x-mary-modal wire:model="showModal"
               title="{{ __('ui/modals.delete_poll.title') }}"
               class="backdrop-blur z-10">
-    <x-mary-alert
-        title="{{ __('ui/modals.delete_poll.text.question') . ' ' . __('ui/modals.delete_poll.text.warning') }}"
-        class="alert-error"
-        icon="o-exclamation-triangle"/>
 
-    @if (session()->has('error'))
-        <span class="text-danger">
+    @if($poll)
+        <x-mary-alert
+            title="{{ __('ui/modals.delete_poll.text.question') . ' ' . __('ui/modals.delete_poll.text.warning') }}"
+            class="alert-error"
+            icon="o-exclamation-triangle"/>
+
+        @if (session()->has('error'))
+            <span class="text-danger">
                 {{ session('error') }}
             </span>
+        @endif
+        <x-slot:actions>
+            <x-mary-button label="{{ __('ui/modals.close_poll.buttons.cancel') }}"
+                           class="btn-neutral"
+                           @click="$wire.showModal = false"
+            />
+            <x-mary-button
+                label="{{ __('ui/modals.invitations.table.actions.delete') }}"
+                class="btn-error"
+                wire:click="deletePoll()"
+            />
+        </x-slot:actions>
     @endif
-    <x-slot:actions>
-        <x-mary-button label="{{ __('ui/modals.close_poll.buttons.cancel') }}"
-                       class="btn-neutral"
-                       @click="$wire.showModal = false"
-        />
-        <x-mary-button
-            label="{{ __('ui/modals.invitations.table.actions.delete') }}"
-            class="btn-error"
-            wire:click="deletePoll()"
-        />
-    </x-slot:actions>
 </x-mary-modal>

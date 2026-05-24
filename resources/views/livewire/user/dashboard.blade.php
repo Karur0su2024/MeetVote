@@ -1,5 +1,5 @@
 {{-- Dashboard  uživatele --}}
-<div x-data="{ opened: 'Polls' }">
+<div x-data="{ opened: 'Polls' }" class="flex flex-col gap-10">
     <x-ui.panel>
         <x-slot:left>
             <a href="{{ route('polls.create') }}"
@@ -10,65 +10,62 @@
         </x-slot:left>
         <x-slot:right>
             <div x-show="opened === 'Polls'">
-{{--                <x-ui.dropdown.wrapper size="md" color="outline">--}}
-{{--                    <x-slot:header>--}}
-{{--                        <x-ui.icon name="filter"/>--}}
-{{--                        {{ __('pages/dashboard.dropdowns.filter.title') }}--}}
-{{--                    </x-slot:header>--}}
-{{--                    <x-slot:dropdown-items>--}}
-{{--                        <x-ui.dropdown.item wire:click="filterByStatus('all')"--}}
-{{--                                            :class="$status === 'all' ? 'active' : ''">--}}
-{{--                            {{ __('pages/dashboard.dropdowns.filter.items.all') }}--}}
-{{--                        </x-ui.dropdown.item>--}}
-{{--                        <x-ui.dropdown.item wire:click="filterByStatus('active')"--}}
-{{--                                            :class="$status === 'active' ? 'active' : ''">--}}
-{{--                            {{ __('pages/dashboard.dropdowns.filter.items.active') }}--}}
-{{--                        </x-ui.dropdown.item>--}}
-{{--                        <x-ui.dropdown.item wire:click="filterByStatus('closed')"--}}
-{{--                                            :class="$status === 'closed' ? 'active' : ''">--}}
-{{--                            {{ __('pages/dashboard.dropdowns.filter.items.closed') }}--}}
-{{--                        </x-ui.dropdown.item>--}}
-{{--                    </x-slot:dropdown-items>--}}
-{{--                </x-ui.dropdown.wrapper>--}}
+                {{--                <x-ui.dropdown.wrapper size="md" color="outline">
+                                    <x-slot:header>
+                                        <x-ui.icon name="filter"/>
+                                        {{ __('pages/dashboard.dropdowns.filter.title') }}
+                                    </x-slot:header>
+                                    <x-slot:dropdown-items>
+                                        <x-ui.dropdown.item wire:click="filterByStatus('all')"
+                                                            :class="$status === 'all' ? 'active' : ''">
+                                            {{ __('pages/dashboard.dropdowns.filter.items.all') }}
+                                        </x-ui.dropdown.item>
+                                        <x-ui.dropdown.item wire:click="filterByStatus('active')"
+                                                            :class="$status === 'active' ? 'active' : ''">
+                                            {{ __('pages/dashboard.dropdowns.filter.items.active') }}
+                                        </x-ui.dropdown.item>
+                                        <x-ui.dropdown.item wire:click="filterByStatus('closed')"
+                                                            :class="$status === 'closed' ? 'active' : ''">
+                                            {{ __('pages/dashboard.dropdowns.filter.items.closed') }}
+                                        </x-ui.dropdown.item>
+                                    </x-slot:dropdown-items>
+                                </x-ui.dropdown.wrapper>--}}
 
                 <button class="btn btn-outline btn-disabled">
                     {{ __('pages/dashboard.dropdowns.filter.title') }}
                 </button>
             </div>
-{{--            <x-ui.dropdown.wrapper size="md" color="outline">--}}
-{{--                <x-slot:header><span--}}
-{{--                        x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span>--}}
-{{--                </x-slot:header>--}}
-{{--                <x-slot:dropdown-items>--}}
-{{--                    <x-ui.dropdown.item @click="opened = 'Polls'"--}}
-{{--                                        x-bind:class="opened === 'Polls' ? 'active' : ''">--}}
-{{--                        {{ __('pages/dashboard.dropdowns.opened.items.polls') }}--}}
-{{--                    </x-ui.dropdown.item>--}}
-{{--                    <x-ui.dropdown.item @click="opened = 'Events'"--}}
-{{--                                        x-bind:class="opened === 'Events' ? 'active' : ''">--}}
-{{--                        {{ __('pages/dashboard.dropdowns.opened.items.events') }}--}}
-{{--                    </x-ui.dropdown.item>--}}
-{{--                </x-slot:dropdown-items>--}}
-{{--            </x-ui.dropdown.wrapper>--}}
+{{--                        <x-ui.dropdown.wrapper size="md" color="outline">
+                            <x-slot:header><span
+                                    x-text="opened === 'Polls' ? '{{ __('pages/dashboard.dropdowns.opened.items.polls') }}' : '{{ __('pages/dashboard.dropdowns.opened.items.events') }}'"></span>
+                            </x-slot:header>
+                            <x-slot:dropdown-items>
+                                <x-ui.dropdown.item @click="opened = 'Polls'"
+                                                    x-bind:class="opened === 'Polls' ? 'active' : ''">
+                                    {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
+                                </x-ui.dropdown.item>
+                                <x-ui.dropdown.item @click="opened = 'Events'"
+                                                    x-bind:class="opened === 'Events' ? 'active' : ''">
+                                    {{ __('pages/dashboard.dropdowns.opened.items.events') }}
+                                </x-ui.dropdown.item>
+                            </x-slot:dropdown-items>
+                        </x-ui.dropdown.wrapper>--}}
 
             <button class="btn btn-outline btn-disabled">
                 {{ __('pages/dashboard.dropdowns.opened.items.polls') }}
             </button>
         </x-slot:right>
     </x-ui.panel>
+    <div class="grid grid-cols-3 gap-1" x-show="opened === 'Polls'">
+        <div class="col-span-3 card bg-base-100 shadow-sm p-3">
+            <h3 class="text-xl ">{{ __('ui/navbar.dashboard') }}</h3>
+        </div>
 
-
-
-
-    <div class="mt-6" x-show="opened === 'Polls'">
-        <h3 class="text-3xl text-base-content mb-6">{{ __('ui/navbar.dashboard') }}</h3>
         @if (count($polls) !== 0)
-            <div class="grid grid-cols-3 gap-5">
-                @foreach ($polls as $poll)
-                    {{-- Karta ankety --}}
-                    <x-pages.dashboard.poll-card :poll="$poll"/>
-                @endforeach
-            </div>
+            @foreach ($polls as $poll)
+                {{-- Karta ankety --}}
+                <x-pages.dashboard.poll-card :poll="$poll"/>
+            @endforeach
         @else
             {{-- Upozornění pro žádné ankety --}}
             <x-ui.alert type="info">
@@ -77,18 +74,19 @@
             </x-ui.alert>
         @endif
     </div>
-
-    <div class="mt-6">
-        <h3 class="text-3xl mb-6">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
-        <div class="grid grid-cols-3 gap-5">
-            @foreach ($votes as $vote)
-                {{-- Karta ankety --}}
-                @if($vote->poll)
-                    <x-pages.dashboard.poll-card :poll="$vote->poll"/>
-                @endif
-
-            @endforeach
+    <div class="grid grid-cols-3 gap-1">
+        <div class="col-span-3 card bg-base-100 shadow-sm p-3">
+            <h3 class="text-xl ">{{ __('pages/dashboard.titles.voted_polls') }}</h3>
         </div>
+
+
+        @foreach ($votes as $vote)
+            {{-- Karta ankety --}}
+            @if($vote->poll)
+                <x-pages.dashboard.poll-card :poll="$vote->poll"/>
+            @endif
+
+        @endforeach
     </div>
 
 

@@ -1,4 +1,4 @@
-<fieldset class="fieldset mb-3">
+<fieldset class="fieldset">
     <span class="fieldset-legend pb-1">
         {{ $slot }}
         @if ($tooltip ?? null)

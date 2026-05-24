@@ -26,13 +26,13 @@
 <body>
 @livewireScripts
 <div class="bg-linear-to-r from-violet-100/90 dark:from-base-200 to-base-200/80 p-1">
-    <div class="text-base-content">
+    <div class="text-base-content min-h-screen flex flex-col w-full">
 
         <!-- Navbar -->
         <x-layouts.navbar />
 
-        <main class="max-w-7xl mx-auto p-7 my-7 min-h-screen">
-            {{ $slot }}
+        <main class="w-7xl mx-auto p-7 my-7 grow">
+            {{ $slot }}-
         </main>
 
         <!-- Footer -->
@@ -41,6 +41,8 @@
         @stack('scripts')
 
     </div>
+
+    <x-layouts.modals />
 
 </div>
 

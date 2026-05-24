@@ -4,7 +4,7 @@
     */
 @endphp
 
-<div class="mb-2 flex flex-col gap-4" x-data="{ showEventDetails: true }">
+<div class="mb-2 flex flex-col gap-1" x-data="{ showEventDetails: true }">
     <div class="card bg-base-100 shadow-sm">
         <div class="p-2 flex gap-2">
             <x-mary-dropdown>
@@ -21,25 +21,25 @@
                                   title="{{ __('pages/poll-show.settings.dropdown.invitations') }}"/>
                 <x-mary-menu-item
                     title="{{ $poll->isActive() ? __('pages/poll-show.settings.dropdown.close_poll') : __('pages/poll-show.settings.dropdown.reopen_poll') }}"
-                    @click="$wire.dispatch('openClosePollModal')"
+                    @click="$wire.dispatch('openClosePollModal', { pollId: {{ $poll->id }} })"
                 />
 
                 <x-mary-menu-separator/>
                 <x-mary-menu-item class="text-red-500"
                                   title="{{ __('pages/poll-show.settings.dropdown.delete_poll') }}"
-                                  @click="$wire.dispatch('openPollDeleteModal')"/>
+                                  @click="$wire.dispatch('openPollDeleteModal', { pollId: {{ $poll->id }} })"/>
             </x-mary-dropdown>
 
 
             @can('isAdmin', $poll)
                 <x-mary-button class="btn-outline btn-sm"
                                label="{{ __('pages/poll-show.settings.dropdown.share_poll') }}"
-                               @click="$wire.dispatch('openShareModal')"/>
+                               @click="$wire.dispatch('openShareModal', { pollId: {{ $poll->id }} })"/>
             @endcan
         </div>
     </div>
 
-    <x-mary-card>
+    <x-mary-card class="shadow-sm">
         <x-slot:title>
             {{ $poll->title }}
         </x-slot:title>
@@ -71,9 +71,9 @@
     </x-mary-card>
 
 
-    <x-mary-card shadow>
+    <x-mary-card class="shadow-sm">
         <x-slot:title>
-            Authors:
+            Authors
         </x-slot:title>
         <x-ui.username :username="$poll->author_name"/>
     </x-mary-card>
@@ -90,11 +90,7 @@
 
 
 
-    <livewire:modals.poll.close :poll="$poll" />
 
-    <livewire:modals.poll.share :poll="$poll" />
-
-    <livewire:modals.poll.delete :poll="$poll" />
 
 </div>
 

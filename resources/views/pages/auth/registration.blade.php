@@ -3,9 +3,6 @@
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/auth.register.title') }}</x-slot>
 
-    <div class="container text-start">
-        <!-- Registrační formulář -->
-        <livewire:auth.register />
-    </div>
+    <livewire:auth.register />
 
 </x-layouts.app>

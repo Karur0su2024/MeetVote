@@ -1,0 +1,59 @@
+@push('scripts')
+    <script>
+        Livewire.on('show-voting-section', () => {
+            window.dispatchEvent(new CustomEvent('change-section'));
+        });
+    </script>
+@endpush
+
+<div x-data="{
+    mode: '{{ Gate::allows('canVote', $poll) ? 'Voting' : 'Results' }}'
+    }"
+    @change-section.window="mode = 'Voting'">
+
+    <x-ui.tw-card>
+        <x-slot:title>
+            <span x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'">
+            </span>
+        </x-slot:title>
+        <x-slot:header-right>
+            @can('canVote', $poll)
+                <button class="btn btn-dash"
+                        x-text="mode === 'Results' ?
+                                 '{{ __('pages/poll-show.results.sections.results.buttons.show_voting_section') }}' :
+                                 '{{ __('pages/poll-show.voting.buttons.show_result_section.label') }}'"
+                        @click="mode = mode === 'Results' ? 'Voting' : 'Results'">
+                </button>
+            @endcan
+        </x-slot:header-right>
+
+        <div>
+
+            <div class="flex flex-col gap-2">
+            @if($poll->isActive())
+                @if($poll->deadline)
+                    <div class="alert alert-info alert-soft">
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                        <span>{{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}</span>
+                    </div>
+                @endif
+                @can('canVote', $poll)
+                    <div x-show="mode === 'Voting'">
+                        <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />
+                    </div>
+                @endcan
+            @else
+                <x-ui.alert type="warning">
+                    {{ __('pages/poll-show.results.alerts.ended') }}
+                </x-ui.alert>
+            @endif
+            <div x-show="mode === 'Results'">
+                <livewire:pages.poll-show.poll-section.results :poll="$poll" />
+            </div>
+            </div>
+        </div>
+
+
+    </x-ui.tw-card>
+
+</div>

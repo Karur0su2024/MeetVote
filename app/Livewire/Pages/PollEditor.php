@@ -11,10 +11,13 @@ use DateTimeZone;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Mary\Traits\Toast;
 
 // Formulář pro vytvoření a editaci ankety
 class PollEditor extends Component
 {
+    use Toast;
+
     public PollEditorForm $form;
 
     public $pollIndex;
@@ -22,6 +25,8 @@ class PollEditor extends Component
     public $poll;
 
     public $timezones;
+
+    public $listeners = ['newDate' => 'addNewDate'];
 
     public function mount(PollQueryService $pollQueryService, $pollIndex = null): void
     {
@@ -38,6 +43,9 @@ class PollEditor extends Component
         if (! $this->canUpdate()) {
             $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
 
+
+
+
             return null;
         }
 
@@ -49,6 +57,8 @@ class PollEditor extends Component
         } catch (ValidationException $e) {
             // Kontrola validace
             $this->dispatch('validation-failed', errors: $e->errors());
+            $this->error(__('pages/poll-editor.messages.error.general'), position: 'toast-bottom toast-end');
+
             throw $e;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
@@ -73,6 +83,11 @@ class PollEditor extends Component
         }
 
         return true;
+    }
+
+
+    public function addNewDate($date){
+        dd('addNewDate');
     }
 
     public function render()

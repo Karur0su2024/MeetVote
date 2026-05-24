@@ -3,7 +3,7 @@
     <!-- Název stránky -->
     <x-slot:title>{{ $poll->title }}</x-slot>
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 gap-3">
         @if (session('error'))
             <div role="alert" class="alert alert-error col-span-3">
                 <i class="bi bi-exclamation-triangle-fill me-1"></i>
@@ -27,9 +27,7 @@
 
             <livewire:pages.poll-show.info-section :poll-index="$poll->id"/>
             @if($poll->settings['comments'])
-                <div class="mt-4">
-                    <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
-                </div>
+                <livewire:pages.poll-show.comments-section :poll-index="$poll->id"/>
 
             @endif
 
