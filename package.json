@@ -14,9 +14,7 @@
         "vite": "^8.0.14"
     },
     "dependencies": {
-        "bootstrap": "^5.3.3",
         "bootstrap-icons": "^1.11.3",
-        "fullcalendar": "^6.1.20",
         "moment": "^2.30.1"
     }
 }
