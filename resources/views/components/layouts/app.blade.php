@@ -16,11 +16,15 @@
     <!-- Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <livewire:styles/>
-    <livewire:scripts/>
+    @livewireStyles
+
+
+
+
 </head>
 
 <body>
+@livewireScripts
 <div class="bg-linear-to-r from-violet-100/90 dark:from-base-200 to-base-200/80 p-1">
     <div class="text-base-content">
 
@@ -37,6 +41,7 @@
         @stack('scripts')
 
     </div>
+
 </div>
 
 </body>

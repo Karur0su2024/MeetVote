@@ -22,5 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
     // Nastavení uživatele
-    Route::get('settings', [UserController::class, 'settings'])->name('settings');
+//    Route::get('settings', [UserController::class, 'settings'])->name('settings');
+
+    Route::livewire('settings', 'pages::user.settings')->name('settings');
 });

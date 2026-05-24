@@ -4,7 +4,7 @@ TODO: Return dark mode toggle to the navbar
 --}}
 
 <nav class=" bg-gray-900 shadow-sm transition-all rounded-box text-white">
-    <div class="navbar max-w-7xl mx-auto px-2 h-10  items-center">
+    <div class="navbar max-w-7xl mx-auto px-3 h-10  items-center">
         <div class="navbar-start gap-4">
             <a href="{{ route('home') }}"
                class="normal-case text-2xl flex items-center gap-3 px-2 transition-all m-0 rounded-lg">

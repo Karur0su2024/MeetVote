@@ -3,7 +3,7 @@
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/user-settings.title') }}</x-slot>
 
-    <!-- name of each tab group should be unique -->
+
     <div class="tabs tabs-lift">
         <label class="tab">
             <input type="radio" name="settings_tabs" />
@@ -13,7 +13,6 @@
             <h2 class="text-lg font-semibold">
                 {{ __('pages/user-settings.profile_settings.title') }}
             </h2>
-            <livewire:user.settings.profile-settings />
         </div>
 
         <label class="tab">
