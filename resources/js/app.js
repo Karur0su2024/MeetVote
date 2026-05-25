@@ -1,7 +1,7 @@
 import './bootstrap';
 
 // Bootstrap
-import 'bootstrap';
+//import 'bootstrap';
 
 
 import '../../public/js/app.js';

@@ -36,6 +36,7 @@ new class extends Component
 
     </div>
 
+    {{--Přepsat do normální komponenty--}}
     <livewire:pages.poll-editor/>
 
 {{--    <livewire:sections.poll-editor.info />--}}

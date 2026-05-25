@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Deprecated;
 
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;

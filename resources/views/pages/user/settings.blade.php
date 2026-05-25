@@ -3,7 +3,6 @@
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/user-settings.title') }}</x-slot>
 
-
     <div class="tabs tabs-lift">
         <label class="tab">
             <input type="radio" name="settings_tabs" />

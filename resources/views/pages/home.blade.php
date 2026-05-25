@@ -1,14 +1,4 @@
 <x-layouts.app>
-
-    <!-- Název stránky -->
-
-
-    @if(session()->has('warning'))
-        <x-ui.alert type="warning">
-            {{ session('warning') }}
-        </x-ui.alert>
-    @endif
-
     <div>
         <div class="grid grid-cols-2 gap-1">
             <x-ui.card>

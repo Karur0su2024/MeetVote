@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Livewire\Pages;
-
+use Livewire\Component;
 use App\Exceptions\PollException;
 use App\Livewire\Forms\PollEditorForm;
 use App\Models\Poll;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
-use DateTimeZone;
-use Exception;
 use Illuminate\Validation\ValidationException;
-use Livewire\Component;
 use Mary\Traits\Toast;
 
-// Formulář pro vytvoření a editaci ankety
-class PollEditor extends Component
+new class extends Component
 {
     use Toast;
 
@@ -42,8 +37,6 @@ class PollEditor extends Component
 
         if (! $this->canUpdate()) {
             $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
-
-
 
 
             return null;
@@ -89,9 +82,4 @@ class PollEditor extends Component
     public function addNewDate($date){
         dd('addNewDate');
     }
-
-    public function render()
-    {
-        return view('livewire.pages.poll-editor');
-    }
-}
+};
