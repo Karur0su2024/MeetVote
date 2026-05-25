@@ -1,10 +1,50 @@
-@php
-    /**
-    * @see  resources/views/pages/polls/show.blade.php
-    */
-@endphp
+<?php
 
-<div class="mb-2 flex flex-col gap-1" x-data="{ showEventDetails: true }">
+use App\Models\Poll;
+use App\Services\EventService;
+use App\Services\PollResultsService;
+use App\Traits\CanOpenModals;
+use App\Traits\HasVoteControls;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
+
+new class extends Component
+{
+    use HasVoteControls;
+
+    public $poll;
+
+    public $event;
+
+    protected PollResultsService $pollResultsService;
+
+    protected EventService $eventService;
+
+    public $status;
+
+    public $hasEvent;
+
+    public function boot(EventService $eventService): void
+    {
+        $this->eventService = $eventService;
+    }
+
+    public function mount($pollIndex, PollResultsService $pollResultsService): void
+    {
+        $this->poll = Poll::findOrFail($pollIndex);
+
+        if ($this->poll) {
+            $this->event = $this->poll->event()->first();
+        }
+
+        $this->hasEvent = $this->poll->event()->exists();
+
+    }
+};
+?>
+
+<div class="flex flex-col gap-1" x-data="{ showEventDetails: true }">
     <div class="card bg-base-100 shadow-sm">
         <div class="p-2 flex gap-2">
             <x-mary-dropdown>
@@ -79,18 +119,5 @@
     </x-mary-card>
 
 
-    @if($event)
-        <livewire:page-poll-show-poll-section-event-details :event="$event" :poll="$poll"/>
-    @endif
-
-    @if($poll->isActive())
-        <x-pages.poll-show.info.user-vote-card :user-vote="$userVote"/>
-    @endif
-
-
-
-
-
 
 </div>
-

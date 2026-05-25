@@ -7,30 +7,6 @@
 
 @endphp
 
-{{--<div class="card my-2 p-3 border-dashed border border-gray-500/75">
-    <div class="flex items-center">
-        <p class="flex gap-2">
-            <span class="font-semibold">{{ $comment->user ? $comment->user->name : $comment->author_name }}</span>
-            <span class="font-base-content font-light">{{ $comment->created_at->diffForHumans() }}</span>
-        </p>
-
-         V případě, že je uživatel správce nebo vlastník komentáře, tak může jej smazat
-
-        @can('delete', $comment)
-            <button class="btn btn-outline btn-error btn-sm"
-                    wire:click='deleteComment({{ $comment->id }})'>
-                <i class="bi bi-trash"></i>
-
-            </button>
-        @endcan
-    </div>
-
-    <p class="font-light text-sm text-balance break-all">
-        {{ $comment->content }}
-    </p>
-
-</div>--}}
-
 <div class="chat chat-start">
     <div class="chat-header">
         {{ $comment->user ? $comment->user->name : $comment->author_name }}
@@ -47,7 +23,7 @@
     <div class="chat-bubble break-all">{{ $comment->content }}</div>
     <div class="chat-footer mt-1 ">
         @can('delete', $comment)
-            <button class="text-gray-600/75"
+            <button class="text-gray-600/75 cursor-pointer"
                     wire:click='deleteComment({{ $comment->id }})'>
                 Delete
             </button>

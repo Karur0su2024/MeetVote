@@ -15,14 +15,11 @@ use Livewire\Component;
 // Sekce s detaily o anketě
 class InfoSection extends Component
 {
-    use CanOpenModals;
     use HasVoteControls;
 
     public $poll;
 
     public $event;
-
-    public $userVote;
 
     protected PollResultsService $pollResultsService;
 
@@ -32,16 +29,14 @@ class InfoSection extends Component
 
     public $hasEvent;
 
-    public function boot(PollResultsService $pollResultsService, EventService $eventService): void
+    public function boot(EventService $eventService): void
     {
-        $this->pollResultsService = $pollResultsService;
         $this->eventService = $eventService;
     }
 
     public function mount($pollIndex, PollResultsService $pollResultsService): void
     {
         $this->poll = Poll::findOrFail($pollIndex);
-        $this->userVote = $pollResultsService->getUserVote($this->poll);
 
         if ($this->poll) {
             $this->event = $this->poll->event()->first();
@@ -56,7 +51,5 @@ class InfoSection extends Component
     {
         return view('livewire.pages.poll-show.info-section');
     }
-
-
 
 }
