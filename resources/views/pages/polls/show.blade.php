@@ -34,6 +34,7 @@
                 <livewire:sections.poll-show.event-details :event="$poll->event" :poll="$poll"/>
             @endif
 
+
             @if($poll->settings['comments'])
                 <livewire:sections.poll-show.comments :poll-index="$poll->id"/>
             @endif

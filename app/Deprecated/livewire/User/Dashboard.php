@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\User;
+namespace App\Deprecated\livewire\User;
 
 use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;

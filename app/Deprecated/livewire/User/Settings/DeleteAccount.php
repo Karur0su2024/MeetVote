@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\User\Settings;
+namespace App\Deprecated\livewire\User\Settings;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

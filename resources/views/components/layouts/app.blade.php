@@ -32,7 +32,7 @@
         <x-layouts.navbar />
 
         <main class="w-7xl mx-auto p-7 my-7 grow">
-            {{ $slot }}-
+            {{ $slot }}
         </main>
 
         <!-- Footer -->

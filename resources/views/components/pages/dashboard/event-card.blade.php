@@ -1,6 +1,11 @@
-<x-ui.tw-card header-size="5">
+<x-ui.card header-size="5">
+    <div class="flex flex-row justify-center items-center">
+        <h4>
+            {{ $event->title }}
+        </h4>
+    </div>
     <x-slot:header>
-        {{ $event->title }}
+
     </x-slot:header>
     <x-slot:header-right>
         @if ($event->syncedEvents->where('user_id', Auth::user()->id)->isNotEmpty())
@@ -28,6 +33,6 @@
         </a>
     </x-slot:footer>
 
-</x-ui.tw-card>
+</x-ui.card>
 
 

@@ -45,6 +45,7 @@ new class extends Component
 ?>
 
 <div class="flex flex-col gap-1" x-data="{ showEventDetails: true }">
+    @can('hasAdminPermissions', $poll)
     <div class="card bg-base-100 shadow-sm">
         <div class="p-2 flex gap-2">
             <x-mary-dropdown>
@@ -78,6 +79,8 @@ new class extends Component
             @endcan
         </div>
     </div>
+
+    @endcan
 
     <x-mary-card class="shadow-sm">
         <x-slot:title>

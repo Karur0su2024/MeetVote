@@ -18,7 +18,7 @@ new class extends Component {
                         icon="o-user"
                         class="bg-base-100 shadow-sm mt-1 card">
                 <div class="px-4">
-                    <livewire:user.settings.profile-settings/>
+                    <livewire:sections.settings.profile-settings/>
                 </div>
             </x-mary-tab>
             <x-mary-tab name="password-settings-tab"
@@ -26,7 +26,7 @@ new class extends Component {
                         icon="o-lock-closed"
                         class="bg-base-100 shadow-sm mt-1 card">
                 <div class="px-4">
-                    <livewire:user.settings.password-settings/>
+                    <livewire:sections.settings.password-settings />
                 </div>
             </x-mary-tab>
             <x-mary-tab name="google-settings-tab"
@@ -34,7 +34,7 @@ new class extends Component {
                         icon="o-calendar"
                         class="bg-base-100 shadow-sm mt-1 card">
                 <div class="px-4">
-                    <livewire:user.settings.google-settings/>
+                    <livewire:sections.settings.google-settings />
                 </div>
             </x-mary-tab>
             <x-mary-tab name="delete-user-tab"
@@ -42,7 +42,7 @@ new class extends Component {
                         icon="o-trash"
                         class="bg-base-100 shadow-sm mt-1 card">
                 <div class="px-4">
-                    <livewire:user.settings.delete-account/>
+                    <livewire:sections.settings.delete-account />
                 </div>
             </x-mary-tab>
         </x-mary-tabs>

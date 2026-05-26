@@ -178,7 +178,7 @@ new class extends Component {
                 @if ($poll->pollComments->isNotEmpty())
                     <div class="flex flex-col gap-3">
                         @foreach ($poll->pollComments as $commentIndex => $comment)
-                            <x-pages.poll-show.comment-card :comment="$comment" wire:key="comment-{{ $comment->id }}"/>
+                            <x-ui.comment-card :comment="$comment" wire:key="comment-{{ $comment->id }}"/>
                         @endforeach
                     </div>
                 @else

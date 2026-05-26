@@ -51,7 +51,7 @@
         @if($loadedComments)
             <div class="flex flex-col gap-3">
                 @foreach ($poll->pollComments as $commentIndex => $comment)
-                    <x-pages.poll-show.comment-card :comment="$comment" wire:key="commentIndex"/>
+                    <x-ui.comment-card :comment="$comment" wire:key="commentIndex"/>
                 @endforeach
             </div>
         @else
