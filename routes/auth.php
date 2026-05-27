@@ -13,8 +13,11 @@ Route::middleware('guest')->group(function () {
     Route::livewire('login', 'pages::auth.login')->name('login');
 
     // reset hesla
-    Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
-    Route::get('auth.reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
+//    Route::view('forgot-password', 'pages.auth.forgot-password')->name('password.request');
+    Route::livewire('forgot-password', 'pages::auth.forgot-password')->name('password.request');
+
+//    Route::get('auth.reset-password', [UserController::class, 'resetPassword'])->name('password.reset');
+    Route::livewire('auth.reset-password', 'pages::auth.reset-password')->name('password.reset');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

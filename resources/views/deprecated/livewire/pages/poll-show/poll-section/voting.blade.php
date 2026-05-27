@@ -9,8 +9,6 @@
     {{--    <p class="font-light mb-3">--}}
     {{--        {{ __('pages/poll-show.voting.description') }}--}}
     {{--    </p>--}}
-
-
     @if($loaded)
         <form wire:submit.prevent="submitVote()" class="flex flex-col gap-1">
             <x-pages.poll-show.poll.section-card title="Time">

@@ -10,7 +10,6 @@ new class extends Component {
 
 <x-layouts.app>
     <x-slot:title>{{ __('pages/user-settings.title') }}</x-slot>
-
     <div>
         <x-mary-tabs wire:model="selectedTab" label-class="tabs-box p-2" label-div-class="bg-base-100 rounded-box shadow-sm p-1 gap-2" active-class="bg-primary rounded !text-white">
             <x-mary-tab name="profile-settings-tab"
@@ -47,6 +46,4 @@ new class extends Component {
             </x-mary-tab>
         </x-mary-tabs>
     </div>
-
-
 </x-layouts.app>

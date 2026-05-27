@@ -44,7 +44,8 @@
             @endif
             @can('canVote', $poll)
                 <div x-show="mode === 'Voting'">
-                    <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />
+{{--                    <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />--}}
+                    <livewire:sections.poll-show.voting :poll-index="$poll->id" />
                 </div>
             @endcan
         @else
@@ -53,7 +54,7 @@
             </x-ui.alert>
         @endif
         <div x-show="mode === 'Results'">
-            <livewire:pages.poll-show.poll-section.results :poll="$poll" />
+            <livewire:sections.poll-show.results :poll="$poll" />
         </div>
     </div>
 
