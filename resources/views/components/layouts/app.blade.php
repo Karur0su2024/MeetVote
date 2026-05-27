@@ -43,6 +43,7 @@
     </div>
 
     <x-layouts.modals />
+    <x-mary-toast />
 
 </div>
 

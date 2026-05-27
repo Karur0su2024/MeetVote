@@ -51,15 +51,12 @@ new class extends Component
             // Kontrola validace
             $this->dispatch('validation-failed', errors: $e->errors());
             $this->error(__('pages/poll-editor.messages.error.general'), position: 'toast-bottom toast-end');
-
             throw $e;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
-
             return null;
         } catch (Exception $e) {
             $this->addError('error', __('pages/poll-editor.messages.error.saving'));
-
             return null;
         }
 

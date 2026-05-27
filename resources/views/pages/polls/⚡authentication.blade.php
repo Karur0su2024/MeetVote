@@ -2,24 +2,37 @@
 
 use Livewire\Component;
 use App\Models\Poll;
+use Mary\Traits\Toast;
 
 new class extends Component {
-    public $password = '';
+    public string $password = '';
     public $poll;
+    use Toast;
 
-    public function mount($poll){
-        $this->poll = Poll::findOrFail($poll);
+    public function mount($poll)
+    {
+        $this->poll = Poll::where('public_id', $poll)->first();
     }
 
     public function checkPassword()
     {
-        if (Hash::check($request->password, $poll->password)) {
-            session()->put('poll_passwords.' . $poll->id . '.expiration', now()->addDays(config('poll.password_expiration_days')));
 
-            return redirect()->route('polls.show', $poll);
+        if (Hash::check($this->password, $this->poll->password)) {
+            session()->put('poll_passwords.' . $this->poll->id . '.expiration', now()->addDays(config('poll.password_expiration_days')));
+            //return redirect()->route('polls.show', $this->poll);
+            $this->success(
+                title: __('You have successfully entered the password!'),
+                redirectTo: route('polls.show', $this->poll)
+            );
+
+        }
+        else {
+            $this->error(
+                title: __('pages/poll-show.messages.errors.wrong_password'),
+                position: 'toast-bottom toast-end'
+            );
         }
 
-        return redirect()->back()->with('error', __('pages/poll-show.messages.errors.wrong_password'));
     }
 };
 ?>
@@ -27,25 +40,16 @@ new class extends Component {
 <x-layouts.app>
 
     <!-- Název stránky -->
-    <x-slot:title>{{ $poll->title }}</x-slot>
+    <x-slot:title>{{ $poll->title }} - authentication</x-slot>
 
-    <x-ui.card>
-        <h2>{{ $poll->title }}</h2>
+    <x-ui.card class="mb-1">
+        <h2 class="text-2xl">{{ $poll->title }} - authentication</h2>
     </x-ui.card>
 
-    <x-ui.tw-card>
-        <x-slot:title>
-            {{ $poll->title }}
-        </x-slot:title>
-
-        @if(session()->has('error'))
-            <x-ui.alert type="error">
-                {{ session('error') }}
-            </x-ui.alert>
-        @endif
-        <p>{{ __('pages/password.text') }}</p>
-        <form wire:submit="checkPassword()" method="post">
-            @csrf
+    @island
+    <x-ui.card>
+        <p class="text-sm font-light text-gray-500">{{ __('pages/password.text') }}</p>
+        <form wire:submit.prevent="checkPassword()">
             <div class="mb-3">
                 <x-mary-input id="password"
                               label="{{ __('pages/password.labels.password') }}"
@@ -53,10 +57,20 @@ new class extends Component {
                               name="password"
                               wire:model="password"
                               required/>
-
             </div>
-            <button type="submit" class="tw:btn tw:btn-primary">{{ __('pages/password.buttons.submit') }}</button>
+            <x-mary-button class="btn-primary"
+                           type="submit"
+                           label="{{ __('pages/password.buttons.submit') }}"
+                           spinner />
         </form>
-    </x-ui.tw-card>
+
+        @if(session()->has('error'))
+            <x-ui.alert type="error">
+                {{ session('error') }}
+            </x-ui.alert>
+        @endif
+    </x-ui.card>
+    @endisland
+
 
 </x-layouts.app>

@@ -27,7 +27,9 @@ Route::prefix('polls')->group(function () {
         ->middleware(['poll.already_has_access'])
         ->name('polls.authentication');*/
 
-    Route::livewire('/{poll}/authentication', 'pages::polls.authentication')->middleware(['poll.already_has_access'])->name('polls.authentication');
+    Route::livewire('/{poll}/authentication', 'pages::polls.authentication')
+        ->middleware(['poll.already_has_access'])
+        ->name('polls.authentication');
 
     // Přidat práva správce ankety pomocí odkazu
     Route::get('/{poll}/{admin_key}', [PollController::class, 'addAdmin'])->name('polls.show.admin');
