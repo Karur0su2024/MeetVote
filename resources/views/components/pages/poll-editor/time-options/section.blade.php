@@ -10,38 +10,33 @@
 @endpush
 
 
-<div x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
-
-
-    <x-ui.tw-card>
-        <x-slot:title>
-            {{ __('pages/poll-editor.time_options.title') }}
-            <small>
-                <x-ui.tooltip>
-                    {{ __('pages/poll-editor.time_options.tooltip') }}
-                </x-ui.tooltip>
-            </small>
-        </x-slot:title>
-        <div class="flex flex-col gap-2">
-            {{-- Blok s kalendářem --}}
-            <div class="card bg-base-200 p-2" x-data="{ myDate: null}">
-                <x-mary-datetime x-model="myDate">
-                    <x-slot:append>
-                        <x-mary-button label="Add date" @click="addDate(myDate)" class="btn-primary join-item "/>
-                    </x-slot:append>
-                </x-mary-datetime>
-                <div x-show="messages.errors['calendar']">
-                    <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
-                        <span x-text="messages.errors['calendar']"></span>
-                    </x-ui.alert>
-                </div>
-
-            </div>
-            {{-- Blok s časovými možnostmi --}}
-            <template x-for="(date, dateIndex) in dates" :key="dateIndex">
-                <x-pages.poll-editor.time-options.date-card/>
-            </template>
+<x-ui.card x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
+    <h3 class="text-lg font-semibold">
+        {{ __('pages/poll-editor.time_options.title') }}
+        <div class="tooltip" data-tip="{{ __('pages/poll-editor.time_options.tooltip') }}">
+            <i class="bi bi-question-circle-fill text-sm"></i>
         </div>
-    </x-ui.tw-card>
+    </h3>
 
-</div>
+
+    {{-- Blok s kalendářem --}}
+    <div class="card bg-base-200 p-2" x-data="{ myDate: null}">
+        <x-mary-datetime x-model="myDate">
+            <x-slot:append>
+                <x-mary-button label="Add date" @click="addDate(myDate)" class="btn-primary join-item "/>
+            </x-slot:append>
+        </x-mary-datetime>
+        <div x-show="messages.errors['calendar']">
+            <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                <span x-text="messages.errors['calendar']"></span>
+            </x-ui.alert>
+        </div>
+
+    </div>
+    {{-- Blok s časovými možnostmi --}}
+    <template x-for="(date, dateIndex) in dates" :key="dateIndex">
+        <x-pages.poll-editor.time-options.date-card/>
+    </template>
+
+
+</x-ui.card>

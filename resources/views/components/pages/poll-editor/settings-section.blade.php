@@ -1,48 +1,39 @@
-<x-ui.tw-card>
-    <x-slot:title>
+<x-ui.card>
+    <h3 class="text-lg font-semibold">
         {{ __('pages/poll-editor.settings.title') }}
-    </x-slot:title>
-    <h4 class="text-lg mb-1">
-        {{ __('pages/poll-editor.settings.section_titles.settings') }}
-    </h4>
+    </h3>
     {{-- Komentáře --}}
-    <x-ui.form.tw-toggle id="comments" wire:model="form.settings.comments">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.comments.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.comments.label') }}
-    </x-ui.form.tw-toggle>
-
+    <x-mary-toggle label="{{ __('pages/poll-editor.settings.comments.label') }}"
+                   class="toggle-sm toggle-primary"
+                   wire:model="form.settings.comments"
+                   hint="{{ __('pages/poll-editor.settings.comments.tooltip') }}"
+    />
     {{-- Anonymní hlasování --}}
-    <x-ui.form.tw-toggle id="anonymous" wire:model="form.settings.anonymous_votes">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.anonymous.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.anonymous.label') }}
-    </x-ui.form.tw-toggle>
-
+    <x-mary-toggle label="{{ __('pages/poll-editor.settings.anonymous.label') }}"
+                   class="toggle-sm toggle-primary"
+                   wire:model="form.settings.anonymous_votes"
+                   hint="{{ __('pages/poll-editor.settings.anonymous.tooltip') }}"
+    />
     {{-- Skrytí výsledků --}}
-    <x-ui.form.tw-toggle id="hide_results" wire:model="form.settings.hide_results">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.hide_results.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.hide_results.label') }}
-    </x-ui.form.tw-toggle>
+    <x-mary-toggle label="{{ __('pages/poll-editor.settings.hide_results.label') }}"
+                   class="toggle-sm toggle-primary"
+                   wire:model="form.settings.hide_results"
+                   hint="{{ __('pages/poll-editor.settings.hide_results.tooltip') }}"
+    />
 
     {{-- Přidání časových možností --}}
-    <x-ui.form.tw-toggle id="add_time_options" wire:model="form.settings.add_time_options">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.add_time_options.label') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.add_time_options.label') }}
-    </x-ui.form.tw-toggle>
+    <x-mary-toggle label="{{ __('pages/poll-editor.settings.add_time_options.label') }}"
+                   class="toggle-sm toggle-primary"
+                   wire:model="form.settings.add_time_options"
+                   hint="{{ __('pages/poll-editor.settings.add_time_options.label') }}"
+    />
 
-    <x-ui.form.tw-toggle id="allow_invalid" wire:model="form.settings.allow_invalid">
-        <x-slot:tooltip>
-            {{ __('pages/poll-editor.settings.allow_invalid.tooltip') }}
-        </x-slot:tooltip>
-        {{ __('pages/poll-editor.settings.allow_invalid.label') }}
-    </x-ui.form.tw-toggle>
+    {{-- Umožnit hlasovat pro staré možnosti --}}
+    <x-mary-toggle label="{{ __('pages/poll-editor.settings.allow_invalid.label') }}"
+                   class="toggle-sm toggle-primary"
+                   wire:model="form.settings.allow_invalid"
+                   hint="{{ __('pages/poll-editor.settings.allow_invalid.tooltip') }}"
+    />
 
 {{--    <h4 class="text-lg mb-1">--}}
 {{--        {{ __('pages/poll-editor.settings.section_titles.security') }}--}}
@@ -69,6 +60,7 @@
         </div>
 
         <div x-show="password.set === null" x-collapse>
+
             <x-ui.form.tw-input id="password"
                              x-model="password.value"
                              type="password"
@@ -87,4 +79,4 @@
 
 
     </div>
-</x-ui.tw-card>
+</x-ui.card>
