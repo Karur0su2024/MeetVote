@@ -6,7 +6,11 @@
     <div class="flex flex-col mb-3">
 
         <div class="card bg-base-100 text-center p-4 shadow-sm">
-            <h2 class="mb-8 font-medium text-3xl">{{ __('pages/poll-editor.page.create') }}</h2>
+
+            <x-ui.text.title-xl>
+                {{ __('pages/poll-editor.page.create') }}
+            </x-ui.text.title-xl>
+
 {{--
             <x-mary-steps wire:model="example" stepper-classes="w-full p-5 bg-base-200">
                 <x-mary-step step="1" text="Poll information" class="step-primary" />

@@ -1,11 +1,11 @@
 <x-ui.card
     x-data="questionForm" @validation-failed.window="duplicateError($event.detail.errors)">
-    <h3 class="text-lg font-semibold">
+    <x-ui.text.title-lg>
         {{ __('pages/poll-editor.questions.title') }}
         <div class="tooltip" data-tip="{{ __('pages/poll-editor.questions.tooltip') }}">
-            <i class="bi bi-question-circle-fill text-sm"></i>
+            <x-mary-icon name="s-question-mark-circle" class="w-4 h-4" />
         </div>
-    </h3>
+    </x-ui.text.title-lg>
 
 
     <template x-if="questions.length > 0">

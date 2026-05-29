@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public $name;
 
     public $email;
@@ -13,7 +12,7 @@ new class extends Component
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.Auth::id(),
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
         ];
     }
 
@@ -41,37 +40,28 @@ new class extends Component
 };
 ?>
 
-<div>
-    <form wire:submit.prevent='updateProfile'>
-        {{-- Přezdívka --}}
-        <x-ui.form.tw-input
-            id="name"
-            wire:model="name"
-            type="text"
-            required>
-            <x-slot:label>
-                {{ __('pages/user-settings.profile_settings.labels.name') }}
-            </x-slot:label>
-        </x-ui.form.tw-input>
+<form class="flex flex-col gap-3" wire:submit.prevent='updateProfile'>
+    {{-- Přezdívka --}}
+    <x-mary-input label="{{ __('pages/user-settings.profile_settings.labels.name') }}"
+                  wire:model="name"
+                  required/>
 
-        <x-ui.form.tw-input
-            id="name"
-            wire:model="email"
-            type="text"
-            required>
-            <x-slot:label>
-                {{ __('pages/user-settings.profile_settings.labels.email') }}
-            </x-slot:label>
-        </x-ui.form.tw-input>
+    <x-mary-input label="{{ __('pages/user-settings.profile_settings.labels.email') }}"
+                  type="email"
+                  wire:model="email"
+                  required/>
 
-        <x-ui.tw-button type="submit" color="primary">
-            {{ __('pages/user-settings.profile_settings.buttons.save') }}
-        </x-ui.tw-button>
 
-        {{-- Zpráva v případě úspěšného uložení --}}
-        @if (session()->has('settings.profile.success'))
-            <span class="tw:text-success tw:ms-3">{{ session('settings.profile.success') }}</span>
-        @endif
-    </form>
+    <div>
+        <x-mary-button label="{{ __('pages/user-settings.profile_settings.buttons.save') }}"
+                       class="btn-primary"
+                       type="submit"
+                       spinner/>
+    </div>
 
-</div>
+    {{-- Zpráva v případě úspěšného uložení --}}
+    @if (session()->has('settings.profile.success'))
+        <span class="tw:text-success tw:ms-3">{{ session('settings.profile.success') }}</span>
+    @endif
+</form>
+

@@ -7,10 +7,13 @@ use App\Traits\CanOpenModals;
 use App\Traits\HasVoteControls;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Vote;
+use Mary\Traits\Toast;
 
 
 new class extends Component {
     public $userVote;
+    use Toast;
 
     public function boot(PollResultsService $pollResultsService): void
     {
@@ -23,37 +26,41 @@ new class extends Component {
         $this->userVote = $pollResultsService->getUserVote($this->poll);
     }
 
+    public function deleteVote($voteId){
+        $vote = Vote::find($voteId);
+        $poll = $vote->poll;
+        $vote->delete();
+        $this->success(
+            title: 'Your vote was deleted',
+            redirectTo: route('polls.show', ['poll' => $poll]),
+            position: 'toast-end toast-bottom'
+        );
+    }
+
 };
 ?>
 
 <x-ui.card>
     <div class="flex items-center justify-between">
-        <div class="flex items-start gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+        <x-ui.text.title-w-icon>
+            <x-slot:icon>
                 <x-mary-icon name="o-check-circle" class="text-xl"/>
-            </div>
-
-            <div>
-                <h4 class="text-lg font-semibold">
-                    {{ __('pages/poll-show.your_vote.title') }}
-                </h4>
+            </x-slot:icon>
+            <x-slot:title>
+                {{ __('pages/poll-show.your_vote.title') }}
+            </x-slot:title>
+            <x-slot:subtitle>
                 @if($userVote)
-                    <p class="text-xs text-base-content/60">
-                        {{ Carbon\Carbon::parse($userVote->created_at)->format('d.m.Y') }}
-                    </p>
+                    {{ Carbon\Carbon::parse($userVote->created_at)->format('d.m.Y') }}
                 @endif
-            </div>
-
-        </div>
-        <div class="flex items-center gap-1">
-            @can('delete', $userVote)
-                <button class="btn btn-error btn-sm float-end btn-outline"
-                        wire:click="deleteVote({{ $userVote->id }})">
-                    <i class="bi bi-trash"></i>
-                    {{ __('pages/poll-show.your_vote.buttons.delete') }}
-                </button>
-            @endcan
-        </div>
+            </x-slot:subtitle>
+        </x-ui.text.title-w-icon>
+        @can('delete', $userVote)
+            <x-mary-button class="btn-error btn-sm float-end btn-outline"
+                           wire:click="deleteVote({{ $userVote->id }})"
+                           label="{{ __('pages/poll-show.your_vote.buttons.delete') }}"
+                           spinner />
+        @endcan
     </div>
 
 
@@ -71,7 +78,7 @@ new class extends Component {
             </div>
         @endcannot
     @else
-        <p class="text-md font-light text-gray-500">
+        <p class="text-sm font-light text-gray-500">
             {{ __('pages/poll-show.your_vote.no_vote') }}
         </p>
     @endif

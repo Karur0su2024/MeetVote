@@ -1,7 +1,8 @@
 <x-ui.card>
-    <h3 class="text-lg font-semibold">
+    <x-ui.text.title-lg>
         {{ __('pages/poll-editor.settings.title') }}
-    </h3>
+    </x-ui.text.title-lg>
+
     {{-- Komentáře --}}
     <x-mary-toggle label="{{ __('pages/poll-editor.settings.comments.label') }}"
                    class="toggle-sm toggle-primary"
@@ -61,19 +62,12 @@
 
         <div x-show="password.set === null" x-collapse>
 
-            <x-ui.form.tw-input id="password"
-                             x-model="password.value"
-                             type="password"
-                             placeholder="{{ __('pages/poll-editor.settings.password.placeholder') }}"
-                             error="form.password">
-                <x-slot:label>
-                    {{ __('pages/poll-editor.settings.password.label') }}
-{{--                    <x-ui.tooltip>--}}
-{{--                        {{ __('pages/poll-editor.settings.password.tooltip') }}--}}
-{{--                    </x-ui.tooltip>--}}
-                </x-slot:label>
-            </x-ui.form.tw-input>
-
+            <x-mary-input label="{{ __('pages/poll-editor.settings.password.label') }}"
+                          x-model="password.value"
+                          placeholder="{{ __('pages/poll-editor.settings.password.placeholder') }}"
+                          type="password"
+                          hint="{{ __('pages/poll-editor.settings.password.tooltip') }}"
+            />
 
         </div>
 

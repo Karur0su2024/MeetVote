@@ -45,13 +45,17 @@ new class extends Component {
                 <h2 class="card-title justify-center mb-4">{{ __('pages/auth.login.title') }}</h2>
                 <form wire:submit="login">
                     @csrf
+                    <x-mary-input label="{{ __('pages/auth.login.labels.email') }}"
+                                  wire:model="form.email"
+                                  type="email"
+                                  required />
                     <x-ui.form.tw-input id="email"
                                         wire:model="form.email"
                                         type="email"
                                         required
                                         error="form.email">
                         <x-slot:label>
-                            {{ __('pages/auth.login.labels.email') }}
+
                         </x-slot:label>
                     </x-ui.form.tw-input>
 
@@ -66,12 +70,9 @@ new class extends Component {
                     </x-ui.form.tw-input>
 
                     <div class="text-left flex flex-col gap-1 mb-3">
-                        <x-ui.form.tw-toggle wire:model="form.remember"
-                                             type="checkbox"
-                                             id="remember"
-                                             name="remember">
-                            {{ __('pages/auth.login.labels.remember_me') }}
-                        </x-ui.form.tw-toggle>
+                        <x-mary-toggle label="{{ __('pages/auth.login.labels.remember_me') }}"
+                                       class="toggle-primary toggle-sm"
+                                       wire:model="form.remember" />
                         <div class="mb-1">
                             <a href="{{ route('password.request') }}"
                                class="link link-primary text-sm">{{ __('pages/auth.login.buttons.forgot_password') }}</a>
@@ -86,23 +87,23 @@ new class extends Component {
 
 
                     <div class="flex flex-row justify-center items-center mb-3 gap-2">
-                        <button type="submit"
-                                class="btn btn-primary flex-1">{{ __('pages/auth.login.buttons.login') }}</button>
+                        <x-mary-button label="{{ __('pages/auth.login.buttons.login') }}"
+                                       type="submit"
+                                       class="btn-primary grow"
+                                       spinner
+                        />
+
                         {{--                        <a href="{{ route('google.oath.login') }}"
                                                    class="btn btn-outline btn-primary flex-1">
                                                     <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
                                                 </a>--}}
                         <div class="tooltip"
                              data-tip="This feature is deprecated and will be reimplemented in the future.">
-                            <button class="btn btn-outline btn-disabled">
+                            <button class="btn btn-outline btn-disabled grow">
                                 <i class="bi bi-google"></i> {{ __('pages/auth.login.buttons.with_google') }}
                             </button>
                         </div>
                     </div>
-
-                    <x-ui.saving wire:loading>
-                        {{ __('pages/auth.login.loading') }}
-                    </x-ui.saving>
                 </form>
             </x-ui.card>
         </div>

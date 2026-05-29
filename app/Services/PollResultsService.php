@@ -135,9 +135,9 @@ class PollResultsService
     {
         foreach ($timeOptions as $key => $timeOption) {
             $timeOptions[$key]['preferences'] = [
-                2 => $preferences[$timeOption['id']][2] ?? [],
-                1 => $preferences[$timeOption['id']][1] ?? [],
                 -1 => $preferences[$timeOption['id']][-1] ?? [],
+                1 => $preferences[$timeOption['id']][1] ?? [],
+                2 => $preferences[$timeOption['id']][2] ?? [],
             ];
         }
 

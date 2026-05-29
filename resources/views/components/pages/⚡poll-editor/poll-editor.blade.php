@@ -1,7 +1,5 @@
 {{-- Formulář pro vytvoření a úpravu ankety --}}
 <div>
-    <x-mary-toast />
-
     <form class="flex flex-col gap-3" wire:submit.prevent="submit">
 
         <div class="grid grid-flow-row grid-cols-2 gap-4">

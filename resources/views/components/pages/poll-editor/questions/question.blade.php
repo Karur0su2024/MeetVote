@@ -28,11 +28,9 @@
             {{-- Zobrazení chybové hlášky, pokud možnost není validní --}}
         </template>
 
-        <button class="btn btn-primary btn-soft btn-sm"
-                @click="addQuestionOption(questionIndex)"
-        >
-            {{ __('pages/poll-editor.questions.button.add_option') }}
-        </button>
+        <x-mary-button label="{{ __('pages/poll-editor.questions.button.add_option') }}"
+                       class="btn-primary btn-soft btn-sm"
+                       @click="addQuestionOption(questionIndex)" />
 
         {{-- Chybová hláška --}}
 

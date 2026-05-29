@@ -45,40 +45,33 @@ new class extends Component
 };
 ?>
 
-<form wire:submit.prevent='updatePassword'>
+<form class="flex flex-col gap-3" wire:submit.prevent='updatePassword'>
     {{-- Současné heslo --}}
-    <x-ui.form.tw-input id="current_password"
-                        wire:model="current_password"
-                        type="password"
-                        required>
-        <x-slot:label>
-            {{ __('pages/user-settings.password.labels.old_password') }}
-        </x-slot:label>
-    </x-ui.form.tw-input>
+    <x-mary-input label="{{ __('pages/user-settings.password.labels.old_password') }}"
+                  wire:model="current_password"
+                  type="password"
+                  required />
 
     {{-- Nové heslo --}}
-    <x-ui.form.tw-input id="new_password"
-                        wire:model="new_password"
-                        type="password"
-                        required>
-        <x-slot:label>
-            {{ __('pages/user-settings.password.labels.new_password') }}
-        </x-slot:label>
-    </x-ui.form.tw-input>
+    <x-mary-input label="{{ __('pages/user-settings.password.labels.new_password') }}"
+                  wire:model="new_password"
+                  type="password"
+                  required />
 
     {{-- Potvrzení nového hesla --}}
-    <x-ui.form.tw-input id="password_confirmation"
-                        wire:model="new_password_confirmation"
-                        type="password"
-                        required>
-        <x-slot:label>
-            {{ __('pages/user-settings.password.labels.new_password_confirmation') }}
-        </x-slot:label>
-    </x-ui.form.tw-input>
+    <x-mary-input label="{{ __('pages/user-settings.password.labels.new_password_confirmation') }}"
+                  wire:model="new_password_confirmation"
+                  type="password"
+                  required />
 
-    <x-ui.tw-button type="submit">
-        {{ __('pages/user-settings.password.buttons.save') }}
-    </x-ui.tw-button>
+    <div>
+        <x-mary-button label="{{ __('pages/user-settings.password.buttons.save') }}"
+                       class="btn-primary"
+                       type="submit"
+                       spinner />
+    </div>
+
+
 
     {{-- Zpráva v případě úspěšného uložení --}}
     @if (session()->has('settings.password.success'))

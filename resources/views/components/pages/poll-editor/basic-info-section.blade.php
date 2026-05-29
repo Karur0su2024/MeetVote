@@ -1,18 +1,26 @@
 @php
-    $timezonesWithNames = [
+
+    $timezonesWithNames = [];
+
+    foreach($timezones as $timezone){
+        $timezonesWithNames[] = [
+            'id' => $timezone,
+            'name' => $timezone . ' (' . now()->setTimezone($timezone)->format('P') . ')'];
+    }
+    /*$timezonesWithNames = [
         'id' => $timezones,
         'name' => array_map(function ($timezone) {
             return now()->setTimezone($timezone)->format('P');
         }, $timezones)
-    ];
-
+    ];*/
 @endphp
 
 
 <x-ui.card>
-    <h3 class="text-xl font-semibold">
+    <x-ui.text.title-lg>
         {{ __('pages/poll-editor.basic_info.section.poll') }}
-    </h3>
+    </x-ui.text.title-lg>
+
     <x-mary-input
         id="title"
         wire:model="form.title"
@@ -41,24 +49,7 @@
                    wire:model="form.timezone"
                    id="timezone"
                    :options="$timezonesWithNames"
-                   icon="o-user"/>
-
-    <fieldset class="fieldset mb-2" x-data="{ timezone: @entangle('form.timezone') }"
-              x-init="timezone = timezone ?? Intl.DateTimeFormat().resolvedOptions().timeZone">
-        <label class="fieldset-legend pb-1">
-            {{ __('pages/poll-editor.basic_info.poll_timezone.label') }}
-        </label>
-
-        <select class="select w-full" wire:model="form.timezone" id="timezone">
-            @foreach($timezones as $timezone)
-                <option value="{{ $timezone }}">{{$timezone}} ({{ now()->setTimezone($timezone)->format('P') }})
-                </option>
-            @endforeach
-        </select>
-
-    </fieldset>
-
-
+                   icon="o-globe-europe-africa"/>
     @guest
         {{-- Informace o autorovi --}}
         @if (!$pollIndex)

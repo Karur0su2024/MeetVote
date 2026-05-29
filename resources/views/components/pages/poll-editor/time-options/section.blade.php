@@ -11,26 +11,27 @@
 
 
 <x-ui.card x-data="TimeOptionsForm" @validation-failed.window="duplicateError($event.detail.errors)">
-    <h3 class="text-lg font-semibold">
+    <x-ui.text.title-lg>
         {{ __('pages/poll-editor.time_options.title') }}
         <div class="tooltip" data-tip="{{ __('pages/poll-editor.time_options.tooltip') }}">
-            <i class="bi bi-question-circle-fill text-sm"></i>
+            <x-mary-icon name="s-question-mark-circle" class="w-4 h-4"/>
         </div>
-    </h3>
+    </x-ui.text.title-lg>
 
 
     {{-- Blok s kalendářem --}}
-    <div class="card bg-base-200 p-2" x-data="{ myDate: null}">
-        <x-mary-datetime x-model="myDate">
-            <x-slot:append>
-                <x-mary-button label="Add date" @click="addDate(myDate)" class="btn-primary join-item "/>
-            </x-slot:append>
-        </x-mary-datetime>
-        <div x-show="messages.errors['calendar']">
-            <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
-                <span x-text="messages.errors['calendar']"></span>
-            </x-ui.alert>
-        </div>
+    <div class="card bg-base-200 p-2 border border-gray-100 shadow-sm" x-data="{ myDate: null}">
+
+            <x-mary-datetime x-model="myDate">
+                <x-slot:append>
+                    <x-mary-button label="Add date" @click="addDate(myDate)" class="btn-primary join-item "/>
+                </x-slot:append>
+            </x-mary-datetime>
+            <div x-show="messages.errors['calendar']">
+                <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
+                    <span x-text="messages.errors['calendar']"></span>
+                </x-ui.alert>
+            </div>
 
     </div>
     {{-- Blok s časovými možnostmi --}}

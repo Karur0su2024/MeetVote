@@ -25,6 +25,8 @@
                                           placeholder="{{ __('pages/poll-show.comments.form.content.placeholder') }}">
                         {{ __('pages/poll-show.comments.form.content.label') }}
                     </x-ui.form.tw-textbox>
+
+
                     <button class="btn btn-sm btn-primary"
                             type="submit"
                     >

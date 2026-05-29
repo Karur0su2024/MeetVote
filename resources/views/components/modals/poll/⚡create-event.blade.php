@@ -14,6 +14,7 @@ new class extends Component {
     public $poll;
 
     use CanOpenModals;
+
     public $showModal = false;
 
     protected EventService $eventService;
@@ -64,13 +65,11 @@ new class extends Component {
 //        }
 
 
-
         $this->update = true;
         $this->event = $this->eventService->buildEvent($eventData);
 
         //dd($this->event);
         $this->showModal = true;
-
 
 
     }
@@ -117,51 +116,30 @@ new class extends Component {
         <x-slot:title>
             {{ __('ui/modals.create_event.title', ['poll_title' => $poll->title]) }}
         </x-slot:title>
-        <p class="text-muted">
+        <p class="text-gray-500">
             {{ __('ui/modals.create_event.description') }}
         </p>
-        <div class="tw:text-base-content">
+        <div class="text-base-content flex flex-col gap-3">
+            <x-mary-input label="{{ __('ui/modals.create_event.event_title.label') }}"
+                          wire:model="event.title"
+                          required
+                          placeholder="{{ __('ui/modals.create_event.event_title.placeholder') }}"/>
 
-            <div class="tw:mb-3">
-                <x-ui.form.tw-input id="title"
-                                    wire:model="event.title"
-                                    required
-                                    placeholder="{{ __('ui/modals.create_event.event_title.placeholder') }}"
-                                    error="event.title">
-                    {{ __('ui/modals.create_event.event_title.label') }}
-                </x-ui.form.tw-input>
-            </div>
+            <x-mary-datetime label="{{ __('ui/modals.create_event.start_time.label') }}"
+                             wire:model="event.start_time"
+                             required
+                             placeholder="{{ __('ui/modals.create_event.start_time.placeholder') }}"
+                             type="datetime-local"/>
 
-            <div class="mb-3">
-                <x-ui.form.tw-input id="start"
-                                    wire:model="event.start_time"
-                                    type="datetime-local"
-                                    required
-                                    placeholder="{{ __('ui/modals.create_event.start_time.placeholder') }}"
-                                    error="event.start_time">
-                    {{ __('ui/modals.create_event.start_time.label') }}
-                </x-ui.form.tw-input>
-            </div>
+            <x-mary-datetime label="{{ __('ui/modals.create_event.end_time.label') }}"
+                             wire:model="event.end_time"
+                             required
+                             placeholder="{{ __('ui/modals.create_event.end_time.placeholder') }}"
+                             type="datetime-local"/>
 
-            <div class="mb-3">
-                <x-ui.form.tw-input id="end"
-                                    wire:model="event.end_time"
-                                    type="datetime-local"
-                                    required
-                                    placeholder="{{ __('ui/modals.create_event.end_time.placeholder') }}"
-                                    error="event.end_time">
-                    {{ __('ui/modals.create_event.end_time.label') }}
-                </x-ui.form.tw-input>
-            </div>
-
-            <div class="mb-3">
-                <x-ui.form.tw-textbox id="description"
-                                      wire:model="event.description"
-                                      placeholder="{{ __('ui/modals.create_event.event_description.placeholder') }}"
-                                      error="event.description">
-                    {{--                    {{ __('ui/modals.create_event.event_description.label') }}--}}
-                </x-ui.form.tw-textbox>
-            </div>
+            <x-mary-textarea label="{{ __('ui/modals.create_event.event_description.label') }}"
+                             wire:model="event.description"
+                             placeholder="{{ __('ui/modals.create_event.event_description.placeholder') }}"/>
         </div>
 
         <x-slot:actions>

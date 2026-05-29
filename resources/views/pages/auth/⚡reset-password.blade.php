@@ -105,13 +105,13 @@ new class extends Component
                             {{ __('pages/auth.reset_password.labels.confirm_password') }}
                         </x-ui.form.input>
 
-                        <x-ui.saving wire:loading>
-                            {{ __('pages/auth.reset_password.loading') }}
-                        </x-ui.saving>
+                        <x-mary-button label="{{ __('pages/auth.reset_password.buttons.reset') }}"
+                                       class="btn-primary grow"
+                                       type="submit"
 
-
+                        />
                         <button class="btn btn-primary">
-                            {{ __('pages/auth.reset_password.buttons.reset') }}
+
                         </button>
                     </form>
                 </div>

@@ -84,25 +84,21 @@ new class extends Component {
 <x-ui.card>
     <div class="flex flex-col gap-3">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div class="flex items-start gap-3">
-                <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+            <x-ui.text.title-w-icon>
+                <x-slot:icon>
                     <x-mary-icon name="o-chat-bubble-left-right" class="text-xl"/>
-                </div>
-
-                <div>
-                    <h4 class="text-lg font-semibold">
-                        {{ __('pages/poll-show.comments.form.title') }}
-                    </h4>
-
-                    <p class="text-sm text-base-content/60">
-                        @if ($poll->pollComments)
-                            {{ $poll->pollComments->count() }} comments
-                        @else
-                            {{ __('pages/poll-show.comments.alert.disabled') }}
-                        @endif
-                    </p>
-                </div>
-            </div>
+                </x-slot:icon>
+                <x-slot:title>
+                    {{ __('pages/poll-show.comments.form.title') }}
+                </x-slot:title>
+                <x-slot:subtitle>
+                    @if ($poll->pollComments)
+                        {{ $poll->pollComments->count() }} comments
+                    @else
+                        {{ __('pages/poll-show.comments.alert.disabled') }}
+                    @endif
+                </x-slot:subtitle>
+            </x-ui.text.title-w-icon>
         </div>
 
         @if ($poll->pollComments)
@@ -130,14 +126,6 @@ new class extends Component {
                         />
 
                         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div class="min-h-6">
-                                <x-ui.saving wire:loading wire:target="addComment">
-                                    {{ __('pages/poll-show.comments.form.loading') }}
-                                </x-ui.saving>
-
-                                <x-ui.form.error-text error="error"/>
-                            </div>
-
                             <button class="btn btn-primary btn-sm"
                                     type="submit"
                                     wire:loading.attr="disabled"

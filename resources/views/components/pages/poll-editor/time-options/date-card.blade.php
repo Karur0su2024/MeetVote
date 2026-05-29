@@ -1,11 +1,11 @@
 <div>
-    <div class="card bg-base-300 mb-3 shadow-sm p-3 flex flex-col gap-2"
+    <div class="card bg-base-200 mb-3 shadow-sm p-3 flex flex-col gap-2 border border-gray-100"
          x-data="{ collapsed: false }">
-        <div class="flex flex-row items-center gap-2">
+        <div class="flex flex-row items-center gap-2 justify-between">
             <div class="grow">
-                <span class="text-md font-semibold" x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"</span>
+                <span class="text-md font-semibold" x-text="moment(dateIndex).format('dddd, MMMM D, YYYY')"></span>
             </div>
-            <div class="flex flex-row gap-2 ms-auto align-items-center">
+            <div class="flex flex-row gap-2 ms-auto items-center">
                 <div x-show="dateErrors[dateIndex]">
                     <div class="badge badge-error badge-sm">
                         <i class="bi bi-exclamation-triangle-fill"></i>
@@ -14,7 +14,7 @@
 
                 <span class="badge badge-info badge-sm" x-text="dates[dateIndex].length">
                 </span>
-                <button class="btn btn-xs btn-outline btn-error"
+                <button class="btn btn-sm btn-error"
                         ::class="{ 'disabled': Object.keys(dates).length === 1 }"
                         @click="removeDate(dateIndex)">
                     <i class="bi bi-trash"></i>

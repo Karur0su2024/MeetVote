@@ -78,7 +78,11 @@ new class extends Component
                         </div>
 
                         <div class="flex justify-center items-center mt-5 gap-2">
-                            <button type="submit" class="btn btn-primary flex-1">{{ __('pages/auth.register.buttons.register') }}</button>
+                            <x-mary-button label="{{ __('pages/auth.register.buttons.register') }}"
+                                           type="submit"
+                                           class="btn-primary grow"
+                                           spinner
+                            />
                             {{--                        <a href="{{ route('google.oath.login') }}" class="btn btn-outline btn-primary flex-1">
                                                         <i class="bi bi-google"></i> {{ __('pages/auth.register.buttons.with_google') }}
                                                     </a>--}}
@@ -88,9 +92,6 @@ new class extends Component
                                 </button>
                             </div>
                         </div>
-                        <x-ui.saving wire:loading>
-                            {{ __('pages/auth.register.loading') }}
-                        </x-ui.saving>
                     </form>
                 </div>
             </div>

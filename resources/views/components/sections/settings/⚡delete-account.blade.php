@@ -4,8 +4,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-new class extends Component
-{
+new class extends Component {
     public $current_password;
 
     public function rules(): array
@@ -34,25 +33,21 @@ new class extends Component
 };
 ?>
 
-<form wire:submit.prevent='deleteAccount'>
-    <p class="opacity-50">
-
-    </p>
-
+<form class="flex flex-col gap-3" wire:submit.prevent='deleteAccount'>
     <x-mary-alert title="{{ __('pages/user-settings.delete_account.description') }}"
                   class="alert-error"
-                  icon="o-exclamation-triangle" />
+                  icon="o-exclamation-triangle"/>
     {{-- Přidat modal pro potvrzení --}}
 
-    <x-ui.form.tw-input id="current_password"
-                        wire:model="current_password"
-                        type="password"
-                        required>
-        <x-slot:label>
-            {{ __('pages/user-settings.password.labels.old_password') }}
-        </x-slot:label>
-    </x-ui.form.tw-input>
-    <button class="btn btn-error max-w-xs">
-        {{ __('pages/user-settings.delete_account.buttons.delete_account') }}
-    </button>
+    <x-mary-input label="{{ __('pages/user-settings.password.labels.old_password') }}"
+                  wire:model="current_password"
+                  type="password"
+                  required/>
+
+    <div>
+        <x-mary-button label="{{ __('pages/user-settings.delete_account.buttons.delete_account') }}"
+                       class="btn-error"
+                       type="submit"
+                       spinner/>
+    </div>
 </form>
