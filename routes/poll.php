@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('polls')->group(function () {
 
     // Vytvoření ankety
-    Route::get('/create', [PollController::class, 'create'])
-        ->name('polls.create');
+/*    Route::get('/create', [PollController::class, 'create'])
+        ->name('polls.create');*/
+
+    Route::livewire('polls/create', 'pages::polls.create')->name('polls.create');
 
     // Zobrazení ankety
     Route::get('/{poll}', [PollController::class, 'show'])
@@ -21,7 +23,11 @@ Route::prefix('polls')->group(function () {
         ->name('polls.edit');
 
     // Formulář pro ověření hesla ankety
-    Route::get('/{poll}/authentication', [PollController::class, 'authentication'])
+/*    Route::get('/{poll}/authentication', [PollController::class, 'authentication'])
+        ->middleware(['poll.already_has_access'])
+        ->name('polls.authentication');*/
+
+    Route::livewire('/{poll}/authentication', 'pages::polls.authentication')
         ->middleware(['poll.already_has_access'])
         ->name('polls.authentication');
 

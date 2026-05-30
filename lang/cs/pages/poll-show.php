@@ -165,7 +165,7 @@ return [
     'comments' => [
         'title' => 'Komentáře',
         'form' => [
-            'title' => 'Komentáře',
+            'title' => 'Diskuze',
             'username' => [
                 'label' => 'Uživatelské jméno',
                 'placeholder' => 'Zadejte své uživatelské jméno',

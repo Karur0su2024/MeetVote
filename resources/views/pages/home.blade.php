@@ -1,54 +1,74 @@
 <x-layouts.app>
-
-    <!-- Název stránky -->
-
-
-    @if(session()->has('warning'))
-        <x-ui.alert type="warning">
-            {{ session('warning') }}
-        </x-ui.alert>
-    @endif
-
     <div>
-        <div class="tw:card tw:card-side tw:shadow-sm tw:bg-base-100">
-            <div class="tw:card-body">
-                <h2 class="tw:mb-3 tw:text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
-                <p class="tw:font-light tw:mb-3">
-                    {{__('pages/homepage.section.one.text') }}
-                </p>
-                <div class="tw:card-actions">
-                    <a href="{{ route('polls.create') }}" class="tw:btn tw:btn-primary">
-                        {{ __('pages/homepage.button.create_poll') }}
-                    </a>
+        <div class="grid grid-cols-2 gap-1">
+            <x-ui.card>
+                <div class="card-body p-0">
+                    <h2 class="mb-3 text-3xl">{{ __('pages/homepage.section.one.title') }}</h2>
+                    <p class="font-light mb-3">
+                        {{__('pages/homepage.section.one.text') }}
+                    </p>
+                    <div class="card-actions">
+                        <a href="{{ route('polls.create') }}" class="btn btn-primary">
+                            {{ __('pages/homepage.button.create_poll') }}
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <figure class="tw:max-w-2xl">
-                <img src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
-            </figure>
+            </x-ui.card>
+            <img class="rounded-box shadow-sm"
+                 src="{{ asset('images/homepage-image.png') }}" alt="MeetVote illustration">
         </div>
-        <div class="tw:p-3 tw:card tw:shadow-sm tw:mt-5 tw:bg-base-100">
-            <div class="tw:p-4">
-                <h3 class="tw:mb-3 tw:text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
-                <div class="tw:grid tw:mt-4 tw:grid-cols-2 tw:gap-8">
-                    <div class="tw:mb-4">
-                        <h5 class="tw:mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
-                    </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
-                    </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
-                        </p>
-                    </div>
-                    <div class="tw:mb-4">
-                        <h5 class="mb-2 tw:text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h5>
-                        <p class="tw:font-light tw:text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
-                        </p>
-                    </div>
-                </div>
+
+
+        <div class="mt-10">
+            <div class="grid grid-cols-4 gap-1">
+                <x-ui.card class="col-span-4">
+                    <h3 class="text-2xl">{{ __('pages/homepage.section.two.title') }}</h3>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
+                    </p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
+                    </p>
+                </x-ui.card>
+            </div>
+        </div>
+
+        <div class="mt-10">
+            <div class="grid grid-cols-4 gap-1">
+                <x-ui.card class="col-span-4">
+                    <h3 class="text-2xl">For who is MeetVote for
+                    </h3>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.simple.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.simple.text') }}</p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.invite.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.invite.text') }}</p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.sync.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.sync.text') }}
+                    </p>
+                </x-ui.card>
+                <x-ui.card class="col-span-2">
+                    <h4 class="mb-2 text-lg">{{ __('pages/homepage.section.two.items.customizable.title') }}</h4>
+                    <p class="font-light text-sm">{{ __('pages/homepage.section.two.items.customizable.text') }}
+                    </p>
+                </x-ui.card>
             </div>
         </div>
     </div>

@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Deprecated\Modals;
+
+use App\Models\Vote;
+use App\Traits\HasVoteControls;
+use Livewire\Component;
+
+// Modální okno s konkrétní odpovědí
+class UserVote extends Component
+{
+    use HasVoteControls;
+
+    public $vote;
+
+    public function mount($voteIndex)
+    {
+        $this->vote = Vote::where('id', $voteIndex)->firstOrFail();
+    }
+
+    public function render()
+    {
+        return view('livewire.modals.poll.user-vote');
+    }
+}

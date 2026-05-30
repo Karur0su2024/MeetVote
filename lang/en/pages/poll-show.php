@@ -166,7 +166,7 @@ return [
     'comments' => [
         'title' => 'Comments',
         'form' => [
-            'title' => 'Leave a comment',
+            'title' => 'Discussion',
             'username' => [
                 'label' => 'Username',
                 'placeholder' => 'Enter your username',

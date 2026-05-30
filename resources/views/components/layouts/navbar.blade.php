@@ -1,80 +1,51 @@
-{{--
-TODO: Return dark mode toggle to the navbar
+<x-layouts.navbar-container class="bg-gray-900 shadow-sm transition-all rounded-box">
 
---}}
+    <x-slot:brand>
+        <a href="{{ route('home') }}"
+           class="normal-case text-2xl flex items-center gap-3 px-2 transition-all m-0 rounded-lg">
+            <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="w-7 h-7">
+            <span class="font-bold tracking-tight">{{ config('app.name') }}</span>
+        </a>
+    </x-slot:brand>
 
-<nav class="tw:bg-base-100 tw:shadow-sm tw:border-b tw:transition-all tw:text-base-content tw:border-gray-400 tw:border-dotted">
-    <div class="tw:navbar tw:max-w-7xl tw:mx-auto tw:px-4 tw:h-16  tw:items-center">
-        <div class="tw:navbar-start tw:gap-4">
-            <a href="{{ route('home') }}"
-               class="tw:btn-ghost tw:normal-case tw:text-2xl tw:flex tw:items-center tw:gap-3 tw:px-2 tw:transition-all tw:m-0 tw:hover:bg-base-200 tw:rounded-lg">
-                <img src="{{ asset('images/app-logo.png') }}" alt="logo" class="tw:w-7 tw:h-7">
-                <span class="tw:font-bold tw:tracking-tight">{{ config('app.name') }}</span>
-            </a>
-            <ul class="tw:menu tw:menu-horizontal tw:hidden tw:md:flex tw:items-center tw:m-0 tw:gap-3">
-                <li>
-                    <a href="{{ route('polls.create') }}"
-                       class="tw:hover:bg-primary/10 tw:rounded-lg tw:transition-all">
-                        {{ __('ui/navbar.new_poll') }}
-                    </a>
-                </li>
-                @auth
-                    <li>
-                        <a href="{{ route('dashboard') }}"
-                           class="{{ request()->routeIs('dashboard') ? 'tw:active tw:font-semibold tw:bg-primary/10 tw:text-primary' : '' }} tw:hover:bg-primary/10 tw:rounded-lg tw:transition-all">
-                            {{ __('ui/navbar.dashboard') }}
-                        </a>
-                    </li>
-                @endauth
-            </ul>
-        </div>
-        <div class="tw:navbar-end tw:flex tw:items-center tw:gap-3 tw-justify-between">
-            <ul class="tw:menu tw:menu-horizontal tw:px-1 tw:flex tw:items-center tw:gap-2 tw:m-0">
 
-                <!-- Theme Toggle -->
-                {{-- <li>
-                    <label class="tw:swap">
-                        <input type="checkbox" class="theme-controller" value="dark" />
-                        <i class="bi bi-brightness-high-fill tw:swap-off tw:h-10 tw:w-10 tw:text-2xl"></i>
-                        <i class="bi bi-moon-fill tw:swap-on tw:h-10 tw:w-10 tw:text-2xl"></i>
-                    </label>
-                </li> --}}
+    <x-slot:left-side-actions>
+        <a href="{{ route('polls.create') }}">
+            {{ __('ui/navbar.new_poll') }}
+        </a>
+    </x-slot:left-side-actions>
 
-                @auth
-                    <div class="tw:dropdown tw:dropdown-end">
-                        <button class="tw:btn tw:btn-ghost tw:rounded-box" tabindex="0">
-                            <x-ui.username :username="Auth::user()->name" />
+    {{-- Right side actions --}}
+    <x-slot:rightSideActions>
+        <!-- Theme Toggle -->
+        <x-mary-theme-toggle class="text-white p-2"/>
+        @auth
+            <x-mary-dropdown>
+                <x-slot:trigger>
+                    <button class="rounded-box cursor-pointer text-white" tabindex="0">
+                        <x-ui.username :username="Auth::user()->name"/>
+                    </button>
+                </x-slot:trigger>
+                <x-mary-menu-item class="text-base-content" title="{{ __('ui/navbar.dashboard') }}"
+                                  href="{{ route('dashboard') }}"/>
+                <x-mary-menu-item class="text-base-content" title="{{ __('ui/navbar.settings') }}"
+                                  href="{{ route('settings') }}"/>
+                <x-mary-menu-separator class="text-base-content"/>
+                <x-mary-menu-item class="text-base-content" href="{{ route('settings') }}">
+                    <form method="GET" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-left">
+                            {{ __('ui/navbar.logout') }}
                         </button>
-                        <ul class="tw:menu tw:dropdown-content tw:w-32 tw:z-1 tw:shadow-md tw:bg-base-200 tw:rounded-box"
-                            tabindex="0">
-                            <li>
-                                <a href="{{ route('settings') }}">
-                                    {{ __('ui/navbar.settings') }}
-                                </a>
-                            </li>
-                            <li>
-                                <form method="GET" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="tw:w-full tw:text-left">
-                                        {{ __('ui/navbar.logout') }}
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                @else
-                    <li>
-                        <a href="{{ route("login") }}">{{ __("ui/navbar.login") }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ route("register") }}">{{ __("ui/navbar.register") }}</a>
-                    </li>
-                @endauth
+                    </form>
+                </x-mary-menu-item>
+            </x-mary-dropdown>
+        @else
+            <a class="text-white" href="{{ route("login") }}">{{ __("ui/navbar.login") }}</a>
+            <a class="text-white" href="{{ route("register") }}">{{ __("ui/navbar.register") }}</a>
+        @endauth
 
-            </ul>
+    </x-slot:rightSideActions>
+</x-layouts.navbar-container>
 
-        </div>
 
-    </div>
-
-</nav>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Gate;
 trait CanOpenModals
 {
     // Zobrazení modálního okna
-    public function openModal($modalName, $pollId): void
+    /*public function openModal($modalName, $pollId): void
     {
         $poll = Poll::findOrFail($pollId);
 
@@ -59,5 +59,5 @@ trait CanOpenModals
                 'errorMessage' => 'You don\'t have permission to access this window. Please check the admin key.',
             ],
         ]);
-    }
+    }*/
 }

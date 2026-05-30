@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap')
-layer(base);
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap')
+layer(base);*/
 
 /* Vaše custom CSS */
 @import url('/public/css/voting.css');
-@import url('/public/css/app.css');
-@import url('/public/css/card.css');
-@import url('/public/css/light-mode.css');
+/*@import url('/public/css/app.css');*/
+/*@import url('/public/css/card.css');*/
+/*@import url('/public/css/light-mode.css');*/
 @import url('/public/css/editor.css');
 
 
 /* Bootstrap - globálně */
-@import 'bootstrap/dist/css/bootstrap.css' layer(base);
+/*@import 'bootstrap/dist/css/bootstrap.css' layer(base);*/
 @import 'bootstrap-icons/font/bootstrap-icons.css' layer(base);
 
 
 
 /* Tailwind base a utilities s prefixem */
-@import 'tailwindcss' prefix(tw);
+@import 'tailwindcss' prefix();
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -41,3 +41,34 @@ layer(base);
 
 
 @plugin "daisyui";
+
+
+
+/**
+    The lines above are intact.
+    The lines below were added by maryUI installer.
+*/
+
+/** daisyUI */
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark;
+}
+
+/* maryUI */
+@source "../../vendor/robsontenorio/mary/src/View/Components/**/*.php";
+
+/* Theme toggle */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/**
+* Paginator - Traditional style
+* Because Laravel defaults does not match well the design of daisyUI.
+*/
+
+.mary-table-pagination span[aria-current="page"] > span {
+    @apply bg-primary text-base-100
+}
+
+.mary-table-pagination button {
+    @apply cursor-pointer
+}

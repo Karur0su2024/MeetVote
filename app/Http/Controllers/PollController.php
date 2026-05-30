@@ -49,10 +49,10 @@ class PollController extends Controller
     }
 
     // Přesměrování na stránku pro ověření heslem
-    public function authentication(Poll $poll)
+/*    public function authentication(Poll $poll)
     {
         return view('pages.polls.authenticate', ['poll' => $poll]);
-    }
+    }*/
 
     // Ověření hesla
     public function checkPassword(Request $request, Poll $poll)

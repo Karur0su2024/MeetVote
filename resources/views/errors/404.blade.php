@@ -3,20 +3,14 @@
     {{-- Název stránky --}}
     <x-slot:title>Error</x-slot>
 
-    <div class="container text-center">
+    <x-ui.card class="w-100 mx-auto">
 
-        <div class="card">
-            <div class="card-body">
-                <h2 class="text-danger">404</h2>
-                <p class="text-muted">The page you are looking for does not exist.</p>
-                <a href="{{ route('home') }}" class="btn btn-primary">
-                    <i class="bi bi-house-door-fill me-1"></i> Go to home
-                </a>
-            </div>
-        </div>
-
-
-
-    </div>
+        <h2 class="text-4xl text-center">404</h2>
+        <p class="mt-3 text-md text-center">The page you are looking for does not exist.</p>
+        <a href="{{ route('home') }}" class="btn btn-outline mt-3">
+            <x-mary-icon name="o-home" />
+             Go to home
+        </a>
+    </x-ui.card>
 
 </x-layouts.app>

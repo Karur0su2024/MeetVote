@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Models\Poll;
+use Carbon\Carbon;
 
 class EventService
 {
@@ -27,12 +28,13 @@ class EventService
     // Sestavení události
     public function buildEvent($event): array
     {
+        //dd($event);
         return [
-            'poll_id' => $event->poll_id ?? null,
-            'title' => $event->title ?? null,
-            'start_time' => $event->start_time ? $event->start_time->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s'),
-            'end_time' => $event->end_time ? $event->end_time->format('Y-m-d H:i:s') : now()->addHour()->format('Y-m-d H:i:s'),
-            'description' => $event->description ?? null,
+            'poll_id' => $event['poll_id'] ?? null,
+            'title' => $event['title'] ?? null,
+            'start_time' => $event['start_time'] ? Carbon::parse($event['start_time'])->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s'),
+            'end_time' => $event['end_time'] ? Carbon::parse($event['end_time'])->format('Y-m-d H:i:s') : now()->addHour()->format('Y-m-d H:i:s'),
+            'description' => $event['description'] ?? null,
         ];
     }
 

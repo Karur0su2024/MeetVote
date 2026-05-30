@@ -1,3 +1,4 @@
+/*
 [data-bs-theme="light"] .card-header {
     background-color: #ececec !important;
 }
@@ -13,12 +14,12 @@
 }
 
 [data-bs-theme="light"] .card {
-    /*background-color: rgba(255, 255, 255, 0.89) !important;*/
+    !*background-color: rgba(255, 255, 255, 0.89) !important;*!
     border: 1px solid #e5e5e5 !important;
 }
 
 [data-bs-theme="dark"] .card {
-    /*background-color: rgba(21, 21, 21, 0.87) !important;*/
+    !*background-color: rgba(21, 21, 21, 0.87) !important;*!
     border: 1px solid #363636 !important;
 }
 
@@ -27,3 +28,4 @@
     0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+*/
