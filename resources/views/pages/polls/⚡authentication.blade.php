@@ -65,9 +65,9 @@ new class extends Component {
         </form>
 
         @if(session()->has('error'))
-            <x-ui.alert type="error">
-                {{ session('error') }}
-            </x-ui.alert>
+            <x-mary-alert title="{{ session('error') }}"
+                          class="alert-error alert-soft"
+                          icon="o-information-circle"/>
         @endif
     </x-ui.card>
     @endisland

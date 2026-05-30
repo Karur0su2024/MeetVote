@@ -28,9 +28,13 @@
                 </x-slot:append>
             </x-mary-datetime>
             <div x-show="messages.errors['calendar']">
-                <x-ui.alert type="danger" icon="bi-exclamation-triangle-fill" class="mt-2 mb-0">
-                    <span x-text="messages.errors['calendar']"></span>
-                </x-ui.alert>
+                <x-mary-alert class="alert-error alert-soft"
+                              x-show="dateErrors[dateIndex]"
+                              icon="o-exclamation-triangle">
+                    <x-slot:title>
+                        <span x-text="messages.errors['calendar']"></span>
+                    </x-slot:title>
+                </x-mary-alert>
             </div>
 
     </div>

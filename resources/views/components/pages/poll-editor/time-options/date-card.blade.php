@@ -30,14 +30,13 @@
                 <x-pages.poll-editor.time-options.date-option/>
             </template>
 
-            <div x-show="dateErrors[dateIndex]">
-                <x-ui.alert type="danger" class="small">
-                    <ul class="mb-0">
-                        <span x-html="dateErrors[dateIndex]"></span>
-                    </ul>
-
-                </x-ui.alert>
-            </div>
+            <x-mary-alert class="alert-error alert-soft"
+                          x-show="dateErrors[dateIndex]"
+                          icon="o-exclamation-triangle">
+                <x-slot:title>
+                    <span x-html="dateErrors[dateIndex]"></span>
+                </x-slot:title>
+            </x-mary-alert>
         </div>
         <div>
             {{-- Tlačítka pro přidání nové možnosti --}}

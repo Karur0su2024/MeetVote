@@ -72,10 +72,10 @@
                 @endforeach
             @else
                 {{-- Upozornění pro žádné ankety --}}
-                <x-ui.alert type="info">
-                    <x-ui.icon name="info-circle" class="me-2"/>
-                    {{ __('pages/dashboard.alerts.no_polls') }}
-                </x-ui.alert>
+                <x-mary-alert title="{{ __('pages/dashboard.alerts.no_polls') }}"
+                              class="alert-info alert-soft"
+                              icon="o-information-circle"/>
+
             @endif
         </div>
         <div class="grid grid-cols-3 gap-1">
@@ -97,12 +97,16 @@
         <div x-show="opened === 'Events'">
             @if (Auth::user()->google_id == null)
                 {{-- Upozornění pro žádné události --}}
-                <x-ui.alert type="info">
-                    <x-ui.icon name="info-circle"/>
-                    {{ __('pages/dashboard.alerts.no_connected_calendar.text') }}
-                    <a href="{{ route('settings') }}"
-                       class="text-decoration-none">{{ __('pages/dashboard.alerts.no_connected_calendar.link') }}</a>.
-                </x-ui.alert>
+                <x-mary-alert title=""
+                              class="alert-info"
+                              icon="o-information-circle">
+                    <x-slot:title>
+                        {{ __('pages/dashboard.alerts.no_connected_calendar.text') }}
+                        <a href="{{ route('settings') }}"
+                           class="text-decoration-none">{{ __('pages/dashboard.alerts.no_connected_calendar.link') }}</a>.
+                    </x-slot:title>
+                </x-mary-alert>
+
             @endif
 
 
@@ -113,10 +117,10 @@
                     @endforeach
                 </div>
             @else
-                <x-ui.alert type="info">
-                    <x-ui.icon name="bi-calendar-x"/>
-                    {{ __('pages/dashboard.alerts.no_events') }}
-                </x-ui.alert>
+
+                <x-mary-alert title="{{ __('pages/dashboard.alerts.no_events') }}"
+                              class="alert-info alert-soft"
+                              icon="o-calendar"/>
             @endif
 
         </div>

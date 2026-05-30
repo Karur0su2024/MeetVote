@@ -80,9 +80,9 @@ new class extends Component
         <div class="container d-flex justify-content-center align-items-center text-start pt-5">
             <div class="col-md-6">
                 @if (session()->has('status'))
-                    <x-ui.alert type="info">
-                        {{ session('status') }}
-                    </x-ui.alert>
+                    <x-mary-alert title="{{ session('status') }}"
+                                  class="alert-info alert-soft"
+                                  icon="o-information-circle"/>
                 @endif
                 <div class="card shadow p-4">
                     <h2 class="text-center mb-4">{{ __('pages/auth.reset_password.title') }}</h2>

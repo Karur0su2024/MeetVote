@@ -9,12 +9,13 @@
 <div x-data="{
     mode: '{{ Gate::allows('canVote', $poll) ? 'Voting' : 'Results' }}'
     }"
-    @change-section.window="mode = 'Voting'">
+     @change-section.window="mode = 'Voting'">
 
     <div class="flex flex-col gap-1">
         <div class="card shadow-sm p-3 bg-base-100 flex flex-row justify-between items-center">
             <div>
-                <h3 class="text-xl font-semibold" x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h3>
+                <h3 class="text-xl font-semibold"
+                    x-text="mode === 'Voting' ? '{{ __('pages/poll-show.voting.title')}}' : '{{ __('pages/poll-show.results.title') }}'"></h3>
             </div>
             <div class="shrink">
                 @can('canVote', $poll)
@@ -37,28 +38,26 @@
 
         @if($poll->isActive())
             @if($poll->deadline)
-{{--                <div class="alert alert-info alert-soft">--}}
-{{--                    <i class="bi bi-check-circle-fill me-1"></i>--}}
-{{--                    <span>{{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}</span>--}}
-{{--                </div>--}}
+                <div class="alert alert-info alert-soft">
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    <span>{{ __('pages/poll-show.voting.alert.deadline', ['now_poll_deadline' => (int) \Carbon\Carbon::parse($poll->deadline)->diffInDays(now(), $poll->deadline)]) }}</span>
+                </div>
             @endif
             @can('canVote', $poll)
                 <div x-show="mode === 'Voting'">
-{{--                    <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />--}}
-                    <livewire:sections.poll-show.voting :poll-index="$poll->id" />
+                    {{--                    <livewire:pages.poll-show.poll-section.voting :poll-index="$poll->id" />--}}
+                    <livewire:sections.poll-show.voting :poll-index="$poll->id"/>
                 </div>
             @endcan
         @else
-            <x-ui.alert type="warning">
-                {{ __('pages/poll-show.results.alerts.ended') }}
-            </x-ui.alert>
+            <x-mary-alert title="{{ __('pages/poll-show.results.alerts.ended') }}"
+                          class="alert-info alert-soft"
+                          icon="o-information-circle"/>
         @endif
         <div x-show="mode === 'Results'">
-            <livewire:sections.poll-show.results :poll="$poll" />
+            <livewire:sections.poll-show.results :poll="$poll"/>
         </div>
     </div>
-
-
 
 
 </div>

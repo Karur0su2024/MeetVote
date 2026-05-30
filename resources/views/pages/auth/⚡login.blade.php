@@ -31,48 +31,33 @@ new class extends Component {
     <div class="flex justify-center items-center pt-10">
         <div class="w-full max-w-md">
             @if (session()->has('status'))
-                <x-ui.alert type="info">
-                    {{ session('status') }}
-                </x-ui.alert>
+                <x-mary-alert title="{{ session('status') }}"
+                              class="alert-info alert-soft"
+                              icon="o-information-circle"/>
             @endif
             @if(session('error'))
-                <x-ui.alert type="danger">
-                    {{ session('error') }}
-                </x-ui.alert>
+                <x-mary-alert title="{{ session('error') }}"
+                              class="alert-error alert-soft"
+                              icon="o-information-circle"/>
             @endif
 
-            <x-ui.card class="card shadow-lg bg-base-100">
+            <x-ui.card>
                 <h2 class="card-title justify-center mb-4">{{ __('pages/auth.login.title') }}</h2>
                 <form wire:submit="login">
                     @csrf
                     <x-mary-input label="{{ __('pages/auth.login.labels.email') }}"
                                   wire:model="form.email"
                                   type="email"
-                                  required />
-                    <x-ui.form.tw-input id="email"
-                                        wire:model="form.email"
-                                        type="email"
-                                        required
-                                        error="form.email">
-                        <x-slot:label>
+                                  required/>
 
-                        </x-slot:label>
-                    </x-ui.form.tw-input>
-
-                    <x-ui.form.tw-input id="password"
-                                        wire:model="form.password"
-                                        type="password"
-                                        required
-                                        error="form.password">
-                        <x-slot:label>
-                            {{ __('pages/auth.login.labels.password') }}
-                        </x-slot:label>
-                    </x-ui.form.tw-input>
-
+                    <x-mary-input label="{{ __('pages/auth.login.labels.password') }}"
+                                  wire:model="form.password"
+                                  type="password"
+                                  required/>
                     <div class="text-left flex flex-col gap-1 mb-3">
                         <x-mary-toggle label="{{ __('pages/auth.login.labels.remember_me') }}"
                                        class="toggle-primary toggle-sm"
-                                       wire:model="form.remember" />
+                                       wire:model="form.remember"/>
                         <div class="mb-1">
                             <a href="{{ route('password.request') }}"
                                class="link link-primary text-sm">{{ __('pages/auth.login.buttons.forgot_password') }}</a>

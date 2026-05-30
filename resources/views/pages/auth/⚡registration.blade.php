@@ -35,43 +35,39 @@ new class extends Component
     <!-- Název stránky -->
     <x-slot:title>{{ __('pages/auth.register.title') }}</x-slot>
 
-    <div class="flex justify-center items-center pt-10">
+    <div class="flex justify-center items-center">
         <div class="w-full max-w-md">
             @if (session()->has('status'))
-                <x-ui.alert type="info">
-                    {{ session('status') }}
-                </x-ui.alert>
+                <x-mary-alert title="{{ session('status') }}"
+                              class="alert-info alert-soft"
+                              icon="o-information-circle"/>
             @endif
             <div class="shadow-lg bg-base-100">
                 <div class="card-body">
                     <h2 class="card-title justify-center mb-4">{{ __('pages/auth.register.title') }}</h2>
                     <form wire:submit="register">
                         <!-- Name -->
-                        <x-ui.form.tw-input id="name" wire:model="form.name" type="text" required error="form.name">
-                            <x-slot:label>
-                                {{ __('pages/auth.register.labels.name') }}
-                            </x-slot:label>
-                        </x-ui.form.tw-input>
+                        <x-mary-input label="{{ __('pages/auth.register.labels.name') }}"
+                                      wire:model="form.name"
+                                      required />
 
                         <!-- Email -->
-                        <x-ui.form.tw-input id="email" wire:model="form.email" type="email" required error="form.email">
-                            <x-slot:label>
-                                {{ __('pages/auth.register.labels.email') }}
-                            </x-slot:label>
-                        </x-ui.form.tw-input>
+                        <x-mary-input label="{{ __('pages/auth.register.labels.email') }}"
+                                      wire:model="form.email"
+                                      type="email"
+                                      required />
+
                         <!-- Password -->
-                        <x-ui.form.tw-input id="password" wire:model="form.password" type="password" required error="form.password">
-                            <x-slot:label>
-                                {{ __('pages/auth.register.labels.password') }}
-                            </x-slot:label>
-                        </x-ui.form.tw-input>
+                        <x-mary-input label="{{ __('pages/auth.register.labels.password') }}"
+                                      wire:model="form.password"
+                                      type="password"
+                                      required />
 
                         <!-- Confirm Password -->
-                        <x-ui.form.tw-input id="password_confirmation" wire:model="form.password_confirmation" type="password" required  error="form.password_confirmation">
-                            <x-slot:label>
-                                {{ __('pages/auth.register.labels.confirm_password') }}
-                            </x-slot:label>
-                        </x-ui.form.tw-input>
+                        <x-mary-input label="{{ __('pages/auth.register.labels.confirm_password') }}"
+                                      wire:model="form.password_confirmation"
+                                      type="password"
+                                      required />
 
                         <div class="mb-3">
                             <a href="{{ route('login') }}" class="link link-primary">{{ __('pages/auth.register.buttons.already_registered') }}</a>

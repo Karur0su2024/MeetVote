@@ -46,9 +46,9 @@ new class extends Component {
     <x-ui.card class="w-full max-w-md mx-auto">
         {{-- Formulář pro obnovení hesla --}}
         @if (session()->has('status'))
-            <x-ui.alert type="info">
-                {{ session('status') }}
-            </x-ui.alert>
+            <x-mary-alert title="{{ session('status') }}"
+                          class="alert-info alert-soft"
+                          icon="o-information-circle"/>
         @endif
         <h2 class="text-lg text-center mb-2">{{ __('pages/auth.forgot_password.title') }}</h2>
 

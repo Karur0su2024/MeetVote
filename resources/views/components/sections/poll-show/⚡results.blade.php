@@ -100,9 +100,9 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
         @endcan
 
     @else
-        <x-ui.alert type="warning">
-            {{ __('pages/poll-show.results.alerts.hidden') }}
-        </x-ui.alert>
+        <x-mary-alert title="{{ __('pages/poll-show.results.alerts.hidden') }}"
+                      class="alert-info alert-soft"
+                      icon="o-information-circle"/>
     @endcan
 
 </div>

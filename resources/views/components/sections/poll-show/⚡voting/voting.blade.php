@@ -14,7 +14,7 @@
             <x-ui.card title="Time">
                 <x-ui.text.title-w-icon>
                     <x-slot:icon>
-                        <x-mary-icon name="o-clock" />
+                        <x-mary-icon name="o-clock"/>
                     </x-slot:icon>
                     <x-slot:title>
                         {{ __('pages/poll-show.voting.sections.time_options.title') }}
@@ -26,41 +26,41 @@
                 <div class="grid grid-cols-2 gap-2">
 
 
-                <template x-for="(timeOption, optionIndex) in form.timeOptions">
-                    <x-pages.poll-show.poll.option-card
-                        class="btn-outline-vote text-base-content"
-                        ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
-                        @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
-                        <x-slot:text>
-                            <span x-text="timeOption.date_formatted"></span>
-                        </x-slot:text>
-                        <x-slot:subtext>
-                            <span x-text="timeOption.full_content"></span>
-                        </x-slot:subtext>
-                        <x-slot:right>
-                            <img class="p-1"
-                                 :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
-                                 :alt="timeOption.picked_preference"/>
-                        </x-slot:right>
-                        <x-slot:bottom>
-                            {{-- @can('sync', Auth::user())
-                                 <div x-show="timeOption.availability !== undefined">
-                                     <x-ui.pill
-                                         ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
-                                         <i class="bi me-1"
-                                            :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>
-                                         <span
-                                             x-text="timeOption.availability ? 'Available' : 'Not available'">
-                                                 </span>
-                                     </x-ui.pill>
-                                 </div>
+                    <template x-for="(timeOption, optionIndex) in form.timeOptions">
+                        <x-pages.poll-show.poll.option-card
+                            class="btn-outline-vote text-base-content"
+                            ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
+                            @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
+                            <x-slot:text>
+                                <span x-text="timeOption.date_formatted"></span>
+                            </x-slot:text>
+                            <x-slot:subtext>
+                                <span x-text="timeOption.full_content"></span>
+                            </x-slot:subtext>
+                            <x-slot:right>
+                                <img class="p-1"
+                                     :src="'{{ asset('icons/') }}/' + timeOption.picked_preference + '.svg'"
+                                     :alt="timeOption.picked_preference"/>
+                            </x-slot:right>
+                            <x-slot:bottom>
+                                {{-- @can('sync', Auth::user())
+                                     <div x-show="timeOption.availability !== undefined">
+                                         <x-ui.pill
+                                             ::class="{ 'text-bg-success' : timeOption.availability, 'text-bg-danger' : !timeOption.availability }">
+                                             <i class="bi me-1"
+                                                :class="{ 'bi-check-circle': timeOption.availability, 'bi-x-circle-fill': !timeOption.availability }"></i>
+                                             <span
+                                                 x-text="timeOption.availability ? 'Available' : 'Not available'">
+                                                     </span>
+                                         </x-ui.pill>
+                                     </div>
 
-                             @endcan--}}
+                                 @endcan--}}
 
-                        </x-slot:bottom>
+                            </x-slot:bottom>
 
-                    </x-pages.poll-show.poll.option-card>
-                </template>
+                        </x-pages.poll-show.poll.option-card>
+                    </template>
                 </div>
             </x-ui.card>
 
@@ -71,7 +71,7 @@
                     <x-ui.card>
                         <x-ui.text.title-w-icon>
                             <x-slot:icon>
-                                <x-mary-icon name="o-question-mark-circle" />
+                                <x-mary-icon name="o-question-mark-circle"/>
                             </x-slot:icon>
                             <x-slot:title>
                                 <span x-text="question.text"></span>
@@ -108,10 +108,10 @@
                     <x-pages.poll-show.poll.voting.form :poll="$poll"/>
                 @endguest
 
-                <x-ui.form.tw-textbox x-model="form.notes"
-                                      placeholder="{{ __('pages/poll-show.voting.form.notes.placeholder') }}">
-                    {{ __('pages/poll-show.voting.form.notes.label') }}
-                </x-ui.form.tw-textbox>
+
+                <x-mary-textarea label="{{ __('pages/poll-show.voting.form.notes.label') }}"
+                                 x-model="form.notes"
+                                 placeholder="{{ __('pages/poll-show.voting.form.notes.placeholder') }}"/>
 
                 <div class="flex flex-nowrap items-center gap-3 mt-3">
                     <x-mary-button label="{{ __('pages/poll-show.voting.buttons.submit_vote') }}"
