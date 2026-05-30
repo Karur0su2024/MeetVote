@@ -85,11 +85,6 @@ class PollEditor extends Component
         return true;
     }
 
-
-    public function addNewDate($date){
-        dd('addNewDate');
-    }
-
     public function render()
     {
         return view('livewire.pages.poll-editor');

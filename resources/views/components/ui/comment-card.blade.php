@@ -1,4 +1,6 @@
-@props(['comment'])
+@props([
+    'comment' => null,
+    ])
 
 @php
 

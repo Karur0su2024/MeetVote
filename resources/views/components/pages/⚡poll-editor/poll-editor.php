@@ -74,9 +74,4 @@ new class extends Component
 
         return true;
     }
-
-
-    public function addNewDate($date){
-        dd('addNewDate');
-    }
 };
