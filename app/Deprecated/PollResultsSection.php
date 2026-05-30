@@ -2,9 +2,9 @@
 
 namespace App\Deprecated;
 
+use App\Deprecated\traits\CanOpenModals;
 use App\Models\Poll;
 use App\Services\PollResultsService;
-use App\Traits\CanOpenModals;
 use Livewire\Component;
 
 // Nepoužívaná třída

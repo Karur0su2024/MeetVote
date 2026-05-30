@@ -2,11 +2,11 @@
 
 namespace App\Deprecated\Modals;
 
+use App\Deprecated\traits\CanOpenModals;
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Models\Poll;
 use App\Services\EventService;
-use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;

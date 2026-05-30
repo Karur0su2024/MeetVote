@@ -2,7 +2,6 @@
 
 use App\Services\EventService;
 use App\Services\PollResultsService;
-use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 

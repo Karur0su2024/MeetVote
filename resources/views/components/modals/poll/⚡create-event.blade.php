@@ -1,14 +1,13 @@
 <?php
 
-use Livewire\Component;
+use App\Deprecated\traits\CanOpenModals;
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Models\Poll;
 use App\Services\EventService;
-use App\Services\Google\GoogleService;
-use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 new class extends Component {
     public $poll;
@@ -148,9 +147,9 @@ new class extends Component {
                            @click="$wire.showModal = false"
             />
             <x-mary-button
-                label="{{ $poll->isActive() ? __('ui/modals.close_poll.buttons.close') : __('ui/modals.close_poll.buttons.reopen') }}"
-                class="btn btn-primary"
-                wire:click="createEvent()">
+                    label="{{ $poll->isActive() ? __('ui/modals.close_poll.buttons.close') : __('ui/modals.close_poll.buttons.reopen') }}"
+                    class="btn btn-primary"
+                    wire:click="createEvent()">
                 <x-slot:label>
                     {{ $update ? __('ui/modals.create_event.buttons.update_event') :
                          __('ui/modals.create_event.buttons.create_event') }}

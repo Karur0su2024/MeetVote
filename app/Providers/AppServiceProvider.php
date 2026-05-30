@@ -2,13 +2,10 @@
 
 namespace App\Providers;
 
-use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
-use App\Events\PollReopened;
 use App\Listeners\AssignPollsToNewUser;
 use App\Listeners\DesyncCalendarEvent;
 use App\Listeners\SendRegistrationEmail;
-use App\Listeners\SyncWithGoogleCalendar;
 use App\Services\Poll\PollCreateService;
 use App\Services\Poll\PollQueryService;
 use App\Services\PollResultsService;

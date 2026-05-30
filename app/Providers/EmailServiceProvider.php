@@ -11,7 +11,6 @@ use App\Listeners\SendEventEmails;
 use App\Listeners\SendInvitationEmail;
 use App\Listeners\SendPollConfirmationEmail;
 use App\Listeners\SendVoteNotificationEmail;
-use App\Services\Mail\EmailService;
 use App\Services\Mail\EmailServiceEmpty;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;

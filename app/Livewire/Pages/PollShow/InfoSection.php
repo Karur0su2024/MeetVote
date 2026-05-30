@@ -6,10 +6,7 @@ namespace App\Livewire\Pages\PollShow;
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
-use App\Traits\CanOpenModals;
 use App\Traits\HasVoteControls;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 // Sekce s detaily o anketě

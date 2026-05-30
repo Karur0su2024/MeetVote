@@ -2,7 +2,7 @@
 
 namespace App\Deprecated\livewire\User;
 
-use App\Traits\CanOpenModals;
+use App\Deprecated\traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 

@@ -4,9 +4,7 @@ namespace App\Providers;
 
 use App\Interfaces\Google\GoogleAuthServiceInterface;
 use App\Interfaces\GoogleServiceInterface;
-use App\Services\Google\GoogleAuthService;
 use App\Services\Google\GoogleAuthServiceEmpty;
-use App\Services\Google\GoogleService;
 use App\Services\Google\GoogleServiceEmpty;
 use Illuminate\Support\ServiceProvider;
 

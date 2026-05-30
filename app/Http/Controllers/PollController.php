@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Poll;
 use App\Models\Vote;
-use App\Services\InvitationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 

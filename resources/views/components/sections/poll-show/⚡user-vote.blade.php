@@ -1,13 +1,9 @@
 <?php
 
-use Livewire\Component;
 use App\Models\Poll;
-use App\Services\PollResultsService;
-use App\Traits\CanOpenModals;
-use App\Traits\HasVoteControls;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use App\Models\Vote;
+use App\Services\PollResultsService;
+use Livewire\Component;
 use Mary\Traits\Toast;
 
 
@@ -26,7 +22,8 @@ new class extends Component {
         $this->userVote = $pollResultsService->getUserVote($this->poll);
     }
 
-    public function deleteVote($voteId){
+    public function deleteVote($voteId)
+    {
         $vote = Vote::find($voteId);
         $poll = $vote->poll;
         $vote->delete();
@@ -59,7 +56,7 @@ new class extends Component {
             <x-mary-button class="btn-error btn-sm float-end btn-outline"
                            wire:click="deleteVote({{ $userVote->id }})"
                            label="{{ __('pages/poll-show.your_vote.buttons.delete') }}"
-                           spinner />
+                           spinner/>
         @endcan
     </div>
 

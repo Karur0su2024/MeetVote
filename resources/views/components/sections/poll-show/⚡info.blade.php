@@ -3,10 +3,7 @@
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
-use App\Traits\CanOpenModals;
 use App\Traits\HasVoteControls;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 new class extends Component {
@@ -60,8 +57,8 @@ new class extends Component {
                                       {{--:disabled="!$poll->isActive()"--}}
                                       title="{{ __('pages/poll-show.settings.dropdown.invitations') }}"/>
                     <x-mary-menu-item
-                        title="{{ $poll->isActive() ? __('pages/poll-show.settings.dropdown.close_poll') : __('pages/poll-show.settings.dropdown.reopen_poll') }}"
-                        @click="$wire.dispatch('openClosePollModal', { pollId: {{ $poll->id }} })"
+                            title="{{ $poll->isActive() ? __('pages/poll-show.settings.dropdown.close_poll') : __('pages/poll-show.settings.dropdown.reopen_poll') }}"
+                            @click="$wire.dispatch('openClosePollModal', { pollId: {{ $poll->id }} })"
                     />
 
                     <x-mary-menu-separator/>
@@ -130,7 +127,7 @@ new class extends Component {
                 @auth
                     <div class="avatar avatar-placeholder">
                         <div
-                            class="w-6 rounded-full bg-purple-600 text-neutral-content flex items-center justify-center">
+                                class="w-6 rounded-full bg-purple-600 text-neutral-content flex items-center justify-center">
                             <span class="text-sm">
                                 {{ mb_substr(Auth::user()->name, 0, 1) }}
                             </span>

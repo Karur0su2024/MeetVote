@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\PollShow\PollSection;
 
+use App\Deprecated\traits\CanOpenModals;
 use App\Exceptions\VoteException;
 use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
@@ -9,7 +10,6 @@ use App\Models\User;
 use App\Services\Google\GoogleService;
 use App\Services\Vote\VoteCreateService;
 use App\Services\Vote\VoteQueryService;
-use App\Traits\CanOpenModals;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
