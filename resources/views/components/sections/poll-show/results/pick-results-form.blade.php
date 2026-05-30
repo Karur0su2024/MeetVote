@@ -28,11 +28,11 @@
 
 
 
-        <x-pages.poll-show.poll.section-card :title="__('pages/poll-show.results.sections.results.pick_from_results.section.time_options')">
+        <x-ui.options-section-card :title="__('pages/poll-show.results.sections.results.pick_from_results.section.time_options')">
             <x-slot:content>
                 @foreach($results['timeOptions']['options'] as $optionIndex => $option)
                     <div @click="results.timeOptions.selected = {{ $optionIndex }}">
-                        <x-pages.poll-show.poll.option-card class="result-card-clickable"{{-- ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}"--}}>
+                        <x-ui.option-card class="result-card-clickable"{{-- ::class="{'border-primary': results.timeOptions.selected == {{ $optionIndex }}}"--}}>
                             <x-slot:text>
                                 {{ $option['date_formatted'] }}
                             </x-slot:text>
@@ -44,23 +44,23 @@
                             </x-slot:right>
 
                             <x-slot:bottom>
-                                <x-pages.poll-show.poll.results.preference-view :score="$option['score']" :preferences="$option['preferences']"/>
+                                <x-sections.poll-show.results.preference-view :score="$option['score']" :preferences="$option['preferences']"/>
                             </x-slot:bottom>
-                        </x-pages.poll-show.poll.option-card>
+                        </x-ui.option-card>
                     </div>
                 @endforeach
             </x-slot:content>
-        </x-pages.poll-show.poll.section-card>
+        </x-ui.options-section-card>
 
 
 
         @foreach($results['questions'] as $questionIndex => $question)
-            <x-pages.poll-show.poll.section-card :title="$question['text']" >
+            <x-ui.options-section-card :title="$question['text']" >
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
                         <div  class="w-full md:w-1/2 px-2"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
-                            <x-pages.poll-show.poll.option-card  class="result-card-clickable"
+                            <x-ui.option-card  class="result-card-clickable"
                                                                          ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">
                                 <x-slot:text>
                                     {{ $option['text'] }}
@@ -71,13 +71,13 @@
                                 </x-slot:right>
 
                                 <x-slot:bottom>
-                                    <x-pages.poll-show.poll.results.preference-view :score="$option['score']"/>
+                                    <x-sections.poll-show.results.preference-view :score="$option['score']"/>
                                 </x-slot:bottom>
-                            </x-pages.poll-show.poll.option-card>
+                            </x-ui.option-card>
                         </div>
                     @endforeach
                 </x-slot:content>
-            </x-pages.poll-show.poll.section-card>
+            </x-ui.options-section-card>
         @endforeach
 
 

@@ -5,12 +5,12 @@
         <div class="grid grid-flow-row grid-cols-2 gap-4">
             {{-- Základní informace o anketě --}}
             <div class="col-span-1 grid grid-cols-1 gap-4">
-                <x-pages.poll-editor.basic-info-section :poll-index="$pollIndex" :timezones="$timezones"/>
-                <x-pages.poll-editor.questions.section/>
+                <x-sections.poll-editor.basic-info :poll-index="$pollIndex" :timezones="$timezones"/>
+                <x-sections.poll-editor.questions/>
             </div>
             <div class="col-span-1 grid grid-cols-1 gap-4">
-                <x-pages.poll-editor.time-options.section/>
-                <x-pages.poll-editor.settings-section/>
+                <x-sections.poll-editor.time-options/>
+                <x-sections.poll-editor.settings/>
             </div>
         </div>
 

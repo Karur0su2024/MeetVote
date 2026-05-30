@@ -12,7 +12,7 @@
         @endif
 
         <div class="md:col-span-2 sm:col-span-3">
-            <x-pages.poll-show.poll.section :poll="$poll"/>
+            <x-sections.poll-show.poll :poll="$poll"/>
         </div>
         <div class="md:col-span-1 sm:col-span-3 flex flex-col gap-1">
 

@@ -30,9 +30,9 @@
         </div>
         <div class="card bg-base-100 flex flex-row p-2 gap-3 items-center shadow-sm" x-show="mode === 'Voting'">
             <div class="flex justify-center gap-3 w-full">
-                <x-pages.poll-show.poll.voting.legend name="yes" value="2"/>
-                <x-pages.poll-show.poll.voting.legend name="maybe" value="1"/>
-                <x-pages.poll-show.poll.voting.legend name="no" value="-1"/>
+                <x-sections.poll-show.voting.legend name="yes" value="2"/>
+                <x-sections.poll-show.voting.legend name="maybe" value="1"/>
+                <x-sections.poll-show.voting.legend name="no" value="-1"/>
             </div>
         </div>
 

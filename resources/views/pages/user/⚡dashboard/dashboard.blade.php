@@ -68,7 +68,7 @@
             @if (count($polls) !== 0)
                 @foreach ($polls as $poll)
                     {{-- Karta ankety --}}
-                    <x-pages.dashboard.poll-card :poll="$poll"/>
+                    <x-ui.poll-card :poll="$poll"/>
                 @endforeach
             @else
                 {{-- Upozornění pro žádné ankety --}}
@@ -87,7 +87,7 @@
             @foreach ($votes as $vote)
                 {{-- Karta ankety --}}
                 @if($vote->poll)
-                    <x-pages.dashboard.poll-card :poll="$vote->poll"/>
+                    <x-ui.poll-card :poll="$vote->poll"/>
                 @endif
 
             @endforeach
@@ -113,7 +113,7 @@
             @if(count($events) !== 0)
                 <div class="grid grid-cols-3 gap-5">
                     @foreach($events as $event)
-                        <x-pages.dashboard.event-card :event="$event"/>
+                        <x-ui.event-card :event="$event"/>
                     @endforeach
                 </div>
             @else

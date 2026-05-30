@@ -65,7 +65,7 @@ new class extends Component {
 
 
     @if($userVote && ($userVote->questionOptions->count() > 0 || $userVote->timeOptions->count() > 0))
-        <x-pages.poll-show.poll.results.vote-content :vote="$userVote"/>
+        <x-sections.poll-show.results.vote-content :vote="$userVote"/>
         @cannot('edit', $userVote)
 
             <div class="mt-2">

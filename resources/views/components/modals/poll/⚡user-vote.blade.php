@@ -78,7 +78,7 @@ new class extends Component
             {{ $poll->isActive() ? __('ui/modals.close_poll.title.close') : __('ui/modals.close_poll.title.reopen') }}
         </x-slot:title>
 
-        <x-pages.poll-show.poll.results.vote-content :vote="$vote"/>
+        <x-sections.poll-show.results.vote-content :vote="$vote"/>
 
 
         <x-slot:actions>

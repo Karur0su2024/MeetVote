@@ -18,7 +18,7 @@
         <div class="grid grid-cols-2 gap-2">
             @foreach($results['timeOptions']['options'] as $optionIndex => $option)
                 <div>
-                    <x-pages.poll-show.poll.option-card>
+                    <x-ui.option-card>
                         <x-slot:text>
                             {{ $option['date_formatted'] }}
                         </x-slot:text>
@@ -26,10 +26,10 @@
                             {{ $option['full_content'] }}
                         </x-slot:subtext>
                         <x-slot:bottom>
-                            <x-pages.poll-show.poll.results.preference-view :score="$option['score']"
+                            <x-sections.poll-show.results.preference-view :score="$option['score']"
                                                                             :preferences="$option['preferences']"/>
                         </x-slot:bottom>
-                    </x-pages.poll-show.poll.option-card>
+                    </x-ui.option-card>
                 </div>
             @endforeach
         </div>
@@ -50,14 +50,14 @@
         <div class="grid grid-cols-2 gap-2">
             @foreach($question['options'] as $option)
                 <div>
-                    <x-pages.poll-show.poll.option-card>
+                    <x-ui.option-card>
                         <x-slot:text>
                             {{ $option['text'] }}
                         </x-slot:text>
                         <x-slot:bottom>
-                            <x-pages.poll-show.poll.results.preference-view :score="$option['score']/2"/>
+                            <x-sections.poll-show.results.preference-view :score="$option['score']/2"/>
                         </x-slot:bottom>
-                    </x-pages.poll-show.poll.option-card>
+                    </x-ui.option-card>
                 </div>
             @endforeach
         </div>

@@ -53,7 +53,7 @@
     @guest
         {{-- Informace o autorovi --}}
         @if (!$pollIndex)
-            <x-pages.poll-editor.author-info-section/>
+            <x-sections.poll-editor.basic-info.author-info/>
         @endif
     @endguest
 

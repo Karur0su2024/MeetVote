@@ -27,7 +27,7 @@
 
 
                     <template x-for="(timeOption, optionIndex) in form.timeOptions">
-                        <x-pages.poll-show.poll.option-card
+                        <x-ui.option-card
                             class="btn-outline-vote text-base-content"
                             ::class="{ ['voting-card-' + timeOption.picked_preference]: !timeOption.invalid, 'voting-card-invalid': timeOption.invalid }"
                             @click="setPreference('timeOption', null, optionIndex, getNextPreference('timeOption', timeOption.picked_preference))">
@@ -59,7 +59,7 @@
 
                             </x-slot:bottom>
 
-                        </x-pages.poll-show.poll.option-card>
+                        </x-ui.option-card>
                     </template>
                 </div>
             </x-ui.card>
@@ -80,7 +80,7 @@
                         <div class="grid grid-cols-2 gap-2">
                             <template x-for="(option, optionIndex) in question.options">
 
-                                <x-pages.poll-show.poll.option-card
+                                <x-ui.option-card
                                     class="btn-outline-vote"
                                     ::class="'voting-card-' + option.picked_preference"
                                     @click="setPreference('question', questionIndex, optionIndex, getNextPreference('question', option.picked_preference))">
@@ -92,7 +92,7 @@
                                              :src="'{{ asset('icons/') }}/' + option.picked_preference + '.svg'"
                                              :alt="option.picked_preference"/>
                                     </x-slot:right>
-                                </x-pages.poll-show.poll.option-card>
+                                </x-ui.option-card>
                             </template>
                         </div>
                     </x-ui.card>
@@ -105,7 +105,7 @@
             {{-- Formulář pro vyplnění jména a e-mailu --}}
             <div class="card bg-base-100 p-5 shadow-sm">
                 @guest
-                    <x-pages.poll-show.poll.voting.form :poll="$poll"/>
+                    <x-sections.poll-show.voting.form :poll="$poll"/>
                 @endguest
 
 
