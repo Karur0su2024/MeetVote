@@ -11,7 +11,7 @@
     <template x-if="questions.length > 0">
         <template x-for="(question, questionIndex) in questions">
             {{-- Komponenta s jednou otázkou --}}
-            <x-pages.poll-editor.questions.question/>
+            <x-sections.poll-editor.questions.question />
 
         </template>
     </template>

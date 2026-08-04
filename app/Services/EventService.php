@@ -28,7 +28,7 @@ class EventService
     // Sestavení události
     public function buildEvent($event): array
     {
-        //dd($event);
+        // dd($event);
         return [
             'poll_id' => $event['poll_id'] ?? null,
             'title' => $event['title'] ?? null,

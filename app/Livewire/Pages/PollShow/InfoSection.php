@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Pages\PollShow;
 
-
 use App\Models\Poll;
 use App\Services\EventService;
 use App\Services\PollResultsService;
@@ -43,10 +42,8 @@ class InfoSection extends Component
 
     }
 
-
     public function render()
     {
         return view('livewire.pages.poll-show.info-section');
     }
-
 }

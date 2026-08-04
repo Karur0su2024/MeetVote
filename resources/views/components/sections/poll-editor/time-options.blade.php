@@ -1,10 +1,4 @@
 @push('scripts')
-    {{--    https://stackoverflow.com/questions/42169051/bootstrap-css-overriding-fullcalendar-css-even-if-the-fullcalendar-css-is-placed --}}
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.1.0/index.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro@3.1.0/styles/index.min.css" rel="stylesheet">
-
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/bootstrap5@6.0.2/index.global.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script src="{{ asset('js/alpine/times-v2.js') }}"></script>
 @endpush
@@ -40,7 +34,7 @@
     </div>
     {{-- Blok s časovými možnostmi --}}
     <template x-for="(date, dateIndex) in dates" :key="dateIndex">
-        <x-pages.poll-editor.time-options.date-card/>
+        <x-sections.poll-editor.time-options.date-card />
     </template>
 
 

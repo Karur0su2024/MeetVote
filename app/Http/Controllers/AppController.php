@@ -19,7 +19,7 @@ class AppController extends Controller
 
     public function changeLanguage(Request $request, $lang)
     {
-        if (in_array($lang, ['en', 'cs'])) {
+        if (in_array($lang, ['en', 'cz'])) {
             session(['language' => $lang]);
         }
 

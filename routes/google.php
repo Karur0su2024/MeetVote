@@ -3,8 +3,8 @@
 use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 
-//// Routy pro Google OAuth a Google Calendar
-//Route::prefix('/google')->group(function () {
+// // Routy pro Google OAuth a Google Calendar
+// Route::prefix('/google')->group(function () {
 //    // Google routy
 //    Route::get('/oauth', [GoogleController::class, 'redirectToOAuthGoogle'])->name('google.oath.login');
 //    Route::get('/oauth/callback', [GoogleController::class, 'handleGoogleOAuthCallback'])->name('google.oauth.callback');
@@ -24,4 +24,4 @@ use Illuminate\Support\Facades\Route;
 //        ->middleware(['google.connected'])
 //        ->name('google.calendar.disconnect');
 //
-//});
+// });

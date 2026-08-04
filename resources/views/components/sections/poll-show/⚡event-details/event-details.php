@@ -40,6 +40,7 @@ new class extends Component
     public function importToGoogleCalendar()
     {
         $link = $this->buildLink();
+
         return redirect()->away($link->google());
     }
 
@@ -47,6 +48,7 @@ new class extends Component
     public function importToOutlookCalendar()
     {
         $link = $this->buildLink();
+
         return redirect()->away($link->webOutlook());
     }
 

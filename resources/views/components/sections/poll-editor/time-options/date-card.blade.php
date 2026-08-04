@@ -8,16 +8,13 @@
             <div class="flex flex-row gap-2 ms-auto items-center">
                 <div x-show="dateErrors[dateIndex]">
                     <div class="badge badge-error badge-sm">
-                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <x-heroicon-o-exclamation-triangle class="w-4 h-4" />
                     </div>
                 </div>
-
-                <span class="badge badge-info badge-sm" x-text="dates[dateIndex].length">
-                </span>
                 <button class="btn btn-sm btn-error"
                         ::class="{ 'disabled': Object.keys(dates).length === 1 }"
                         @click="removeDate(dateIndex)">
-                    <i class="bi bi-trash"></i>
+                    <x-heroicon-c-trash class="w-4 h-4" />
                     <span class="d-md-inline d-none">
                     {{ __('pages/poll-editor.time_options.button.delete') }}
                 </span>
@@ -27,7 +24,7 @@
         <div>
             <template x-for="(option, optionIndex) in date" :key="optionIndex">
                 {{-- Časová možnost --}}
-                <x-pages.poll-editor.time-options.date-option/>
+                <x-sections.poll-editor.time-options.date-option />
             </template>
 
             <x-mary-alert class="alert-error alert-soft"
@@ -42,16 +39,14 @@
             {{-- Tlačítka pro přidání nové možnosti --}}
 
             <div class="flex flex-1 align-items-center gap-2">
-                <button class="btn btn-sm btn-primary btn-outline grow"
-                        type="button"
-                        @click="addTimeOption(dateIndex, false)">
-                    {{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}
-                </button>
-                <button class="btn btn-sm btn-primary btn-outline grow"
-                        type="button"
-                        @click="addTextOption(dateIndex, 'text')">
-                    {{ __('pages/poll-editor.time_options.button.add_text_option') }}
-                </button>
+                <x-mary-button label="{{ __('pages/poll-editor.time_options.button.add_empty_time_option') }}"
+                               class="btn-sm btn-primary btn-outline grow"
+                               type="button"
+                               @click="addTimeOption(dateIndex, true)"/>
+                <x-mary-button label="{{ __('pages/poll-editor.time_options.button.add_text_option') }}"
+                               class="btn-sm btn-primary btn-outline grow"
+                               type="button"
+                               @click="addTextOption(dateIndex, 'text')"/>
             </div>
         </div>
     </div>

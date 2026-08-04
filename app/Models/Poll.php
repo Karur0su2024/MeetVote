@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Poll extends Model
 {
-    //use HasUuids;
+    // use HasUuids;
 
     protected $fillable = [
         'user_id', 'author_name', 'author_email', 'title', 'description',

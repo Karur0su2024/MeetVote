@@ -21,8 +21,9 @@ class DeleteAccount extends Component
     public function deleteAccount()
     {
 
-        if (!Hash::check($this->current_password, Auth::user()->password)) {
+        if (! Hash::check($this->current_password, Auth::user()->password)) {
             $this->addError('current_password', 'Current password is incorrect.');
+
             return;
         }
 

@@ -17,7 +17,7 @@ class SetLanguage
         // Pokud není jazyk v session, nastavíme ho na základě hlavičky Accept-Language
         if (! session()->has('language')) {
             $lang = substr($request->header('Accept-Language'), 0, 2);
-            if (in_array($lang, ['en', 'cs'])) {
+            if (in_array($lang, ['en', 'cz'])) {
                 session()->put('language', $lang);
             } else {
                 session()->put('language', 'en');

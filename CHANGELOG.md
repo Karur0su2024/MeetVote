@@ -1,7 +1,5 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v0.2.1...main)
-
 ## [v0.2.1](https://github.com/laravel/laravel/compare/v0.2.0...v0.2.1) - 2026-05-23
 
 A small maintenance update focused on dependency cleanup and getting the project into a clean state for future development.

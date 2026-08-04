@@ -36,6 +36,7 @@
         {{-- Tlačítko pro odstranění časové možnosti --}}
         <button class="btn btn-sm btn-outline btn-error"
                 @click="removeOption(dateIndex, optionIndex)"
+                type="button"
                 ::class="{ 'disabled': Object.keys(dates).length === 1 && dates[dateIndex].length === 1 }">
             <i class="bi" :class="{
             'bi-calendar-x-fill': option.invalid,
