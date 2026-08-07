@@ -14,7 +14,9 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
                     {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
                 </button>
             @empty
-                {{ __('pages/poll-show.results.sections.all_votes.empty') }}
+                <p class="text-xs text-gray-700">
+                    {{ __('pages/poll-show.results.sections.all_votes.empty') }}
+                </p>
             @endforelse
 
         </div>

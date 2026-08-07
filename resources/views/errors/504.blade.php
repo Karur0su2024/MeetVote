@@ -11,7 +11,7 @@
         </p>
         <a href="{{ route('home') }}" class="btn btn-outline mt-3">
             <x-mary-icon name="o-home" />
-             Go to home
+             Go to home page
         </a>
     </x-ui.card>
 

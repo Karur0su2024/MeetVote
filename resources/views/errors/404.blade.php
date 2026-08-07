@@ -9,7 +9,7 @@
         <p class="mt-3 text-md text-center">The page you are looking for does not exist.</p>
         <a href="{{ route('home') }}" class="btn btn-outline mt-3">
             <x-mary-icon name="o-home" />
-             Go to home
+             Go to home page
         </a>
     </x-ui.card>
 

@@ -95,24 +95,20 @@ new class extends Component
 
 
                         {{-- Heslo --}}
-                        <x-ui.form.input id="password" wire:model="password" type="password" label="Password" required error="password">
+                        <x-mary-input id="password" wire:model="password" type="password" label="Password" required>
                             {{ __('pages/auth.reset_password.labels.password') }}
-                        </x-ui.form.input>
+                        </x-mary-input>
 
 
                         {{-- Potvrzení hesla --}}
-                        <x-ui.form.input id="password_confirmation" wire:model="password_confirmation" type="password" required error="password_confirmation">
+                        <x-mary-input id="password_confirmation" wire:model="password_confirmation" type="password" required>
                             {{ __('pages/auth.reset_password.labels.confirm_password') }}
-                        </x-ui.form.input>
+                        </x-mary-input>
 
                         <x-mary-button label="{{ __('pages/auth.reset_password.buttons.reset') }}"
                                        class="btn-primary grow"
                                        type="submit"
-
                         />
-                        <button class="btn btn-primary">
-
-                        </button>
                     </form>
                 </div>
             </div>

@@ -82,14 +82,9 @@ new class extends Component
 
 
         <x-slot:actions>
-            <x-mary-button label="{{ __('ui/modals.close_poll.buttons.cancel') }}"
+            <x-mary-button label="{{ __('ui/modals.results.buttons.close') }}"
                            class="btn-neutral"
                            @click="$wire.showModal = false"
-            />
-            <x-mary-button
-                label="{{ $poll->isActive() ? __('ui/modals.close_poll.buttons.close') : __('ui/modals.close_poll.buttons.reopen') }}"
-                class="btn-error {{ count($poll->votes) === 0 ? 'btn-disabled' : '' }}"
-                wire:click="closePoll()"
             />
         </x-slot:actions>
     @endif

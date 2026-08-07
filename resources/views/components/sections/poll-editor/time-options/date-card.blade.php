@@ -12,7 +12,8 @@
                     </div>
                 </div>
                 <button class="btn btn-sm btn-error"
-                        ::class="{ 'disabled': Object.keys(dates).length === 1 }"
+                        ::class="{ 'btn-disabled': Object.keys(dates).length === 1 }"
+                        type="button"
                         @click="removeDate(dateIndex)">
                     <x-heroicon-c-trash class="w-4 h-4" />
                     <span class="d-md-inline d-none">

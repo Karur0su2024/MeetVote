@@ -3,7 +3,7 @@
         <x-mary-input label="{{ __('pages/poll-show.voting.form.username.label') }}"
                       class="flex-1"
                       wire:model="form.user.name"
-                      type="email"
+                      type="text"
                       required
                       :disabled="$poll->settings['anonymous_votes']"
                       placeholder="{{ __('pages/poll-show.voting.form.username.placeholder') }}"

@@ -57,6 +57,7 @@ return [
         ],
         'buttons' => [
             'delete_vote' => 'Delete vote',
+            'close' => 'Close',
             'load_vote' => 'Load vote',
         ],
         'messages' => [
