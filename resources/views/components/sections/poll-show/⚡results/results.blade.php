@@ -11,7 +11,7 @@ IDEA: Přidat nějaký graf pro lepší interpretaci výsledků
             @forelse($votes as $vote)
                 <button class="btn btn-sm btn-dash btn-outline"
                         @click="$wire.dispatch('openUserVoteModal', { voteId: {{ $vote->id }} })">
-                    {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : (Auth::user()->name ?? $vote->voter_name) }}
+                    {{ ($poll->settings['anonymous_votes'] ?? false) ? __('pages/poll-show.results.sections.all_votes.anonymous') : ($vote->voter_name) }}
                 </button>
             @empty
                 <p class="text-xs text-gray-700">

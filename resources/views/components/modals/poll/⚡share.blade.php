@@ -45,12 +45,14 @@ new class extends Component {
                     if(id == 'link') {
                         this.admin_link = false;
                         this.link = true;
+                        input = $wire.link;
                     } else {
                         this.link = false;
                         this.admin_link = true;
+                        input = $wire.adminLink;
                     }
-                    input = document.getElementById(id);
-                    navigator.clipboard.writeText(input.value);
+
+                    navigator.clipboard.writeText(input);
                 }
 
             };
@@ -62,7 +64,7 @@ new class extends Component {
                 </label>
 
 
-                <x-mary-input value="{{ $link }}" readonly>
+                <x-mary-input readonly id="link" wire:model="link">
                     <x-slot:append>
                         {{-- Add `join-item` to all appended elements --}}
                         <x-mary-button label="{{ __('ui/modals.share.button.copy') }}"
@@ -85,7 +87,7 @@ new class extends Component {
                     {{ __('ui/modals.share.text.admin_link') }}
                 </label>
 
-                <x-mary-input value="{{ $adminLink }}" readonly>
+                <x-mary-input readonly wire:model="adminLink">
                     <x-slot:append>
                         {{-- Add `join-item` to all appended elements --}}
                         <x-mary-button label="{{ __('ui/modals.share.button.copy') }}"

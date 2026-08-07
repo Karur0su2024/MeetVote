@@ -36,7 +36,6 @@ new class extends Component
     }
 
     // https://github.com/spatie/calendar-links
-    // Import do Google kalendáře
     public function importToGoogleCalendar()
     {
         $link = $this->buildLink();
@@ -44,7 +43,6 @@ new class extends Component
         return redirect()->away($link->google());
     }
 
-    // Import do kalendáře Outlook
     public function importToOutlookCalendar()
     {
         $link = $this->buildLink();
@@ -55,8 +53,10 @@ new class extends Component
     // Sestavení odkazu pro import do kalendáře
     private function buildLink()
     {
-        $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time']);
-        $to = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['end_time']);
+        $timezone = new DateTimeZone($this->poll->timezone);
+
+        $from = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['start_time'], $timezone);
+        $to = DateTime::createFromFormat('Y-m-d H:i:s', $this->event['end_time'], $timezone);
 
         return Link::create($this->event['title'], $from, $to)->description($this->event['description']);
     }
