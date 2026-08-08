@@ -7,7 +7,6 @@ use Livewire\Component;
 
 new class extends Component
 {
-
     public $votes;
 
     public $poll;
@@ -53,6 +52,7 @@ new class extends Component
     {
         if (Gate::denies('hasAdminPermissions', $this->poll)) {
             $this->openErrorModal();
+
             return;
         }
 

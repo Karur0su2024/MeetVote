@@ -2,10 +2,6 @@
 
 namespace App\Livewire\Forms\PollEditor;
 
-use App\Rules\NoDateDuplicates;
-use App\Rules\NoQuestionDuplicates;
-use App\Rules\NoQuestionOptionDuplicates;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class InfoSection extends Form
@@ -24,7 +20,6 @@ class InfoSection extends Form
     public ?string $timezone;
 
     public array $user = [];
-
 
     public function rules(): array
     {

@@ -25,7 +25,7 @@
 
 <body>
 @livewireScripts
-<div class="bg-linear-to-r from-violet-100/90 dark:from-base-200 to-green-200/20 p-1 antialiased">
+<div class="bg-linear-to-r from-violet-100/90 dark:from-base-300 to-base-100/20 dark:to-base-100 p-1 antialiased">
     <div class="text-base-content min-h-screen flex flex-col w-full">
 
         <!-- Navbar -->

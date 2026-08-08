@@ -38,7 +38,6 @@ new class extends Component
         if (! $this->canUpdate()) {
             $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
 
-
             return null;
         }
 
@@ -54,9 +53,11 @@ new class extends Component
             throw $e;
         } catch (PollException $e) {
             $this->addError('error', $e->getMessage());
+
             return null;
         } catch (Exception $e) {
             $this->addError('error', __('pages/poll-editor.messages.error.saving'));
+
             return null;
         }
 

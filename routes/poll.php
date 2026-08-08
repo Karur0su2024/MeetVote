@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 // Všechny routy pro ankety
 Route::prefix('polls')->group(function () {
 
-
     /*    Route::get('/create', [PollController::class, 'create'])
             ->name('polls.create');*/
 

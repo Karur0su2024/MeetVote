@@ -43,9 +43,6 @@ class PollEditor extends Component
         if (! $this->canUpdate()) {
             $this->addError('error', __('pages/poll-editor.messages.error.dirty'));
 
-
-
-
             return null;
         }
 

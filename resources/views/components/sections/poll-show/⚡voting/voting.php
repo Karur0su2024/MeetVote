@@ -117,5 +117,4 @@ new class extends Component
 
         return false;
     }
-
 };

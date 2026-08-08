@@ -58,6 +58,7 @@ class Results extends Component
     {
         if (Gate::denies('hasAdminPermissions', $this->poll)) {
             $this->openErrorModal();
+
             return;
         }
 
