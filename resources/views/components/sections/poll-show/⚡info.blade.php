@@ -119,7 +119,7 @@ new class extends Component {
                 Authors
             </x-slot:title>
             <x-slot:subtitle>
-                Total: 0
+                Total: {{ '1' }}
             </x-slot:subtitle>
         </x-ui.text.title-w-icon>
         <ul class="list bg-base-200/50 rounded-box">
@@ -129,14 +129,14 @@ new class extends Component {
                         <div
                                 class="w-6 rounded-full bg-purple-600 text-neutral-content flex items-center justify-center">
                             <span class="text-sm">
-                                {{ mb_substr(Auth::user()->name, 0, 1) }}
+                                {{ mb_substr($poll->author_name, 0, 1) }}
                             </span>
                         </div>
                     </div>
                 @endauth
                 <div>
                     <span>
-                        {{ Auth::user()->name ?? '' }}
+                        {{ $poll->author_name ?? 'Unknown user' }}
                     </span>
                 </div>
                 <div>

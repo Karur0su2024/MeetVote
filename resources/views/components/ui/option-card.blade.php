@@ -11,7 +11,7 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
 
 
 <div {{ $attributes->class(['card']) }} {{ $attributes }}>
-    <div class="card p-4 border border-gray-200 text-base-content bg-base-200/80 shadow-sm">
+    <div class="card p-4 border  border-gray-200 dark:border-gray-600 text-base-content bg-base-200/80 shadow-sm">
         <div class="flex justify-between">
             <div>
                 <p class="text-md font-semibold mb-1">{{ $text ?? '' }}</p>
@@ -22,7 +22,7 @@ TODO: Zobrazit odpovědi pro jednotlivé možnosti
             </div>
         </div>
         @if(isset($bottom) && $bottom->isNotEmpty())
-            <div class="card bg-base-300 shadow-sm border-t border-gray-200 p-1 mt-3">
+            <div class="card bg-base-300 shadow-sm p-1 mt-3">
                 {{ $bottom }}
             </div>
         @endif

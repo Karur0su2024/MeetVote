@@ -58,7 +58,7 @@
             <x-ui.options-section-card :title="$question['text']" >
                 <x-slot:content>
                     @foreach($question['options'] as $optionIndex => $option)
-                        <div  class="w-full md:w-1/2 px-2"
+                        <div class="w-full"
                              @click="results.questions[{{ $questionIndex}}].selected = {{ $optionIndex }}">
                             <x-ui.option-card  class="result-card-clickable"
                                                                          ::class="{'border-primary': results.questions[{{ $questionIndex}}].selected === {{ $optionIndex }}}">

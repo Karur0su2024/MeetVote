@@ -65,13 +65,13 @@ new class extends Component {
         <x-sections.poll-show.results.vote-content :vote="$userVote"/>
         @cannot('edit', $userVote)
 
-            <div class="mt-2">
-                <p class="text-md font-light color-gray-500">
-                    {{ __('pages/poll-show.your_vote.text.login_to_change_vote') }}
-                </p>
+            <div>
                 <a href="{{ route('login') }}" class="btn btn-primary btn-sm">
                     {{ __('pages/poll-show.your_vote.buttons.login') }}
                 </a>
+                <p class="text-xs font-light text-gray-500 mt-3">
+                    {{ __('pages/poll-show.your_vote.text.login_to_change_vote') }}
+                </p>
             </div>
         @endcannot
     @else
