@@ -1,5 +1,21 @@
 # Release Notes
 
+## [v0.3.0](https://github.com/laravel/laravel/compare/v0.2.1...v0.3.0) - 2026-08-09
+
+The Bootstrap-to-Tailwind migration is now complete — the Bootstrap dependency has been fully removed from the project. Most of the UI has also been rebuilt on top of MaryUI, replacing the older hand-rolled components.
+
+### Changes
+
+- Removed the Bootstrap dependency entirely
+- Migrated remaining components (modals, poll editor, poll show page, authentication pages, user settings) to MaryUI and Livewire 4 components
+- Moved old, replaced components to a deprecated directory pending removal
+- Upgraded Laravel 12 → 13 and Livewire 3 → 4
+- Various smaller UI fixes and code cleanup
+
+### Notes
+
+This release took longer than I'd have liked — other things got in the way and I couldn't code as regularly as I wanted. I want to get back to a steadier rhythm going forward, so v0.4.0 is planned for the near future, focused on new ideas and improvements I didn't want to fold into this release.
+
 ## [v0.2.1](https://github.com/laravel/laravel/compare/v0.2.0...v0.2.1) - 2026-05-23
 
 A small maintenance update focused on dependency cleanup and getting the project into a clean state for future development.
