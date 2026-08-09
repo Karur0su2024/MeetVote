@@ -21,6 +21,8 @@
 {{--    </x-ui.button>--}}
 
     <button  class="btn btn-sm btn-error"
+             type="button"
+             @click="removeQuestionOption(questionIndex, optionIndex)"
              ::class="{ 'disabled': questions[questionIndex].options.length <= 2 }"
              color="danger">
         <i      :class="{ 'bi bi-exclamation-triangle': option.score > 0, 'bi bi-trash': !option.score }">

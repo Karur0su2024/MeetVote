@@ -1,9 +1,5 @@
 import './bootstrap';
 
-// Bootstrap
-//import 'bootstrap';
-
-
 import '../../public/js/app.js';
 import '../../public/js/modal.js';
 

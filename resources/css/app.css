@@ -10,7 +10,6 @@ layer(base);*/
 
 
 /* Bootstrap - globálně */
-/*@import 'bootstrap/dist/css/bootstrap.css' layer(base);*/
 @import 'bootstrap-icons/font/bootstrap-icons.css' layer(base);
 
 
