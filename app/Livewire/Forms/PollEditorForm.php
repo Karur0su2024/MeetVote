@@ -121,7 +121,7 @@ class PollEditorForm extends Form
         $this->settings = $data['settings'] ?? [];
         $this->password = $data['password'] ?? null;
         $this->user = $data['user'] ?? [];
-        $this->dates = collect($data['time_options'])->groupBy('date')->toArray() ?? [];
+        $this->dates = collect($data['time_options'])->groupBy('date')->toArray();
         $this->questions = $data['questions'] ?? [];
 
     }

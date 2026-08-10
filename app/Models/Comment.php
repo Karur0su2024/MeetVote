@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 // Komentář
@@ -19,12 +20,18 @@ class Comment extends Model
         'content' => 'string',
     ];
 
-    public function poll()
+    /**
+     * @return BelongsTo<Poll, $this>
+     */
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);
     }
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

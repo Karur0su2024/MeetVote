@@ -59,9 +59,9 @@ class QuestionCreateService
                     throw new PollException('Question option not found. Please try again.');
                 }
 
-                if ($option->score !== 0) {
-                    continue;
-                }
+//                if ($option->score !== 0) {
+//                    continue;
+//                }
 
                 $option->update([
                     'text' => $optionToSave['text'],

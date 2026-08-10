@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\PollShow;
+namespace App\Deprecated\Pages\PollShow;
 
 use App\Models\Poll;
 use App\Services\EventService;

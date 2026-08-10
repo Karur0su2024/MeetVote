@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Deprecated\livewire\Auth;
 
 use App\Livewire\Forms\RegisterForm;
 use App\Models\User;
@@ -30,8 +30,8 @@ class Register extends Component
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
 
-    public function render()
-    {
-        return view('livewire.auth.register');
-    }
+//    public function render()
+//    {
+//        return view('livewire.auth.register');
+//    }
 }

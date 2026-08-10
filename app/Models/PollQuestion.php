@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PollQuestion extends Model
 {
@@ -12,12 +14,18 @@ class PollQuestion extends Model
         'text' => 'string',
     ];
 
-    public function poll()
+    /**
+     * @return BelongsTo<Poll, $this>
+     */
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);
     }
 
-    public function options()
+    /**
+     * @return HasMany<QuestionOption, $this>
+     */
+    public function options(): HasMany
     {
         return $this->hasMany(QuestionOption::class);
     }

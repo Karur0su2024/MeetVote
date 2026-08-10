@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SyncedEvent extends Model
 {
@@ -14,12 +15,18 @@ class SyncedEvent extends Model
         'event_id',
     ];
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function event()
+    /**
+     * @return BelongsTo<Event, $this>
+     */
+    public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
     }

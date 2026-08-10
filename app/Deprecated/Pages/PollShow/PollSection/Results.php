@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\PollShow\PollSection;
+namespace App\Deprecated\Pages\PollShow\PollSection;
 
 use App\Deprecated\traits\CanOpenModals;
 use App\Services\EventService;

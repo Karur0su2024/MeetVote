@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class Vote extends Model
@@ -21,22 +23,34 @@ class Vote extends Model
         });
     }
 
-    public function poll()
+    /**
+     * @return BelongsTo<Poll, $this>
+     */
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);
     }
 
-    public function timeOptions()
+    /**
+     * @return HasMany<VoteTimeOption, $this>
+     */
+    public function timeOptions(): HasMany
     {
         return $this->hasMany(VoteTimeOption::class);
     }
 
-    public function questionOptions()
+    /**
+     * @return HasMany<VoteQuestionOption, $this>
+     */
+    public function questionOptions(): HasMany
     {
         return $this->hasMany(VoteQuestionOption::class);
     }
 
-    public function user()
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

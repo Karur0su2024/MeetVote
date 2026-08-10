@@ -1,0 +1,26 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+
+    paths:
+        - app/
+
+    # Level 10 is the highest level
+    level: 5
+    excludePaths:
+            - app/Deprecated/
+            - app/Listeners/
+            - app/Services/Google/
+            - app/Providers/GoogleServiceProvider.php
+            - app/Providers/EmailServiceProvider.php
+            - app/Http/Controllers/Auth
+
+
+#    ignoreErrors:
+#        - '#PHPDoc tag @var#'
+#
+#    excludePaths:
+#        - ./*/*/FileToBeExcluded.php
+

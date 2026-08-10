@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -61,25 +63,40 @@ class User extends Authenticatable
     }
 
     // Vztah k hlasováním (1:N)
-    public function comments()
+
+    /**
+     * @return HasMany<Comment, $this>
+     */
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
     // Vztah k hlasováním (1:N)
-    public function votes()
+
+    /**
+     * @return HasMany<Vote, $this>
+     */
+    public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
     }
 
     // Vztah k anketám (1:N)
-    public function polls()
+
+    /**
+     * @return HasMany<Poll, $this>
+     */
+    public function polls(): HasMany
     {
 
         return $this->hasMany(Poll::class);
     }
 
-    public function attendeePolls()
+    /**
+     * @return BelongsToMany<Poll, $this>
+     */
+    public function attendeePolls(): BelongsToMany
     {
         return $this->belongsToMany(Poll::class, 'votes');
     }
@@ -89,12 +106,18 @@ class User extends Authenticatable
         return $this->polls->merge($this->attendeePolls)->unique('id');
     }
 
-    public function events()
+    /**
+     * @return HasMany<Event, $this>
+     */
+    public function events(): HasMany
     {
         return $this->votes()->with('poll.event');
     }
 
-    public function syncedEvents()
+    /**
+     * @return HasMany<SyncedEvent, $this>
+     */
+    public function syncedEvents(): HasMany
     {
         return $this->hasMany(SyncedEvent::class);
     }

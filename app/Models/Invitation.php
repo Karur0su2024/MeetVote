@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Invitation extends Model
@@ -27,7 +28,10 @@ class Invitation extends Model
         });
     }
 
-    public function poll()
+    /**
+     * @return BelongsTo<Poll, $this>
+     */
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);
     }

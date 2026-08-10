@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -47,6 +49,10 @@ class Poll extends Model
     }
 
     // Accessor a mutator pro parametry nastavení ankety, která je uložena jako JSON
+
+    /**
+     * @return Attribute
+     */
     public function settings(): Attribute
     {
         return Attribute::make(
@@ -58,48 +64,73 @@ class Poll extends Model
     /**
      * Vztah k uživateli (M:1)
      *
-     * @return BelongsTo
+     * @return BelongsTo<User, $this>
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function timeOptions()
+
+    /**
+     * @return HasMany<TimeOption, $this>
+     */
+    public function timeOptions(): HasMany
     {
         return $this->hasMany(TimeOption::class);
     }
 
-    public function votes()
+    /**
+     * @return HasMany<Vote, $this>
+     */
+    public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
     }
 
-    public function event()
+    /**
+     * @return HasOne<Event, $this>
+     */
+    public function event(): HasOne
     {
         return $this->hasOne(Event::class);
     }
 
-    public function questions()
+    /**
+     * @return HasMany<PollQuestion, $this>
+     */
+    public function questions(): HasMany
     {
         return $this->hasMany(PollQuestion::class);
     }
 
-    public function pollComments()
+    /**
+     * @return HasMany<Comment, $this>
+     */
+    public function pollComments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function invitations()
+    /**
+     * @return HasMany<Invitation, $this>
+     */
+    public function invitations(): HasMany
     {
         return $this->hasMany(Invitation::class);
     }
 
+    /**
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'public_id';
     }
 
+    /**
+     * @return bool
+     */
     public function isActive(): bool
     {
         if ($this->deadline && $this->deadline <= today()) {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VoteTimeOption extends Model
 {
@@ -12,12 +13,18 @@ class VoteTimeOption extends Model
         'preference' => 'integer',
     ];
 
-    public function vote()
+    /**
+     * @return BelongsTo<Vote, $this>
+     */
+    public function vote(): BelongsTo
     {
         return $this->belongsTo(Vote::class);
     }
 
-    public function timeOption()
+    /**
+     * @return BelongsTo<TimeOption, $this>
+     */
+    public function timeOption(): BelongsTo
     {
         return $this->belongsTo(TimeOption::class);
     }

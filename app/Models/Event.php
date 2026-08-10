@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 // Událost
 class Event extends Model
@@ -23,12 +25,18 @@ class Event extends Model
         'description' => 'string',
     ];
 
-    public function poll()
+    /**
+     * @return BelongsTo<Poll, $this>
+     */
+    public function poll(): BelongsTo
     {
         return $this->belongsTo(Poll::class);
     }
 
-    public function syncedEvents()
+    /**
+     * @return HasMany<SyncedEvent, $this>
+     */
+    public function syncedEvents(): HasMany
     {
         return $this->hasMany(SyncedEvent::class);
     }

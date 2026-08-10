@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Modals\PollOld;
+namespace App\Deprecated\Modals\PollOld;
 
 use App\Events\InvitationSent;
 use App\Models\Invitation;

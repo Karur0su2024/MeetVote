@@ -3,22 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VoteQuestionOption extends Model
 {
     protected $fillable = ['vote_id', 'poll_question_id', 'question_option_id', 'preference'];
 
-    public function vote()
+    /**
+     * @return BelongsTo<Vote, $this>
+     */
+    public function vote(): BelongsTo
     {
         return $this->belongsTo(Vote::class);
     }
 
-    public function questionOption()
+    /**
+     * @return BelongsTo<QuestionOption, $this>
+     */
+    public function questionOption(): BelongsTo
     {
         return $this->belongsTo(QuestionOption::class);
     }
 
-    public function pollQuestion()
+    /**
+     * @return BelongsTo<PollQuestion, $this>
+     */
+    public function pollQuestion(): BelongsTo
     {
         return $this->belongsTo(PollQuestion::class);
     }

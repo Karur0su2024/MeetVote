@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class PollController extends Controller
 {
-    // Zobrazení formuláře pro vytvoření ankety
-    public function create()
-    {
-        return view('pages.polls.create');
-    }
-
     // Zobrazeny stránky ankety
     public function show(Poll $poll)
     {
