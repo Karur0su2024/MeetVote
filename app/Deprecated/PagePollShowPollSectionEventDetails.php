@@ -1,17 +1,18 @@
 <?php
+
 //
-//namespace App\Livewire;
+// namespace App\Livewire;
 //
-//use App\Events\PollEventCreated;
-//use App\Services\EventService;
-//use DateTime;
-//use Illuminate\Support\Facades\Auth;
-//use Illuminate\Support\Facades\Gate;
-//use Livewire\Component;
-//use Spatie\CalendarLinks\Link;
+// use App\Events\PollEventCreated;
+// use App\Services\EventService;
+// use DateTime;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Gate;
+// use Livewire\Component;
+// use Spatie\CalendarLinks\Link;
 //
-//class PagePollShowPollSectionEventDetails extends Component
-//{
+// class PagePollShowPollSectionEventDetails extends Component
+// {
 //    public $event;
 //
 //    public $poll;
@@ -86,8 +87,8 @@
 //        return redirect()->route('polls.show', $this->poll)->with('success', __('ui/modals.create_event.messages.success.event_deleted'));
 //    }
 //
-////    public function render()
-////    {
-////        return view('livewire.page-poll-show-poll-section-event-details');
-////    }
-//}
+// //    public function render()
+// //    {
+// //        return view('livewire.page-poll-show-poll-section-event-details');
+// //    }
+// }

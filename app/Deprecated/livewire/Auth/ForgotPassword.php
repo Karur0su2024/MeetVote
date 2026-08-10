@@ -39,8 +39,8 @@ class ForgotPassword extends Component
         session()->flash('status', __($status));
     }
 
-//    public function render()
-//    {
-//        return view('livewire.auth.forgot-password');
-//    }
+    //    public function render()
+    //    {
+    //        return view('livewire.auth.forgot-password');
+    //    }
 }

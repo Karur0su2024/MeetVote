@@ -50,9 +50,6 @@ class Poll extends Model
 
     // Accessor a mutator pro parametry nastavení ankety, která je uložena jako JSON
 
-    /**
-     * @return Attribute
-     */
     public function settings(): Attribute
     {
         return Attribute::make(
@@ -70,7 +67,6 @@ class Poll extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     /**
      * @return HasMany<TimeOption, $this>
@@ -128,9 +124,6 @@ class Poll extends Model
         return 'public_id';
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         if ($this->deadline && $this->deadline <= today()) {

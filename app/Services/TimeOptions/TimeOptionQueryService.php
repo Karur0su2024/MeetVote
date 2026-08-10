@@ -12,7 +12,7 @@ class TimeOptionQueryService
     public function getTimeOptionsArray(Poll $poll): array
     {
         // Pokud není anketa nastavena, vrátí jednu časovou možnost.
-        if (!$poll->exists) {
+        if (! $poll->exists) {
             return $this->initialTimeOption();
         }
 
