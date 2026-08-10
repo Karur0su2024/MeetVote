@@ -17,6 +17,10 @@ parameters:
             - app/Providers/EmailServiceProvider.php
             - app/Http/Controllers/Auth
 
+    ignoreErrors:
+        - identifier: trait.unused
+          path: app/Traits/HasVoteControls.php
+
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

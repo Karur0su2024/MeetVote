@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TimeOption extends Model
 {
-    /**
-     * @var string[]
-     */
     protected $fillable = ['poll_id', 'date', 'start', 'end', 'text'];
 
     protected $casts = [

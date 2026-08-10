@@ -104,10 +104,6 @@ class PollPolicy
             return false;
         }
 
-        if ($poll->isActive()) {
-            return $poll->votes()->count() > 0;
-        }
-
         return true;
     }
 

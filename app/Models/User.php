@@ -106,13 +106,13 @@ class User extends Authenticatable
         return $this->polls->merge($this->attendeePolls)->unique('id');
     }
 
-    /**
-     * @return HasMany<Event, $this>
-     */
-    public function events(): HasMany
-    {
-        return $this->votes()->with('poll.event');
-    }
+//    /**
+//     * @return HasMany<Event, $this>
+//     */
+//    public function events(): HasMany
+//    {
+//        return $this->votes()->with('poll.event');
+//    }
 
     /**
      * @return HasMany<SyncedEvent, $this>

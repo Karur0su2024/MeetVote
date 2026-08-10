@@ -32,8 +32,8 @@ class PollQueryService
             ],
             'settings' => $poll->settings ?? $this->getDefaultSettings(),
             'password' => [
-                'enabled' => $poll?->password ? true : false,
-                'set' => $poll?->password ?? null,
+                'enabled' => $poll->password ? true : false,
+                'set' => $poll->password ?? null,
                 'value' => '',
             ],
             'time_options' => $this->timeOptionQueryService->getTimeOptionsArray($poll), // Získání časových možností
