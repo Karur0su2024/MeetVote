@@ -1,6 +1,5 @@
 <?php
 
-use App\Deprecated\traits\CanOpenModals;
 use App\Events\PollEventCreated;
 use App\Events\PollEventDeleted;
 use App\Models\Poll;
@@ -12,9 +11,7 @@ use Livewire\Component;
 new class extends Component {
     public $poll;
 
-    use CanOpenModals;
-
-    public $showModal = false;
+    public bool $showModal;
 
     protected EventService $eventService;
 

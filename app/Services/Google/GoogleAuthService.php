@@ -66,6 +66,36 @@ class GoogleAuthService implements GoogleAuthServiceInterface
     }
 
     // Odpojení Google účtu
+
+    private function googleAccountAlreadyConnected(GoogleUser $googleUser): ?User
+    {
+        return User::where('google_id', $googleUser->getId())->first();
+    }
+
+    // Přesměrování na Google Calendar OAuth
+
+    private function buildGoogleUser(GoogleUser $googleUser, $user = null): array
+    {
+        $user = new User([
+            'name' => $user->name ?? $googleUser->getName(),
+            'email' => $user->email ?? $googleUser->getEmail(),
+            'google_id' => $googleUser->getId(),
+            'google_token' => $googleUser->token,
+            'google_refresh_token' => $googleUser->refreshToken,
+        ]);
+
+        return $user->toArray();
+    }
+
+    // Zpracování callbacku z Google Calendar OAuth
+
+    private function checkIfEmailExists($email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
+
+    // Odpojení Google Kalendáře
+
     public function disconnectFromGoogleOAuth()
     {
         $user = Auth::user();
@@ -78,7 +108,8 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return redirect(route('settings'))->with('success', 'Google account disconnected successfully.');
     }
 
-    // Přesměrování na Google Calendar OAuth
+    // Zpracování Google účtu
+
     public function redirectToGoogleCalendar()
     {
         return Socialite::driver('google')
@@ -88,7 +119,8 @@ class GoogleAuthService implements GoogleAuthServiceInterface
             ->redirect();
     }
 
-    // Zpracování callbacku z Google Calendar OAuth
+    // Kontrola, zda je Google účet již připojen
+
     public function handleGoogleCalendarCallback()
     {
         try {
@@ -115,7 +147,8 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         return redirect(route('settings'))->with('error', 'Google Calendar authentication failed. Please try again.');
     }
 
-    // Odpojení Google Kalendáře
+    // Kontrola, zda e-mail již existuje
+
     public function disconnectFromGoogleCalendar(GoogleServiceInterface $googleService)
     {
         $user = Auth::user()->load('syncedEvents');
@@ -129,31 +162,5 @@ class GoogleAuthService implements GoogleAuthServiceInterface
         }
 
         return redirect(route('settings'))->with('success', 'Google Calendar access revoked successfully.');
-    }
-
-    // Zpracování Google účtu
-    private function buildGoogleUser(GoogleUser $googleUser, $user = null): array
-    {
-        $user = new User([
-            'name' => $user->name ?? $googleUser->getName(),
-            'email' => $user->email ?? $googleUser->getEmail(),
-            'google_id' => $googleUser->getId(),
-            'google_token' => $googleUser->token,
-            'google_refresh_token' => $googleUser->refreshToken,
-        ]);
-
-        return $user->toArray();
-    }
-
-    // Kontrola, zda je Google účet již připojen
-    private function googleAccountAlreadyConnected(GoogleUser $googleUser): ?User
-    {
-        return User::where('google_id', $googleUser->getId())->first();
-    }
-
-    // Kontrola, zda e-mail již existuje
-    private function checkIfEmailExists($email): ?User
-    {
-        return User::where('email', $email)->first();
     }
 }

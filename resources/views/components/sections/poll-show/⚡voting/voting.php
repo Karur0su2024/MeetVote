@@ -1,6 +1,5 @@
 <?php
 
-use App\Deprecated\traits\CanOpenModals;
 use App\Exceptions\VoteException;
 use App\Livewire\Forms\VotingForm;
 use App\Models\Poll;
@@ -17,8 +16,6 @@ use Nette\Schema\ValidationException;
 
 new class extends Component
 {
-    use CanOpenModals;
-
     public Poll $poll;
 
     public VotingForm $form;
