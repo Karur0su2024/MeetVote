@@ -25,7 +25,7 @@ class PollFactory extends Factory
             'invite_only' => $this->faker->boolean(),
             'hide_results' => $this->faker->boolean(),
             'password' => bcrypt($this->faker->password()),
-            'status' => $this->faker->word(),
+            'status' => "active",
             'deadline' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

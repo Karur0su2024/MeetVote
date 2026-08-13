@@ -27,8 +27,9 @@ new class extends Component {
 
         }
         else {
+            $this->addError('password', __('pages/poll-show.messages.errors.wrong_password'));
             $this->error(
-                title: __('pages/poll-show.messages.errors.wrong_password'),
+                title: $this->getErrorBag()->first('password'),
                 position: 'toast-bottom toast-end'
             );
         }
@@ -40,10 +41,10 @@ new class extends Component {
 <x-layouts.app>
 
     <!-- Název stránky -->
-    <x-slot:title>{{ $poll->title }} - authentication</x-slot>
+    <x-slot:title>{{ $this->poll->title }} - authentication</x-slot>
 
     <x-ui.card class="mb-1">
-        <h2 class="text-2xl">{{ $poll->title }} - authentication</h2>
+        <h2 class="text-2xl">{{ $this->poll->title }} - authentication</h2>
     </x-ui.card>
 
     @island
