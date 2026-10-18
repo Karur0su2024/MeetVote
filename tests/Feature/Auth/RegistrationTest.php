@@ -12,20 +12,18 @@ class RegistrationTest extends TestCase
 
     public function test_registration_screen_can_be_rendered(): void
     {
-        $response = $this->get('/register');
-
-        $response
-            ->assertOk()
-            ->assertSeeVolt('pages.auth.register');
+        $response = $this->get(route('register'));
+        $response->assertOk()
+            ->assertSeeLivewire('pages::auth.registration');
     }
 
     public function test_new_users_can_register(): void
     {
-        $component = Volt::test('pages.auth.register')
-            ->set('name', 'Test User')
-            ->set('email', 'test@example.com')
-            ->set('password', 'password')
-            ->set('password_confirmation', 'password');
+        $component = Volt::test('pages::auth.registration')
+            ->set('form.name', 'Test User')
+            ->set('form.email', 'test@example.com')
+            ->set('form.password', 'password')
+            ->set('form.password_confirmation', 'password');
 
         $component->call('register');
 

@@ -4,7 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
 
@@ -24,7 +23,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $component = Livewire::test('pages.auth.login')
+        $component = Volt::test('pages::auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'password');
 
@@ -41,7 +40,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $component = Volt::test('pages.auth.login')
+        $component = Volt::test('pages::auth.login')
             ->set('form.email', $user->email)
             ->set('form.password', 'wrong-password');
 
@@ -58,29 +57,24 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user);
-
-        $response = $this->get('/dashboard');
-
-        $response
+        $this->actingAs($user)
+            ->get(route('dashboard', absolute: false))
             ->assertOk()
-            ->assertSeeVolt('layouts.navigation');
+            ->assertSeeText($user->name)
+            ->assertSeeText(__('ui/navbar.logout'))
+            ->assertSee('action="' . route('logout') . '"', false);
+
     }
 
     public function test_users_can_logout(): void
     {
         $user = User::factory()->create();
 
-        $this->actingAs($user);
-
-        $component = Volt::test('layouts.navigation');
-
-        $component->call('logout');
-
-        $component
-            ->assertHasNoErrors()
+        $this->actingAs($user)
+            ->get(route('logout'))
             ->assertRedirect('/');
 
         $this->assertGuest();
+
     }
 }

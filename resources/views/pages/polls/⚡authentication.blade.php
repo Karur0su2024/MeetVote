@@ -11,7 +11,7 @@ new class extends Component {
 
     public function mount($poll)
     {
-        $this->poll = Poll::where('public_id', $poll)->first();
+        $this->poll = Poll::where('public_id', $poll)->firstOrFail();
     }
 
     public function checkPassword()

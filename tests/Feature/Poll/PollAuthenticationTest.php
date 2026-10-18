@@ -1,12 +1,10 @@
 <?php
 
-namespace Tests\Feature;
+namespace Poll;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Poll;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
-use App\Models\Poll;
 
 class PollAuthenticationTest extends TestCase
 {
@@ -27,6 +25,19 @@ class PollAuthenticationTest extends TestCase
         $component->call('checkPassword');
         $component->assertHasErrors()
             ->assertNoRedirect();
+    }
 
+    public function test_poll_doesnt_exist(): void
+    {
+        $this->get(route('polls.authentication', ['poll' => '123']))
+            ->assertNotFound();
+    }
+
+    public function test_poll_doesnt_have_password(): void
+    {
+        $poll = Poll::factory()->create(['password' => null]);
+
+        $this->get(route('polls.authentication', $poll->public_id))
+            ->assertRedirect(route('polls.show', $poll->public_id));
     }
 }

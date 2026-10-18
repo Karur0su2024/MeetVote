@@ -25,8 +25,11 @@ new class extends Component {
 
         $this->validate();
 
+        $user = Auth::user();
+
         // přidat potvrzení
-        Auth::user()->delete();
+        Auth::logout();
+        $user->delete();
 
         return redirect()->route('login');
     }
