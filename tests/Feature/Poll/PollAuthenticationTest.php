@@ -1,10 +1,12 @@
 <?php
 
-namespace Poll;
+namespace Tests\Feature;
 
-use App\Models\Poll;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
+use App\Models\Poll;
 
 class PollAuthenticationTest extends TestCase
 {
