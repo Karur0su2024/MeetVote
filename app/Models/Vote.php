@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 class Vote extends Model
 {
     protected $fillable = ['user_id', 'poll_id', 'voter_email', 'voter_name', 'message'];
+
+    use HasFactory;
 
     protected $casts = [
         'voter_email' => 'string',

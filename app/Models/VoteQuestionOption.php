@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VoteQuestionOption extends Model
 {
     protected $fillable = ['vote_id', 'poll_question_id', 'question_option_id', 'preference'];
+
+    use HasFactory;
 
     /**
      * @return BelongsTo<Vote, $this>

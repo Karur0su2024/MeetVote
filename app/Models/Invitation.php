@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 class Invitation extends Model
 {
     protected $fillable = ['poll_id', 'email', 'status', 'key', 'sent_at'];
+
+    use HasFactory;
 
     protected $casts = [
         'poll_id' => 'integer',

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,7 @@ class TimeOption extends Model
 {
     protected $fillable = ['poll_id', 'date', 'start', 'end', 'text'];
 
+    use HasFactory;
     protected $casts = [
         'text' => 'string',
     ];
