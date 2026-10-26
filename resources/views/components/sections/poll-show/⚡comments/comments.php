@@ -70,6 +70,8 @@ new class extends Component
     {
         $comment = Comment::find($commentIndex);
 
+        $this->authorize('delete', $comment);
+
         // Kontrola, zda je komentář v databázi
         if ($comment) {
             $comment->delete();

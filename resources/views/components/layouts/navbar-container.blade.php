@@ -14,7 +14,7 @@
                 {{ $leftSideActions }}
             </div>
         </div>
-        <div class="navbar-end flex items-center gap-3">
+        <div class="navbar-end flex items-center gap-5">
             <div class="menu menu-horizontal px-1 flex items-center gap-4 m-0">
                 {{ $rightSideActions }}
             </div>
